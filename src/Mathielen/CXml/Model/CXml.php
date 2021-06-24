@@ -28,12 +28,12 @@ class CXml
     /**
      * @Ser\SerializedName("Request")
      */
-    private ?RequestInterface $request;
+    private ?Request $request;
 
     /**
      * @Ser\SerializedName("Response")
      */
-    private ?ResponseInterface $response;
+    private ?Response $response;
 
     /**
      * @Ser\SerializedName("Message")
@@ -43,8 +43,8 @@ class CXml
     private function __construct(
         string $payloadId,
         \DateTime $timestamp,
-        ?RequestInterface $request,
-        ?ResponseInterface $response = null,
+        ?Request $request,
+        ?Response $response = null,
         ?Message $message = null,
         ?Header $header = null
     ) {
@@ -61,13 +61,43 @@ class CXml
         return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), null, null, $message, $header);
     }
 
-    public static function forRequest(PayloadIdentity $payloadIdentity, RequestInterface $request, Header $header): self
+    public static function forRequest(PayloadIdentity $payloadIdentity, Request $request, Header $header): self
     {
         return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), $request, null, null, $header);
     }
 
-    public static function forResponse(PayloadIdentity $payloadIdentity, ResponseInterface $response): self
+    public static function forResponse(PayloadIdentity $payloadIdentity, Response $response): self
     {
         return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), null, $response);
+    }
+
+    public function getPayloadId(): string
+    {
+        return $this->payloadId;
+    }
+
+    public function getTimestamp(): \DateTime
+    {
+        return $this->timestamp;
+    }
+
+    public function getHeader(): ?Header
+    {
+        return $this->header;
+    }
+
+    public function getRequest(): ?Request
+    {
+        return $this->request;
+    }
+
+    public function getResponse(): ?Response
+    {
+        return $this->response;
+    }
+
+    public function getMessage(): ?Message
+    {
+        return $this->message;
     }
 }

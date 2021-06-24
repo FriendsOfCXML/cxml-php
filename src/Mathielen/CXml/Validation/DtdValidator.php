@@ -5,20 +5,24 @@ namespace Mathielen\CXml\Validation;
 use Assert\Assertion;
 use Mathielen\CXml\Validation\Exception\InvalidCxmlException;
 
-class MessageValidator
+class DtdValidator
 {
-    private string $pathToDtd;
+    private string $pathToCxmlDtd;
 
-    public function __construct(string $pathToDtd)
+    public function __construct(string $pathToCxmlDtd)
     {
-        Assertion::directory($pathToDtd);
+        Assertion::file($pathToCxmlDtd);
+        //TODO test if its the cXML.dtd
 
-        $this->pathToDtd = $pathToDtd;
+        $this->pathToCxmlDtd = $pathToCxmlDtd;
     }
 
-    public function validate(string $xml): void
+    /**
+     * @throws InvalidCxmlException
+     */
+    public function validateAgainstDtd(string $xml): void
     {
-        //disable throwing of php errors
+        //disable throwing of php errors for libxml
         $internalErrors = libxml_use_internal_errors(true);
 
         $old = new \DOMDocument();
@@ -29,13 +33,17 @@ class MessageValidator
             throw InvalidCxmlException::fromLibXmlError(libxml_get_last_error(), $xml);
         }
 
+        //reset throwing of php errors for libxml
         libxml_use_internal_errors($internalErrors);
     }
 
+    /**
+     * @throws InvalidCxmlException
+     */
     private function injectDtd(\DOMDocument $originalDomDocument): \DOMDocument
     {
         $creator = new \DOMImplementation();
-        $doctype = $creator->createDocumentType('cXML', null, $this->pathToDtd.'/cXML.dtd');
+        $doctype = $creator->createDocumentType('cXML', null, $this->pathToCxmlDtd);
         $new = $creator->createDocument(null, null, $doctype);
         $new->encoding = "utf-8";
 

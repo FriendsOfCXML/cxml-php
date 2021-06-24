@@ -27,4 +27,19 @@ class Header
         $this->to = $to;
         $this->sender = $sender;
     }
+
+    public function getFrom(): Party
+    {
+        return $this->from;
+    }
+
+    public function getTo(): Party
+    {
+        return $this->to;
+    }
+
+    public function getSender(): Party
+    {
+        return $this->sender;
+    }
 }

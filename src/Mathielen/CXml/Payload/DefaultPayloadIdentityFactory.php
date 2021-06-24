@@ -1,11 +1,10 @@
 <?php
 
-namespace Mathielen\CXml\TimeLocation;
+namespace Mathielen\CXml\Payload;
 
 use Mathielen\CXml\Model\PayloadIdentity;
-use Mathielen\CXml\TimeLocation\TimeLocationProviderInterface;
 
-class DefaultTimeLocationProvider implements TimeLocationProviderInterface
+class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
 {
     private static function generateNewPayloadId(\DateTime $timestamp): string
     {

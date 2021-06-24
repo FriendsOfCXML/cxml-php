@@ -1,10 +1,10 @@
 <?php
 
-namespace Mathielen\CXml\TimeLocation;
+namespace Mathielen\CXml\Payload;
 
 use Mathielen\CXml\Model\PayloadIdentity;
 
-interface TimeLocationProviderInterface
+interface PayloadIdentityFactoryInterface
 {
     public function newPayloadIdentity(): PayloadIdentity;
 }

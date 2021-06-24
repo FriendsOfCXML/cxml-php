@@ -15,6 +15,11 @@ class InvalidCxmlException extends CXmlException
         $this->xml = $xml;
     }
 
+    public function getXml(): string
+    {
+        return $this->xml;
+    }
+
     public static function fromLibXmlError($libXmlError, string $xml): self
     {
         if ($libXmlError instanceof \LibXMLError) {

@@ -1,7 +1,15 @@
 {
   "name": "mathielen/cxml",
-  "license": "proprietary",
+  "license": "MIT",
   "description": "PHP Implementation of cXML",
+  "keywords": [
+    "data",
+    "xml",
+    "cxml",
+    "edi",
+    "commerce",
+    "e-commerce"
+  ],
   "type": "library",
   "authors": [
     {
@@ -13,6 +21,7 @@
     "php": "^7.4",
     "ext-simplexml": "*",
     "ext-dom": "*",
+    "ext-libxml": "*",
     "beberlei/assert": "@stable",
     "jms/serializer": "^3.12"
   },

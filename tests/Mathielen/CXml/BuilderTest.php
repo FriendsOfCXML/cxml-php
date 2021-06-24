@@ -6,19 +6,17 @@ use Mathielen\CXml\Model\Credential;
 use Mathielen\CXml\Model\Party;
 use Mathielen\CXml\Model\PayloadIdentity;
 use Mathielen\CXml\Model\PunchOutSetupRequest;
-use Mathielen\CXml\Model\StatusResponse;
 use Mathielen\CXml\Party\PartyProviderInterface;
-use Mathielen\CXml\TimeLocation\TimeLocationProviderInterface;
-use PHPUnit\Framework\MockObject\Builder\Identity;
+use Mathielen\CXml\Payload\PayloadIdentityFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
-class CXmlBrokerTest extends TestCase implements TimeLocationProviderInterface, PartyProviderInterface
+class BuilderTest extends TestCase implements PayloadIdentityFactoryInterface, PartyProviderInterface
 {
-    private CXmlBroker $sut;
+    private Builder $sut;
 
     public function setUp(): void
     {
-        $this->sut = new CXmlBroker(
+        $this->sut = new Builder(
             $this,
             $this
         );
@@ -47,7 +45,7 @@ class CXmlBrokerTest extends TestCase implements TimeLocationProviderInterface, 
         );
         $request = new PunchOutSetupRequest();
 
-        $message = $this->sut->createRequestMessage(
+        $message = $this->sut->createRequest(
             $from,
             $to,
             $request

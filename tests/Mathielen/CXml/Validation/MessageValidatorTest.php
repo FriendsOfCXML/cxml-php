@@ -7,11 +7,11 @@ use PHPStan\Testing\TestCase;
 
 class MessageValidatorTest extends TestCase
 {
-    private MessageValidator $sut;
+    private DtdValidator $sut;
 
     public function setUp(): void
     {
-        $this->sut = new MessageValidator('tests/metadata/cxml/dtd');
+        $this->sut = new DtdValidator('tests/metadata/cxml/dtd/cXML.dtd');
     }
 
     public function testValidateSuccess(): void
@@ -19,7 +19,7 @@ class MessageValidatorTest extends TestCase
         $this->expectNotToPerformAssertions();
 
         $xml = file_get_contents('tests/metadata/cxml/samples/simple-profile-request.xml');
-        $this->sut->validate($xml);
+        $this->sut->validateAgainstDtd($xml);
     }
 
     public function testValidateMissingRootNode(): void
@@ -27,7 +27,7 @@ class MessageValidatorTest extends TestCase
         $this->expectException(InvalidCxmlException::class);
 
         $xml = '<some-node></some-node>';
-        $this->sut->validate($xml);
+        $this->sut->validateAgainstDtd($xml);
     }
 
     public function testValidateInvalid(): void
@@ -35,6 +35,6 @@ class MessageValidatorTest extends TestCase
         $this->expectException(InvalidCxmlException::class);
 
         $xml = '<cXML></cXML>';
-        $this->sut->validate($xml);
+        $this->sut->validateAgainstDtd($xml);
     }
 }

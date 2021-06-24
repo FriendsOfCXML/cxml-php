@@ -32,4 +32,24 @@ class Credential
         $this->identity = $identity;
         $this->sharedSecret = $sharedSecret;
     }
+
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    public function getIdentity(): string
+    {
+        return $this->identity;
+    }
+
+    public function getSharedSecret(): ?string
+    {
+        return $this->sharedSecret;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s@%s', $this->identity, $this->domain);
+    }
 }

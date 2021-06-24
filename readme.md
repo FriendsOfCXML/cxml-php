@@ -1,9 +1,9 @@
-#Status
+# Status
 * Tested with cXML Specification 1.2.050
 * cXML Reference Guide (PDF): http://xml.cxml.org/current/cXMLReferenceGuide.pdf
 
-#Getting Started
-##Installation
+# Getting Started
+## Installation
 ```bash
 $ composer require mathielen/cxml
 ```
@@ -14,13 +14,13 @@ Then include Composer’s autoloader:
 require_once 'vendor/autoload.php';
 ```
 
-##Get current dtd definition files
+## Get current dtd definition files
 1. Download get current Specification from http://cxml.org/downloads.html
 2. Extract files
 
-##Quickstart
+## Quickstart
 
-###General Setup
+### General Setup
 ```php
 //we use a basic registry here. You  could use your own (db-based?) repository that implements CredentialRepositoryInterface
 $credentialRegistry = new \Mathielen\CXml\Party\CredentialRegistry();
@@ -35,7 +35,7 @@ $someHub = new \Mathielen\CXml\Model\Credential('my-id-type', "hub@domain.com", 
 $credentialRegistry->registerCredential($someHub);
 ```
 
-###Register Handler
+### Register Handler
 ```php
 $myHandler = new MyPunchoutSetupRequestHandler();
 
@@ -43,7 +43,7 @@ $handlerRegistry = new \Mathielen\CXml\Handler\HandlerRegistry();
 $handlerRegistry->register(\Mathielen\CXml\Model\PunchOutSetupRequest::class, $myHandler);
 ```
 
-###Build cXML
+### Build cXML
 
 ```php
 $payloadIdentityFactory = new \Mathielen\CXml\Payload\DefaultPayloadIdentityFactory();
@@ -62,7 +62,7 @@ $builder = new \Mathielen\CXml\Builder(
 $cXml = $builder->createResponse($response);
 ```
 
-###Process (incoming) cXML
+### Process (incoming) cXML
 ```php
 $headerProcessor = new \Mathielen\CXml\Processor\HeaderProcessor($credentialRegistry);
 
@@ -70,7 +70,7 @@ $cXmlProcessor = new \Mathielen\CXml\Processor\Processor($headerProcessor, $hand
 $cXmlProcessor->process($cXml);
 ```
 
-###Putting it all together
+### Putting it all together
 ```php
 $credentialRegistry = new \Mathielen\CXml\Party\CredentialRegistry();
 //TODO register...

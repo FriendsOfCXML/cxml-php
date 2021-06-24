@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+    <Header>
+        <From>
+            <Credential domain="AribaNetworkUserId">
+                <Identity>admin@acme.com</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="DUNS">
+                <Identity>012345678</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="AribaNetworkUserId">
+                <Identity>sysadmin@buyer.com</Identity>
+                <SharedSecret>abracadabra</SharedSecret>
+            </Credential>
+            <UserAgent>Network Hub 1.1</UserAgent>
+        </Sender>
+    </Header>
+    <Request>
+        <ProfileRequest />
+    </Request>
+</cXML>

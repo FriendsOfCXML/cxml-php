@@ -22,7 +22,7 @@ class Builder
 {
     private PayloadIdentityFactoryInterface $payloadIdentityFactory;
 
-    private PayloadInterface $payload;
+    private ?PayloadInterface $payload = null;
     private Credential $from;
     private Credential $to;
     private Credential $sender;
@@ -91,8 +91,6 @@ class Builder
 
     public function build(): CXml
     {
-        Assertion::notNull($this->payload, "No 'payload' has been set");
-
         switch (true) {
 
             case $this->payload instanceof RequestInterface:

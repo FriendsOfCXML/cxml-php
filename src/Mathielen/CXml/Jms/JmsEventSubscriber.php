@@ -58,7 +58,21 @@ class JmsEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onPostSerialize(ObjectEvent $event): void
+	private static function findPayloadNode(\SimpleXMLElement $cXmlNode): ?\SimpleXMLElement
+	{
+		foreach ($cXmlNode->children() as $child) {
+			if ($child->getName() === 'Status') {
+				continue;
+			}
+
+			//first child if not 'Status'
+			return $child;
+		}
+
+		return null;
+	}
+
+	public function onPostSerialize(ObjectEvent $event): void
     {
         $visitor  = $event->getVisitor();
 
@@ -83,8 +97,12 @@ class JmsEventSubscriber implements EventSubscriberInterface
     {
         $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);
 
-        $firstChild = $event->getData()->children()[0];
-        $serializedName = $firstChild->getName();
+        $payloadNode = self::findPayloadNode($event->getData());
+        if (!$payloadNode) {
+        	return;
+		}
+
+        $serializedName = $payloadNode->getName();
 
         //TODO unintuitive combination of wrapper-cls and real payload
         $cls = $event->getType()['name'].'\\'.$serializedName;

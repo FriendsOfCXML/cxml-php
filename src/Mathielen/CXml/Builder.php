@@ -2,78 +2,124 @@
 
 namespace Mathielen\CXml;
 
+use Assert\Assertion;
+use Mathielen\CXml\Model\Credential;
 use Mathielen\CXml\Model\Header;
 use Mathielen\CXml\Model\Message;
 use Mathielen\CXml\Model\MessageInterface;
 use Mathielen\CXml\Model\Party;
 use Mathielen\CXml\Model\CXml;
+use Mathielen\CXml\Model\PayloadInterface;
 use Mathielen\CXml\Model\Request;
 use Mathielen\CXml\Model\RequestInterface;
 use Mathielen\CXml\Model\Response;
 use Mathielen\CXml\Model\ResponseInterface;
-use Mathielen\CXml\Party\PartyProviderInterface;
+use Mathielen\CXml\Model\Status;
+use Mathielen\CXml\Payload\DefaultPayloadIdentityFactory;
 use Mathielen\CXml\Payload\PayloadIdentityFactoryInterface;
 
 class Builder
 {
-    private PartyProviderInterface $identityProvider;
-    private PayloadIdentityFactoryInterface $timeLocationProvider;
+    private PayloadIdentityFactoryInterface $payloadIdentityFactory;
 
-    public function __construct(
-        PayloadIdentityFactoryInterface $timeLocationProvider,
-        PartyProviderInterface $identityProvider
-    ) {
-        $this->identityProvider = $identityProvider;
-        $this->timeLocationProvider = $timeLocationProvider;
+    private PayloadInterface $payload;
+    private Credential $from;
+    private Credential $to;
+    private Credential $sender;
+    private ?string $senderUserAgent = null;
+    private ?Status $status = null;
+
+    private function __construct(PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+    {
+        $this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
     }
 
-    public function createRequest(Party $from, Party $to, RequestInterface $request): CXml
+    public static function create(PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
     {
-        $header = new Header(
-            $from,
-            $to,
-            $this->identityProvider->getOwnParty()
-        );
+        return new self($payloadIdentityFactory);
+    }
 
-        $request = new Request(
-            $request
-        );
+    public function payload(PayloadInterface $payload): self
+    {
+        $this->payload = $payload;
 
-        return CXml::forRequest(
-            $this->timeLocationProvider->newPayloadIdentity(),
-            $request,
-            $header
+        return $this;
+    }
+
+    public function status(Status $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function sender(Credential $sender, string $userAgent = null): self
+    {
+        Assertion::notNull($sender->getSharedSecret(), "Sender must have a shared secret set");
+        $this->sender = $sender;
+        $this->senderUserAgent = $userAgent;
+
+        return $this;
+    }
+
+    public function from(Credential $from): self
+    {
+        $this->from = $from;
+
+        return $this;
+    }
+
+    public function to(Credential $to): self
+    {
+        $this->to = $to;
+
+        return $this;
+    }
+
+    private function buildHeader(): Header
+    {
+        Assertion::notNull($this->from, "No 'from' has been set");
+        Assertion::notNull($this->to, "No 'to' has been set");
+        Assertion::notNull($this->sender, "No 'sender' has been set");
+
+        return new Header(
+            new Party($this->from),
+            new Party($this->to),
+            new Party($this->sender, $this->senderUserAgent)
         );
     }
 
-    public function createMessage(Party $from, Party $to, MessageInterface $message): CXml
+    public function build(): CXml
     {
-        $header = new Header(
-            $from,
-            $to,
-            $this->identityProvider->getOwnParty()
-        );
+        Assertion::notNull($this->payload, "No 'payload' has been set");
 
-        $message = new Message(
-            $message
-        );
+        switch (true) {
 
-        return CXml::forMessage(
-            $this->timeLocationProvider->newPayloadIdentity(),
-            $message,
-            $header
-        );
-    }
+            case $this->payload instanceof RequestInterface:
+                $cXml = CXml::forRequest(
+                    $this->payloadIdentityFactory->newPayloadIdentity(),
+                    new Request($this->payload, $this->status),
+                    $this->buildHeader()
+                );
+                break;
 
-    public function createResponse(ResponseInterface $response): CXml
-    {
-        $response = new Response(
-            $response
-        );
+            case $this->payload instanceof MessageInterface:
+                $cXml = CXml::forMessage(
+                    $this->payloadIdentityFactory->newPayloadIdentity(),
+                    new Message($this->payload, $this->status),
+                    $this->buildHeader()
+                );
+                break;
 
-        return CXml::forResponse(
-            $this->timeLocationProvider->newPayloadIdentity(),
-            $response
-        );
+            case $this->payload instanceof ResponseInterface:
+            default:
+                $cXml = CXml::forResponse(
+                    $this->payloadIdentityFactory->newPayloadIdentity(),
+                    new Response($this->payload, $this->status),
+                );
+                break;
+        }
+
+        return $cXml;
     }
 }

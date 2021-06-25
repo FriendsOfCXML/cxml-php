@@ -23,22 +23,22 @@ class CXml
     /**
      * @Ser\SerializedName("Header")
      */
-    private ?Header $header;
+    private ?Header $header = null;
 
     /**
      * @Ser\SerializedName("Request")
      */
-    private ?Request $request;
+    private ?Request $request = null;
 
     /**
      * @Ser\SerializedName("Response")
      */
-    private ?Response $response;
+    private ?Response $response = null;
 
     /**
      * @Ser\SerializedName("Message")
      */
-    private ?Message $message;
+    private ?Message $message = null;
 
     private function __construct(
         string $payloadId,

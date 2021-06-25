@@ -2,9 +2,13 @@
 
 namespace Mathielen\CXml\Party;
 
+use Mathielen\CXml\Exception\CXmlCredentialInvalid;
 use Mathielen\CXml\Model\Credential;
 
 interface CredentialRepositoryInterface
 {
-    public function findCredentialByDomainAndId(string $domain, string $id): ?Credential;
+    /**
+     * @throws CXmlCredentialInvalid
+     */
+    public function getCredentialByDomainAndId(string $domain, string $identity): Credential;
 }

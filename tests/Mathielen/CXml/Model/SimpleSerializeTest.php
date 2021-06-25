@@ -3,6 +3,8 @@
 namespace Mathielen\CXml\Model;
 
 use Mathielen\CXml\Endpoint;
+use Mathielen\CXml\Model\Message\PunchOutOrderMessage;
+use Mathielen\CXml\Model\Request\PunchOutSetupRequest;
 use PHPUnit\Framework\TestCase;
 
 class SimpleSerializeTest extends TestCase
@@ -20,7 +22,11 @@ class SimpleSerializeTest extends TestCase
             "Network Hub 1.1"
         );
         $request = new Request(
-            new PunchOutSetupRequest()
+            new PunchOutSetupRequest(
+                'nomnom',
+                'https://browserFormPost',
+                'https://supplierSetup'
+            )
         );
 
         $header = new Header(
@@ -62,7 +68,15 @@ class SimpleSerializeTest extends TestCase
  </Sender>
 </Header>
 <Request>
- <PunchOutSetupRequest />
+ <PunchOutSetupRequest operation="create">
+  <BuyerCookie>nomnom</BuyerCookie>
+  <BrowserFormPost>
+   <URL>https://browserFormPost</URL>
+  </BrowserFormPost>
+  <SupplierSetup>
+   <URL>https://supplierSetup</URL>
+  </SupplierSetup>      
+ </PunchOutSetupRequest>
 </Request>
 </cXML>
 EOT;
@@ -145,8 +159,7 @@ EOT;
             )
         );
 
-        $actualXml =
-            Endpoint::buildSerializer()
+        $actualXml = Endpoint::buildSerializer()
             ->serialize($msg, 'xml');
 
         //XML copied from cXML Reference Guide
@@ -155,7 +168,7 @@ EOT;
 <cXML timestamp="2001-01-08T10:47:01-08:00"
 payloadID="978979621537--4882920031100014936@206.251.25.169">
  <Response>
- <Status code="200" text="OK">Ping Response CXml</Status>
+  <Status code="200" text="OK">Ping Response CXml</Status>
  </Response>
 </cXML>
 EOT;

@@ -5,38 +5,25 @@ namespace Mathielen\CXml;
 use Mathielen\CXml\Model\Credential;
 use Mathielen\CXml\Model\Party;
 use Mathielen\CXml\Model\PayloadIdentity;
-use Mathielen\CXml\Model\PunchOutSetupRequest;
+use Mathielen\CXml\Model\Request\PunchOutSetupRequest;
 use Mathielen\CXml\Party\PartyProviderInterface;
 use Mathielen\CXml\Payload\PayloadIdentityFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
-class BuilderTest extends TestCase implements PayloadIdentityFactoryInterface, PartyProviderInterface
+class BuilderTest extends TestCase implements PayloadIdentityFactoryInterface
 {
-    private Builder $sut;
-
-    public function setUp(): void
-    {
-        $this->sut = new Builder(
-            $this,
-            $this
-        );
-    }
-
     public function newPayloadIdentity(): PayloadIdentity
     {
         return new PayloadIdentity('123456', new \DateTime('2000-01-01'));
     }
 
-    public function getOwnParty(): Party
+    public function testSimpleRequest(): void
     {
-        return new Party(
+        $sender = new Party(
             new Credential('AribaNetworkUserId', 'sysadmin@buyer.com', 'abracadabra'),
             "User Agent"
         );
-    }
 
-    public function testSimpleRequest(): void
-    {
         $from = new Party(
             new Credential('AribaNetworkUserId', 'admin@acme.com')
         );
@@ -45,7 +32,7 @@ class BuilderTest extends TestCase implements PayloadIdentityFactoryInterface, P
         );
         $request = new PunchOutSetupRequest();
 
-        $message = $this->sut->createRequest(
+        $cxml = $this->sut->createRequest(
             $from,
             $to,
             $request

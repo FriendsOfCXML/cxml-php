@@ -5,77 +5,107 @@ namespace Mathielen\CXml\Jms;
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
+use Mathielen\CXml\Model\Exception\CXmlModelNotFoundException;
 use Mathielen\CXml\Model\Message;
 use Mathielen\CXml\Model\Request;
 use Mathielen\CXml\Model\Response;
-use Mathielen\CXml\Model\ResponseInterface;
+use JMS\Serializer\Metadata\PropertyMetadata;
 
 class JmsEventSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             [
                 'event' => Events::POST_SERIALIZE,
-                'method' => 'onPostSerializeMessage',
+                'method' => 'onPostSerialize',
                 'class' => Message::class,
                 'format' => 'xml',
             ],
             [
                 'event' => Events::POST_SERIALIZE,
-                'method' => 'onPostSerializeRequest',
+                'method' => 'onPostSerialize',
                 'class' => Request::class,
                 'format' => 'xml',
             ],
             [
                 'event' => Events::POST_SERIALIZE,
-                'method' => 'onPostSerializeResponse',
-                'class' => ResponseInterface::class,
+                'method' => 'onPostSerialize',
+                'class' => Response::class,
                 'format' => 'xml',
             ],
+
+            [
+                'event' => Events::PRE_DESERIALIZE,
+                'method' => 'manipulateMetadata',
+                'class' => Message::class,
+                'format' => 'xml',
+            ],
+            [
+                'event' => Events::PRE_DESERIALIZE,
+                'method' => 'manipulateMetadata',
+                'class' => Request::class,
+                'format' => 'xml',
+            ],
+            [
+                'event' => Events::PRE_DESERIALIZE,
+                'method' => 'manipulateMetadata',
+                'class' => Response::class,
+                'format' => 'xml',
+            ]
         ];
     }
 
-    public function onPostSerializeMessage(ObjectEvent $event): void
+    public function onPostSerialize(ObjectEvent $event): void
     {
         $visitor  = $event->getVisitor();
 
-        //this is the actual message object of type MessageInterface
-        $message = $event->getObject()->getMessage();
-        $cls = (new \ReflectionClass($message))->getShortName();
+        //this is the actual payload object of type MessageInterface
+        $payload = $event->getObject()->getPayload();
 
-        $visitor->visitProperty(
-            new StaticPropertyMetadata(Message::class, $cls, null),
-            $message
-        );
+        if ($payload) {
+            $cls = (new \ReflectionClass($payload))->getShortName();
+
+            //tell jms to add the payload value in a wrapped node
+            $visitor->visitProperty(
+                new StaticPropertyMetadata($event->getType()['name'], $cls, null),
+                $payload
+            );
+        }
     }
 
-    public function onPostSerializeRequest(ObjectEvent $event): void
+    /**
+     * @throws CXmlModelNotFoundException
+     */
+    public function manipulateMetadata(PreDeserializeEvent $event): void
     {
-        $visitor  = $event->getVisitor();
+        $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);
 
-        //this is the actual message object of type MessageInterface
-        $request = $event->getObject()->getRequest();
-        $cls = (new \ReflectionClass($request))->getShortName();
+        $firstChild = $event->getData()->children()[0];
+        $serializedName = $firstChild->getName();
 
-        $visitor->visitProperty(
-            new StaticPropertyMetadata(Request::class, $cls, null),
-            $request
+        //TODO unintuitive combination of wrapper-cls and real payload
+        $cls = $event->getType()['name'].'\\'.$serializedName;
+        if (!class_exists($cls)) {
+            throw new CXmlModelNotFoundException($serializedName);
+        }
+
+        //manipulate metadata of payload on-the-fly to match xml
+
+        /** @var PropertyMetadata $propertyMetadata */
+        $propertyMetadata = new PropertyMetadata(
+            $event->getType()['name'],
+            'payload'
         );
-    }
 
-    public function onPostSerializeResponse(ObjectEvent $event): void
-    {
-        $visitor  = $event->getVisitor();
+        $propertyMetadata->serializedName = $serializedName;
+        $propertyMetadata->setType([
+            'name' => $cls,
+            'params' => []
+        ]);
 
-        //this is the actual message object of type MessageInterface
-        $response = $event->getObject()->getResponse();
-        $cls = (new \ReflectionClass($response))->getShortName();
-
-        $visitor->visitProperty(
-            new StaticPropertyMetadata(Response::class, $cls, null),
-            $response
-        );
+        $metadata->addPropertyMetadata($propertyMetadata);
     }
 }

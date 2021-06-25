@@ -2,6 +2,6 @@
 
 namespace Mathielen\CXml\Model;
 
-interface MessageInterface
+interface MessageInterface extends PayloadInterface
 {
 }

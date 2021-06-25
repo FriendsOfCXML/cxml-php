@@ -1,8 +1,9 @@
 <?php
 
-namespace Mathielen\CXml\Model;
+namespace Mathielen\CXml\Model\Message;
 
 use JMS\Serializer\Annotation as Ser;
+use Mathielen\CXml\Model\MessageInterface;
 
 class PunchOutOrderMessage implements MessageInterface
 {

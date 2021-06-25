@@ -12,11 +12,20 @@ class HandlerRegistry implements HandlerRegistryInterface
      */
     private array $registry = [];
 
-    public function register(string $handlerId, HandlerInterface $handler): void
+    public function register(HandlerInterface $handler, string $handlerId = null): void
     {
+        if (!$handlerId) {
+            $handlerId = $handler::getRequestName();
+        }
+
         Assertion::keyNotExists($this->registry, $handlerId, "Handler for '$handlerId' already registered.");
 
         $this->registry[$handlerId] = $handler;
+    }
+
+    public function all(): array
+    {
+        return $this->registry;
     }
 
     /**

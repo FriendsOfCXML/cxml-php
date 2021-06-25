@@ -2,6 +2,7 @@
 
 namespace Mathielen\CXml\Party;
 
+use Mathielen\CXml\Exception\CXmlCredentialInvalid;
 use Mathielen\CXml\Model\Credential;
 
 class CredentialRegistry implements CredentialRepositoryInterface
@@ -16,14 +17,17 @@ class CredentialRegistry implements CredentialRepositoryInterface
         $this->registeredCredentials[] = $credential;
     }
 
-    public function findCredentialByDomainAndId(string $domain, string $id): ?Credential
+    /**
+     * @throws CXmlCredentialInvalid
+     */
+    public function getCredentialByDomainAndId(string $domain, string $identity): Credential
     {
         foreach ($this->registeredCredentials as $registeredCredential) {
-            if ($registeredCredential->getDomain() === $domain && $registeredCredential->getIdentity() === $id) {
+            if ($registeredCredential->getDomain() === $domain && $registeredCredential->getIdentity() === $identity) {
                 return $registeredCredential;
             }
         }
 
-        return null;
+        throw new CXmlCredentialInvalid("Could not find credentials for '$identity@$domain'.");
     }
 }

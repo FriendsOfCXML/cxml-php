@@ -17,7 +17,9 @@ class Status
     private string $text;
 
     /**
-     * @Ser\XmlValue()
+     * @Ser\XmlValue(
+     *     cdata=false
+     * )
      */
     private ?string $message;
 
@@ -26,5 +28,20 @@ class Status
         $this->code = $code;
         $this->text = $text;
         $this->message = $message;
+    }
+
+    public function getCode(): int
+    {
+        return $this->code;
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
     }
 }

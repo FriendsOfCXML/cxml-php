@@ -3,6 +3,8 @@
 namespace Mathielen\CXml;
 
 use JMS\Serializer\EventDispatcher\EventDispatcherInterface;
+use JMS\Serializer\Handler\HandlerRegistry;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use Mathielen\CXml\Jms\JmsEventSubscriber;
@@ -33,13 +35,16 @@ class Endpoint
             ->configureListeners(function (EventDispatcherInterface $dispatcher) {
                 $dispatcher->addSubscriber(new JmsEventSubscriber());
             })
+            ->setPropertyNamingStrategy(
+                new IdenticalPropertyNamingStrategy()
+            )
             ->build();
     }
 
     /**
      * @throws Exception\CXmlException
      */
-    public function receiveString(string $xml): ?CXml
+    public function processStringAsCXml(string $xml): ?CXml
     {
         //validate
         $this->dtdValidator->validateAgainstDtd($xml);
@@ -48,10 +53,16 @@ class Endpoint
             //deserialize
             $cxml = $this->serializer->deserialize($xml, CXml::class, 'xml');
         } catch (\RuntimeException $e) {
-            throw new InvalidCxmlException("Error while deserializing xml.", $xml, $e);
+            throw new InvalidCxmlException("Error while deserializing xml: ".$e->getMessage(), $xml, $e);
         }
 
         //process
         return $this->processor->process($cxml);
+    }
+
+    public function toString(CXml $xml): string
+    {
+        $serializer = Endpoint::buildSerializer();
+        return $serializer->serialize($xml, 'xml');
     }
 }

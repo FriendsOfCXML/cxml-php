@@ -10,7 +10,7 @@ class InvalidCxmlException extends CXmlException
 
     public function __construct(string $message, string $xml, \Throwable $previous = null)
     {
-        parent::__construct($message."\nWith XML:\n".$xml, $previous);
+        parent::__construct($message, $previous);
 
         $this->xml = $xml;
     }
@@ -23,7 +23,7 @@ class InvalidCxmlException extends CXmlException
     public static function fromLibXmlError($libXmlError, string $xml): self
     {
         if ($libXmlError instanceof \LibXMLError) {
-            $message = sprintf('%s at line %d, column %d. Code %s.', $libXmlError->message, $libXmlError->line, $libXmlError->column, $libXmlError->code);
+            $message = sprintf('%s at line %d, column %d. Code %s.', trim($libXmlError->message), $libXmlError->line, $libXmlError->column, $libXmlError->code);
         } else {
             $message = 'No LibXMLError was given.';
         }

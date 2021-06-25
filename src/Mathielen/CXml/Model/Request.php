@@ -13,25 +13,31 @@ class Request
 
     /**
      * @Ser\XmlAttribute
+     * @Ser\SerializedName("deploymentMode")
      */
     private ?string $deploymentMode;
 
     /**
      * @Ser\XmlAttribute
+     * @Ser\SerializedName("Id")
      */
     private ?string $id;
 
     /**
-     * @Ser\Exclude()
+     * @Ser\Exclude
      * see JmsEventSubscriber
      */
-    private ?RequestInterface $request;
+    private RequestInterface $payload;
 
-    public function __construct(?RequestInterface $response, ?Status $status = null, ?string $id = null, ?string $deploymentMode = null)
+    public function __construct(
+    	RequestInterface $payload,
+		?Status $status = null,
+		?string $id = null,
+		?string $deploymentMode = null)
     {
         $this->status = $status;
         $this->id = $id;
-        $this->request = $response;
+        $this->payload = $payload;
         $this->deploymentMode = $deploymentMode;
     }
 
@@ -50,8 +56,8 @@ class Request
         return $this->deploymentMode;
     }
 
-    public function getRequest(): ?RequestInterface
+    public function getPayload(): RequestInterface
     {
-        return $this->request;
+        return $this->payload;
     }
 }

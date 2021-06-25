@@ -21,7 +21,7 @@ class HeaderProcessor
     /**
      * @throws CXmlCredentialInvalid
      */
-    public function process(Header $header): ResponseInterface
+    public function process(Header $header): void
     {
         $this->validatePartys($header);
 
@@ -34,7 +34,9 @@ class HeaderProcessor
     private function validatePartys(Header $header): void
     {
         $this->checkCredentialIsValid($header->getFrom()->getCredential());
+
         $this->checkCredentialIsValid($header->getTo()->getCredential());
+
         $this->checkCredentialIsValid($header->getSender()->getCredential());
     }
 
@@ -43,7 +45,7 @@ class HeaderProcessor
      */
     private function checkCredentialIsValid(Credential $testCredential): void
     {
-        $existingCredential = $this->credentialRepository->findCredentialByDomainAndId(
+        $existingCredential = $this->credentialRepository->getCredentialByDomainAndId(
             $testCredential->getDomain(),
             $testCredential->getIdentity()
         );
@@ -58,7 +60,7 @@ class HeaderProcessor
      */
     private function authenticateSender(Credential $testCredential): void
     {
-        $senderCredential = $this->credentialRepository->findCredentialByDomainAndId(
+        $senderCredential = $this->credentialRepository->getCredentialByDomainAndId(
             $testCredential->getDomain(),
             $testCredential->getIdentity()
         );

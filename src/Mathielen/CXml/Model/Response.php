@@ -13,20 +13,24 @@ class Response
 
     /**
      * @Ser\XmlAttribute
+     * @Ser\SerializedName("Id")
      */
     private ?string $id;
 
     /**
-     * @Ser\Exclude()
+     * @Ser\Exclude
      * see JmsEventSubscriber
      */
-    private ?ResponseInterface $response;
+    private ?ResponseInterface $payload;
 
-    public function __construct(?ResponseInterface $response, ?Status $status = null, ?string $id = null)
+    public function __construct(
+    	?ResponseInterface $payload,
+		?Status $status = null,
+		?string $id = null)
     {
         $this->status = $status;
         $this->id = $id;
-        $this->response = $response;
+        $this->payload = $payload;
     }
 
     public function getStatus(): ?Status
@@ -39,8 +43,8 @@ class Response
         return $this->id;
     }
 
-    public function getResponse(): ?ResponseInterface
+    public function getPayload(): ?ResponseInterface
     {
-        return $this->response;
+        return $this->payload;
     }
 }

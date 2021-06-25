@@ -22,6 +22,10 @@ class DtdValidator
      */
     public function validateAgainstDtd(string $xml): void
     {
+        if (empty($xml)) {
+            throw new InvalidCxmlException("XML was empty", $xml);
+        }
+
         //disable throwing of php errors for libxml
         $internalErrors = libxml_use_internal_errors(true);
 

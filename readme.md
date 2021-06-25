@@ -36,41 +36,52 @@ $credentialRegistry->registerCredential($someHub);
 ```
 
 ### Register Handler
+
 ```php
 $myHandler = new MyPunchoutSetupRequestHandler();
 
 $handlerRegistry = new \Mathielen\CXml\Handler\HandlerRegistry();
-$handlerRegistry->register(\Mathielen\CXml\Model\PunchOutSetupRequest::class, $myHandler);
+$handlerRegistry->register($myHandler);
 ```
 
 ### Build cXML
 
 ```php
-$payloadIdentityFactory = new \Mathielen\CXml\Payload\DefaultPayloadIdentityFactory();
-
-$response = new \Mathielen\CXml\Model\...Response(...);
-
-$builder = new \Mathielen\CXml\Builder(
-    TODO,
-    $payloadIdentityFactory
-);
-
-//$cXml = $builder->createRequest(...);
+//$payload = new \Mathielen\CXml\Model\Message\...Message(...);
 //or...
-//$cXml = $builder->createMessage(...);
+//$payload = new \Mathielen\CXml\Model\Request\...Request(...);
 //or...
-$cXml = $builder->createResponse($response);
+$payload = new \Mathielen\CXml\Model\Response\...Response(...);
+
+$cXml = \Mathielen\CXml\Builder::create()
+    ->payload($payload)
+    ->build();
+
+$payload = new \Mathielen\CXml\Model\Request\...Request(...);
+$cXml = \Mathielen\CXml\Builder::create()
+    ->payload($payload)
+    ->status()
+    ->from()
+    ->to()
+    ->sender()
+    ->build();
 ```
 
 ### Process (incoming) cXML
 ```php
 $headerProcessor = new \Mathielen\CXml\Processor\HeaderProcessor($credentialRegistry);
 
-$cXmlProcessor = new \Mathielen\CXml\Processor\Processor($headerProcessor, $handlerRegistry);
+$cXmlProcessor = new \Mathielen\CXml\Processor\Processor(
+  $headerProcessor, 
+  $handlerRegistry,
+  $builder
+);
+
 $cXmlProcessor->process($cXml);
 ```
 
 ### Putting it all together
+
 ```php
 $credentialRegistry = new \Mathielen\CXml\Party\CredentialRegistry();
 //TODO register...
@@ -78,8 +89,14 @@ $credentialRegistry = new \Mathielen\CXml\Party\CredentialRegistry();
 $handlerRegistry = new \Mathielen\CXml\Handler\HandlerRegistry();
 //TODO register...
 
+$builder = \Mathielen\CXml\Builder::create();
+
 $headerProcessor = new \Mathielen\CXml\Processor\HeaderProcessor($credentialRegistry);
-$cXmlProcessor = new \Mathielen\CXml\Processor\Processor($headerProcessor, $handlerRegistry);
+$cXmlProcessor = new \Mathielen\CXml\Processor\Processor(
+  $headerProcessor, 
+  $handlerRegistry,
+  $builder
+);
 
 $pathToDtd = 'cXML.dtd'; //point to your extracted cXML.dtd file that was downloaded from cxml.org
 $dtdValidator = new \Mathielen\CXml\Validation\DtdValidator($pathToDtd);
@@ -91,7 +108,7 @@ $endpoint = new \Mathielen\CXml\Endpoint(
 
 //$xmlString could be the body of an incoming http request
 $xmlString = '<cXML>...</cXML>';
-$result = $endpoint->receiveString($xmlString);
+$result = $endpoint->processStringAsCXml($xmlString);
 
 //$result could be null (i.e. for a Response or Message) or another CXml object which would be the Response to a Request
 //you would have to handle the transport yourself

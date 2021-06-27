@@ -3,6 +3,7 @@
 namespace Mathielen\CXml;
 
 use Assert\Assertion;
+use Mathielen\CXml\Exception\CXmlException;
 use Mathielen\CXml\Model\Credential;
 use Mathielen\CXml\Model\Header;
 use Mathielen\CXml\Model\Message;
@@ -23,9 +24,9 @@ class Builder
     private PayloadIdentityFactoryInterface $payloadIdentityFactory;
 
     private ?PayloadInterface $payload = null;
-    private Credential $from;
-    private Credential $to;
-    private Credential $sender;
+    private ?Credential $from = null;
+    private ?Credential $to = null;
+    private ?Credential $sender = null;
     private ?string $senderUserAgent = null;
     private ?Status $status = null;
 
@@ -53,9 +54,10 @@ class Builder
         return $this;
     }
 
-    public function sender(Credential $sender, string $userAgent = null): self
+    public function sender(Credential $sender, string $userAgent): self
     {
         Assertion::notNull($sender->getSharedSecret(), "Sender must have a shared secret set");
+
         $this->sender = $sender;
         $this->senderUserAgent = $userAgent;
 
@@ -78,9 +80,9 @@ class Builder
 
     private function buildHeader(): Header
     {
-        Assertion::notNull($this->from, "No 'from' has been set");
-        Assertion::notNull($this->to, "No 'to' has been set");
-        Assertion::notNull($this->sender, "No 'sender' has been set");
+        Assertion::notNull($this->from, "No 'from' has been set. Necessary for build a Header.");
+        Assertion::notNull($this->to, "No 'to' has been set. Necessary for build a Header.");
+        Assertion::notNull($this->sender, "No 'sender' has been set. Necessary for build a Header.");
 
         return new Header(
             new Party($this->from),
@@ -89,6 +91,9 @@ class Builder
         );
     }
 
+	/**
+	 * @throws CXmlException
+	 */
     public function build(): CXml
     {
         switch (true) {
@@ -110,12 +115,24 @@ class Builder
                 break;
 
             case $this->payload instanceof ResponseInterface:
-            default:
                 $cXml = CXml::forResponse(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Response($this->payload, $this->status),
                 );
                 break;
+
+			default:
+				//simple status ping-pong response
+				if ($this->status) {
+					$cXml = CXml::forResponse(
+						$this->payloadIdentityFactory->newPayloadIdentity(),
+						new Response(null, $this->status),
+					);
+
+					break;
+				}
+
+				throw new CXmlException("Neither payload (Request, Message, Response) was set.");
         }
 
         return $cXml;

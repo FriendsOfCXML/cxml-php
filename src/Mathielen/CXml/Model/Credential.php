@@ -13,16 +13,19 @@ class Credential
 
     /**
      * @Ser\SerializedName("Identity")
+	 * @Ser\XmlElement (cdata=false)
      */
     private string $identity;
 
     /**
      * @Ser\SerializedName("CredentialMac")
+	 * @Ser\XmlElement (cdata=false)
      */
     //private CredentialMac $credentialMac; TODO
 
     /**
      * @Ser\SerializedName("SharedSecret")
+	 * @Ser\XmlElement (cdata=false)
      */
     private ?string $sharedSecret;
 

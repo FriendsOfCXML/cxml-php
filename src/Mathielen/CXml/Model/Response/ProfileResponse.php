@@ -21,13 +21,15 @@ class ProfileResponse implements ResponseInterface
 
     /**
      * @Ser\XmlList(inline=true, entry="Option")
-     *
+	 * @Ser\Type("array<Mathielen\CXml\Model\Option>")
+	 *
      * @var Option[]
      */
     private array $options = [];
 
     /**
      * @Ser\XmlList(inline=true, entry="Transaction")
+	 * @Ser\Type("array<Mathielen\CXml\Model\Transaction>")
      *
      * @var Transaction[]
      */

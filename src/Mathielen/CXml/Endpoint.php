@@ -16,17 +16,14 @@ use Mathielen\CXml\Validation\Exception\InvalidCxmlException;
 class Endpoint
 {
     private DtdValidator $dtdValidator;
-    private SerializerInterface $serializer;
     private Processor $processor;
 
     public function __construct(
         DtdValidator $messageValidator,
-        Processor $processor,
-        SerializerInterface $serializer = null
+        Processor $processor
     ) {
         $this->dtdValidator = $messageValidator;
         $this->processor = $processor;
-        $this->serializer = $serializer ?? self::buildSerializer();
     }
 
     public static function buildSerializer(): SerializerInterface
@@ -41,6 +38,16 @@ class Endpoint
             ->build();
     }
 
+    public static function deserialize(string $xml): CXml
+	{
+		return self::buildSerializer()->deserialize($xml, CXml::class, 'xml');
+	}
+
+	public static function serialize(CXml $cxml): string
+	{
+		return self::buildSerializer()->serialize($cxml, 'xml');
+	}
+
     /**
      * @throws Exception\CXmlException
      */
@@ -51,7 +58,7 @@ class Endpoint
 
         try {
             //deserialize
-            $cxml = $this->serializer->deserialize($xml, CXml::class, 'xml');
+            $cxml = self::deserialize($xml);
         } catch (\RuntimeException $e) {
             throw new InvalidCxmlException("Error while deserializing xml: ".$e->getMessage(), $xml, $e);
         }
@@ -60,9 +67,4 @@ class Endpoint
         return $this->processor->process($cxml);
     }
 
-    public function toString(CXml $xml): string
-    {
-        $serializer = Endpoint::buildSerializer();
-        return $serializer->serialize($xml, 'xml');
-    }
 }

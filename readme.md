@@ -60,10 +60,9 @@ $cXml = \Mathielen\CXml\Builder::create()
 $payload = new \Mathielen\CXml\Model\Request\...Request(...);
 $cXml = \Mathielen\CXml\Builder::create()
     ->payload($payload)
-    ->status()
-    ->from()
-    ->to()
-    ->sender()
+    ->from(...)
+    ->to(...)
+    ->sender(...)
     ->build();
 ```
 

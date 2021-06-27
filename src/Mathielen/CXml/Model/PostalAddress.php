@@ -26,27 +26,32 @@ class PostalAddress
 
     /**
      * @Ser\SerializedName("City")
-     */
+	 * @Ser\XmlElement (cdata=false)
+	 */
     private string $city;
 
     /**
      * @Ser\SerializedName("Municipality")
-     */
+	 * @Ser\XmlElement (cdata=false)
+	 */
     private ?string $municipality;
 
     /**
      * @Ser\SerializedName("State")
-     */
+	 * @Ser\XmlElement (cdata=false)
+	 */
     private ?string $state;
 
     /**
      * @Ser\SerializedName("PostalCode")
-     */
+	 * @Ser\XmlElement (cdata=false)
+	 */
     private ?string $postalCode;
 
     /**
      * @Ser\SerializedName("Country")
-     */
+	 * @Ser\XmlElement (cdata=false)
+	 */
     private Country $country;
 
     /**

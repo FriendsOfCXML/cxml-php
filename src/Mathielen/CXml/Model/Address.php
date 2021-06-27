@@ -26,6 +26,7 @@ class Address
 
     /**
      * @Ser\SerializedName("Name")
+	 * @Ser\XmlElement (cdata=false)
      */
     private string $name;
 
@@ -36,21 +37,25 @@ class Address
 
     /**
      * @Ser\SerializedName("Email")
+	 * @Ser\XmlElement (cdata=false)
      */
     private ?string $email;
 
     /**
      * @Ser\SerializedName("Phone")
-     */
+	 * @Ser\XmlElement (cdata=false)
+	 */
     private ?string $phone;
 
     /**
      * @Ser\SerializedName("Fax")
-     */
+	 * @Ser\XmlElement (cdata=false)
+	 */
     private ?string $fax;
 
     /**
      * @Ser\SerializedName("URL")
-     */
+	 * @Ser\XmlElement (cdata=false)
+	 */
     private ?string $url;
 }

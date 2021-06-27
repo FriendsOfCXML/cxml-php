@@ -19,6 +19,7 @@ class Transaction
 
     /**
      * @Ser\XmlList(inline=true, entry="Option")
+	 * @Ser\Type("array<Mathielen\CXml\Model\Option>")
      *
      * @var Option[]
      */

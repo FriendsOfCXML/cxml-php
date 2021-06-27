@@ -39,19 +39,19 @@ class JmsEventSubscriber implements EventSubscriberInterface
 
             [
                 'event' => Events::PRE_DESERIALIZE,
-                'method' => 'manipulateMetadata',
+                'method' => 'onPreDeserialize',
                 'class' => Message::class,
                 'format' => 'xml',
             ],
             [
                 'event' => Events::PRE_DESERIALIZE,
-                'method' => 'manipulateMetadata',
+                'method' => 'onPreDeserialize',
                 'class' => Request::class,
                 'format' => 'xml',
             ],
             [
                 'event' => Events::PRE_DESERIALIZE,
-                'method' => 'manipulateMetadata',
+                'method' => 'onPreDeserialize',
                 'class' => Response::class,
                 'format' => 'xml',
             ]
@@ -93,12 +93,12 @@ class JmsEventSubscriber implements EventSubscriberInterface
     /**
      * @throws CXmlModelNotFoundException
      */
-    public function manipulateMetadata(PreDeserializeEvent $event): void
+    public function onPreDeserialize(PreDeserializeEvent $event): void
     {
         $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);
 
         $payloadNode = self::findPayloadNode($event->getData());
-        if (!$payloadNode) {
+        if ($payloadNode === null) {
         	return;
 		}
 

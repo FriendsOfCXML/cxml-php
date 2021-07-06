@@ -24,9 +24,10 @@ class Response
     private ?ResponseInterface $payload;
 
     public function __construct(
-    	?ResponseInterface $payload,
-		?Status $status = null,
-		?string $id = null)
+        ?ResponseInterface $payload,
+        ?Status $status = null,
+        ?string $id = null
+    )
     {
         $this->status = $status;
         $this->id = $id;

@@ -2,11 +2,11 @@
 
 namespace Mathielen\CXml\Model\Request;
 
+use Mathielen\CXml\Model\AddressWrapper;
 use Mathielen\CXml\Model\Extrinsic;
 use Mathielen\CXml\Model\RequestInterface;
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\SelectedItem;
-use Mathielen\CXml\Model\ShipTo;
 use Mathielen\CXml\Model\Url;
 
 class PunchOutSetupRequest implements RequestInterface
@@ -42,14 +42,14 @@ class PunchOutSetupRequest implements RequestInterface
     /**
      * @Ser\SerializedName("ShipTo")
      */
-    private ?ShipTo $shipTo = null;
+    private ?AddressWrapper $shipTo = null;
 
     /**
      * @Ser\SerializedName("SelectedItem")
      */
     private ?SelectedItem $selectedItem = null;
 
-    public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ?ShipTo $shipTo=null, ?SelectedItem $selectedItem=null, string $operation = 'create')
+    public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ?AddressWrapper $shipTo=null, ?SelectedItem $selectedItem=null, string $operation = 'create')
     {
         $this->operation = $operation;
         $this->buyerCookie = $buyerCookie;

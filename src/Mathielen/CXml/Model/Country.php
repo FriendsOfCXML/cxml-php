@@ -17,6 +17,12 @@ class Country
      */
     private string $name;
 
+    public function __construct(string $isoCountryCode, string $name)
+    {
+        $this->isoCountryCode = $isoCountryCode;
+        $this->name = $name;
+    }
+
     public function getIsoCountryCode(): string
     {
         return $this->isoCountryCode;

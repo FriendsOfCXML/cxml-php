@@ -91,17 +91,17 @@ class Builder
         );
     }
 
-	/**
-	 * @throws CXmlException
-	 */
-    public function build(): CXml
+    /**
+     * @throws CXmlException
+     */
+    public function build(string $deploymode = null): CXml
     {
         switch (true) {
 
             case $this->payload instanceof RequestInterface:
                 $cXml = CXml::forRequest(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
-                    new Request($this->payload, $this->status),
+                    new Request($this->payload, $this->status, null, $deploymode),
                     $this->buildHeader()
                 );
                 break;
@@ -121,18 +121,18 @@ class Builder
                 );
                 break;
 
-			default:
-				//simple status ping-pong response
-				if ($this->status) {
-					$cXml = CXml::forResponse(
-						$this->payloadIdentityFactory->newPayloadIdentity(),
-						new Response(null, $this->status),
-					);
+            default:
+                //simple status ping-pong response
+                if ($this->status) {
+                    $cXml = CXml::forResponse(
+                        $this->payloadIdentityFactory->newPayloadIdentity(),
+                        new Response(null, $this->status),
+                    );
 
-					break;
-				}
+                    break;
+                }
 
-				throw new CXmlException("Neither payload (Request, Message, Response) was set.");
+                throw new CXmlException("Neither payload (Request, Message, Response) was set.");
         }
 
         return $cXml;

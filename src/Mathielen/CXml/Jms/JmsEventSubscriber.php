@@ -58,21 +58,21 @@ class JmsEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-	private static function findPayloadNode(\SimpleXMLElement $cXmlNode): ?\SimpleXMLElement
-	{
-		foreach ($cXmlNode->children() as $child) {
-			if ($child->getName() === 'Status') {
-				continue;
-			}
+    private static function findPayloadNode(\SimpleXMLElement $cXmlNode): ?\SimpleXMLElement
+    {
+        foreach ($cXmlNode->children() as $child) {
+            if ($child->getName() === 'Status') {
+                continue;
+            }
 
-			//first child if not 'Status'
-			return $child;
-		}
+            //first child if not 'Status'
+            return $child;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public function onPostSerialize(ObjectEvent $event): void
+    public function onPostSerialize(ObjectEvent $event): void
     {
         $visitor  = $event->getVisitor();
 
@@ -99,8 +99,8 @@ class JmsEventSubscriber implements EventSubscriberInterface
 
         $payloadNode = self::findPayloadNode($event->getData());
         if ($payloadNode === null) {
-        	return;
-		}
+            return;
+        }
 
         $serializedName = $payloadNode->getName();
 

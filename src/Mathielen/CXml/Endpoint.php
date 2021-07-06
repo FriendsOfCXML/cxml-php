@@ -39,14 +39,14 @@ class Endpoint
     }
 
     public static function deserialize(string $xml): CXml
-	{
-		return self::buildSerializer()->deserialize($xml, CXml::class, 'xml');
-	}
+    {
+        return self::buildSerializer()->deserialize($xml, CXml::class, 'xml');
+    }
 
-	public static function serialize(CXml $cxml): string
-	{
-		return self::buildSerializer()->serialize($cxml, 'xml');
-	}
+    public static function serialize(CXml $cxml): string
+    {
+        return self::buildSerializer()->serialize($cxml, 'xml');
+    }
 
     /**
      * @throws Exception\CXmlException
@@ -66,5 +66,4 @@ class Endpoint
         //process
         return $this->processor->process($cxml);
     }
-
 }

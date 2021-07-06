@@ -17,9 +17,7 @@ class Status
     private string $text;
 
     /**
-     * @Ser\XmlValue(
-     *     cdata=false
-     * )
+     * @Ser\XmlValue(cdata=false)
      */
     private ?string $message;
 

@@ -1355,7 +1355,7 @@
 <!-- 
     DEPRECATED. Do not use this element.
 
-	Use IdReference and proper domain within ItemID instead.
+	Use IdReference and proper domain within ItemId instead.
 
     Number assigned to a manufacturer's product according to the International Article Numbering Association 
 	or UPC(Universal Product Code) for an article.
@@ -1711,16 +1711,16 @@
     item but have a different price for units of "EA" versus "BOX".
     In this case, the ItemIDs should be:
 	%
-    <ItemID>
+    <ItemId>
         <SupplierPartID>pn12345</SupplierPartID>
         <SupplierPartAuxiliaryID>EA</SupplierPartAuxiliaryID>
-    </ItemID>
-    <ItemID>
+    </ItemId>
+    <ItemId>
         <SupplierPartID>pn12345</SupplierPartID>
         <SupplierPartAuxiliaryID>
            <foo>well formed XML here</foo>
         </SupplierPartAuxiliaryID>
-    </ItemID>
+    </ItemId>
 	%
     In this case, the "foo" element must be defined in an internal subset
     sent with the cXML document. Otherwise, parsers will not be able to
@@ -1799,7 +1799,7 @@
 <!--
     ItemDetail contains detailed information about an item. All the data that
     a user would want to see about an item instead of the bare essentials
-    that are represented in the ItemID.
+    that are represented in the ItemId.
 	
 	LeadTime: Time in days to receive the item.
     
@@ -1852,7 +1852,7 @@
 <!--
     ItemDetailIndustry contains detailed information about an item for a retail industry. 
     
-    EANID: Deprecated. Use '<IdReference domain="EAN-13">' within 'ItemID' instead.
+    EANID: Deprecated. Use '<IdReference domain="EAN-13">' within 'ItemId' instead.
 	
 	EuropeanWasteCatalogID: Specifies a unique ID for articles listed in the EU Waste 
 		Catalog (EWC) if it requires special handling.
@@ -6639,7 +6639,7 @@ AssetInfo*, PackagingDistribution*)>
         </ShipTo>
 		%
 
-        <IdReference> in <ItemID> will be used to send the corresponding line number of the
+        <IdReference> in <ItemId> will be used to send the corresponding line number of the
         contract in the external system. For example, domain = "SAPLineNumber", identifier="0100"
 
         The quantity attribute in the ItemIn tag should be set to target quantity. If the line item is amount based,
@@ -6818,7 +6818,7 @@ AssetInfo*, PackagingDistribution*)>
     A particular (custom) item overlay for a index item. The item is
     referenced by the supplierPartID.
 
-    ItemID: ID for the part to be overlaid.
+    ItemId: ID for the part to be overlaid.
 	
     UnitPrice: Contract price for item
 	
@@ -6828,9 +6828,9 @@ AssetInfo*, PackagingDistribution*)>
 		field. For example:
 	%
     <ContractItem>
-      <ItemID>
+      <ItemId>
            <SupplierPartID>123456</SupplierPartID>
-      </ItemID>
+      </ItemId>
       <Extrinsic name="URL">http://www.newaddress.com</Extrinsic>
     </ContractItem>
 	%
@@ -6853,7 +6853,7 @@ AssetInfo*, PackagingDistribution*)>
 <!--
      IndexItemAdd is the element used to insert an item in an index.
 
-     ItemID: Uniquely identifies the item.
+     ItemId: Uniquely identifies the item.
 	 
      ItemDetail: General information about the item.
 	 
@@ -6871,7 +6871,7 @@ AssetInfo*, PackagingDistribution*)>
      IndexItemDelete is the element used to remove an item from the
      index.
 
-     ItemID: Uniquely identifies the item.
+     ItemId: Uniquely identifies the item.
 -->
 <!ELEMENT IndexItemDelete (ItemID) >
 
@@ -6879,7 +6879,7 @@ AssetInfo*, PackagingDistribution*)>
      IndexItemPunchout is the element used to dynamically connect an
      index item to the supplier's resource for that item.
 
-     ItemID: Uniquely identifies the item.
+     ItemId: Uniquely identifies the item.
 	 
      PunchoutDetail: Describes the item being accessed.
 -->
@@ -8457,7 +8457,7 @@ IncrementQuantity?, RequiredMinimumQuantity?, RequiredMaximumQuantity?)>
 <!--
     Provides additional information about a quality notification, such as part numbers (customer or supplier), batch information, or other information.
 
-    ItemID: Represents the supplier part number and customer part number. To provide a plant location description, the domain attribute of the 
+    ItemId: Represents the supplier part number and customer part number. To provide a plant location description, the domain attribute of the
 		element IdReference should be set to "buyerLocationID", "supplierLocationID" or "storageLocation" and the identifier to the plantID.
 
     Batch: Standard element to capture batch information of Customer and Supplier.
@@ -9486,7 +9486,7 @@ IncrementQuantity?, RequiredMinimumQuantity?, RequiredMaximumQuantity?)>
 <!--
     The representation of a single component inventory, the product forecast details or a consignment movement for that product. 
 
-    ItemID: A unique identification of a component item in supplier backend system or buyer backend system.
+    ItemId: A unique identification of a component item in supplier backend system or buyer backend system.
 
     ResourceID: A unique identification of a production facility leveraged during production, such as a piece of equipment or a production line.
 

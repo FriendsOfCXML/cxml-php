@@ -7,10 +7,8 @@ use Mathielen\CXml\Model\Credential;
 
 interface CredentialAuthenticatorInterface
 {
-
-	/**
-	 * @throws CXmlAuthenticationInvalid
-	 */
-	public function authenticate(Credential $senderCredential): void;
-
+    /**
+     * @throws CXmlAuthenticationInvalid
+     */
+    public function authenticate(Credential $senderCredential): void;
 }

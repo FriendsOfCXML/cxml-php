@@ -13,19 +13,19 @@ class Credential
 
     /**
      * @Ser\SerializedName("Identity")
-	 * @Ser\XmlElement (cdata=false)
+     * @Ser\XmlElement (cdata=false)
      */
     private string $identity;
 
     /**
      * @Ser\SerializedName("CredentialMac")
-	 * @Ser\XmlElement (cdata=false)
+     * @Ser\XmlElement (cdata=false)
      */
     //private CredentialMac $credentialMac; TODO
 
     /**
      * @Ser\SerializedName("SharedSecret")
-	 * @Ser\XmlElement (cdata=false)
+     * @Ser\XmlElement (cdata=false)
      */
     private ?string $sharedSecret;
 
@@ -51,10 +51,10 @@ class Credential
         return $this->sharedSecret;
     }
 
-	public function setSharedSecret(?string $sharedSecret): ?string
-	{
-		$this->sharedSecret = $sharedSecret;
-	}
+    public function setSharedSecret(?string $sharedSecret): ?string
+    {
+        $this->sharedSecret = $sharedSecret;
+    }
 
     public function __toString(): string
     {

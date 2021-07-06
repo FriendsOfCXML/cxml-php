@@ -32,19 +32,19 @@ class CredentialRegistry implements CredentialRepositoryInterface, CredentialAut
         throw new CXmlCredentialInvalid("Could not find credentials for '$identity@$domain'.");
     }
 
-	/**
-	 * @throws CXmlAuthenticationInvalid
-	 * @throws CXmlCredentialInvalid
-	 */
-	public function authenticate(Credential $senderCredential): void
-	{
-		$baseCredential = $this->getCredentialByDomainAndId(
-			$senderCredential->getDomain(),
-			$senderCredential->getIdentity(),
-		);
+    /**
+     * @throws CXmlAuthenticationInvalid
+     * @throws CXmlCredentialInvalid
+     */
+    public function authenticate(Credential $senderCredential): void
+    {
+        $baseCredential = $this->getCredentialByDomainAndId(
+            $senderCredential->getDomain(),
+            $senderCredential->getIdentity(),
+        );
 
-		if ($baseCredential->getSharedSecret() !== $senderCredential->getSharedSecret()) {
-			throw new CXmlAuthenticationInvalid($senderCredential);
-		}
-	}
+        if ($baseCredential->getSharedSecret() !== $senderCredential->getSharedSecret()) {
+            throw new CXmlAuthenticationInvalid($senderCredential);
+        }
+    }
 }

@@ -13,13 +13,13 @@ use Mathielen\CXml\Credential\CredentialRepositoryInterface;
 class HeaderProcessor
 {
     private CredentialRepositoryInterface $credentialRepository;
-	private CredentialAuthenticatorInterface $credentialAuthenticator;
+    private CredentialAuthenticatorInterface $credentialAuthenticator;
 
-	public function __construct(CredentialRepositoryInterface $credentialRepository, CredentialAuthenticatorInterface $credentialAuthenticator)
+    public function __construct(CredentialRepositoryInterface $credentialRepository, CredentialAuthenticatorInterface $credentialAuthenticator)
     {
         $this->credentialRepository = $credentialRepository;
-		$this->credentialAuthenticator = $credentialAuthenticator;
-	}
+        $this->credentialAuthenticator = $credentialAuthenticator;
+    }
 
     /**
      * @throws CXmlCredentialInvalid
@@ -58,10 +58,10 @@ class HeaderProcessor
         }
     }
 
-	/**
-	 * @throws CXmlAuthenticationInvalid
-	 * @throws CXmlCredentialInvalid
-	 */
+    /**
+     * @throws CXmlAuthenticationInvalid
+     * @throws CXmlCredentialInvalid
+     */
     private function authenticateSender(Credential $testCredential): void
     {
         $actualCredential = $this->credentialRepository->getCredentialByDomainAndId(
@@ -69,9 +69,9 @@ class HeaderProcessor
             $testCredential->getIdentity()
         );
 
-		if (!$actualCredential) {
-			throw new CXmlCredentialInvalid("Could not find credentials", $testCredential);
-		}
+        if (!$actualCredential) {
+            throw new CXmlCredentialInvalid("Could not find credentials", $testCredential);
+        }
 
         $this->credentialAuthenticator->authenticate($testCredential);
     }

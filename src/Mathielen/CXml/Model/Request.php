@@ -6,6 +6,9 @@ use JMS\Serializer\Annotation as Ser;
 
 class Request
 {
+    public const DEPLOYMENT_TEST = 'test';
+    public const DEPLOYMENT_PROD = 'prod';
+
     /**
      * @Ser\SerializedName("Status")
      */
@@ -30,10 +33,11 @@ class Request
     private RequestInterface $payload;
 
     public function __construct(
-    	RequestInterface $payload,
-		?Status $status = null,
-		?string $id = null,
-		?string $deploymentMode = null)
+        RequestInterface $payload,
+        ?Status $status = null,
+        ?string $id = null,
+        ?string $deploymentMode = null
+    )
     {
         $this->status = $status;
         $this->id = $id;

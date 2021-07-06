@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cXML.org/schemas/cXML/1.2.049/cXML.dtd">
+<cXML payloadID="1625586002.193314.7293@dev"
+      timestamp="2000-10-12T18:39:09-08:00">
+    <Header>
+        <From>
+            <!-- The buying marketplace and member organization. -->
+            <Credential domain="NetworkId">
+                <Identity>inbound@prominate-platform.com</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="NetworkId">
+                <Identity>supplier@supplier.com</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="NetworkId">
+                <Identity>inbound@prominate-platform.com</Identity>
+                <SharedSecret>coyote</SharedSecret>
+            </Credential>
+            <UserAgent>Platform Order Fulfillment Hub</UserAgent>
+        </Sender>
+    </Header>
+    <Request deploymentMode="test">
+        <OrderRequest>
+             <OrderRequestHeader orderID="DO1234" orderDate="2000-10-12T18:41:29-08:00"
+                                 type="new">
+                 <Total>
+                     <Money currency="EUR">85.00</Money>
+                 </Total>
+                 <ShipTo>
+                     <Address>
+                         <Name xml:lang="en">Acme</Name>
+                         <PostalAddress name="default">
+                             <DeliverTo>Joe Smith</DeliverTo>
+                             <DeliverTo>Mailstop M-543</DeliverTo>
+                             <Street>123 Anystreet</Street>
+                             <City>Sunnyvale</City>
+                             <State>CA</State>
+                             <PostalCode>90489</PostalCode>
+                             <Country isoCountryCode="US">United States</Country>
+                         </PostalAddress>
+                     </Address>
+                 </ShipTo>
+                 <BillTo>
+                     <Address>
+                         <Name xml:lang="en">Zinc GmbH</Name>
+                         <PostalAddress name="default">
+                             <Street>An den Eichen 18</Street>
+                             <City>Solingen</City>
+                             <PostalCode>42699</PostalCode>
+                             <Country isoCountryCode="DE">Deutschland</Country>
+                         </PostalAddress>
+                     </Address>
+                 </BillTo>
+                 <Comments>
+                     <Attachment>
+                         <URL>delivery-note.pdf</URL>
+                     </Attachment>
+                 </Comments>
+             </OrderRequestHeader>
+             <ItemOut quantity="10" requestedDeliveryDate="2020-02-28"
+                      lineNumber="1">
+                 <ItemID>
+                     <SupplierPartID>1233244</SupplierPartID>
+                 </ItemID>
+                 <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="EUR">2.10</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">hello from item 1</Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="custom">0</Classification>
+                 </ItemDetail>
+             </ItemOut>
+             <ItemOut quantity="20" requestedDeliveryDate="2020-02-28"
+                      lineNumber="2">
+                 <ItemID>
+                     <SupplierPartID>1233245</SupplierPartID>
+                 </ItemID>
+                 <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="EUR">3.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">hello from item 2</Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="custom">0</Classification>
+                 </ItemDetail>
+             </ItemOut>
+         </OrderRequest>
+    </Request>
+</cXML>

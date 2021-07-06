@@ -1,11 +1,12 @@
 <?php
 
-namespace Mathielen\CXml\Party;
+namespace Mathielen\CXml\Credential;
 
+use Mathielen\CXml\Exception\CXmlAuthenticationInvalid;
 use Mathielen\CXml\Exception\CXmlCredentialInvalid;
 use Mathielen\CXml\Model\Credential;
 
-class CredentialRegistry implements CredentialRepositoryInterface
+class CredentialRegistry implements CredentialRepositoryInterface, CredentialAuthenticatorInterface
 {
     /**
      * @var Credential[]
@@ -30,4 +31,20 @@ class CredentialRegistry implements CredentialRepositoryInterface
 
         throw new CXmlCredentialInvalid("Could not find credentials for '$identity@$domain'.");
     }
+
+	/**
+	 * @throws CXmlAuthenticationInvalid
+	 * @throws CXmlCredentialInvalid
+	 */
+	public function authenticate(Credential $senderCredential): void
+	{
+		$baseCredential = $this->getCredentialByDomainAndId(
+			$senderCredential->getDomain(),
+			$senderCredential->getIdentity(),
+		);
+
+		if ($baseCredential->getSharedSecret() !== $senderCredential->getSharedSecret()) {
+			throw new CXmlAuthenticationInvalid($senderCredential);
+		}
+	}
 }

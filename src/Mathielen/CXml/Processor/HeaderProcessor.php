@@ -2,21 +2,24 @@
 
 namespace Mathielen\CXml\Processor;
 
+use Mathielen\CXml\Credential\CredentialAuthenticatorInterface;
 use Mathielen\CXml\Exception\CXmlAuthenticationInvalid;
 use Mathielen\CXml\Exception\CXmlCredentialInvalid;
 use Mathielen\CXml\Model\Credential;
 use Mathielen\CXml\Model\Header;
 use Mathielen\CXml\Model\ResponseInterface;
-use Mathielen\CXml\Party\CredentialRepositoryInterface;
+use Mathielen\CXml\Credential\CredentialRepositoryInterface;
 
 class HeaderProcessor
 {
     private CredentialRepositoryInterface $credentialRepository;
+	private CredentialAuthenticatorInterface $credentialAuthenticator;
 
-    public function __construct(CredentialRepositoryInterface $credentialRepository)
+	public function __construct(CredentialRepositoryInterface $credentialRepository, CredentialAuthenticatorInterface $credentialAuthenticator)
     {
         $this->credentialRepository = $credentialRepository;
-    }
+		$this->credentialAuthenticator = $credentialAuthenticator;
+	}
 
     /**
      * @throws CXmlCredentialInvalid
@@ -55,18 +58,21 @@ class HeaderProcessor
         }
     }
 
-    /**
-     * @throws CXmlAuthenticationInvalid
-     */
+	/**
+	 * @throws CXmlAuthenticationInvalid
+	 * @throws CXmlCredentialInvalid
+	 */
     private function authenticateSender(Credential $testCredential): void
     {
-        $senderCredential = $this->credentialRepository->getCredentialByDomainAndId(
+        $actualCredential = $this->credentialRepository->getCredentialByDomainAndId(
             $testCredential->getDomain(),
             $testCredential->getIdentity()
         );
 
-        if ($senderCredential->getSharedSecret() !== $testCredential->getSharedSecret()) {
-            throw new CXmlAuthenticationInvalid($testCredential);
-        }
+		if (!$actualCredential) {
+			throw new CXmlCredentialInvalid("Could not find credentials", $testCredential);
+		}
+
+        $this->credentialAuthenticator->authenticate($testCredential);
     }
 }

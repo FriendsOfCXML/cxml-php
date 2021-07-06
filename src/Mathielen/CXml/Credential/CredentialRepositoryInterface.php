@@ -1,6 +1,6 @@
 <?php
 
-namespace Mathielen\CXml\Party;
+namespace Mathielen\CXml\Credential;
 
 use Mathielen\CXml\Exception\CXmlCredentialInvalid;
 use Mathielen\CXml\Model\Credential;

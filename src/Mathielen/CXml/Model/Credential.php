@@ -51,6 +51,11 @@ class Credential
         return $this->sharedSecret;
     }
 
+	public function setSharedSecret(?string $sharedSecret): ?string
+	{
+		$this->sharedSecret = $sharedSecret;
+	}
+
     public function __toString(): string
     {
         return sprintf('%s@%s', $this->identity, $this->domain);

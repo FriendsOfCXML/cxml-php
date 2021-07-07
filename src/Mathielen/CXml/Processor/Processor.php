@@ -3,11 +3,13 @@
 namespace Mathielen\CXml\Processor;
 
 use Mathielen\CXml\Builder;
+use Mathielen\CXml\Exception\CXmlCredentialInvalidException;
 use Mathielen\CXml\Exception\CXmlException;
 use Mathielen\CXml\Handler\HandlerInterface;
 use Mathielen\CXml\Handler\HandlerRegistryInterface;
 use Mathielen\CXml\Model;
 use Mathielen\CXml\Model\CXml;
+use Mathielen\CXml\Processor\Exception\CXmlProcessException;
 
 class Processor
 {
@@ -25,11 +27,9 @@ class Processor
         $this->builder = $builder;
     }
 
-    /**
-     * @throws CXmlException
-     * @throws \Mathielen\CXml\Exception\CXmlCredentialInvalidException
-     * @throws \ReflectionException
-     */
+	/**
+	 * @throws CXmlException
+	 */
     public function process(CXml $cxml): ?CXml
     {
         if ($request = $cxml->getRequest()) {
@@ -63,26 +63,45 @@ class Processor
         return $this->handlerRegistry->get($handlerId);
     }
 
+	/**
+	 * @throws CXmlProcessException
+	 */
     private function processMessage(Model\Message $message): void
     {
         $payload = $message->getPayload();
-        $this->getHandlerForPayload($payload)->handle($payload);
+
+        try {
+			$this->getHandlerForPayload($payload)->handle($payload);
+		} catch (\Exception $e) {
+        	throw new CXmlProcessException($e);
+		}
     }
 
+	/**
+	 * @throws CXmlProcessException
+	 */
     private function processResponse(Model\Response $response): void
     {
         $payload = $response->getPayload();
-        $this->getHandlerForPayload($payload)->handle($payload);
+
+        try {
+        	$this->getHandlerForPayload($payload)->handle($payload);
+		} catch (\Exception $e) {
+			throw new CXmlProcessException($e);
+		}
     }
 
-    /**
-     * @throws CXmlException
-     * @throws \Mathielen\CXml\Exception\CXmlCredentialInvalidException
-     * @throws \ReflectionException
-     */
+	/**
+	 * @throws CXmlProcessException
+	 * @throws CXmlException
+	 */
     private function processRequest(Model\Request $request, Model\Header $header): CXml
     {
-        $this->headerProcessor->process($header);
+    	try {
+			$this->headerProcessor->process($header);
+		} catch (\Exception $e) {
+			throw new CXmlProcessException($e);
+		}
 
         $payload = $request->getPayload();
         $handler = $this->getHandlerForPayload($payload);

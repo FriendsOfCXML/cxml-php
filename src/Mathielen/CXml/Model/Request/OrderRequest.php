@@ -21,10 +21,17 @@ class OrderRequest implements RequestInterface
      */
     private array $itemOut = [];
 
-    public function __construct(OrderRequestHeader $orderRequestHeader)
+    private function __construct(OrderRequestHeader $orderRequestHeader)
     {
         $this->orderRequestHeader = $orderRequestHeader;
     }
+
+    public static function create(OrderRequestHeader $orderRequestHeader): self
+	{
+		return new self(
+			$orderRequestHeader
+		);
+	}
 
     public function addItem(ItemOut $item): self
     {

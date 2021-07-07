@@ -62,7 +62,7 @@ class PostalAddress
      */
     private ?array $extrinsics;
 
-    public function __construct(string $name, array $deliverTo, array $street, string $city, Country $country, ?string $municipality, ?string $state, ?string $postalCode, ?array $extrinsics = null)
+    public function __construct(array $deliverTo, array $street, string $city, Country $country, ?string $municipality, ?string $state, ?string $postalCode, ?string $name = null, ?array $extrinsics = null)
     {
         $this->name = $name;
         $this->deliverTo = $deliverTo;

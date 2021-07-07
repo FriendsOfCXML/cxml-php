@@ -33,51 +33,50 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
             new AddressWrapper(
                 new MultilanguageString('Acme'),
                 new PostalAddress(
-                    'default',
-                    [
-                        'Joe Smith',
-                        'Mailstop M-543'
-                    ],
-                    [
-                        '123 Anystreet'
-                    ],
-                    'Sunnyvale',
-                    new Country('US', 'United States'),
-                    null,
-                    'CA',
-                    '90489'
+					[
+						'Joe Smith',
+						'Mailstop M-543'
+					],
+					[
+						'123 Anystreet'
+					],
+					'Sunnyvale',
+					new Country('US', 'United States'),
+					null,
+					'CA',
+					'90489',
+					'default'
                 )
             ),
             new AddressWrapper(
                 new MultilanguageString('Zinc GmbH'),
                 new PostalAddress(
-                    'default',
-                    [],
-                    [
-                        'An den Eichen 18'
-                    ],
-                    'Solingen',
-                    new Country('DE', 'Deutschland'),
-                    null,
-                    null,
-                    '42699'
+					[],
+					[
+						'An den Eichen 18'
+					],
+					'Solingen',
+					new Country('DE', 'Deutschland'),
+					null,
+					null,
+					'42699',
+					'default'
                 )
             ),
-            [new Comment(null, new Url('delivery-note.pdf'))],
+            [new Comment(null, 'delivery-note.pdf')],
             new MoneyWrapper(
                 'EUR',
                 8500
             )
         );
 
-        $orderRequest = new OrderRequest(
+        $orderRequest = OrderRequest::create(
             $orderRequestHeader
         );
 
         $item = ItemOut::create(
             1,
             10,
-            new \DateTime('2020-02-28'),
             new ItemId('1233244'),
             new ItemDetail(
                 new MultilanguageString('hello from item 1'),
@@ -86,14 +85,14 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                     'EUR',
                     210
                 )
-            )
-        )->addClassification('custom', 0);
+            ),
+			new \DateTime('2020-02-28')
+		)->addClassification('custom', 0);
         $orderRequest->addItem($item);
 
         $item = ItemOut::create(
             2,
             20,
-            new \DateTime('2020-02-28'),
             new ItemId('1233245'),
             new ItemDetail(
                 new MultilanguageString('hello from item 2'),
@@ -102,8 +101,9 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                     'EUR',
                     320
                 )
-            )
-        )->addClassification('custom', 0);
+            ),
+			new \DateTime('2020-02-28')
+		)->addClassification('custom', 0);
         $orderRequest->addItem($item);
 
         $cxml = Builder::create($this)

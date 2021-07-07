@@ -16,9 +16,9 @@ class Comment
      */
     private ?string $value;
 
-    public function __construct(?string $value = null, ?Url $attachment = null)
+    public function __construct(?string $value = null, ?string $attachment = null)
     {
-        $this->attachment = $attachment;
+        $this->attachment = $attachment ? new Url($attachment) : $attachment;
         $this->value = $value;
     }
 }

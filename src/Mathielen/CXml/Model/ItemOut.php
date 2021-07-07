@@ -23,35 +23,45 @@ class ItemOut
      * @Ser\SerializedName("requestedDeliveryDate")
      * @Ser\Type("DateTime<'Y-m-d'>")
      */
-    private \DateTime $requestedDeliveryDate;
+    private ?\DateTime $requestedDeliveryDate;
 
     /**
      * @Ser\SerializedName("ItemID")
      */
-    private ItemId $itemID;
+    private ItemId $itemId;
 
     /**
      * @Ser\SerializedName("ItemDetail")
      */
     private ItemDetail $itemDetail;
 
-    private function __construct(int $lineNumber, int $quantity, \DateTime $requestedDeliveryDate, ItemId $itemID, ItemDetail $itemDetail)
+    private function __construct(
+    	int $lineNumber,
+		int $quantity,
+		ItemId $itemId,
+		ItemDetail $itemDetail,
+		?\DateTime $requestedDeliveryDate = null)
     {
         $this->lineNumber = $lineNumber;
         $this->quantity = $quantity;
-        $this->requestedDeliveryDate = $requestedDeliveryDate;
-        $this->itemID = $itemID;
+        $this->itemId = $itemId;
         $this->itemDetail = $itemDetail;
+		$this->requestedDeliveryDate = $requestedDeliveryDate;
     }
 
-    public static function create(int $lineNumber, int $quantity, \DateTime $requestedDeliveryDate, ItemId $itemID, ItemDetail $itemDetail): self
+    public static function create(
+    	int $lineNumber,
+		int $quantity,
+		ItemId $itemId,
+		ItemDetail $itemDetail,
+		?\DateTime $requestedDeliveryDate = null): self
     {
         return new self(
             $lineNumber,
             $quantity,
-            $requestedDeliveryDate,
-            $itemID,
+            $itemId,
             $itemDetail,
+			$requestedDeliveryDate,
         );
     }
 

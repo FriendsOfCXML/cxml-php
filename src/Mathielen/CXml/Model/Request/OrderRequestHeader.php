@@ -2,6 +2,7 @@
 
 namespace Mathielen\CXml\Model\Request;
 
+use Assert\Assertion;
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\AddressWrapper;
 use Mathielen\CXml\Model\Comment;
@@ -39,7 +40,7 @@ class OrderRequestHeader
      * @Ser\XmlElement
      * @Ser\SerializedName("ShipTo")
      */
-    private AddressWrapper $shipTo;
+    private ?AddressWrapper $shipTo;
 
     /**
      * @Ser\XmlElement
@@ -53,18 +54,22 @@ class OrderRequestHeader
      *
      * @var Comment[]
      */
-    private array $comments;
+    private ?array $comments;
 
     public function __construct(
         string $orderId,
         \DateTime $orderDate,
-        AddressWrapper $shipTo,
+        ?AddressWrapper $shipTo,
         AddressWrapper $billTo,
-        array $comments,
+        ?array $comments,
         MoneyWrapper $total,
         string $type = self::TYPE_NEW
     )
     {
+    	if ($comments) {
+			Assertion::allIsInstanceOf($comments, Comment::class);
+    	}
+
         $this->orderId = $orderId;
         $this->orderDate = $orderDate;
         $this->type = $type;

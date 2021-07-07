@@ -15,9 +15,9 @@ class Country
     /**
      * @Ser\XmlValue(cdata=false)
      */
-    private string $name;
+    private ?string $name;
 
-    public function __construct(string $isoCountryCode, string $name)
+    public function __construct(string $isoCountryCode, string $name = null)
     {
         $this->isoCountryCode = $isoCountryCode;
         $this->name = $name;

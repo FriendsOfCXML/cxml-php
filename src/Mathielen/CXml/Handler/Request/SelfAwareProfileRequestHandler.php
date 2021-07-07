@@ -2,9 +2,9 @@
 
 namespace Mathielen\CXml\Handler\Request;
 
+use Mathielen\CXml\Handler\Context;
 use Mathielen\CXml\Handler\HandlerInterface;
 use Mathielen\CXml\Handler\HandlerRegistry;
-use Mathielen\CXml\Model\Header;
 use Mathielen\CXml\Model\PayloadInterface;
 use Mathielen\CXml\Model\Response\ProfileResponse;
 use Mathielen\CXml\Model\ResponseInterface;
@@ -22,7 +22,7 @@ class SelfAwareProfileRequestHandler implements HandlerInterface
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function handle(PayloadInterface $payload, ?Header $header = null): ?ResponseInterface
+    public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface
     {
         $profileResponse = new ProfileResponse();
 

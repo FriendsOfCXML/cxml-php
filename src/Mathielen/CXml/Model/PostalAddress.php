@@ -76,10 +76,10 @@ class PostalAddress
         $this->country = $country;
     }
 
-	public function addExtrinsic(Extrinsic $extrinsic): self
-	{
-		$this->extrinsics[] = $extrinsic;
+    public function addExtrinsic(Extrinsic $extrinsic): self
+    {
+        $this->extrinsics[] = $extrinsic;
 
-		return $this;
-	}
+        return $this;
+    }
 }

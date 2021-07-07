@@ -42,7 +42,7 @@ class Builder
         return new self($locale, $payloadIdentityFactory);
     }
 
-    public function payload(PayloadInterface $payload): self
+    public function payload(?PayloadInterface $payload = null): self
     {
         $this->payload = $payload;
 

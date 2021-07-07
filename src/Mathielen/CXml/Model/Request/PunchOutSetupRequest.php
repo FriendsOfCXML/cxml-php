@@ -60,9 +60,9 @@ class PunchOutSetupRequest implements RequestInterface
     }
 
     public function addExtrinsic(Extrinsic $extrinsic): self
-	{
-		$this->extrinsics[] = $extrinsic;
+    {
+        $this->extrinsics[] = $extrinsic;
 
-		return $this;
-	}
+        return $this;
+    }
 }

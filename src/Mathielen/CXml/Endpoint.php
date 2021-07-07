@@ -7,23 +7,29 @@ use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
+use Mathielen\CXml\Exception\CXmlException;
 use Mathielen\CXml\Jms\JmsEventSubscriber;
 use Mathielen\CXml\Model\CXml;
 use Mathielen\CXml\Processor\Processor;
 use Mathielen\CXml\Validation\DtdValidator;
 use Mathielen\CXml\Validation\Exception\CxmlInvalidException;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class Endpoint
 {
     private DtdValidator $dtdValidator;
     private Processor $processor;
+    private LoggerInterface $logger;
 
     public function __construct(
         DtdValidator $messageValidator,
-        Processor $processor
+        Processor $processor,
+        LoggerInterface $logger = null
     ) {
         $this->dtdValidator = $messageValidator;
         $this->processor = $processor;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     public static function buildSerializer(): SerializerInterface
@@ -53,17 +59,37 @@ class Endpoint
      */
     public function processStringAsCXml(string $xml): ?CXml
     {
-        //validate
-        $this->dtdValidator->validateAgainstDtd($xml);
+        $this->logger->info("Processing incoming CXml message", ['xml'=>$xml]);
 
+        //validate
         try {
-            //deserialize
+            $this->dtdValidator->validateAgainstDtd($xml);
+        } catch (CxmlInvalidException $e) {
+            $this->logger->error("Incoming CXml was invalid (via DTD)", ['xml'=>$xml]);
+
+            throw $e;
+        }
+
+        //deserialize
+        try {
             $cxml = self::deserialize($xml);
         } catch (\RuntimeException $e) {
+            $this->logger->error("Error while deserializing xml to CXml", ['xml'=>$xml]);
+
             throw new CxmlInvalidException("Error while deserializing xml: ".$e->getMessage(), $xml, $e);
         }
 
         //process
-        return $this->processor->process($cxml);
+        try {
+            $result = $this->processor->process($cxml);
+        } catch (CXmlException $e) {
+            $this->logger->error("Error while processing valid CXml: ".$e->getMessage(), ['xml'=>$xml]);
+
+            throw $e;
+        }
+
+        $this->logger->info("Success after processing incoming CXml message", ['xml'=>$xml]);
+
+        return $result;
     }
 }

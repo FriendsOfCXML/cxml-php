@@ -3,8 +3,8 @@
 namespace Mathielen\CXml\Processor;
 
 use Mathielen\CXml\Builder;
-use Mathielen\CXml\Exception\CXmlCredentialInvalidException;
 use Mathielen\CXml\Exception\CXmlException;
+use Mathielen\CXml\Handler\Context;
 use Mathielen\CXml\Handler\HandlerInterface;
 use Mathielen\CXml\Handler\HandlerRegistryInterface;
 use Mathielen\CXml\Model;
@@ -27,28 +27,25 @@ class Processor
         $this->builder = $builder;
     }
 
-	/**
-	 * @throws CXmlException
-	 */
+    /**
+     * @throws CXmlException
+     */
     public function process(CXml $cxml): ?CXml
     {
-        if ($request = $cxml->getRequest()) {
-            $header = $cxml->getHeader();
-            if (!$header) {
-                throw new CXmlException("Invalid CXml. Header is mandatory for request message.");
-            }
+        $context = new Context($cxml);
 
-            return $this->processRequest($request, $header);
+        if ($request = $cxml->getRequest()) {
+            return $this->processRequest($request, $context);
         }
 
         if ($response = $cxml->getResponse()) {
-            $this->processResponse($response);
+            $this->processResponse($response, $context);
 
             return null;
         }
 
         if ($message = $cxml->getMessage()) {
-            $this->processMessage($message);
+            $this->processMessage($message, $context);
 
             return null;
         }
@@ -63,52 +60,70 @@ class Processor
         return $this->handlerRegistry->get($handlerId);
     }
 
-	/**
-	 * @throws CXmlProcessException
-	 */
-    private function processMessage(Model\Message $message): void
+    /**
+     * @throws CXmlProcessException
+     * @throws CXmlException
+     */
+    private function processMessage(Model\Message $message, Context $context): void
     {
         $payload = $message->getPayload();
 
         try {
-			$this->getHandlerForPayload($payload)->handle($payload);
-		} catch (\Exception $e) {
-        	throw new CXmlProcessException($e);
-		}
+            $this->getHandlerForPayload($payload)->handle($payload, $context);
+        } catch (CXmlException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            throw new CXmlProcessException($e);
+        }
     }
 
-	/**
-	 * @throws CXmlProcessException
-	 */
-    private function processResponse(Model\Response $response): void
+    /**
+     * @throws CXmlProcessException
+     * @throws CXmlException
+     */
+    private function processResponse(Model\Response $response, Context $context): void
     {
         $payload = $response->getPayload();
 
         try {
-        	$this->getHandlerForPayload($payload)->handle($payload);
-		} catch (\Exception $e) {
-			throw new CXmlProcessException($e);
-		}
+            $this->getHandlerForPayload($payload)->handle($payload, $context);
+        } catch (CXmlException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            throw new CXmlProcessException($e);
+        }
     }
 
-	/**
-	 * @throws CXmlProcessException
-	 * @throws CXmlException
-	 */
-    private function processRequest(Model\Request $request, Model\Header $header): CXml
+    /**
+     * @throws CXmlProcessException
+     * @throws CXmlException
+     */
+    private function processRequest(Model\Request $request, Context $context): CXml
     {
-    	try {
-			$this->headerProcessor->process($header);
-		} catch (\Exception $e) {
-			throw new CXmlProcessException($e);
-		}
+        $header = $context->getCxml()->getHeader();
+        if (!$header) {
+            throw new CXmlException("Invalid CXml. Header is mandatory for request message.");
+        }
+
+        try {
+            $this->headerProcessor->process($header);
+        } catch (CXmlException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            throw new CXmlProcessException($e);
+        }
 
         $payload = $request->getPayload();
         $handler = $this->getHandlerForPayload($payload);
 
-        $response = $handler->handle($payload, $header);
+        $response = $handler->handle($payload, $context);
+
+        //if no response was returned, set a implicit 200/OK
         if (!$response) {
-            throw new CXmlException("A request expects a response. None returned from handler ".get_class($handler).".");
+            $this->builder->status(new Model\Status(
+                200,
+                'OK'
+            ));
         }
 
         return $this->builder

@@ -36,32 +36,34 @@ class ItemOut
     private ItemDetail $itemDetail;
 
     private function __construct(
-    	int $lineNumber,
-		int $quantity,
-		ItemId $itemId,
-		ItemDetail $itemDetail,
-		?\DateTime $requestedDeliveryDate = null)
+        int $lineNumber,
+        int $quantity,
+        ItemId $itemId,
+        ItemDetail $itemDetail,
+        ?\DateTime $requestedDeliveryDate = null
+    )
     {
         $this->lineNumber = $lineNumber;
         $this->quantity = $quantity;
         $this->itemId = $itemId;
         $this->itemDetail = $itemDetail;
-		$this->requestedDeliveryDate = $requestedDeliveryDate;
+        $this->requestedDeliveryDate = $requestedDeliveryDate;
     }
 
     public static function create(
-    	int $lineNumber,
-		int $quantity,
-		ItemId $itemId,
-		ItemDetail $itemDetail,
-		?\DateTime $requestedDeliveryDate = null): self
+        int $lineNumber,
+        int $quantity,
+        ItemId $itemId,
+        ItemDetail $itemDetail,
+        ?\DateTime $requestedDeliveryDate = null
+    ): self
     {
         return new self(
             $lineNumber,
             $quantity,
             $itemId,
             $itemDetail,
-			$requestedDeliveryDate,
+            $requestedDeliveryDate,
         );
     }
 

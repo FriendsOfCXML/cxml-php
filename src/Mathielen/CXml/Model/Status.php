@@ -7,6 +7,11 @@ use JMS\Serializer\Annotation as Ser;
 class Status
 {
     /**
+     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
+     */
+    private ?string $lang = null;
+
+    /**
      * @Ser\XmlAttribute
      */
     private int $code;
@@ -21,11 +26,12 @@ class Status
      */
     private ?string $message;
 
-    public function __construct(int $code, string $text, ?string $message = null)
+    public function __construct(int $code, string $text, ?string $message = null, ?string $lang = null)
     {
         $this->code = $code;
         $this->text = $text;
         $this->message = $message;
+        $this->lang = $lang;
     }
 
     public function getCode(): int

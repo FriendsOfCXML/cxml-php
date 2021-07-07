@@ -19,8 +19,7 @@ class Processor
         HeaderProcessor $requestProcessor,
         HandlerRegistryInterface $handlerRepository,
         Builder $builder
-    )
-    {
+    ) {
         $this->headerProcessor = $requestProcessor;
         $this->handlerRegistry = $handlerRepository;
         $this->builder = $builder;

@@ -64,11 +64,10 @@ class OrderRequestHeader
         ?array $comments,
         MoneyWrapper $total,
         string $type = self::TYPE_NEW
-    )
-    {
-    	if ($comments) {
-			Assertion::allIsInstanceOf($comments, Comment::class);
-    	}
+    ) {
+        if ($comments) {
+            Assertion::allIsInstanceOf($comments, Comment::class);
+        }
 
         $this->orderId = $orderId;
         $this->orderDate = $orderDate;

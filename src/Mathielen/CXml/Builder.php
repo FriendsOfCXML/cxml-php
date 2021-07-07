@@ -29,15 +29,17 @@ class Builder
     private ?Credential $sender = null;
     private ?string $senderUserAgent = null;
     private ?Status $status = null;
+    private ?string $locale;
 
-    private function __construct(PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+    private function __construct(?string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
     {
+        $this->locale = $locale;
         $this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
     }
 
-    public static function create(PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+    public static function create(string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
     {
-        return new self($payloadIdentityFactory);
+        return new self($locale, $payloadIdentityFactory);
     }
 
     public function payload(PayloadInterface $payload): self
@@ -102,7 +104,8 @@ class Builder
                 $cXml = CXml::forRequest(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Request($this->payload, $this->status, null, $deploymode),
-                    $this->buildHeader()
+                    $this->buildHeader(),
+                    $this->locale
                 );
                 break;
 
@@ -110,7 +113,8 @@ class Builder
                 $cXml = CXml::forMessage(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Message($this->payload, $this->status),
-                    $this->buildHeader()
+                    $this->buildHeader(),
+                    $this->locale
                 );
                 break;
 
@@ -118,6 +122,7 @@ class Builder
                 $cXml = CXml::forResponse(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Response($this->payload, $this->status),
+                    $this->locale
                 );
                 break;
 
@@ -127,6 +132,7 @@ class Builder
                     $cXml = CXml::forResponse(
                         $this->payloadIdentityFactory->newPayloadIdentity(),
                         new Response(null, $this->status),
+                        $this->locale
                     );
 
                     break;

@@ -27,8 +27,7 @@ class Response
         ?ResponseInterface $payload,
         ?Status $status = null,
         ?string $id = null
-    )
-    {
+    ) {
         $this->status = $status;
         $this->id = $id;
         $this->payload = $payload;

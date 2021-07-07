@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.049/cXML.dtd">
+<cXML xml:lang="en-US"
+      payloadID="0c30050@supplierorg.com"
+      timestamp="2021-01-08T23:00:06-08:00">
+    <Header>
+        <From>
+            <Credential domain="NetworkId">
+                <Identity>AN00000123</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="NetworkId">
+                <Identity>AN00000456</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="NetworkId">
+                <Identity>AN00000123</Identity>
+                <SharedSecret>abracadabra</SharedSecret>
+            </Credential>
+            <UserAgent>Supplier’s Super Order Processor</UserAgent>
+        </Sender>
+    </Header>
+    <Request>
+        <StatusUpdateRequest>
+            <DocumentReference payloadID="0c300508b7863dcclb_14999"/>
+            <Status code="200" text="OK" xml:lang="en-US">Forwarded to supplier</Status>
+        </StatusUpdateRequest>
+    </Request>
+</cXML>

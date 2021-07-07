@@ -37,8 +37,7 @@ class Request
         ?Status $status = null,
         ?string $id = null,
         ?string $deploymentMode = null
-    )
-    {
+    ) {
         $this->status = $status;
         $this->id = $id;
         $this->payload = $payload;

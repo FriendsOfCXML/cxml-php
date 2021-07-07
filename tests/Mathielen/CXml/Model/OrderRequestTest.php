@@ -11,7 +11,7 @@ use Mathielen\CXml\Builder;
 
 class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
-    public function testAsyncMinimumExample(): void
+    public function testMinimumExample(): void
     {
         $from = new Credential(
             'NetworkId',
@@ -33,34 +33,34 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
             new AddressWrapper(
                 new MultilanguageString('Acme'),
                 new PostalAddress(
-					[
-						'Joe Smith',
-						'Mailstop M-543'
-					],
-					[
-						'123 Anystreet'
-					],
-					'Sunnyvale',
-					new Country('US', 'United States'),
-					null,
-					'CA',
-					'90489',
-					'default'
+                    [
+                        'Joe Smith',
+                        'Mailstop M-543'
+                    ],
+                    [
+                        '123 Anystreet'
+                    ],
+                    'Sunnyvale',
+                    new Country('US', 'United States'),
+                    null,
+                    'CA',
+                    '90489',
+                    'default'
                 )
             ),
             new AddressWrapper(
                 new MultilanguageString('Zinc GmbH'),
                 new PostalAddress(
-					[],
-					[
-						'An den Eichen 18'
-					],
-					'Solingen',
-					new Country('DE', 'Deutschland'),
-					null,
-					null,
-					'42699',
-					'default'
+                    [],
+                    [
+                        'An den Eichen 18'
+                    ],
+                    'Solingen',
+                    new Country('DE', 'Deutschland'),
+                    null,
+                    null,
+                    '42699',
+                    'default'
                 )
             ),
             [new Comment(null, 'delivery-note.pdf')],
@@ -86,8 +86,8 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                     210
                 )
             ),
-			new \DateTime('2020-02-28')
-		)->addClassification('custom', 0);
+            new \DateTime('2020-02-28')
+        )->addClassification('custom', 0);
         $orderRequest->addItem($item);
 
         $item = ItemOut::create(
@@ -102,11 +102,11 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                     320
                 )
             ),
-			new \DateTime('2020-02-28')
-		)->addClassification('custom', 0);
+            new \DateTime('2020-02-28')
+        )->addClassification('custom', 0);
         $orderRequest->addItem($item);
 
-        $cxml = Builder::create($this)
+        $cxml = Builder::create(null, $this)
             ->from($from)
             ->to($to)
             ->sender($sender, 'Platform Order Fulfillment Hub')

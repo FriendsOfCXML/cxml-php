@@ -15,14 +15,14 @@ class PostalAddress
     /**
      * @Ser\XmlList(inline=true, entry="DeliverTo")
      * @Ser\Type("array<string>")
-	 * @Ser\XmlElement(cdata=false)
+     * @Ser\XmlElement(cdata=false)
      */
     private array $deliverTo;
 
     /**
      * @Ser\XmlList(inline=true, entry="Street")
      * @Ser\Type("array<string>")
-	 * @Ser\XmlElement(cdata=false)
+     * @Ser\XmlElement(cdata=false)
      */
     private array $street;
 

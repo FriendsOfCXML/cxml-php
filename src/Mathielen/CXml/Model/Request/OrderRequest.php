@@ -27,20 +27,20 @@ class OrderRequest implements RequestInterface
     }
 
     public static function create(OrderRequestHeader $orderRequestHeader): self
-	{
-		return new self(
-			$orderRequestHeader
-		);
-	}
+    {
+        return new self(
+            $orderRequestHeader
+        );
+    }
 
-	public function addItems(array $items): self
-	{
-		foreach ($items as $item) {
-			$this->addItem($item);
-		}
+    public function addItems(array $items): self
+    {
+        foreach ($items as $item) {
+            $this->addItem($item);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
     public function addItem(ItemOut $item): self
     {

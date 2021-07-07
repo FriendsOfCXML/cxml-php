@@ -6,6 +6,9 @@ use JMS\Serializer\Annotation as Ser;
 
 class ItemDetail
 {
+
+	const UNIT_OF_MEASURE_EACH = 'EA';
+
     /**
      * @Ser\SerializedName("UnitPrice")
      */

@@ -19,6 +19,6 @@ class Money
     public function __construct(string $currency, int $value)
     {
         $this->currency = $currency;
-        $this->value = number_format($value / 100, '2');
+        $this->value = number_format($value / 100, '2', '.', '');
     }
 }

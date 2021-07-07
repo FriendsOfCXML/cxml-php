@@ -33,6 +33,15 @@ class OrderRequest implements RequestInterface
 		);
 	}
 
+	public function addItems(array $items): self
+	{
+		foreach ($items as $item) {
+			$this->addItem($item);
+		}
+
+		return $this;
+	}
+
     public function addItem(ItemOut $item): self
     {
         $this->itemOut[] = $item;

@@ -22,7 +22,7 @@ class OrderRequestBuilder
 	private int $total = 0;
 	private string $currency;
 	private array $comments = [];
-	private ?AddressWrapper $shipTo;
+	private ?AddressWrapper $shipTo = null;
 	private AddressWrapper $billTo;
 	private string $language;
 
@@ -39,10 +39,18 @@ class OrderRequestBuilder
 		return new self($orderId, $orderDate, $currency, $language);
 	}
 
-	public function billTo(string $name, PostalAddress $postalAddress = null, ?string $addressId = null, ?string $addressIdDomain = null, ?string $email = null, ?string $phone = null, ?string $fax = null, ?string $url = null): self
+	public function billTo(
+		string $name,
+		PostalAddress $postalAddress = null,
+		?string $addressId = null,
+		?string $addressIdDomain = null,
+		?string $email = null,
+		?string $phone = null,
+		?string $fax = null,
+		?string $url = null): self
 	{
 		$this->billTo = new AddressWrapper(
-			new MultilanguageString($this->language, $name),
+			new MultilanguageString($name, $this->language),
 			$postalAddress,
 			$addressId,
 			$addressIdDomain,
@@ -58,7 +66,7 @@ class OrderRequestBuilder
 	public function shipTo(string $name, PostalAddress $postalAddress = null, ?string $addressId = null, ?string $addressIdDomain = null, ?string $email = null, ?string $phone = null, ?string $fax = null, ?string $url = null): self
 	{
 		$this->shipTo = new AddressWrapper(
-			new MultilanguageString($this->language, $name),
+			new MultilanguageString($name, $this->language),
 			$postalAddress,
 			$addressId,
 			$addressIdDomain,
@@ -75,7 +83,7 @@ class OrderRequestBuilder
 	{
 		return OrderRequest::create(
 			$this->buildOrderRequestHeader()
-		);
+		)->addItems($this->items);
 	}
 
 	public function addItem(int $quantity,
@@ -86,7 +94,7 @@ class OrderRequestBuilder
 	{
 		$lineNumber = count($this->items)+1;
 
-		$this->items[] = ItemOut::create(
+		$item = ItemOut::create(
 			$lineNumber,
 			$quantity,
 			new ItemId($supplierPartId),
@@ -102,6 +110,9 @@ class OrderRequestBuilder
 				)
 			)
 		);
+
+		$this->items[] = $item;
+		$this->total += ($quantity * $unitPrice);
 
 		return $this;
 	}
@@ -121,7 +132,7 @@ class OrderRequestBuilder
 		return new OrderRequestHeader(
 			$this->orderId,
 			$this->orderDate,
-			$this->shipTo ? $this->shipTo : null,
+			$this->shipTo,
 			$this->billTo,
 			$this->comments,
 			new MoneyWrapper($this->currency, $this->total)

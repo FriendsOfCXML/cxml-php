@@ -2,8 +2,8 @@
 
 namespace Mathielen\CXml\Credential;
 
-use Mathielen\CXml\Exception\CXmlAuthenticationInvalid;
-use Mathielen\CXml\Exception\CXmlCredentialInvalid;
+use Mathielen\CXml\Exception\CXmlAuthenticationInvalidException;
+use Mathielen\CXml\Exception\CXmlCredentialInvalidException;
 use Mathielen\CXml\Model\Credential;
 
 class CredentialRegistry implements CredentialRepositoryInterface, CredentialAuthenticatorInterface
@@ -19,7 +19,7 @@ class CredentialRegistry implements CredentialRepositoryInterface, CredentialAut
     }
 
     /**
-     * @throws CXmlCredentialInvalid
+     * @throws CXmlCredentialInvalidException
      */
     public function getCredentialByDomainAndId(string $domain, string $identity): Credential
     {
@@ -29,12 +29,12 @@ class CredentialRegistry implements CredentialRepositoryInterface, CredentialAut
             }
         }
 
-        throw new CXmlCredentialInvalid("Could not find credentials for '$identity@$domain'.");
+        throw new CXmlCredentialInvalidException("Could not find credentials for '$identity@$domain'.");
     }
 
     /**
-     * @throws CXmlAuthenticationInvalid
-     * @throws CXmlCredentialInvalid
+     * @throws CXmlAuthenticationInvalidException
+     * @throws CXmlCredentialInvalidException
      */
     public function authenticate(Credential $senderCredential): void
     {
@@ -44,7 +44,7 @@ class CredentialRegistry implements CredentialRepositoryInterface, CredentialAut
         );
 
         if ($baseCredential->getSharedSecret() !== $senderCredential->getSharedSecret()) {
-            throw new CXmlAuthenticationInvalid($senderCredential);
+            throw new CXmlAuthenticationInvalidException($senderCredential);
         }
     }
 }

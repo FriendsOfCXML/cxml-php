@@ -2,9 +2,9 @@
 
 namespace Mathielen\CXml\Validation\Exception;
 
-use Mathielen\CXml\Exception\CXmlException;
+use Mathielen\CXml\Exception\CXmlNotAcceptableException;
 
-class InvalidCxmlException extends CXmlException
+class CxmlInvalidException extends CXmlNotAcceptableException
 {
     private string $xml;
 

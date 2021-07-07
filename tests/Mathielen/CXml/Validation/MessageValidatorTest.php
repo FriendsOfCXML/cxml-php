@@ -2,7 +2,7 @@
 
 namespace Mathielen\CXml\Validation;
 
-use Mathielen\CXml\Validation\Exception\InvalidCxmlException;
+use Mathielen\CXml\Validation\Exception\CxmlInvalidException;
 use PHPStan\Testing\TestCase;
 
 class MessageValidatorTest extends TestCase
@@ -24,7 +24,7 @@ class MessageValidatorTest extends TestCase
 
     public function testValidateMissingRootNode(): void
     {
-        $this->expectException(InvalidCxmlException::class);
+        $this->expectException(CxmlInvalidException::class);
 
         $xml = '<some-node></some-node>';
         $this->sut->validateAgainstDtd($xml);
@@ -32,7 +32,7 @@ class MessageValidatorTest extends TestCase
 
     public function testValidateInvalid(): void
     {
-        $this->expectException(InvalidCxmlException::class);
+        $this->expectException(CxmlInvalidException::class);
 
         $xml = '<cXML></cXML>';
         $this->sut->validateAgainstDtd($xml);

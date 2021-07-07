@@ -2,13 +2,13 @@
 
 namespace Mathielen\CXml\Credential;
 
-use Mathielen\CXml\Exception\CXmlAuthenticationInvalid;
+use Mathielen\CXml\Exception\CXmlAuthenticationInvalidException;
 use Mathielen\CXml\Model\Credential;
 
 interface CredentialAuthenticatorInterface
 {
     /**
-     * @throws CXmlAuthenticationInvalid
+     * @throws CXmlAuthenticationInvalidException
      */
     public function authenticate(Credential $senderCredential): void;
 }

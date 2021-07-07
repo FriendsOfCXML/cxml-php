@@ -27,7 +27,7 @@ class Processor
 
     /**
      * @throws CXmlException
-     * @throws \Mathielen\CXml\Exception\CXmlCredentialInvalid
+     * @throws \Mathielen\CXml\Exception\CXmlCredentialInvalidException
      * @throws \ReflectionException
      */
     public function process(CXml $cxml): ?CXml
@@ -77,7 +77,7 @@ class Processor
 
     /**
      * @throws CXmlException
-     * @throws \Mathielen\CXml\Exception\CXmlCredentialInvalid
+     * @throws \Mathielen\CXml\Exception\CXmlCredentialInvalidException
      * @throws \ReflectionException
      */
     private function processRequest(Model\Request $request, Model\Header $header): CXml

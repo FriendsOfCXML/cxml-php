@@ -16,4 +16,10 @@ class DocumentReference
     {
         $this->payloadId = $payloadId;
     }
+
+	public function getPayloadId(): string
+	{
+		return $this->payloadId;
+	}
+
 }

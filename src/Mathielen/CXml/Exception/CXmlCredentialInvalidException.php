@@ -4,7 +4,7 @@ namespace Mathielen\CXml\Exception;
 
 use Mathielen\CXml\Model\Credential;
 
-class CXmlCredentialInvalid extends CXmlException
+class CXmlCredentialInvalidException extends CXmlExpectationFailedException
 {
     private ?Credential $credential;
 

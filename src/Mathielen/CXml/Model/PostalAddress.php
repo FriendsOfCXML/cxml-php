@@ -62,9 +62,9 @@ class PostalAddress
      *
      * @var Extrinsic[]
      */
-    private ?array $extrinsics;
+    private array $extrinsics = [];
 
-    public function __construct(array $deliverTo, array $street, string $city, Country $country, ?string $municipality, ?string $state, ?string $postalCode, ?string $name = null, ?array $extrinsics = null)
+    public function __construct(array $deliverTo, array $street, string $city, Country $country, ?string $municipality, ?string $state, ?string $postalCode, ?string $name = null)
     {
         $this->name = $name;
         $this->deliverTo = $deliverTo;
@@ -74,6 +74,12 @@ class PostalAddress
         $this->state = $state;
         $this->postalCode = $postalCode;
         $this->country = $country;
-        $this->extrinsics = $extrinsics;
     }
+
+	public function addExtrinsic(Extrinsic $extrinsic): self
+	{
+		$this->extrinsics[] = $extrinsic;
+
+		return $this;
+	}
 }

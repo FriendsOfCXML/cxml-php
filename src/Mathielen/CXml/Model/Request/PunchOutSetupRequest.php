@@ -58,4 +58,11 @@ class PunchOutSetupRequest implements RequestInterface
         $this->shipTo = $shipTo;
         $this->selectedItem = $selectedItem;
     }
+
+    public function addExtrinsic(Extrinsic $extrinsic): self
+	{
+		$this->extrinsics[] = $extrinsic;
+
+		return $this;
+	}
 }

@@ -3,8 +3,8 @@
 namespace Mathielen\CXml\Processor;
 
 use Mathielen\CXml\Credential\CredentialAuthenticatorInterface;
-use Mathielen\CXml\Exception\CXmlAuthenticationInvalid;
-use Mathielen\CXml\Exception\CXmlCredentialInvalid;
+use Mathielen\CXml\Exception\CXmlAuthenticationInvalidException;
+use Mathielen\CXml\Exception\CXmlCredentialInvalidException;
 use Mathielen\CXml\Model\Credential;
 use Mathielen\CXml\Model\Header;
 use Mathielen\CXml\Model\ResponseInterface;
@@ -22,7 +22,7 @@ class HeaderProcessor
     }
 
     /**
-     * @throws CXmlCredentialInvalid
+     * @throws CXmlCredentialInvalidException
      */
     public function process(Header $header): void
     {
@@ -32,7 +32,7 @@ class HeaderProcessor
     }
 
     /**
-     * @throws CXmlCredentialInvalid
+     * @throws CXmlCredentialInvalidException
      */
     private function validatePartys(Header $header): void
     {
@@ -44,7 +44,7 @@ class HeaderProcessor
     }
 
     /**
-     * @throws CXmlCredentialInvalid
+     * @throws CXmlCredentialInvalidException
      */
     private function checkCredentialIsValid(Credential $testCredential): void
     {
@@ -54,13 +54,13 @@ class HeaderProcessor
         );
 
         if (!$existingCredential) {
-            throw new CXmlCredentialInvalid("Could not find credentials", $testCredential);
+            throw new CXmlCredentialInvalidException("Could not find credentials", $testCredential);
         }
     }
 
     /**
-     * @throws CXmlAuthenticationInvalid
-     * @throws CXmlCredentialInvalid
+     * @throws CXmlAuthenticationInvalidException
+     * @throws CXmlCredentialInvalidException
      */
     private function authenticateSender(Credential $testCredential): void
     {
@@ -70,7 +70,7 @@ class HeaderProcessor
         );
 
         if (!$actualCredential) {
-            throw new CXmlCredentialInvalid("Could not find credentials", $testCredential);
+            throw new CXmlCredentialInvalidException("Could not find credentials", $testCredential);
         }
 
         $this->credentialAuthenticator->authenticate($testCredential);

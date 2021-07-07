@@ -3,7 +3,7 @@
 namespace Mathielen\CXml\Handler;
 
 use Assert\Assertion;
-use Mathielen\CXml\Handler\Exception\CXmlHandlerNotFound;
+use Mathielen\CXml\Handler\Exception\CXmlHandlerNotFoundException;
 
 class HandlerRegistry implements HandlerRegistryInterface
 {
@@ -29,12 +29,12 @@ class HandlerRegistry implements HandlerRegistryInterface
     }
 
     /**
-     * @throws CXmlHandlerNotFound
+     * @throws CXmlHandlerNotFoundException
      */
     public function get(string $handlerId): HandlerInterface
     {
         if (!isset($this->registry[$handlerId])) {
-            throw new CXmlHandlerNotFound($handlerId);
+            throw new CXmlHandlerNotFoundException($handlerId);
         }
 
         return $this->registry[$handlerId];

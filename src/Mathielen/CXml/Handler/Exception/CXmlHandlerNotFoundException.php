@@ -3,9 +3,10 @@
 namespace Mathielen\CXml\Handler\Exception;
 
 use Mathielen\CXml\Exception\CXmlException;
+use Mathielen\CXml\Exception\CXmlNotImplementedException;
 use Mathielen\CXml\Model\Credential;
 
-class CXmlHandlerNotFound extends CXmlException
+class CXmlHandlerNotFoundException extends CXmlNotImplementedException
 {
     public function __construct(string $handlerId, \Throwable $previous = null)
     {

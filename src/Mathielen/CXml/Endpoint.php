@@ -11,7 +11,7 @@ use Mathielen\CXml\Jms\JmsEventSubscriber;
 use Mathielen\CXml\Model\CXml;
 use Mathielen\CXml\Processor\Processor;
 use Mathielen\CXml\Validation\DtdValidator;
-use Mathielen\CXml\Validation\Exception\InvalidCxmlException;
+use Mathielen\CXml\Validation\Exception\CxmlInvalidException;
 
 class Endpoint
 {
@@ -60,7 +60,7 @@ class Endpoint
             //deserialize
             $cxml = self::deserialize($xml);
         } catch (\RuntimeException $e) {
-            throw new InvalidCxmlException("Error while deserializing xml: ".$e->getMessage(), $xml, $e);
+            throw new CxmlInvalidException("Error while deserializing xml: ".$e->getMessage(), $xml, $e);
         }
 
         //process

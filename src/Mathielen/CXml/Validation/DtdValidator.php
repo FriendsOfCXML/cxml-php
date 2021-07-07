@@ -3,7 +3,7 @@
 namespace Mathielen\CXml\Validation;
 
 use Assert\Assertion;
-use Mathielen\CXml\Validation\Exception\InvalidCxmlException;
+use Mathielen\CXml\Validation\Exception\CxmlInvalidException;
 
 class DtdValidator
 {
@@ -18,12 +18,12 @@ class DtdValidator
     }
 
     /**
-     * @throws InvalidCxmlException
+     * @throws CxmlInvalidException
      */
     public function validateAgainstDtd(string $xml): void
     {
         if (empty($xml)) {
-            throw new InvalidCxmlException("XML was empty", $xml);
+            throw new CxmlInvalidException("XML was empty", $xml);
         }
 
         //disable throwing of php errors for libxml
@@ -34,7 +34,7 @@ class DtdValidator
 
         $dtdinjectedDomDocument = $this->injectDtd($old, );
         if (!$dtdinjectedDomDocument->validate()) {
-            throw InvalidCxmlException::fromLibXmlError(libxml_get_last_error(), $xml);
+            throw CxmlInvalidException::fromLibXmlError(libxml_get_last_error(), $xml);
         }
 
         //reset throwing of php errors for libxml
@@ -42,7 +42,7 @@ class DtdValidator
     }
 
     /**
-     * @throws InvalidCxmlException
+     * @throws CxmlInvalidException
      */
     private function injectDtd(\DOMDocument $originalDomDocument): \DOMDocument
     {
@@ -53,7 +53,7 @@ class DtdValidator
 
         $oldNode = $originalDomDocument->getElementsByTagName('cXML')->item(0);
         if (!$oldNode) {
-            throw new InvalidCxmlException("Missing cXML root node", $originalDomDocument->saveXML());
+            throw new CxmlInvalidException("Missing cXML root node", $originalDomDocument->saveXML());
         }
 
         $newNode = $new->importNode($oldNode, true);

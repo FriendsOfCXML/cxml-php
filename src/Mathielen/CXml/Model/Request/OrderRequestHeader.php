@@ -77,4 +77,40 @@ class OrderRequestHeader
         $this->billTo = $billTo;
         $this->comments = $comments;
     }
+
+	public function getOrderId(): string
+	{
+		return $this->orderId;
+	}
+
+	public function getOrderDate(): \DateTime
+	{
+		return $this->orderDate;
+	}
+
+	public function getType(): string
+	{
+		return $this->type;
+	}
+
+	public function getTotal(): MoneyWrapper
+	{
+		return $this->total;
+	}
+
+	public function getShipTo(): ?AddressWrapper
+	{
+		return $this->shipTo;
+	}
+
+	public function getBillTo(): AddressWrapper
+	{
+		return $this->billTo;
+	}
+
+	public function getComments(): ?array
+	{
+		return $this->comments;
+	}
+
 }

@@ -4,7 +4,7 @@ namespace Mathielen\CXml\Processor;
 
 use Mathielen\CXml\Builder;
 use Mathielen\CXml\Exception\CXmlException;
-use Mathielen\CXml\Handler\Context;
+use Mathielen\CXml\Context;
 use Mathielen\CXml\Handler\HandlerInterface;
 use Mathielen\CXml\Handler\HandlerRegistryInterface;
 use Mathielen\CXml\Model;
@@ -30,9 +30,10 @@ class Processor
     /**
      * @throws CXmlException
      */
-    public function process(CXml $cxml): ?CXml
+    public function process(CXml $cxml, Context $context = null): ?CXml
     {
-        $context = new Context($cxml);
+		$context = $context ?? Context::create();
+		$context->setCXml($cxml);
 
         if ($request = $cxml->getRequest()) {
             return $this->processRequest($request, $context);

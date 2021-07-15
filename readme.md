@@ -1,8 +1,12 @@
+# What is it?
+> cXML is a streamlined protocol intended for consistent communication of business documents between procurement applications, e-commerce hubs and suppliers. http://cxml.org/
 # Status
 * Tested with cXML Specification 1.2.050
 * cXML Reference Guide (PDF): http://xml.cxml.org/current/cXMLReferenceGuide.pdf
+* WIP 
 
 # Getting Started
+
 ## Installation
 ```bash
 $ composer require mathielen/cxml
@@ -17,13 +21,14 @@ require_once 'vendor/autoload.php';
 ## Get current dtd definition files
 1. Download get current Specification from http://cxml.org/downloads.html
 2. Extract files
+3. Use cXML.dtd for validation (see below)
 
 ## Quickstart
 
-### General Setup
+### Identity and credentials
 
 ```php
-//we use a basic registry here. You  could use your own (db-based?) repository that implements CredentialRepositoryInterface
+//we use a basic registry here. You could use your own (db-based?) repository that implements CredentialRepositoryInterface
 $credentialRegistry = new \Mathielen\CXml\Credential\CredentialRegistry();
 
 $someSupplier = new \Mathielen\CXml\Model\Credential('DUNS', 12345);
@@ -39,10 +44,13 @@ $credentialRegistry->registerCredential($someHub);
 ### Register Handler
 
 ```php
-$myHandler = new MyPunchoutSetupRequestHandler();
-
 $handlerRegistry = new \Mathielen\CXml\Handler\HandlerRegistry();
-$handlerRegistry->register($myHandler);
+
+$handlerRegistry->register(new Mathielen\CXml\Handler\Request\SelfAwareProfileRequestHandler(...));
+$handlerRegistry->register(new Mathielen\CXml\Handler\Request\StaticStartPagePunchOutSetupRequestHandler(...));
+$handlerRegistry->register(new MyOrderRequestHandler());
+$handlerRegistry->register(new MyStatusUpdateRequestHandler());
+...
 ```
 
 ### Build cXML
@@ -67,7 +75,16 @@ $cXml = \Mathielen\CXml\Builder::create()
     ->build();
 ```
 
-### Process (incoming) cXML
+### Register outgoing cXML documents
+You may want to register sent-out documents so they can be referenced by subsequent request-documents via payloadId. 
+
+```php
+$documentRegistory = new MyDocumentRegistry(); //implements Mathielen\CXml\Document\DocumentRegistryInterface
+
+$documentRegistory->register($cXml);
+```
+
+### Process incoming cXML documents
 ```php
 $headerProcessor = new \Mathielen\CXml\Processor\HeaderProcessor($credentialRegistry);
 

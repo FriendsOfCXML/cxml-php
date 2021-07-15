@@ -2,7 +2,7 @@
 
 namespace Mathielen\CXml\Handler\Request;
 
-use Mathielen\CXml\Handler\Context;
+use Mathielen\CXml\Context;
 use Mathielen\CXml\Handler\HandlerInterface;
 use Mathielen\CXml\Model\PayloadInterface;
 use Mathielen\CXml\Model\Response\PunchoutSetupResponse;

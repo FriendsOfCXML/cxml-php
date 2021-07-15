@@ -3,7 +3,6 @@
 namespace Mathielen\CXml;
 
 use JMS\Serializer\EventDispatcher\EventDispatcherInterface;
-use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
@@ -46,6 +45,9 @@ class Endpoint
 
     public static function deserialize(string $xml): CXml
     {
+    	//remove doctype, as it would throw a JMS\Serializer\Exception\InvalidArgumentException
+    	$xml = preg_replace('/<!doctype.+>/i', '', $xml);
+
         return self::buildSerializer()->deserialize($xml, CXml::class, 'xml');
     }
 
@@ -57,7 +59,7 @@ class Endpoint
     /**
      * @throws Exception\CXmlException
      */
-    public function processStringAsCXml(string $xml): ?CXml
+    public function processStringAsCXml(string $xml, Context $context = null): ?CXml
     {
         $this->logger->info("Processing incoming CXml message", ['xml'=>$xml]);
 
@@ -81,7 +83,7 @@ class Endpoint
 
         //process
         try {
-            $result = $this->processor->process($cxml);
+            $result = $this->processor->process($cxml, $context);
         } catch (CXmlException $e) {
             $this->logger->error("Error while processing valid CXml: ".$e->getMessage(), ['xml'=>$xml]);
 

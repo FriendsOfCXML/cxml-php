@@ -48,4 +48,15 @@ class OrderRequest implements RequestInterface
 
         return $this;
     }
+
+	public function getOrderRequestHeader(): OrderRequestHeader
+	{
+		return $this->orderRequestHeader;
+	}
+
+	public function getItems(): array
+	{
+		return $this->itemOut;
+	}
+
 }

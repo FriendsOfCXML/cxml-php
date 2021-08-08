@@ -115,7 +115,7 @@ $cXmlProcessor = new \Mathielen\CXml\Processor\Processor(
   $builder
 );
 
-$pathToDtd = 'cXML.dtd'; //point to your extracted cXML.dtd file that was downloaded from cxml.org
+$pathToDtd = '.'; //point the directory with extracted contents of zip-file with the DTDs, downloaded from cxml.org
 $dtdValidator = new \Mathielen\CXml\Validation\DtdValidator($pathToDtd);
 
 $endpoint = new \Mathielen\CXml\Endpoint(

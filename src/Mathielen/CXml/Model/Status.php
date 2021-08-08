@@ -26,7 +26,7 @@ class Status
      */
     private ?string $message;
 
-    public function __construct(int $code, string $text, ?string $message = null, ?string $lang = null)
+    public function __construct(int $code = 200, string $text = 'OK', ?string $message = null, ?string $lang = null)
     {
         $this->code = $code;
         $this->text = $text;

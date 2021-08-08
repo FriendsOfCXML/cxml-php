@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.049/Fulfill.dtd">
+<cXML xml:lang="en-US"
+      payloadID="0c30050@supplierorg.com"
+      timestamp="2021-01-08T23:00:06-08:00">
+    <Header>
+        <From>
+            <Credential domain="NetworkId">
+                <Identity>AN00000123</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="NetworkId">
+                <Identity>AN00000456</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="NetworkId">
+                <Identity>AN00000123</Identity>
+                <SharedSecret>abracadabra</SharedSecret>
+            </Credential>
+            <UserAgent>Supplier’s Super Order Processor</UserAgent>
+        </Sender>
+    </Header>
+    <Request>
+        <ShipNoticeRequest>
+            <ShipNoticeHeader shipmentID="S2-123" noticeDate="2000-10-14T18:39:09-08:00"
+                              shipmentDate="2000-10-14T08:30:19-08:00"
+                              deliveryDate="2000-10-18T09:00:00-08:00">
+                <Comments xml:lang="en-CA">Got it all into one shipment.</Comments>
+            </ShipNoticeHeader>
+            <ShipControl>
+                <CarrierIdentifier domain="SCAC">FDE</CarrierIdentifier>
+                <CarrierIdentifier domain="companyName">Federal Express</CarrierIdentifier>
+                <ShipmentIdentifier>8202 8261 1194</ShipmentIdentifier>
+            </ShipControl>
+            <ShipNoticePortion>
+                <!-- The orderID and orderDate attributes are not required in the
+               OrderReference
+                element. -->
+                <OrderReference orderID="DO1234">
+                    <DocumentReference payloadID="32232995@hub.acme.com" />
+                </OrderReference>
+            </ShipNoticePortion>
+        </ShipNoticeRequest>
+    </Request>
+</cXML>

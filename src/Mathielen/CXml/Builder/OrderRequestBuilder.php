@@ -119,10 +119,11 @@ class OrderRequestBuilder
         return $this;
     }
 
-    public function addComment(?string $value = null, ?string $attachmentUrl = null): self
+    public function addComment(?string $value = null, ?string $lang = null, ?string $attachmentUrl = null): self
     {
         $this->comments[] = new Comment(
             $value,
+			$lang,
             $attachmentUrl
         );
 

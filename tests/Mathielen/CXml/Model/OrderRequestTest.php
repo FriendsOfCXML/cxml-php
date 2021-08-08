@@ -63,7 +63,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                     'default'
                 )
             ),
-            [new Comment(null, 'delivery-note.pdf')],
+            [new Comment(null, null, 'delivery-note.pdf')],
             new MoneyWrapper(
                 'EUR',
                 8500

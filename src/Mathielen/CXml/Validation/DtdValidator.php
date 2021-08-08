@@ -7,14 +7,15 @@ use Mathielen\CXml\Validation\Exception\CxmlInvalidException;
 
 class DtdValidator
 {
-    private string $pathToCxmlDtd;
+    private string $pathToCxmlDtds;
 
-    public function __construct(string $pathToCxmlDtd)
+    public function __construct(string $pathToCxmlDtds)
     {
-        Assertion::file($pathToCxmlDtd);
-        //TODO test if its the cXML.dtd
+        Assertion::directory($pathToCxmlDtds);
+		Assertion::file($pathToCxmlDtds . '/cXML.dtd');
+		Assertion::file($pathToCxmlDtds . '/Fulfill.dtd');
 
-        $this->pathToCxmlDtd = $pathToCxmlDtd;
+        $this->pathToCxmlDtds = $pathToCxmlDtds;
     }
 
     /**
@@ -32,10 +33,9 @@ class DtdValidator
         $old = new \DOMDocument();
         $old->loadXML($xml);
 
-        $dtdinjectedDomDocument = $this->injectDtd($old, );
-        if (!$dtdinjectedDomDocument->validate()) {
-            throw CxmlInvalidException::fromLibXmlError(libxml_get_last_error(), $xml);
-        }
+		$validateFiles = ['cXML.dtd', 'Fulfill.dtd'];
+
+        $this->validateAgainstMultipleDtd($validateFiles, $old);
 
         //reset throwing of php errors for libxml
         libxml_use_internal_errors($internalErrors);
@@ -44,10 +44,10 @@ class DtdValidator
     /**
      * @throws CxmlInvalidException
      */
-    private function injectDtd(\DOMDocument $originalDomDocument): \DOMDocument
+    private function injectDtd(\DOMDocument $originalDomDocument, string $dtdFilename): \DOMDocument
     {
         $creator = new \DOMImplementation();
-        $doctype = $creator->createDocumentType('cXML', null, $this->pathToCxmlDtd);
+        $doctype = $creator->createDocumentType('cXML', null, $this->pathToCxmlDtds . '/' . $dtdFilename);
         $new = $creator->createDocument(null, null, $doctype);
         $new->encoding = "utf-8";
 
@@ -61,4 +61,20 @@ class DtdValidator
 
         return $new;
     }
+
+	/**
+	 * @throws CxmlInvalidException
+	 */
+	private function validateAgainstMultipleDtd(array $validateFiles, \DOMDocument $old): void
+	{
+		foreach ($validateFiles as $validateFile) {
+			$dtdinjectedDomDocument = $this->injectDtd($old, $validateFile);
+
+			if ($dtdinjectedDomDocument->validate()) {
+				return;
+			}
+		}
+
+		throw CxmlInvalidException::fromLibXmlError(libxml_get_last_error(), $old->saveXML());
+	}
 }

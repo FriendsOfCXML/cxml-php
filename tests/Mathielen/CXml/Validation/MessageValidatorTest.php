@@ -11,7 +11,7 @@ class MessageValidatorTest extends TestCase
 
     public function setUp(): void
     {
-        $this->sut = new DtdValidator('tests/metadata/cxml/dtd/cXML.dtd');
+        $this->sut = new DtdValidator('tests/metadata/cxml/dtd');
     }
 
     public function testValidateSuccess(): void

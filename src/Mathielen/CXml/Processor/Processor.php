@@ -3,16 +3,39 @@
 namespace Mathielen\CXml\Processor;
 
 use Mathielen\CXml\Builder;
+use Mathielen\CXml\Exception\CXmlAuthenticationInvalidException;
+use Mathielen\CXml\Exception\CxmlConflictException;
 use Mathielen\CXml\Exception\CXmlException;
 use Mathielen\CXml\Context;
+use Mathielen\CXml\Exception\CXmlExpectationFailedException;
+use Mathielen\CXml\Exception\CXmlNotAcceptableException;
+use Mathielen\CXml\Exception\CXmlNotImplementedException;
+use Mathielen\CXml\Exception\CXmlPreconditionFailedException;
 use Mathielen\CXml\Handler\HandlerInterface;
 use Mathielen\CXml\Handler\HandlerRegistryInterface;
 use Mathielen\CXml\Model;
 use Mathielen\CXml\Model\CXml;
+use Mathielen\CXml\Model\Status;
 use Mathielen\CXml\Processor\Exception\CXmlProcessException;
+use Symfony\Component\HttpFoundation\Response;
 
 class Processor
 {
+
+	//according to cXML reference document
+	private static array $exceptionMapping = [
+		CXmlAuthenticationInvalidException::class => 401,
+		CXmlNotAcceptableException::class => 406,
+		CxmlConflictException::class => 409,
+		CXmlPreconditionFailedException::class => 412,
+		CXmlExpectationFailedException::class => 417,
+		CXmlNotImplementedException::class => 450,
+	];
+
+	private static array $exceptionCodeMapping = [
+		450 => 'Not Implemented',
+	];
+
     private HeaderProcessor $headerProcessor;
     private HandlerRegistryInterface $handlerRegistry;
     private Builder $builder;
@@ -131,4 +154,17 @@ class Processor
             ->payload($response)
             ->build();
     }
+
+    public function processException(CXmlException $exception): CXml
+	{
+		$statusCode = self::$exceptionMapping[\get_class($exception)] ?? 500;
+		$statusText = self::$exceptionCodeMapping[$statusCode] ?? Response::$statusTexts[$statusCode];
+		$status = new Status($statusCode, $statusText, $exception->getMessage());
+
+		$cXml = $this->builder
+			->status($status)
+			->build();
+
+		return $cXml;
+	}
 }

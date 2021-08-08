@@ -59,7 +59,7 @@ class Endpoint
     /**
      * @throws Exception\CXmlException
      */
-    public function processStringAsCXml(string $xml, Context $context = null): ?CXml
+    public function parseAndProcessStringAsCXml(string $xml, Context $context = null): ?CXml
     {
         $this->logger->info("Processing incoming CXml message", ['xml'=>$xml]);
 

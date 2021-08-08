@@ -125,7 +125,7 @@ $endpoint = new \Mathielen\CXml\Endpoint(
 
 //$xmlString could be the body of an incoming http request
 $xmlString = '<cXML>...</cXML>';
-$result = $endpoint->processStringAsCXml($xmlString);
+$result = $endpoint->parseAndProcessStringAsCXml($xmlString);
 
 //$result could be null (i.e. for a Response or Message) or another CXml object which would be the Response to a Request
 //you would have to handle the transport yourself

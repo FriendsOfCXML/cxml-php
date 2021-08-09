@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.049/Fulfill.dtd">
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.050/Fulfill.dtd">
 <cXML xml:lang="en-US"
       payloadID="0c30050@supplierorg.com"
       timestamp="2021-01-08T23:00:06-08:00">

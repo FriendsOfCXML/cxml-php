@@ -2,14 +2,13 @@
 
 namespace Mathielen\CXml\Model\Request;
 
-use Mathielen\CXml\Model\RequestInterface;
 use JMS\Serializer\Annotation as Ser;
+use Mathielen\CXml\Model\RequestInterface;
 use Mathielen\CXml\Model\ShipControl;
 use Mathielen\CXml\Model\ShipNoticePortion;
 
 class ShipNoticeRequest implements RequestInterface
 {
-
 	/**
 	 * @Ser\SerializedName("ShipNoticeHeader")
 	 */
@@ -32,7 +31,7 @@ class ShipNoticeRequest implements RequestInterface
 	private array $shipNoticePortions = [];
 
 	public function __construct(ShipNoticeHeader $shipNoticeHeader)
-    {
+	{
 		$this->shipNoticeHeader = $shipNoticeHeader;
 	}
 
@@ -74,11 +73,10 @@ class ShipNoticeRequest implements RequestInterface
 	{
 		$commentStrings = [];
 
-		foreach($this->shipNoticeHeader->getComments() as $comment) {
+		foreach ($this->shipNoticeHeader->getComments() as $comment) {
 			$commentStrings[] = $comment->getValue();
 		}
 
-		return empty($commentStrings) ? null : join("\n", $commentStrings);
+		return empty($commentStrings) ? null : \implode("\n", $commentStrings);
 	}
-
 }

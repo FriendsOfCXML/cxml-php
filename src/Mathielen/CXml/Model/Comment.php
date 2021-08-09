@@ -6,27 +6,27 @@ use JMS\Serializer\Annotation as Ser;
 
 class Comment
 {
-    /**
-     * @Ser\SerializedName("Attachment")
-     */
-    private ?Url $attachment;
+	/**
+	 * @Ser\SerializedName("Attachment")
+	 */
+	private ?Url $attachment;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private ?string $value;
+	/**
+	 * @Ser\XmlValue(cdata=false)
+	 */
+	private ?string $value;
 
 	/**
 	 * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
 	 */
 	private ?string $lang;
 
-    public function __construct(?string $value = null, ?string $lang = null, ?string $attachment = null)
-    {
-        $this->value = $value;
-        $this->lang = $lang;
+	public function __construct(?string $value = null, ?string $lang = null, ?string $attachment = null)
+	{
+		$this->value = $value;
+		$this->lang = $lang;
 		$this->attachment = $attachment ? new Url($attachment) : $attachment;
-    }
+	}
 
 	public function getAttachment()
 	{
@@ -42,5 +42,4 @@ class Comment
 	{
 		return $this->lang;
 	}
-
 }

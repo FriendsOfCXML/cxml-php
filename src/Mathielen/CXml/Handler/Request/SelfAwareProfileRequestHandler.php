@@ -13,36 +13,36 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SelfAwareProfileRequestHandler implements HandlerInterface
 {
-    private HandlerRegistry $handlerRegistry;
-    private UrlGeneratorInterface $urlGenerator;
+	private HandlerRegistry $handlerRegistry;
+	private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator)
-    {
-        $this->handlerRegistry = $handlerRegistry;
-        $this->urlGenerator = $urlGenerator;
-    }
+	public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator)
+	{
+		$this->handlerRegistry = $handlerRegistry;
+		$this->urlGenerator = $urlGenerator;
+	}
 
-    public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface
-    {
-        $profileResponse = new ProfileResponse();
+	public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface
+	{
+		$profileResponse = new ProfileResponse();
 
-        foreach ($this->handlerRegistry->all() as $requestName => $handler) {
-            $transaction = new Transaction($requestName, $this->getEndpointUrl());
+		foreach ($this->handlerRegistry->all() as $requestName => $handler) {
+			$transaction = new Transaction($requestName, $this->getEndpointUrl());
 
-            $profileResponse->addTransaction($transaction);
-        }
+			$profileResponse->addTransaction($transaction);
+		}
 
-        return $profileResponse;
-    }
+		return $profileResponse;
+	}
 
-    //TODO probably should be moved to HandlerInterface for full-fledged routing solution
-    private function getEndpointUrl(): string
-    {
-        return $this->urlGenerator->generate('post_cxml', [], UrlGeneratorInterface::ABSOLUTE_URL);
-    }
+	//TODO probably should be moved to HandlerInterface for full-fledged routing solution
+	private function getEndpointUrl(): string
+	{
+		return $this->urlGenerator->generate('post_cxml', [], UrlGeneratorInterface::ABSOLUTE_URL);
+	}
 
-    public static function getRequestName(): string
-    {
-        return 'ProfileRequest';
-    }
+	public static function getRequestName(): string
+	{
+		return 'ProfileRequest';
+	}
 }

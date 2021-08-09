@@ -7,7 +7,6 @@ use Mathielen\CXml\Model\Comment;
 
 class ShipNoticeHeader
 {
-
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("shipmentID")
@@ -81,5 +80,4 @@ class ShipNoticeHeader
 	{
 		return $this->deliveryDate;
 	}
-
 }

@@ -8,6 +8,7 @@ use Mathielen\CXml\Model\ResponseInterface;
 
 interface HandlerInterface
 {
-    public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface;
-    public static function getRequestName(): string;
+	public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface;
+
+	public static function getRequestName(): string;
 }

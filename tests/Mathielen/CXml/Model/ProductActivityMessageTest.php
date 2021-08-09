@@ -4,11 +4,12 @@ namespace Mathielen\CXml\Model;
 
 use Mathielen\CXml\Builder;
 use Mathielen\CXml\Endpoint;
-use Mathielen\CXml\Model\Request\StatusUpdateRequest;
+use Mathielen\CXml\Model\Message\ProductActivityDetail;
+use Mathielen\CXml\Model\Message\ProductActivityMessage;
 use Mathielen\CXml\Payload\PayloadIdentityFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
-class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactoryInterface
+class ProductActivityMessageTest extends TestCase implements PayloadIdentityFactoryInterface
 {
 	public function testMinimumExample(): void
 	{
@@ -26,9 +27,16 @@ class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactory
 			'abracadabra'
 		);
 
-		$statusUpdateRequest = new StatusUpdateRequest(
-			new Status(200, 'OK', 'Forwarded to supplier', 'en-US'),
-			'0c300508b7863dcclb_14999'
+		$statusUpdateRequest = ProductActivityMessage::create(
+			'CP12465192-1552965424130',
+			'SMI',
+			new \DateTime('2019-02-20T14:39:48-08:00')
+		)->addProductActivityDetail(
+			ProductActivityDetail::create(
+				new ItemId('SII99825', null, 'II99825'),
+				new Inventory(new StockQuantity(200, 'EA')),
+				new MultilanguageString(null, 'Assembly Line', 'EN')
+			)
 		);
 
 		$cxml = Builder::create('en-US', $this)
@@ -40,7 +48,7 @@ class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactory
 
 		$xml = Endpoint::serialize($cxml);
 
-		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequest.xml', $xml);
+		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessage.xml', $xml);
 	}
 
 	public function newPayloadIdentity(): PayloadIdentity

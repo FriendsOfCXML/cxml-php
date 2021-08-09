@@ -6,9 +6,8 @@ use JMS\Serializer\Annotation as Ser;
 
 class CarrierIdentifier
 {
-
-	const DOMAIN_SCAC = 'SCAC';
-	const DOMAIN_COMPANYNAME = 'companyName';
+	public const DOMAIN_SCAC = 'SCAC';
+	public const DOMAIN_COMPANYNAME = 'companyName';
 
 	/**
 	 * @Ser\XmlAttribute
@@ -35,5 +34,4 @@ class CarrierIdentifier
 	{
 		return $this->value;
 	}
-
 }

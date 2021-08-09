@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShipNoticePortion
 {
-
 	/**
 	 * @Ser\SerializedName("OrderReference")
 	 */
@@ -27,5 +26,4 @@ class ShipNoticePortion
 	{
 		return $this->orderReference;
 	}
-
 }

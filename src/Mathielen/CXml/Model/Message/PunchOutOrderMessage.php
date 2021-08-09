@@ -7,10 +7,10 @@ use Mathielen\CXml\Model\MessageInterface;
 
 class PunchOutOrderMessage implements MessageInterface
 {
-    /**
-     * @Ser\SerializedName("BuyerCookie")
-     */
-    private string $buyerCookie = '34234234ADFSDF234234';
+	/**
+	 * @Ser\SerializedName("BuyerCookie")
+	 */
+	private string $buyerCookie = '34234234ADFSDF234234';
 
-    //TODO
+	//TODO
 }

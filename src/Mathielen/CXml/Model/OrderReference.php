@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class OrderReference
 {
-
 	/**
 	 * @Ser\SerializedName("DocumentReference")
 	 */
@@ -44,5 +43,4 @@ class OrderReference
 	{
 		return $this->orderDate;
 	}
-
 }

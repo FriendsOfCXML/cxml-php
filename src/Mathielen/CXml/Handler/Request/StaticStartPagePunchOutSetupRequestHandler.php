@@ -11,26 +11,26 @@ use Mathielen\CXml\Model\Url;
 
 class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
 {
-    private string $startPageUrl;
+	private string $startPageUrl;
 
-    public function __construct(string $startPageUrl)
-    {
-        $this->startPageUrl = $startPageUrl;
-    }
+	public function __construct(string $startPageUrl)
+	{
+		$this->startPageUrl = $startPageUrl;
+	}
 
-    public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface
-    {
-        $punchoutSetupResponse = new PunchoutSetupResponse(
-            new Url(
-                $this->startPageUrl
-            )
-        );
+	public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface
+	{
+		$punchoutSetupResponse = new PunchoutSetupResponse(
+			new Url(
+				$this->startPageUrl
+			)
+		);
 
-        return $punchoutSetupResponse;
-    }
+		return $punchoutSetupResponse;
+	}
 
-    public static function getRequestName(): string
-    {
-        return 'PunchOutSetupRequest';
-    }
+	public static function getRequestName(): string
+	{
+		return 'PunchOutSetupRequest';
+	}
 }

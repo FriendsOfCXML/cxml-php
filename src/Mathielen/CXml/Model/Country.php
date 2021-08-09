@@ -6,30 +6,30 @@ use JMS\Serializer\Annotation as Ser;
 
 class Country
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("isoCountryCode")
-     */
-    private string $isoCountryCode;
+	/**
+	 * @Ser\XmlAttribute
+	 * @Ser\SerializedName("isoCountryCode")
+	 */
+	private string $isoCountryCode;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private ?string $name;
+	/**
+	 * @Ser\XmlValue(cdata=false)
+	 */
+	private ?string $name;
 
-    public function __construct(string $isoCountryCode, string $name = null)
-    {
-        $this->isoCountryCode = $isoCountryCode;
-        $this->name = $name;
-    }
+	public function __construct(string $isoCountryCode, string $name = null)
+	{
+		$this->isoCountryCode = $isoCountryCode;
+		$this->name = $name;
+	}
 
-    public function getIsoCountryCode(): string
-    {
-        return $this->isoCountryCode;
-    }
+	public function getIsoCountryCode(): string
+	{
+		return $this->isoCountryCode;
+	}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
+	public function getName(): string
+	{
+		return $this->name;
+	}
 }

@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShipControl
 {
-
 	/**
 	 * @Ser\XmlList(inline=true, entry="CarrierIdentifier")
 	 * @Ser\Type("array<Mathielen\CXml\Model\CarrierIdentifier>")
@@ -52,5 +51,4 @@ class ShipControl
 	{
 		return $this->shipmentIdentifier;
 	}
-
 }

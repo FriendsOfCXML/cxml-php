@@ -7,8 +7,8 @@ use Mathielen\CXml\Model\Credential;
 
 interface CredentialRepositoryInterface
 {
-    /**
-     * @throws CXmlCredentialInvalidException
-     */
-    public function getCredentialByDomainAndId(string $domain, string $identity): Credential;
+	/**
+	 * @throws CXmlCredentialInvalidException
+	 */
+	public function getCredentialByDomainAndId(string $domain, string $identity): Credential;
 }

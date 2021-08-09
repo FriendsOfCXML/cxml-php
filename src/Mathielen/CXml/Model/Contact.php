@@ -59,4 +59,35 @@ class Contact
 		return $this;
 	}
 
+	public function getRole(): ?string
+	{
+		return $this->role;
+	}
+
+	public function getName(): MultilanguageString
+	{
+		return $this->name;
+	}
+
+	public function getIdReferences(): array
+	{
+		return $this->idReferences;
+	}
+
+	public function getIdReference(string $domain): ?string
+	{
+		foreach ($this->idReferences as $idReference) {
+			if ($idReference->getDomain() === $domain) {
+				return $idReference->getIdentifier();
+			}
+		}
+
+		return null;
+	}
+
+	public function getExtrinsics(): array
+	{
+		return $this->extrinsics;
+	}
+
 }

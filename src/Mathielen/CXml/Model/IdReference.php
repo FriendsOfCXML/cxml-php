@@ -23,4 +23,14 @@ class IdReference
 		$this->identifier = $identifier;
 	}
 
+	public function getDomain(): string
+	{
+		return $this->domain;
+	}
+
+	public function getIdentifier(): string
+	{
+		return $this->identifier;
+	}
+
 }

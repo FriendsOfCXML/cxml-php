@@ -15,4 +15,10 @@ class UnitOfMeasure
 	{
 		$this->value = $value;
 	}
+
+	public function getValue(): string
+	{
+		return $this->value;
+	}
+
 }

@@ -59,4 +59,9 @@ class ProductActivityDetail
 		return $this->inventory;
 	}
 
+	public function getContact(): ?Contact
+	{
+		return $this->contact;
+	}
+
 }

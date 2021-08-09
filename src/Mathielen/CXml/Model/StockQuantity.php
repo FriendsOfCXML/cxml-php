@@ -27,9 +27,9 @@ class StockQuantity
 		return $this->quantity;
 	}
 
-	public function getUnitOfMeasure(): UnitOfMeasure
+	public function getUnitOfMeasure(): string
 	{
-		return $this->unitOfMeasure;
+		return $this->unitOfMeasure->getValue();
 	}
 
 }

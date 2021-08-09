@@ -6,6 +6,9 @@ use JMS\Serializer\Annotation as Ser;
 
 class ProductActivityHeader
 {
+
+	const PROCESSTYPE_SUPPLIER_MANAGED_INVENTORY = 'SMI';
+
 	/**
 	 * @Ser\SerializedName("messageID")
 	 * @Ser\XmlAttribute
@@ -28,4 +31,20 @@ class ProductActivityHeader
 		$this->processType = $processType;
 		$this->creationDate = $creationDate;
 	}
+
+	public function getMessageId(): string
+	{
+		return $this->messageId;
+	}
+
+	public function getProcessType(): ?string
+	{
+		return $this->processType;
+	}
+
+	public function getCreationDate(): ?\DateTime
+	{
+		return $this->creationDate;
+	}
+
 }

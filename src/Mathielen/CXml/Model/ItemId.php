@@ -30,4 +30,20 @@ class ItemId
 		$this->supplierPartAuxiliaryId = $supplierPartAuxiliaryId;
 		$this->buyerPartId = $buyerPartId;
 	}
+
+	public function getSupplierPartId(): string
+	{
+		return $this->supplierPartId;
+	}
+
+	public function getSupplierPartAuxiliaryId(): ?string
+	{
+		return $this->supplierPartAuxiliaryId;
+	}
+
+	public function getBuyerPartId(): ?string
+	{
+		return $this->buyerPartId;
+	}
+
 }

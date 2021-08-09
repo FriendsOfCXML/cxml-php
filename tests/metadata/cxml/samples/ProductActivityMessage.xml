@@ -31,7 +31,10 @@
                     <SupplierPartID>SII99825</SupplierPartID>
                     <BuyerPartID>II99825</BuyerPartID>
                 </ItemID>
-                <Description type="Assembly Line" xml:lang="EN"/>
+                <Contact role="locationFrom">
+                    <Name xml:lang="en">Warehouse</Name>
+                    <IdReference domain="NetworkId" identifier="0003" />
+                </Contact>
                 <Inventory>
                     <StockOnHandQuantity quantity="200">
                         <UnitOfMeasure>EA</UnitOfMeasure>

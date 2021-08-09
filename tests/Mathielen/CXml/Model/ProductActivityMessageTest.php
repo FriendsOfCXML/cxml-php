@@ -35,7 +35,8 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 			ProductActivityDetail::create(
 				new ItemId('SII99825', null, 'II99825'),
 				new Inventory(new StockQuantity(200, 'EA')),
-				new MultilanguageString(null, 'Assembly Line', 'EN')
+				Contact::create(new MultilanguageString('Warehouse', null, 'en'), 'locationFrom')
+				->addIdReference('NetworkId', '0003')
 			)
 		);
 

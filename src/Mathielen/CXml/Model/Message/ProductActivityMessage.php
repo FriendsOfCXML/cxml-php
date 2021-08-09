@@ -52,4 +52,20 @@ class ProductActivityMessage implements MessageInterface
 
 		return $this;
 	}
+
+	public function getProductActivityHeader(): ProductActivityHeader
+	{
+		return $this->productActivityHeader;
+	}
+
+	public function getProductActivityDetails(): array
+	{
+		return $this->productActivityDetails;
+	}
+
+	public function getExtrinsics(): array
+	{
+		return $this->extrinsics;
+	}
+
 }

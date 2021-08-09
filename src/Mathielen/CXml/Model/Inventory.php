@@ -15,4 +15,10 @@ class Inventory
 	{
 		$this->stockOnHandQuantity = $stockOnHandQuantity;
 	}
+
+	public function getStockOnHandQuantity(): StockQuantity
+	{
+		return $this->stockOnHandQuantity;
+	}
+
 }

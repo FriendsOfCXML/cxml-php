@@ -21,4 +21,15 @@ class StockQuantity
 		$this->quantity = $quantity;
 		$this->unitOfMeasure = new UnitOfMeasure($unitOfMeasure);
 	}
+
+	public function getQuantity(): int
+	{
+		return $this->quantity;
+	}
+
+	public function getUnitOfMeasure(): UnitOfMeasure
+	{
+		return $this->unitOfMeasure;
+	}
+
 }

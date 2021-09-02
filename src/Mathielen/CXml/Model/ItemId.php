@@ -24,7 +24,7 @@ class ItemId
 	 */
 	private ?string $buyerPartId;
 
-	public function __construct(string $supplierPartId, string $supplierPartAuxiliaryId = null, string $buyerPartId = null)
+	public function __construct(string $supplierPartId, ?string $supplierPartAuxiliaryId = null, ?string $buyerPartId = null)
 	{
 		$this->supplierPartId = $supplierPartId;
 		$this->supplierPartAuxiliaryId = $supplierPartAuxiliaryId;

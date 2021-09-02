@@ -87,7 +87,7 @@ class OrderRequestBuilder
 
 	public function addItem(
 		int $quantity,
-		string $supplierPartId,
+		ItemId $itemId,
 		string $description,
 		string $unitOfMeasure,
 		int $unitPrice
@@ -97,7 +97,7 @@ class OrderRequestBuilder
 		$item = ItemOut::create(
 			$lineNumber,
 			$quantity,
-			new ItemId($supplierPartId),
+			$itemId,
 			new ItemDetail(
 				new MultilanguageString(
 					$description,

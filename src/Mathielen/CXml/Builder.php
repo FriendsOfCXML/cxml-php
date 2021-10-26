@@ -58,8 +58,6 @@ class Builder
 
 	public function sender(Credential $sender, string $userAgent): self
 	{
-		Assertion::notNull($sender->getSharedSecret(), 'Sender must have a shared secret set');
-
 		$this->sender = $sender;
 		$this->senderUserAgent = $userAgent;
 

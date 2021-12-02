@@ -107,4 +107,13 @@ class CXml
 	{
 		return $this->message;
 	}
+
+	public function __toString(): string
+	{
+		$wrapper = $this->message ?? $this->request ?? $this->response;
+		$payload = $wrapper->getPayload();
+		$shortName = (new \ReflectionClass($payload))->getShortName();
+
+		return $shortName . '_' . $this->payloadId;
+	}
 }

@@ -51,7 +51,7 @@ class Credential
 		return $this->sharedSecret;
 	}
 
-	public function setSharedSecret(?string $sharedSecret): ?string
+	public function setSharedSecret(?string $sharedSecret): void
 	{
 		$this->sharedSecret = $sharedSecret;
 	}

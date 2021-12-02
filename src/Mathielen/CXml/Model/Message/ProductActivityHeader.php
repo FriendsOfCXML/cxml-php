@@ -8,6 +8,7 @@ class ProductActivityHeader
 {
 
 	const PROCESSTYPE_SUPPLIER_MANAGED_INVENTORY = 'SMI';
+	const PROCESSTYPE_THIRD_PARTY_LOGISTICS = '3PL';
 
 	/**
 	 * @Ser\SerializedName("messageID")

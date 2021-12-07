@@ -2,12 +2,13 @@
 
 namespace Mathielen\CXml\Model;
 
+use Assert\Assertion;
 use JMS\Serializer\Annotation as Ser;
 
 class Request
 {
 	public const DEPLOYMENT_TEST = 'test';
-	public const DEPLOYMENT_PROD = 'prod';
+	public const DEPLOYMENT_PROD = 'production';
 
 	/**
 	 * @Ser\SerializedName("Status")
@@ -38,6 +39,10 @@ class Request
 		?string $id = null,
 		?string $deploymentMode = null
 	) {
+		if ($deploymentMode !== null) {
+			Assertion::inArray($deploymentMode, [self::DEPLOYMENT_PROD, self::DEPLOYMENT_TEST]);
+		}
+
 		$this->status = $status;
 		$this->id = $id;
 		$this->payload = $payload;

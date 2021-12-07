@@ -115,7 +115,12 @@ class CXml
 		$shortName = 'undefined';
 		if ($wrapper) {
 			$payload = $wrapper->getPayload();
-			$shortName = (new \ReflectionClass($payload))->getShortName();
+
+			if ($payload) {
+				$shortName = (new \ReflectionClass($payload))->getShortName();
+			} else {
+				$shortName = (new \ReflectionClass($wrapper))->getShortName();
+			}
 		}
 
 		return $shortName . '_' . $this->payloadId;

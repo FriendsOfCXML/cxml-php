@@ -13,7 +13,7 @@ class StatusUpdateRequest implements RequestInterface
 	/**
 	 * @Ser\SerializedName("DocumentReference")
 	 */
-	private ?DocumentReference $documentReference;
+	private ?DocumentReference $documentReference = null;
 
 	/**
 	 * @Ser\SerializedName("Status")

@@ -27,7 +27,7 @@ class Credential
 	 * @Ser\SerializedName("SharedSecret")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $sharedSecret;
+	private ?string $sharedSecret = null;
 
 	public function __construct(string $domain, string $identity, ?string $sharedSecret = null)
 	{

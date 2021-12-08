@@ -30,17 +30,17 @@ class ShipNoticeHeader
 	private ?\DateTime $deliveryDate;
 
 	/**
+	 * @Ser\SerializedName("DocumentReference")
+	 */
+	private ?DocumentReference $documentReference = null;
+
+	/**
 	 * @Ser\XmlList(inline=true, entry="Comments")
 	 * @Ser\Type("array<Mathielen\CXml\Model\Comment>")
 	 *
 	 * @var Comment[]
 	 */
 	private ?array $comments;
-
-	/**
-	 * @Ser\SerializedName("DocumentReference")
-	 */
-	private ?DocumentReference $documentReference = null;
 
 	public function __construct(string $shipmentId, \DateTime $noticeDate, ?\DateTime $shipmentDate = null, ?\DateTime $deliveryDate = null, string $documentReference = null)
 	{

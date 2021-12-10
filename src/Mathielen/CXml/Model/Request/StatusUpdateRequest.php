@@ -34,6 +34,14 @@ class StatusUpdateRequest implements RequestInterface
 		$this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
 	}
 
+	public static function create(Status $status, ?string $documentReference = null): self
+	{
+		return new self(
+			$status,
+			$documentReference
+		);
+	}
+
 	public function addExtrinsic(Extrinsic $extrinsic): self
 	{
 		$this->extrinsics[] = $extrinsic;

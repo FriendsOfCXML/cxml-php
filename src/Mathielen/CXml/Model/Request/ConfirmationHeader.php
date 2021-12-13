@@ -8,6 +8,16 @@ use Mathielen\CXml\Model\IdReference;
 
 class ConfirmationHeader
 {
+
+	const TYPE_ACCEPT = 'accept';
+	const TYPE_ALLDETAIL = 'allDetail';
+	const TYPE_DETAIL = 'detail';
+	const TYPE_BACKORDERED = 'backordered';
+	const TYPE_EXCEPT = 'except';
+	const TYPE_REJECT = 'reject';
+	const TYPE_REQUESTTOPAY = 'requestToPay';
+	const TYPE_REPLACE = 'replace';
+
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("type")
@@ -35,10 +45,18 @@ class ConfirmationHeader
 	 */
 	private array $extrinsics = [];
 
-	public function __construct(string $type, \DateTime $noticeDate)
+	public function __construct(string $type, \DateTime $noticeDate = null)
 	{
 		$this->type = $type;
-		$this->noticeDate = $noticeDate;
+		$this->noticeDate = $noticeDate ?? new \DateTime();
+	}
+
+	public static function create(string $type, \DateTime $noticeDate = null): self
+	{
+		return new self(
+			$type,
+			$noticeDate
+		);
 	}
 
 	public function getType(): string

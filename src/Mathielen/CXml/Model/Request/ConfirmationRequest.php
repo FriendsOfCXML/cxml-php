@@ -24,6 +24,11 @@ class ConfirmationRequest implements RequestInterface
 		$this->orderReference = $orderReference;
 	}
 
+	public static function create(ConfirmationHeader $confirmationHeader, OrderReference $orderReference): self
+	{
+		return new self($confirmationHeader, $orderReference);
+	}
+
 	public function getConfirmationHeader(): ConfirmationHeader
 	{
 		return $this->confirmationHeader;

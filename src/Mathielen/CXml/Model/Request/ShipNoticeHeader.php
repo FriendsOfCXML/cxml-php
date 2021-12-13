@@ -51,10 +51,10 @@ class ShipNoticeHeader
 	 */
 	private array $extrinsics = [];
 
-	public function __construct(string $shipmentId, \DateTime $noticeDate, ?\DateTime $shipmentDate = null, ?\DateTime $deliveryDate = null, string $documentReference = null)
+	public function __construct(string $shipmentId, ?\DateTime $noticeDate = null, ?\DateTime $shipmentDate = null, ?\DateTime $deliveryDate = null, string $documentReference = null)
 	{
 		$this->shipmentId = $shipmentId;
-		$this->noticeDate = $noticeDate;
+		$this->noticeDate = $noticeDate ?? new \DateTime();
 		$this->shipmentDate = $shipmentDate;
 		$this->deliveryDate = $deliveryDate;
 		$this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;

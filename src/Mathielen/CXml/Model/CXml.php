@@ -123,6 +123,6 @@ class CXml
 			}
 		}
 
-		return $shortName . '_' . $this->payloadId;
+		return $shortName.'_'.$this->payloadId;
 	}
 }

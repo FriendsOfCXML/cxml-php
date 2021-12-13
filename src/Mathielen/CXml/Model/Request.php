@@ -39,7 +39,7 @@ class Request
 		?string $id = null,
 		?string $deploymentMode = null
 	) {
-		if ($deploymentMode !== null) {
+		if (null !== $deploymentMode) {
 			Assertion::inArray($deploymentMode, [self::DEPLOYMENT_PROD, self::DEPLOYMENT_TEST]);
 		}
 

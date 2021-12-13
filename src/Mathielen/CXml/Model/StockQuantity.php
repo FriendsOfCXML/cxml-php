@@ -31,5 +31,4 @@ class StockQuantity
 	{
 		return $this->unitOfMeasure->getValue();
 	}
-
 }

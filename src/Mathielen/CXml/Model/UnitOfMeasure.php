@@ -20,5 +20,4 @@ class UnitOfMeasure
 	{
 		return $this->value;
 	}
-
 }

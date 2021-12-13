@@ -63,5 +63,4 @@ class ProductActivityDetail
 	{
 		return $this->contact;
 	}
-
 }

@@ -20,5 +20,4 @@ class Inventory
 	{
 		return $this->stockOnHandQuantity;
 	}
-
 }

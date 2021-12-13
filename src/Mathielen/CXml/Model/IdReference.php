@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class IdReference
 {
-
 	/**
 	 * @Ser\XmlAttribute
 	 */
@@ -32,5 +31,4 @@ class IdReference
 	{
 		return $this->identifier;
 	}
-
 }

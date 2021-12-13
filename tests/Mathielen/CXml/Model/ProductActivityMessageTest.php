@@ -47,7 +47,7 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 			->payload($statusUpdateRequest)
 			->build();
 
-		$this->assertEquals('ProductActivityMessage_0c30050@supplierorg.com', (string)$cxml);
+		$this->assertEquals('ProductActivityMessage_0c30050@supplierorg.com', (string) $cxml);
 
 		$xml = Endpoint::serialize($cxml);
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessage.xml', $xml);

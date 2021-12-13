@@ -52,7 +52,7 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
 			->payload($statusUpdateRequest)
 			->build();
 
-		$this->assertEquals('ShipNoticeRequest_0c30050@supplierorg.com', (string)$cxml);
+		$this->assertEquals('ShipNoticeRequest_0c30050@supplierorg.com', (string) $cxml);
 
 		$xml = Endpoint::serialize($cxml);
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ShipNoticeRequest.xml', $xml);

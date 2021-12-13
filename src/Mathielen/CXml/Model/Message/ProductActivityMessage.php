@@ -67,5 +67,4 @@ class ProductActivityMessage implements MessageInterface
 	{
 		return $this->extrinsics;
 	}
-
 }

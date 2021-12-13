@@ -113,7 +113,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			->payload($orderRequest)
 			->build(Request::DEPLOYMENT_TEST);
 
-		$this->assertEquals('OrderRequest_1625586002.193314.7293@dev', (string)$cxml);
+		$this->assertEquals('OrderRequest_1625586002.193314.7293@dev', (string) $cxml);
 
 		$xml = Endpoint::serialize($cxml);
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);

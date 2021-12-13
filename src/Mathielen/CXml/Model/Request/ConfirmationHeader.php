@@ -1,21 +1,23 @@
 <?php
 
-namespace Mathielen\CXml\Model;
+namespace Mathielen\CXml\Model\Request;
 
 use JMS\Serializer\Annotation as Ser;
+use Mathielen\CXml\Model\Extrinsic;
+use Mathielen\CXml\Model\IdReference;
 
-class Contact
+class ConfirmationHeader
 {
 	/**
 	 * @Ser\XmlAttribute
+	 * @Ser\SerializedName("type")
 	 */
-	private ?string $role;
+	private string $type;
 
 	/**
-	 * @Ser\SerializedName("Name")
-	 * @Ser\XmlElement (cdata=false)
+	 * @Ser\XmlAttribute
 	 */
-	private MultilanguageString $name;
+	private \DateTime $noticeDate;
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="IdReference")
@@ -33,15 +35,20 @@ class Contact
 	 */
 	private array $extrinsics = [];
 
-	public function __construct(MultilanguageString $name, ?string $role = null)
+	public function __construct(string $type, \DateTime $noticeDate)
 	{
-		$this->role = $role;
-		$this->name = $name;
+		$this->type = $type;
+		$this->noticeDate = $noticeDate;
 	}
 
-	public static function create(MultilanguageString $name, ?string $role = null): self
+	public function getType(): string
 	{
-		return new self($name, $role);
+		return $this->type;
+	}
+
+	public function getNoticeDate(): \DateTime
+	{
+		return $this->noticeDate;
 	}
 
 	public function addIdReference(string $domain, string $identifier): self
@@ -56,16 +63,6 @@ class Contact
 		$this->extrinsics[] = $extrinsic;
 
 		return $this;
-	}
-
-	public function getRole(): ?string
-	{
-		return $this->role;
-	}
-
-	public function getName(): MultilanguageString
-	{
-		return $this->name;
 	}
 
 	public function getIdReferences(): array

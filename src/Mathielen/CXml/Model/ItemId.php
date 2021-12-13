@@ -45,5 +45,4 @@ class ItemId
 	{
 		return $this->buyerPartId;
 	}
-
 }

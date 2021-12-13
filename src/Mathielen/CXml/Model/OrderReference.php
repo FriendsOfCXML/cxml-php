@@ -29,7 +29,7 @@ class OrderReference
 		$this->orderDate = $orderDate;
 	}
 
-	public function getDocumentReference(): ?DocumentReference
+	public function getDocumentReference(): DocumentReference
 	{
 		return $this->documentReference;
 	}

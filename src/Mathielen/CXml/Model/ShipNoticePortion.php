@@ -11,7 +11,7 @@ class ShipNoticePortion
 	 */
 	private OrderReference $orderReference;
 
-	public function __construct(string $documentReference, string $orderId, ?\DateTime $orderDate = null)
+	public function __construct(string $documentReference, ?string $orderId = null, ?\DateTime $orderDate = null)
 	{
 		$this->orderReference = new OrderReference(
 			new DocumentReference(

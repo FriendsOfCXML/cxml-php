@@ -69,13 +69,6 @@ class ConfirmationHeader
 		return $this->noticeDate;
 	}
 
-	public function addIdReference(string $domain, string $identifier): self
-	{
-		$this->idReferences[] = new IdReference($domain, $identifier);
-
-		return $this;
-	}
-
 	public function addExtrinsic(Extrinsic $extrinsic): self
 	{
 		$this->extrinsics[] = $extrinsic;
@@ -86,6 +79,13 @@ class ConfirmationHeader
 	public function getExtrinsics(): array
 	{
 		return $this->extrinsics;
+	}
+
+	public function addIdReference(string $domain, string $identifier): self
+	{
+		$this->idReferences[] = new IdReference($domain, $identifier);
+
+		return $this;
 	}
 
 	public function getIdReferences(): array

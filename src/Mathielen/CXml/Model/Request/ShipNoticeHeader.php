@@ -81,7 +81,7 @@ class ShipNoticeHeader
 
 	public function addComment(string $comment, ?string $lang = null): self
 	{
-		if ($this->comments === null) {
+		if (null === $this->comments) {
 			$this->comments = [];
 		}
 
@@ -149,5 +149,4 @@ class ShipNoticeHeader
 
 		return null;
 	}
-
 }

@@ -8,15 +8,14 @@ use Mathielen\CXml\Model\IdReference;
 
 class ConfirmationHeader
 {
-
-	const TYPE_ACCEPT = 'accept';
-	const TYPE_ALLDETAIL = 'allDetail';
-	const TYPE_DETAIL = 'detail';
-	const TYPE_BACKORDERED = 'backordered';
-	const TYPE_EXCEPT = 'except';
-	const TYPE_REJECT = 'reject';
-	const TYPE_REQUESTTOPAY = 'requestToPay';
-	const TYPE_REPLACE = 'replace';
+	public const TYPE_ACCEPT = 'accept';
+	public const TYPE_ALLDETAIL = 'allDetail';
+	public const TYPE_DETAIL = 'detail';
+	public const TYPE_BACKORDERED = 'backordered';
+	public const TYPE_EXCEPT = 'except';
+	public const TYPE_REJECT = 'reject';
+	public const TYPE_REQUESTTOPAY = 'requestToPay';
+	public const TYPE_REPLACE = 'replace';
 
 	/**
 	 * @Ser\XmlAttribute
@@ -103,5 +102,4 @@ class ConfirmationHeader
 
 		return null;
 	}
-
 }

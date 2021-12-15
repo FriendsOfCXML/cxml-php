@@ -15,18 +15,22 @@ class ShipControl
 	private array $carrierIdentifiers = [];
 
 	/**
-	 * @Ser\SerializedName("ShipmentIdentifier")
+	 * @Ser\XmlList(inline=true, entry="ShipmentIdentifier")
+	 * @Ser\Type("array<Mathielen\CXml\Model\ShipmentIdentifier>")
+	 *
+	 * @var ShipmentIdentifier[]
 	 */
-	private string $shipmentIdentifier;
+	private array $shipmentIdentifiers = [];
 
-	public function __construct(string $shipmentIdentifier)
+	public function __construct(CarrierIdentifier $carrierIdentifier, ShipmentIdentifier $shipmentIdentifier)
 	{
-		$this->shipmentIdentifier = $shipmentIdentifier;
+		$this->carrierIdentifiers[] = $carrierIdentifier;
+		$this->shipmentIdentifiers[] = $shipmentIdentifier;
 	}
 
-	public static function create(string $shipmentIdentifier): self
+	public static function create(CarrierIdentifier $carrierIdentifier, ShipmentIdentifier $shipmentIdentifier): self
 	{
-		return new self($shipmentIdentifier);
+		return new self($carrierIdentifier, $shipmentIdentifier);
 	}
 
 	public function addCarrierIdentifier(string $domain, string $value): self
@@ -47,8 +51,24 @@ class ShipControl
 		return null;
 	}
 
-	public function getShipmentIdentifier(): string
+	public function getShipmentIdentifier(string $domain = null): ?string
 	{
-		return $this->shipmentIdentifier;
+		foreach ($this->shipmentIdentifiers as $shipmentIdentifier) {
+			if ($shipmentIdentifier->getDomain() === $domain) {
+				return $shipmentIdentifier->getValue();
+			}
+		}
+
+		return null;
+	}
+
+	public function getCarrierIdentifiers(): array
+	{
+		return $this->carrierIdentifiers;
+	}
+
+	public function getShipmentIdentifiers(): array
+	{
+		return $this->shipmentIdentifiers;
 	}
 }

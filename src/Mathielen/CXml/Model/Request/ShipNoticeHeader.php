@@ -60,7 +60,7 @@ class ShipNoticeHeader
 		$this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
 	}
 
-	public static function create(string $shipmentId, \DateTime $noticeDate, ?\DateTime $shipmentDate = null, ?\DateTime $deliveryDate = null, string $documentReference = null): self
+	public static function create(string $shipmentId, ?\DateTime $noticeDate = null, ?\DateTime $shipmentDate = null, ?\DateTime $deliveryDate = null, string $documentReference = null): self
 	{
 		return new self($shipmentId, $noticeDate, $shipmentDate, $deliveryDate, $documentReference);
 	}

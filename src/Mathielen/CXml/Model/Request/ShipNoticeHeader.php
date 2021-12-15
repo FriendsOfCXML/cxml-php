@@ -24,12 +24,12 @@ class ShipNoticeHeader
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?\DateTime $shipmentDate;
+	private ?\DateTime $shipmentDate = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?\DateTime $deliveryDate;
+	private ?\DateTime $deliveryDate = null;
 
 	/**
 	 * @Ser\SerializedName("DocumentReference")

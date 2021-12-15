@@ -42,7 +42,7 @@ class ShipNoticeHeader
 	 *
 	 * @var Comment[]
 	 */
-	private ?array $comments;
+	private ?array $comments = null;
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="Extrinsic")
@@ -81,6 +81,10 @@ class ShipNoticeHeader
 
 	public function addComment(string $comment, ?string $lang = null): self
 	{
+		if ($this->comments === null) {
+			$this->comments = [];
+		}
+
 		$this->comments[] = new Comment($comment, $lang);
 
 		return $this;

@@ -6,6 +6,7 @@ use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\Comment;
 use Mathielen\CXml\Model\DocumentReference;
 use Mathielen\CXml\Model\Extrinsic;
+use Mathielen\CXml\Model\IdReference;
 
 class ShipNoticeHeader
 {
@@ -50,6 +51,14 @@ class ShipNoticeHeader
 	 * @var Extrinsic[]
 	 */
 	private array $extrinsics = [];
+
+	/**
+	 * @Ser\XmlList(inline=true, entry="IdReference")
+	 * @Ser\Type("array<Mathielen\CXml\Model\IdReference>")
+	 *
+	 * @var IdReference[]
+	 */
+	private array $idReferences = [];
 
 	public function __construct(string $shipmentId, ?\DateTime $noticeDate = null, ?\DateTime $shipmentDate = null, ?\DateTime $deliveryDate = null, string $documentReference = null)
 	{
@@ -113,4 +122,21 @@ class ShipNoticeHeader
 	{
 		return $this->extrinsics;
 	}
+
+	public function getIdReferences(): array
+	{
+		return $this->idReferences;
+	}
+
+	public function getIdReference(string $domain): ?string
+	{
+		foreach ($this->idReferences as $idReference) {
+			if ($idReference->getDomain() === $domain) {
+				return $idReference->getIdentifier();
+			}
+		}
+
+		return null;
+	}
+
 }

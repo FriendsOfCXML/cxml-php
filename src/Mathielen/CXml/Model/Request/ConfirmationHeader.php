@@ -83,6 +83,11 @@ class ConfirmationHeader
 		return $this;
 	}
 
+	public function getExtrinsics(): array
+	{
+		return $this->extrinsics;
+	}
+
 	public function getIdReferences(): array
 	{
 		return $this->idReferences;
@@ -99,8 +104,4 @@ class ConfirmationHeader
 		return null;
 	}
 
-	public function getExtrinsics(): array
-	{
-		return $this->extrinsics;
-	}
 }

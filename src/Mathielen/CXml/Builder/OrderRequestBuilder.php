@@ -4,6 +4,7 @@ namespace Mathielen\CXml\Builder;
 
 use Mathielen\CXml\Model\AddressWrapper;
 use Mathielen\CXml\Model\Comment;
+use Mathielen\CXml\Model\Contact;
 use Mathielen\CXml\Model\ItemDetail;
 use Mathielen\CXml\Model\ItemId;
 use Mathielen\CXml\Model\ItemOut;
@@ -21,6 +22,7 @@ class OrderRequestBuilder
 	private int $total = 0;
 	private string $currency;
 	private array $comments = [];
+	private array $contacts = [];
 	private ?AddressWrapper $shipTo = null;
 	private AddressWrapper $billTo;
 	private string $language;
@@ -78,13 +80,6 @@ class OrderRequestBuilder
 		return $this;
 	}
 
-	public function build(): OrderRequest
-	{
-		return OrderRequest::create(
-			$this->buildOrderRequestHeader()
-		)->addItems($this->items);
-	}
-
 	public function addItem(
 		int $quantity,
 		ItemId $itemId,
@@ -129,15 +124,38 @@ class OrderRequestBuilder
 		return $this;
 	}
 
+	public function addContact(string $name, string $email, string $role = Contact::ROLE_BUYER): self
+	{
+		$contact = new Contact(
+			new MultilanguageString($name, null, $this->language),
+			$role
+		);
+		$contact->addEmail($email);
+
+		$this->contacts[] = $contact;
+
+		return $this;
+	}
+
 	private function buildOrderRequestHeader(): OrderRequestHeader
 	{
-		return new OrderRequestHeader(
+		return OrderRequestHeader::create(
 			$this->orderId,
 			$this->orderDate,
 			$this->shipTo,
 			$this->billTo,
+			new MoneyWrapper($this->currency, $this->total),
 			$this->comments,
-			new MoneyWrapper($this->currency, $this->total)
+			OrderRequestHeader::TYPE_NEW,
+			$this->contacts
 		);
 	}
+
+	public function build(): OrderRequest
+	{
+		return OrderRequest::create(
+			$this->buildOrderRequestHeader()
+		)->addItems($this->items);
+	}
+
 }

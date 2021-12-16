@@ -6,6 +6,22 @@ use JMS\Serializer\Annotation as Ser;
 
 class Contact
 {
+
+	const ROLE_ENDUSER = 'endUser';
+	const ROLE_ADMINISTRATOR = 'administrator';
+	const ROLE_PURCHASINGAGENT = 'purchasingAgent';
+	const ROLE_TECHNICALSUPPORT = 'technicalSupport';
+	const ROLE_CUSTOMERSERVICE = 'customerService';
+	const ROLE_SALES = 'sales';
+	const ROLE_SUPPLIERCORPORATE = 'supplierCorporate';
+	const ROLE_SUPPLIERMASTERACCOUNT = 'supplierMasterAccount';
+	const ROLE_SUPPLIERACCOUNT = 'supplierAccount';
+	const ROLE_BUYERCORPORATE = 'buyerCorporate';
+	const ROLE_BUYERMASTERACCOUNT = 'buyerMasterAccount';
+	const ROLE_BUYERACCOUNT = 'buyerAccount';
+	const ROLE_BUYER = 'buyer';
+	const ROLE_SUBSEQUENTBUYER = 'subsequentBuyer';
+
 	/**
 	 * @Ser\XmlAttribute
 	 */
@@ -16,6 +32,12 @@ class Contact
 	 * @Ser\XmlElement (cdata=false)
 	 */
 	private MultilanguageString $name;
+
+	/**
+	 * @Ser\SerializedName("Email")
+	 * @Ser\XmlElement (cdata=false)
+	 */
+	private ?string $email = null;
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="IdReference")
@@ -87,5 +109,12 @@ class Contact
 	public function getExtrinsics(): array
 	{
 		return $this->extrinsics;
+	}
+
+	public function addEmail(string $email): self
+	{
+		$this->email = $email;
+
+		return $this;
 	}
 }

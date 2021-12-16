@@ -6,6 +6,7 @@ use Assert\Assertion;
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\AddressWrapper;
 use Mathielen\CXml\Model\Comment;
+use Mathielen\CXml\Model\Contact;
 use Mathielen\CXml\Model\MoneyWrapper;
 
 class OrderRequestHeader
@@ -48,6 +49,14 @@ class OrderRequestHeader
 	private AddressWrapper $billTo;
 
 	/**
+	 * @Ser\XmlList(inline=true, entry="Contact")
+	 * @Ser\Type("array<Mathielen\CXml\Model\Contact>")
+	 *
+	 * @var Contact[]
+	 */
+	private ?array $contacts;
+
+	/**
 	 * @Ser\XmlList(inline=true, entry="Comments")
 	 * @Ser\Type("array<Mathielen\CXml\Model\Comment>")
 	 *
@@ -60,12 +69,16 @@ class OrderRequestHeader
 		\DateTime $orderDate,
 		?AddressWrapper $shipTo,
 		AddressWrapper $billTo,
-		?array $comments,
 		MoneyWrapper $total,
-		string $type = self::TYPE_NEW
+		?array $comments = null,
+		string $type = self::TYPE_NEW,
+		?array $contacts = null
 	) {
 		if ($comments) {
 			Assertion::allIsInstanceOf($comments, Comment::class);
+		}
+		if ($contacts) {
+			Assertion::allIsInstanceOf($contacts, Contact::class);
 		}
 
 		$this->orderId = $orderId;
@@ -75,6 +88,21 @@ class OrderRequestHeader
 		$this->shipTo = $shipTo;
 		$this->billTo = $billTo;
 		$this->comments = $comments;
+		$this->contacts = $contacts;
+	}
+
+	public static function create(
+		string $orderId,
+		\DateTime $orderDate,
+		?AddressWrapper $shipTo,
+		AddressWrapper $billTo,
+		MoneyWrapper $total,
+		?array $comments = null,
+		string $type = self::TYPE_NEW,
+		?array $contacts = null
+	): self
+	{
+		return new self($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
 	}
 
 	public function getOrderId(): string
@@ -110,5 +138,16 @@ class OrderRequestHeader
 	public function getComments(): ?array
 	{
 		return $this->comments;
+	}
+
+	public function addContact(Contact $contact): self
+	{
+		if ($this->contacts === null) {
+			$this->contacts = [];
+		}
+
+		$this->contacts[] = $contact;
+
+		return $this;
 	}
 }

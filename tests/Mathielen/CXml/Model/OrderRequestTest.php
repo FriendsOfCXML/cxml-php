@@ -27,7 +27,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			'coyote'
 		);
 
-		$orderRequestHeader = new OrderRequestHeader(
+		$orderRequestHeader = OrderRequestHeader::create(
 			'DO1234',
 			new \DateTime('2000-10-12T18:41:29-08:00'),
 			new AddressWrapper(
@@ -63,11 +63,11 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 					'default'
 				)
 			),
-			[new Comment(null, null, 'delivery-note.pdf')],
 			new MoneyWrapper(
 				'EUR',
 				8500
-			)
+			),
+			[new Comment(null, null, 'delivery-note.pdf')]
 		);
 
 		$orderRequest = OrderRequest::create(

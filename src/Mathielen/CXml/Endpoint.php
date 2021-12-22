@@ -76,7 +76,7 @@ class Endpoint
 		try {
 			$cxml = self::deserialize($xml);
 		} catch (\RuntimeException $e) {
-			$this->logger->error('Error while deserializing xml to CXml', ['xml' => $xml]);
+			$this->logger->error('Error while deserializing xml to CXml: '.$e->getMessage(), ['xml' => $xml]);
 
 			throw new CxmlInvalidException('Error while deserializing xml: '.$e->getMessage(), $xml, $e);
 		}

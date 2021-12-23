@@ -8,6 +8,9 @@ use Mathielen\CXml\Model\AddressWrapper;
 use Mathielen\CXml\Model\Comment;
 use Mathielen\CXml\Model\Contact;
 use Mathielen\CXml\Model\MoneyWrapper;
+use Mathielen\CXml\Model\Shipping;
+use Mathielen\CXml\Model\ShipTo;
+use Mathielen\CXml\Model\Tax;
 
 class OrderRequestHeader
 {
@@ -40,13 +43,25 @@ class OrderRequestHeader
 	 * @Ser\XmlElement
 	 * @Ser\SerializedName("ShipTo")
 	 */
-	private ?AddressWrapper $shipTo;
+	private ?ShipTo $shipTo;
 
 	/**
 	 * @Ser\XmlElement
 	 * @Ser\SerializedName("BillTo")
 	 */
 	private AddressWrapper $billTo;
+
+	/**
+	 * @Ser\XmlElement
+	 * @Ser\SerializedName("Shipping")
+	 */
+	private ?Shipping $shipping = null;
+
+	/**
+	 * @Ser\XmlElement
+	 * @Ser\SerializedName("Tax")
+	 */
+	private ?Tax $tax = null;
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="Contact")
@@ -67,7 +82,7 @@ class OrderRequestHeader
 	public function __construct(
 		string $orderId,
 		\DateTime $orderDate,
-		?AddressWrapper $shipTo,
+		?ShipTo $shipTo,
 		AddressWrapper $billTo,
 		MoneyWrapper $total,
 		?array $comments = null,
@@ -94,7 +109,7 @@ class OrderRequestHeader
 	public static function create(
 		string $orderId,
 		\DateTime $orderDate,
-		?AddressWrapper $shipTo,
+		?ShipTo $shipTo,
 		AddressWrapper $billTo,
 		MoneyWrapper $total,
 		?array $comments = null,
@@ -103,6 +118,30 @@ class OrderRequestHeader
 	): self
 	{
 		return new self($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
+	}
+
+	public function getShipping(): ?Shipping
+	{
+		return $this->shipping;
+	}
+
+	public function setShipping(?Shipping $shipping): self
+	{
+		$this->shipping = $shipping;
+
+		return $this;
+	}
+
+	public function getTax(): ?Tax
+	{
+		return $this->tax;
+	}
+
+	public function setTax(?Tax $tax): self
+	{
+		$this->tax = $tax;
+
+		return $this;
 	}
 
 	public function getOrderId(): string

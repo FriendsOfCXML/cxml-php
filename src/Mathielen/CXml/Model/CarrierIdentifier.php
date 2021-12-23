@@ -25,6 +25,11 @@ class CarrierIdentifier
 		$this->value = $value;
 	}
 
+	public static function fromScacCode(string $scacCarrierCode): self
+	{
+		return new self(self::DOMAIN_SCAC, $scacCarrierCode);
+	}
+
 	public function getDomain(): string
 	{
 		return $this->domain;

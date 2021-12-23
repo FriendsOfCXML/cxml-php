@@ -123,7 +123,7 @@ class Processor
 	 */
 	private function processRequest(Model\Request $request, Context $context): CXml
 	{
-		$header = $context->getCxml()->getHeader();
+		$header = $context->getCXml()->getHeader();
 		if (!$header) {
 			throw new CXmlException('Invalid CXml. Header is mandatory for request message.');
 		}

@@ -30,7 +30,7 @@ class Context
 		return $this->dryrun;
 	}
 
-	public function getCxml(): ?CXml
+	public function getCXml(): ?CXml
 	{
 		return $this->cxml;
 	}
@@ -40,5 +40,30 @@ class Context
 		$this->cxml = $cxml;
 
 		return $this;
+	}
+
+	public function getSenderUserAgent(): ?string
+	{
+		$cxml = $this->getCxml();
+		if (!$cxml) {
+			return null;
+		}
+
+		$header = $cxml->getHeader();
+		if (!$header) {
+			return null;
+		}
+
+		return $header->getSender()->getUserAgent();
+	}
+
+	public function getPayloadId(): ?string
+	{
+		$cxml = $this->getCxml();
+		if (!$cxml) {
+			return null;
+		}
+
+		return $cxml->getPayloadId();
 	}
 }

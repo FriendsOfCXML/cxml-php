@@ -75,19 +75,23 @@ class OrderRequestBuilder
 	}
 
 	public function shipTo(
-		string        $name,
+		string $name,
 		PostalAddress $postalAddress,
-		string        $scacCarrier = null,
-		string        $carrierAccountNo = null): self
+		array $carrierIdentifiers = [],
+		string $carrierAccountNo = null): self
 	{
 		$this->shipTo = new ShipTo(
 			new Address(
 				new MultilanguageString($name, null, $this->language),
 				$postalAddress
 			),
-			$scacCarrier ? CarrierIdentifier::fromScacCode($scacCarrier) : null,
 			$carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null
 		);
+
+		foreach ($carrierIdentifiers as $domain => $identifier) {
+
+			$this->shipTo->addCarrierIdentifier($domain, $identifier);
+		}
 
 		return $this;
 	}

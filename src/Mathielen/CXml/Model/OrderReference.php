@@ -29,6 +29,13 @@ class OrderReference
 		$this->orderDate = $orderDate;
 	}
 
+	public static function create(string $documentReference): self
+	{
+		return new self(
+			new DocumentReference($documentReference)
+		);
+	}
+
 	public function getDocumentReference(): DocumentReference
 	{
 		return $this->documentReference;

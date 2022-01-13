@@ -2,6 +2,7 @@
 
 namespace Mathielen\CXml\Model\Request;
 
+use Assert\Assertion;
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\Extrinsic;
 use Mathielen\CXml\Model\IdReference;
@@ -46,6 +47,17 @@ class ConfirmationHeader
 
 	public function __construct(string $type, \DateTime $noticeDate = null)
 	{
+		Assertion::inArray($type, [
+			self::TYPE_ACCEPT,
+			self::TYPE_ALLDETAIL,
+			self::TYPE_DETAIL,
+			self::TYPE_BACKORDERED,
+			self::TYPE_EXCEPT,
+			self::TYPE_REJECT,
+			self::TYPE_REQUESTTOPAY,
+			self::TYPE_REPLACE,
+		]);
+
 		$this->type = $type;
 		$this->noticeDate = $noticeDate ?? new \DateTime();
 	}

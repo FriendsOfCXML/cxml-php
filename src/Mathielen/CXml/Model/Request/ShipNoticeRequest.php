@@ -73,8 +73,10 @@ class ShipNoticeRequest implements RequestInterface
 	{
 		$commentStrings = [];
 
-		foreach ($this->shipNoticeHeader->getComments() as $comment) {
-			$commentStrings[] = $comment->getValue();
+		if ($comments = $this->shipNoticeHeader->getComments()) {
+			foreach ($comments as $comment) {
+				$commentStrings[] = $comment->getValue();
+			}
 		}
 
 		return empty($commentStrings) ? null : \implode("\n", $commentStrings);

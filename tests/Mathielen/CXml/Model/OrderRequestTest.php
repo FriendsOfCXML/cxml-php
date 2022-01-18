@@ -67,7 +67,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 				'EUR',
 				8500
 			),
-			[new Comment(null, null, 'delivery-note.pdf')]
+			[new Comment(null, null, null, 'delivery-note.pdf')]
 		);
 
 		$orderRequest = OrderRequest::create(

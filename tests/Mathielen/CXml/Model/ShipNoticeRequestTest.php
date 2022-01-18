@@ -34,7 +34,7 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
 				new \DateTime('2000-10-14T08:30:19-08:00'),
 				new \DateTime('2000-10-18T09:00:00-08:00'),
 			)
-			->addComment('Got it all into one shipment.', 'en-CA')
+			->addComment('Got it all into one shipment.', null, 'en-CA')
 		)
 			->addShipControl(
 				ShipControl::create(CarrierIdentifier::fromScacCode('FDE'), new ShipmentIdentifier('8202 8261 1194'))

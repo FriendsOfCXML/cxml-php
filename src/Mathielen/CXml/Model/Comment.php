@@ -21,9 +21,15 @@ class Comment
 	 */
 	private ?string $lang;
 
-	public function __construct(?string $value = null, ?string $lang = null, ?string $attachment = null)
+	/**
+	 * @Ser\XmlAttribute()
+	 */
+	private ?string $type;
+
+	public function __construct(?string $value = null, ?string $type = null, ?string $lang = null, ?string $attachment = null)
 	{
 		$this->value = $value;
+		$this->type = $type;
 		$this->lang = $lang;
 		$this->attachment = $attachment ? new Url($attachment) : $attachment;
 	}
@@ -41,5 +47,10 @@ class Comment
 	public function getLang(): ?string
 	{
 		return $this->lang;
+	}
+
+	public function getType(): ?string
+	{
+		return $this->type;
 	}
 }

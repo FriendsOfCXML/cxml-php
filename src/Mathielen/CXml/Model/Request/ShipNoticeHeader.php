@@ -79,13 +79,13 @@ class ShipNoticeHeader
 		return $this->documentReference;
 	}
 
-	public function addComment(string $comment, ?string $lang = null): self
+	public function addComment(string $comment, ?string $type = null, ?string $lang = null): self
 	{
 		if (null === $this->comments) {
 			$this->comments = [];
 		}
 
-		$this->comments[] = new Comment($comment, $lang);
+		$this->comments[] = new Comment($comment, $type, $lang);
 
 		return $this;
 	}

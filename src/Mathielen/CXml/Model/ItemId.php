@@ -16,13 +16,13 @@ class ItemId
 	 * @Ser\SerializedName("SupplierPartAuxiliaryID")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $supplierPartAuxiliaryId;
+	private ?string $supplierPartAuxiliaryId = null;
 
 	/**
 	 * @Ser\SerializedName("BuyerPartID")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $buyerPartId;
+	private ?string $buyerPartId = null;
 
 	public function __construct(string $supplierPartId, ?string $supplierPartAuxiliaryId = null, ?string $buyerPartId = null)
 	{

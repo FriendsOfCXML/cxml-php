@@ -49,7 +49,7 @@ class ProductActivityMessageBuilder
 			->setStockOnHandQuantity(new InventoryQuantity($stockLevel, 'EA'));
 
 		$activityDetail = ProductActivityDetail::create(
-			new ItemId($sku),
+			new ItemId($sku, null, $sku),
 			$inventory,
 			Contact::create(new MultilanguageString($warehouseCode, null, 'en'), 'locationFrom')
 				->addIdReference('NetworkId', '0003')

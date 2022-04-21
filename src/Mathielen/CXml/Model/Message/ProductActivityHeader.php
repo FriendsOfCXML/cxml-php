@@ -18,12 +18,12 @@ class ProductActivityHeader
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?string $processType;
+	private ?string $processType = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?\DateTime $creationDate;
+	private ?\DateTime $creationDate = null;
 
 	public function __construct(string $messageId, ?string $processType = null, \DateTime $creationDate = null)
 	{

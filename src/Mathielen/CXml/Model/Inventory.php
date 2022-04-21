@@ -9,15 +9,40 @@ class Inventory
 	/**
 	 * @Ser\SerializedName("StockOnHandQuantity")
 	 */
-	private StockQuantity $stockOnHandQuantity;
+	private InventoryQuantity $stockOnHandQuantity;
 
-	public function __construct(StockQuantity $stockOnHandQuantity)
+	/**
+	 * @Ser\SerializedName("IncrementQuantity")
+	 */
+	private InventoryQuantity $incrementQuantity;
+
+	public static function create(): self
 	{
-		$this->stockOnHandQuantity = $stockOnHandQuantity;
+		return new self();
 	}
 
-	public function getStockOnHandQuantity(): StockQuantity
+	public function getStockOnHandQuantity(): InventoryQuantity
 	{
 		return $this->stockOnHandQuantity;
 	}
+
+	public function setStockOnHandQuantity(InventoryQuantity $stockOnHandQuantity): self
+	{
+		$this->stockOnHandQuantity = $stockOnHandQuantity;
+
+		return $this;
+	}
+
+	public function getIncrementQuantity(): InventoryQuantity
+	{
+		return $this->incrementQuantity;
+	}
+
+	public function setIncrementQuantity(InventoryQuantity $incrementQuantity): self
+	{
+		$this->incrementQuantity = $incrementQuantity;
+
+		return $this;
+	}
+
 }

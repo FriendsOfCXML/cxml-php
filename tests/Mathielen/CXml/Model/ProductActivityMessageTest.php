@@ -27,14 +27,14 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 			'abracadabra'
 		);
 
-		$statusUpdateRequest = ProductActivityMessage::create(
+		$productActivityMessage = ProductActivityMessage::create(
 			'CP12465192-1552965424130',
 			'SMI',
 			new \DateTime('2019-02-20T14:39:48-08:00')
 		)->addProductActivityDetail(
 			ProductActivityDetail::create(
 				new ItemId('SII99825', null, 'II99825'),
-				new Inventory(new StockQuantity(200, 'EA')),
+				Inventory::create()->setStockOnHandQuantity(new InventoryQuantity(200, 'EA')),
 				Contact::create(new MultilanguageString('Warehouse', null, 'en'), 'locationFrom')
 				->addIdReference('NetworkId', '0003')
 			)
@@ -44,7 +44,7 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 			->from($from)
 			->to($to)
 			->sender($sender, 'Supplier’s Super Order Processor')
-			->payload($statusUpdateRequest)
+			->payload($productActivityMessage)
 			->build();
 
 		$this->assertEquals('ProductActivityMessage_0c30050@supplierorg.com', (string) $cxml);

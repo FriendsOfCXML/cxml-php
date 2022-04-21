@@ -6,6 +6,9 @@ use JMS\Serializer\Annotation as Ser;
 
 class PostalAddress
 {
+
+	use ExtrinsicsTrait;
+
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("name")
@@ -56,14 +59,6 @@ class PostalAddress
 	 */
 	private Country $country;
 
-	/**
-	 * @Ser\XmlList(inline=true, entry="Extrinsic")
-	 * @Ser\Type("array<Mathielen\CXml\Model\Extrinsic>")
-	 *
-	 * @var Extrinsic[]
-	 */
-	private array $extrinsics = [];
-
 	public function __construct(array $deliverTo, array $street, string $city, Country $country, ?string $municipality, ?string $state, ?string $postalCode, ?string $name = null)
 	{
 		$this->name = $name;
@@ -76,10 +71,4 @@ class PostalAddress
 		$this->country = $country;
 	}
 
-	public function addExtrinsic(Extrinsic $extrinsic): self
-	{
-		$this->extrinsics[] = $extrinsic;
-
-		return $this;
-	}
 }

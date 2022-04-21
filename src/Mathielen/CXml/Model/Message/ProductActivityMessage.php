@@ -4,10 +4,14 @@ namespace Mathielen\CXml\Model\Message;
 
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\Extrinsic;
+use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\MessageInterface;
 
 class ProductActivityMessage implements MessageInterface
 {
+
+	use ExtrinsicsTrait;
+
 	/**
 	 * @Ser\SerializedName("ProductActivityHeader")
 	 */
@@ -21,15 +25,7 @@ class ProductActivityMessage implements MessageInterface
 	 */
 	private array $productActivityDetails = [];
 
-	/**
-	 * @Ser\XmlList(inline=true, entry="Extrinsic")
-	 * @Ser\Type("array<Mathielen\CXml\Model\Extrinsic>")
-	 *
-	 * @var Extrinsic[]
-	 */
-	private array $extrinsics = [];
-
-	public function __construct(string $messageId, ?string $processType = null, \DateTime $creationDate = null)
+	private function __construct(string $messageId, ?string $processType = null, \DateTime $creationDate = null)
 	{
 		$this->productActivityHeader = new ProductActivityHeader($messageId, $processType, $creationDate);
 	}
@@ -46,13 +42,6 @@ class ProductActivityMessage implements MessageInterface
 		return $this;
 	}
 
-	public function addExtrinsic(Extrinsic $extrinsic): self
-	{
-		$this->extrinsics[] = $extrinsic;
-
-		return $this;
-	}
-
 	public function getProductActivityHeader(): ProductActivityHeader
 	{
 		return $this->productActivityHeader;
@@ -63,8 +52,4 @@ class ProductActivityMessage implements MessageInterface
 		return $this->productActivityDetails;
 	}
 
-	public function getExtrinsics(): array
-	{
-		return $this->extrinsics;
-	}
 }

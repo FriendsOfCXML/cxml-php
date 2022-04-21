@@ -36,7 +36,7 @@ class OrderRequestBuilder
 	private ?Shipping $shipping = null;
 	private ?Tax $tax = null;
 
-	public function __construct(string $orderId, \DateTime $orderDate, string $currency, string $language = 'en')
+	private function __construct(string $orderId, \DateTime $orderDate, string $currency, string $language = 'en')
 	{
 		$this->orderId = $orderId;
 		$this->orderDate = $orderDate;

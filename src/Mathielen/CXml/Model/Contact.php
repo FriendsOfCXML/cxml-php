@@ -22,6 +22,8 @@ class Contact
 	const ROLE_BUYER = 'buyer';
 	const ROLE_SUBSEQUENTBUYER = 'subsequentBuyer';
 
+	use ExtrinsicsTrait;
+
 	/**
 	 * @Ser\XmlAttribute
 	 */
@@ -47,14 +49,6 @@ class Contact
 	 */
 	private array $idReferences = [];
 
-	/**
-	 * @Ser\XmlList(inline=true, entry="Extrinsic")
-	 * @Ser\Type("array<Mathielen\CXml\Model\Extrinsic>")
-	 *
-	 * @var Extrinsic[]
-	 */
-	private array $extrinsics = [];
-
 	public function __construct(MultilanguageString $name, ?string $role = null)
 	{
 		$this->role = $role;
@@ -69,13 +63,6 @@ class Contact
 	public function addIdReference(string $domain, string $identifier): self
 	{
 		$this->idReferences[] = new IdReference($domain, $identifier);
-
-		return $this;
-	}
-
-	public function addExtrinsic(Extrinsic $extrinsic): self
-	{
-		$this->extrinsics[] = $extrinsic;
 
 		return $this;
 	}
@@ -104,11 +91,6 @@ class Contact
 		}
 
 		return null;
-	}
-
-	public function getExtrinsics(): array
-	{
-		return $this->extrinsics;
 	}
 
 	public function addEmail(string $email): self

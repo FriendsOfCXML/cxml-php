@@ -5,11 +5,15 @@ namespace Mathielen\CXml\Model\Request;
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\DocumentReference;
 use Mathielen\CXml\Model\Extrinsic;
+use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\RequestInterface;
 use Mathielen\CXml\Model\Status;
 
 class StatusUpdateRequest implements RequestInterface
 {
+
+	use ExtrinsicsTrait;
+
 	/**
 	 * @Ser\SerializedName("DocumentReference")
 	 */
@@ -19,14 +23,6 @@ class StatusUpdateRequest implements RequestInterface
 	 * @Ser\SerializedName("Status")
 	 */
 	private Status $status;
-
-	/**
-	 * @Ser\XmlList(inline=true, entry="Extrinsic")
-	 * @Ser\Type("array<Mathielen\CXml\Model\Extrinsic>")
-	 *
-	 * @var Extrinsic[]
-	 */
-	private array $extrinsics = [];
 
 	public function __construct(Status $status, ?string $documentReference = null)
 	{
@@ -42,13 +38,6 @@ class StatusUpdateRequest implements RequestInterface
 		);
 	}
 
-	public function addExtrinsic(Extrinsic $extrinsic): self
-	{
-		$this->extrinsics[] = $extrinsic;
-
-		return $this;
-	}
-
 	public function getDocumentReference(): ?DocumentReference
 	{
 		return $this->documentReference;
@@ -59,8 +48,4 @@ class StatusUpdateRequest implements RequestInterface
 		return $this->status;
 	}
 
-	public function getExtrinsics(): array
-	{
-		return $this->extrinsics;
-	}
 }

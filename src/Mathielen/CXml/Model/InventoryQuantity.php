@@ -4,7 +4,7 @@ namespace Mathielen\CXml\Model;
 
 use JMS\Serializer\Annotation as Ser;
 
-class StockQuantity
+class InventoryQuantity
 {
 	/**
 	 * @Ser\XmlAttribute

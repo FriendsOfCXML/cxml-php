@@ -5,11 +5,14 @@ namespace Mathielen\CXml\Model\Request;
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\Comment;
 use Mathielen\CXml\Model\DocumentReference;
-use Mathielen\CXml\Model\Extrinsic;
+use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\IdReference;
 
 class ShipNoticeHeader
 {
+
+	use ExtrinsicsTrait;
+
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("shipmentID")
@@ -43,14 +46,6 @@ class ShipNoticeHeader
 	 * @var Comment[]
 	 */
 	private ?array $comments = null;
-
-	/**
-	 * @Ser\XmlList(inline=true, entry="Extrinsic")
-	 * @Ser\Type("array<Mathielen\CXml\Model\Extrinsic>")
-	 *
-	 * @var Extrinsic[]
-	 */
-	private array $extrinsics = [];
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="IdReference")
@@ -113,18 +108,6 @@ class ShipNoticeHeader
 	public function getDeliveryDate(): ?\DateTime
 	{
 		return $this->deliveryDate;
-	}
-
-	public function addExtrinsic(Extrinsic $extrinsic): self
-	{
-		$this->extrinsics[] = $extrinsic;
-
-		return $this;
-	}
-
-	public function getExtrinsics(): array
-	{
-		return $this->extrinsics;
 	}
 
 	public function addIdReference(string $domain, string $identifier): self

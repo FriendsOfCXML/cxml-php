@@ -4,12 +4,17 @@ namespace Mathielen\CXml\Model\Message;
 
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\Contact;
+use Mathielen\CXml\Model\Extrinsic;
+use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\Inventory;
 use Mathielen\CXml\Model\ItemId;
 use Mathielen\CXml\Model\MultilanguageString;
 
 class ProductActivityDetail
 {
+
+	use ExtrinsicsTrait;
+
 	/**
 	 * @Ser\SerializedName("ItemID")
 	 */
@@ -31,7 +36,7 @@ class ProductActivityDetail
 	 */
 	private ?Inventory $inventory;
 
-	public function __construct(ItemId $itemId, ?Inventory $inventory = null, ?Contact $contact = null, ?MultilanguageString $description = null)
+	private function __construct(ItemId $itemId, ?Inventory $inventory = null, ?Contact $contact = null, ?MultilanguageString $description = null)
 	{
 		$this->contact = $contact;
 		$this->description = $description;
@@ -63,4 +68,5 @@ class ProductActivityDetail
 	{
 		return $this->contact;
 	}
+
 }

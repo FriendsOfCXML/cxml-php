@@ -30,17 +30,20 @@ class ProductActivityMessageBuilder
 {
 
 	private ProductActivityMessage $productActivityMessage;
+	private string $warehouseCodeDomain;
 
-	private function __construct(string $messageId)
+	private function __construct(string $messageId, string $warehouseCodeDomain)
 	{
 		$this->productActivityMessage = ProductActivityMessage::create(
 			$messageId,
 		);
+
+		$this->warehouseCodeDomain = $warehouseCodeDomain;
 	}
 
-	public static function create(string $messageId): self
+	public static function create(string $messageId, string $warehouseCodeDomain): self
 	{
-		return new self($messageId);
+		return new self($messageId, $warehouseCodeDomain);
 	}
 
 	public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, ?string $nextIntakeDate, ?int $nextIntakeQuantity): self
@@ -52,7 +55,7 @@ class ProductActivityMessageBuilder
 			new ItemId($sku, null, $sku),
 			$inventory,
 			Contact::create(new MultilanguageString($warehouseCode, null, 'en'), 'locationFrom')
-				->addIdReference('NetworkId', '0003')
+				->addIdReference($this->warehouseCodeDomain, $warehouseCode)
 		);
 
 		//TODO found not better way to transport this info

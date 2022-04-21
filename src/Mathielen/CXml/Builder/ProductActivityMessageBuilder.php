@@ -71,6 +71,10 @@ class ProductActivityMessageBuilder
 
 	public function build(): ProductActivityMessage
 	{
+		if (empty($this->productActivityMessage->getProductActivityDetails())) {
+			throw new \RuntimeException("Cannot build ProductActivityMessage without any ProductActivityDetail");
+		}
+
 		return $this->productActivityMessage;
 	}
 

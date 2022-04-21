@@ -30,22 +30,24 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 		$orderRequestHeader = OrderRequestHeader::create(
 			'DO1234',
 			new \DateTime('2000-10-12T18:41:29-08:00'),
-			new AddressWrapper(
-				new MultilanguageString('Acme'),
-				new PostalAddress(
-					[
-						'Joe Smith',
-						'Mailstop M-543',
-					],
-					[
-						'123 Anystreet',
-					],
-					'Sunnyvale',
-					new Country('US', 'United States'),
-					null,
-					'CA',
-					'90489',
-					'default'
+			new ShipTo(
+				new Address(
+					new MultilanguageString('Acme'),
+					new PostalAddress(
+						[
+							'Joe Smith',
+							'Mailstop M-543',
+						],
+						[
+							'123 Anystreet',
+						],
+						'Sunnyvale',
+						new Country('US', 'United States'),
+						null,
+						'CA',
+						'90489',
+						'default'
+					)
 				)
 			),
 			new AddressWrapper(

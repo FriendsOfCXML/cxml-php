@@ -9,12 +9,12 @@ class Inventory
 	/**
 	 * @Ser\SerializedName("StockOnHandQuantity")
 	 */
-	private InventoryQuantity $stockOnHandQuantity;
+	private ?InventoryQuantity $stockOnHandQuantity = null;
 
 	/**
 	 * @Ser\SerializedName("IncrementQuantity")
 	 */
-	private InventoryQuantity $incrementQuantity;
+	private ?InventoryQuantity $incrementQuantity = null;
 
 	public static function create(): self
 	{

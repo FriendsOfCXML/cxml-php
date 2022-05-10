@@ -1,3 +1,5 @@
+This repository is a public fork of https://github.com/mathielen/cxml implementation.
+
 # What is it?
 > cXML is a streamlined protocol intended for consistent communication of business documents between procurement applications, e-commerce hubs and suppliers. http://cxml.org/
 # Status
@@ -9,7 +11,7 @@
 
 ## Installation
 ```bash
-$ composer require mathielen/cxml
+$ composer require loeffelhardt/el-cxml
 ```
 
 Then include Composer’s autoloader:

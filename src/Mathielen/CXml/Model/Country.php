@@ -28,7 +28,7 @@ class Country
 		return $this->isoCountryCode;
 	}
 
-	public function getName(): string
+	public function getName(): ?string
 	{
 		return $this->name;
 	}

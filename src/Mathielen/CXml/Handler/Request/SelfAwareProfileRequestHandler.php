@@ -35,7 +35,7 @@ class SelfAwareProfileRequestHandler implements HandlerInterface
 		return $profileResponse;
 	}
 
-	//TODO probably should be moved to HandlerInterface for full-fledged routing solution
+	// TODO probably should be moved to HandlerInterface for full-fledged routing solution
 	private function getEndpointUrl(): string
 	{
 		return $this->urlGenerator->generate('post_cxml', [], UrlGeneratorInterface::ABSOLUTE_URL);

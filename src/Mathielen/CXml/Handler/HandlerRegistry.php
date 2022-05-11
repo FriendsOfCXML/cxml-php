@@ -18,7 +18,7 @@ class HandlerRegistry implements HandlerRegistryInterface
 			$handlerId = $handler::getRequestName();
 		}
 
-		Assertion::keyNotExists($this->registry, $handlerId, "Handler for '$handlerId' already registered.");
+		Assertion::keyNotExists($this->registry, $handlerId, "Handler for '{$handlerId}' already registered.");
 
 		$this->registry[$handlerId] = $handler;
 	}

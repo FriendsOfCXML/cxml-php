@@ -21,7 +21,7 @@ class Credential
 	 * @Ser\SerializedName("CredentialMac")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	//private CredentialMac $credentialMac; TODO
+	// private CredentialMac $credentialMac; TODO
 
 	/**
 	 * @Ser\SerializedName("SharedSecret")

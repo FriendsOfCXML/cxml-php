@@ -24,9 +24,9 @@ class Builder
 	private PayloadIdentityFactoryInterface $payloadIdentityFactory;
 
 	private ?PayloadInterface $payload = null;
-	private ?Credential $from = null;
-	private ?Credential $to = null;
-	private ?Credential $sender = null;
+	private Credential $from;
+	private Credential $to;
+	private Credential $sender;
 	private ?string $senderUserAgent = null;
 	private ?Status $status = null;
 	private ?string $locale;
@@ -37,7 +37,7 @@ class Builder
 		$this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
 	}
 
-	public static function create(string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+	public static function create(string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
 	{
 		return new self($locale, $payloadIdentityFactory);
 	}
@@ -94,13 +94,13 @@ class Builder
 	/**
 	 * @throws CXmlException
 	 */
-	public function build(string $deploymode = null): CXml
+	public function build(string $deploymentMode = null): CXml
 	{
 		switch (true) {
 			case $this->payload instanceof RequestInterface:
 				$cXml = CXml::forRequest(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
-					new Request($this->payload, $this->status, null, $deploymode),
+					new Request($this->payload, $this->status, null, $deploymentMode),
 					$this->buildHeader(),
 					$this->locale
 				);
@@ -124,7 +124,7 @@ class Builder
 				break;
 
 			default:
-				//simple status ping-pong response
+				// simple status ping-pong response
 				if ($this->status) {
 					$cXml = CXml::forResponse(
 						$this->payloadIdentityFactory->newPayloadIdentity(),
@@ -134,8 +134,10 @@ class Builder
 
 					break;
 				}
+		}
 
-				throw new CXmlException('Neither payload (Request, Message, Response) was set.');
+		if (!isset($cXml)) {
+			throw new CXmlException('Neither payload (Request, Message, Response) was set.');
 		}
 
 		return $cXml;

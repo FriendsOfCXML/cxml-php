@@ -17,7 +17,7 @@ class ItemDetail
 	 * @Ser\SerializedName("Description")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private MultilanguageString $description;
+	private mixed $description;
 
 	/**
 	 * @Ser\SerializedName("UnitOfMeasure")
@@ -31,7 +31,7 @@ class ItemDetail
 	 *
 	 * @var Classification[]
 	 */
-	private array $classifictions = [];
+	private array $classifications = [];
 
 	/**
 	 * @Ser\SerializedName("ManufacturerPartID")
@@ -51,7 +51,7 @@ class ItemDetail
 	 */
 	private ?string $url;
 
-	public function __construct(MultilanguageString $description, string $unitOfMeasure, MoneyWrapper $unitPrice, ?string $manufacturerPartId = null, ?string $manufacturerName = null, ?string $url = null)
+	public function __construct(MultilanguageString|MultilanguageShortName $description, string $unitOfMeasure, MoneyWrapper $unitPrice, ?string $manufacturerPartId = null, ?string $manufacturerName = null, ?string $url = null)
 	{
 		$this->description = $description;
 		$this->unitOfMeasure = $unitOfMeasure;
@@ -63,7 +63,7 @@ class ItemDetail
 
 	public function addClassification(Classification $classification): self
 	{
-		$this->classifictions[] = $classification;
+		$this->classifications[] = $classification;
 
 		return $this;
 	}

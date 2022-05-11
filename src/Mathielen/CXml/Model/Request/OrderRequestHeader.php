@@ -115,8 +115,7 @@ class OrderRequestHeader
 		?array $comments = null,
 		string $type = self::TYPE_NEW,
 		?array $contacts = null
-	): self
-	{
+	): self {
 		return new self($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
 	}
 
@@ -164,7 +163,7 @@ class OrderRequestHeader
 		return $this->total;
 	}
 
-	public function getShipTo(): ?AddressWrapper
+	public function getShipTo(): ?ShipTo
 	{
 		return $this->shipTo;
 	}
@@ -181,7 +180,7 @@ class OrderRequestHeader
 
 	public function addContact(Contact $contact): self
 	{
-		if ($this->contacts === null) {
+		if (null === $this->contacts) {
 			$this->contacts = [];
 		}
 

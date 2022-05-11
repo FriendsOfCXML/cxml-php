@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class PostalAddress
 {
-
 	use ExtrinsicsTrait;
 
 	/**
@@ -70,5 +69,4 @@ class PostalAddress
 		$this->postalCode = $postalCode;
 		$this->country = $country;
 	}
-
 }

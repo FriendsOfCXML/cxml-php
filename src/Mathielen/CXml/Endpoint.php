@@ -40,15 +40,16 @@ class Endpoint
 			->setPropertyNamingStrategy(
 				new IdenticalPropertyNamingStrategy()
 			)
-			->build();
+			->build()
+		;
 	}
 
 	public static function deserialize(string $xml): CXml
 	{
-		//remove doctype, as it would throw a JMS\Serializer\Exception\InvalidArgumentException
+		// remove doctype, as it would throw a JMS\Serializer\Exception\InvalidArgumentException
 		$xml = \preg_replace('/<!doctype.+>/i', '', $xml);
 
-		return self::buildSerializer()->deserialize($xml, CXml::class, 'xml');
+		return self::buildSerializer()->deserialize((string) $xml, CXml::class, 'xml');
 	}
 
 	public static function serialize(CXml $cxml): string
@@ -63,7 +64,7 @@ class Endpoint
 	{
 		$this->logger->info('Processing incoming CXml message', ['xml' => $xml]);
 
-		//validate
+		// validate
 		try {
 			$this->dtdValidator->validateAgainstDtd($xml);
 		} catch (CxmlInvalidException $e) {
@@ -72,7 +73,7 @@ class Endpoint
 			throw $e;
 		}
 
-		//deserialize
+		// deserialize
 		try {
 			$cxml = self::deserialize($xml);
 		} catch (\RuntimeException $e) {
@@ -81,7 +82,7 @@ class Endpoint
 			throw new CxmlInvalidException('Error while deserializing xml: '.$e->getMessage(), $xml, $e);
 		}
 
-		//process
+		// process
 		try {
 			$result = $this->processor->process($cxml, $context);
 		} catch (CXmlException $e) {

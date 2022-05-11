@@ -5,7 +5,7 @@ namespace Mathielen\CXml\Model;
 use Assert\Assertion;
 use JMS\Serializer\Annotation as Ser;
 
-class Request
+class Request implements RequestInterface
 {
 	public const DEPLOYMENT_TEST = 'test';
 	public const DEPLOYMENT_PROD = 'production';

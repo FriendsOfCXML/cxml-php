@@ -10,4 +10,9 @@ class SelectedItem
 	 * @Ser\SerializedName("ItemId")
 	 */
 	private ItemId $itemId;
+
+	public function __construct(ItemId $itemId)
+	{
+		$this->itemId = $itemId;
+	}
 }

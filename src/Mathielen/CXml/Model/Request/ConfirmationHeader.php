@@ -4,12 +4,12 @@ namespace Mathielen\CXml\Model\Request;
 
 use Assert\Assertion;
 use JMS\Serializer\Annotation as Ser;
-use Mathielen\CXml\Model\Extrinsic;
 use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\IdReference;
 
 class ConfirmationHeader
 {
+	use ExtrinsicsTrait;
 	public const TYPE_ACCEPT = 'accept';
 	public const TYPE_ALLDETAIL = 'allDetail';
 	public const TYPE_DETAIL = 'detail';
@@ -18,8 +18,6 @@ class ConfirmationHeader
 	public const TYPE_REJECT = 'reject';
 	public const TYPE_REQUESTTOPAY = 'requestToPay';
 	public const TYPE_REPLACE = 'replace';
-
-	use ExtrinsicsTrait;
 
 	/**
 	 * @Ser\XmlAttribute

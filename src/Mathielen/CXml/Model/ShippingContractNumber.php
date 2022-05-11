@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShippingContractNumber
 {
-
 	/**
 	 * @Ser\XmlValue(cdata=false)
 	 */
@@ -16,5 +15,4 @@ class ShippingContractNumber
 	{
 		$this->value = $value;
 	}
-
 }

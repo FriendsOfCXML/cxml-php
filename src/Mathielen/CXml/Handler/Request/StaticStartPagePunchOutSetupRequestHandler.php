@@ -20,13 +20,11 @@ class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
 
 	public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface
 	{
-		$punchoutSetupResponse = new PunchoutSetupResponse(
+		return new PunchoutSetupResponse(
 			new Url(
 				$this->startPageUrl
 			)
 		);
-
-		return $punchoutSetupResponse;
 	}
 
 	public static function getRequestName(): string

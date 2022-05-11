@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class TransportInformation
 {
-
 	/**
 	 * @Ser\SerializedName("ShippingContractNumber")
 	 */
@@ -21,5 +20,4 @@ class TransportInformation
 	{
 		return new self(new ShippingContractNumber($carrierAccountNo));
 	}
-
 }

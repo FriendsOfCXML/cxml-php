@@ -4,7 +4,6 @@ namespace Mathielen\CXml\Model\Request;
 
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\AddressWrapper;
-use Mathielen\CXml\Model\Extrinsic;
 use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\RequestInterface;
 use Mathielen\CXml\Model\SelectedItem;
@@ -12,7 +11,6 @@ use Mathielen\CXml\Model\Url;
 
 class PunchOutSetupRequest implements RequestInterface
 {
-
 	use ExtrinsicsTrait;
 
 	/**
@@ -54,5 +52,4 @@ class PunchOutSetupRequest implements RequestInterface
 		$this->shipTo = $shipTo;
 		$this->selectedItem = $selectedItem;
 	}
-
 }

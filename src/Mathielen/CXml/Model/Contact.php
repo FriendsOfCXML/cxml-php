@@ -6,23 +6,22 @@ use JMS\Serializer\Annotation as Ser;
 
 class Contact
 {
-
-	const ROLE_ENDUSER = 'endUser';
-	const ROLE_ADMINISTRATOR = 'administrator';
-	const ROLE_PURCHASINGAGENT = 'purchasingAgent';
-	const ROLE_TECHNICALSUPPORT = 'technicalSupport';
-	const ROLE_CUSTOMERSERVICE = 'customerService';
-	const ROLE_SALES = 'sales';
-	const ROLE_SUPPLIERCORPORATE = 'supplierCorporate';
-	const ROLE_SUPPLIERMASTERACCOUNT = 'supplierMasterAccount';
-	const ROLE_SUPPLIERACCOUNT = 'supplierAccount';
-	const ROLE_BUYERCORPORATE = 'buyerCorporate';
-	const ROLE_BUYERMASTERACCOUNT = 'buyerMasterAccount';
-	const ROLE_BUYERACCOUNT = 'buyerAccount';
-	const ROLE_BUYER = 'buyer';
-	const ROLE_SUBSEQUENTBUYER = 'subsequentBuyer';
-
 	use ExtrinsicsTrait;
+
+	public const ROLE_ENDUSER = 'endUser';
+	public const ROLE_ADMINISTRATOR = 'administrator';
+	public const ROLE_PURCHASINGAGENT = 'purchasingAgent';
+	public const ROLE_TECHNICALSUPPORT = 'technicalSupport';
+	public const ROLE_CUSTOMERSERVICE = 'customerService';
+	public const ROLE_SALES = 'sales';
+	public const ROLE_SUPPLIERCORPORATE = 'supplierCorporate';
+	public const ROLE_SUPPLIERMASTERACCOUNT = 'supplierMasterAccount';
+	public const ROLE_SUPPLIERACCOUNT = 'supplierAccount';
+	public const ROLE_BUYERCORPORATE = 'buyerCorporate';
+	public const ROLE_BUYERMASTERACCOUNT = 'buyerMasterAccount';
+	public const ROLE_BUYERACCOUNT = 'buyerAccount';
+	public const ROLE_BUYER = 'buyer';
+	public const ROLE_SUBSEQUENTBUYER = 'subsequentBuyer';
 
 	/**
 	 * @Ser\XmlAttribute

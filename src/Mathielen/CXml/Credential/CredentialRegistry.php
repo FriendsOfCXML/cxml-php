@@ -29,7 +29,7 @@ class CredentialRegistry implements CredentialRepositoryInterface, CredentialAut
 			}
 		}
 
-		throw new CXmlCredentialInvalidException("Could not find credentials for '$identity@$domain'.");
+		throw new CXmlCredentialInvalidException("Could not find credentials for '{$identity}@{$domain}'.");
 	}
 
 	/**

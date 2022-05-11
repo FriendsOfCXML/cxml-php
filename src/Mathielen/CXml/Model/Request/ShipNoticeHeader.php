@@ -10,7 +10,6 @@ use Mathielen\CXml\Model\IdReference;
 
 class ShipNoticeHeader
 {
-
 	use ExtrinsicsTrait;
 
 	/**

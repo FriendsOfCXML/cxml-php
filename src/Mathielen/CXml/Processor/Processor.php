@@ -15,13 +15,15 @@ use Mathielen\CXml\Handler\HandlerInterface;
 use Mathielen\CXml\Handler\HandlerRegistryInterface;
 use Mathielen\CXml\Model;
 use Mathielen\CXml\Model\CXml;
+use Mathielen\CXml\Model\PayloadInterface;
+use Mathielen\CXml\Model\ResponseInterface;
 use Mathielen\CXml\Model\Status;
 use Mathielen\CXml\Processor\Exception\CXmlProcessException;
 use Symfony\Component\HttpFoundation\Response;
 
 class Processor
 {
-	//according to cXML reference document
+	// according to cXML reference document
 	private static array $exceptionMapping = [
 		CXmlAuthenticationInvalidException::class => 401,
 		CXmlNotAcceptableException::class => 406,
@@ -54,20 +56,23 @@ class Processor
 	 */
 	public function process(CXml $cxml, Context $context = null): ?CXml
 	{
-		$context = $context ?? Context::create();
+		$context ??= Context::create();
 		$context->setCXml($cxml);
 
-		if ($request = $cxml->getRequest()) {
+		$request = $cxml->getRequest();
+		if ($request) {
 			return $this->processRequest($request, $context);
 		}
 
-		if ($response = $cxml->getResponse()) {
+		$response = $cxml->getResponse();
+		if ($response) {
 			$this->processResponse($response, $context);
 
 			return null;
 		}
 
-		if ($message = $cxml->getMessage()) {
+		$message = $cxml->getMessage();
+		if ($message) {
 			$this->processMessage($message, $context);
 
 			return null;
@@ -76,7 +81,7 @@ class Processor
 		throw new CXmlException('Invalid CXml. Either request, response or message must be given.');
 	}
 
-	private function getHandlerForPayload(Model\PayloadInterface $payload): HandlerInterface
+	private function getHandlerForPayload(PayloadInterface $payload): HandlerInterface
 	{
 		$handlerId = (new \ReflectionClass($payload))->getShortName();
 
@@ -93,8 +98,6 @@ class Processor
 
 		try {
 			$this->getHandlerForPayload($payload)->handle($payload, $context);
-		} catch (CXmlException $e) {
-			throw $e;
 		} catch (\Exception $e) {
 			throw new CXmlProcessException($e);
 		}
@@ -108,10 +111,12 @@ class Processor
 	{
 		$payload = $response->getPayload();
 
+		if (!$payload instanceof ResponseInterface) {
+			return;
+		}
+
 		try {
 			$this->getHandlerForPayload($payload)->handle($payload, $context);
-		} catch (CXmlException $e) {
-			throw $e;
 		} catch (\Exception $e) {
 			throw new CXmlProcessException($e);
 		}
@@ -123,15 +128,13 @@ class Processor
 	 */
 	private function processRequest(Model\Request $request, Context $context): CXml
 	{
-		$header = $context->getCXml()->getHeader();
+		$header = $context->getCXml()?->getHeader();
 		if (!$header) {
 			throw new CXmlException('Invalid CXml. Header is mandatory for request message.');
 		}
 
 		try {
 			$this->headerProcessor->process($header);
-		} catch (CXmlException $e) {
-			throw $e;
 		} catch (\Exception $e) {
 			throw new CXmlProcessException($e);
 		}
@@ -141,7 +144,7 @@ class Processor
 
 		$response = $handler->handle($payload, $context);
 
-		//if no response was returned, set a implicit 200/OK
+		// if no response was returned, set an implicit 200/OK
 		if (!$response) {
 			$this->builder->status(new Model\Status(
 				200,
@@ -151,7 +154,8 @@ class Processor
 
 		return $this->builder
 			->payload($response)
-			->build();
+			->build()
+		;
 	}
 
 	public function processException(CXmlException $exception): CXml
@@ -160,10 +164,9 @@ class Processor
 		$statusText = self::$exceptionCodeMapping[$statusCode] ?? Response::$statusTexts[$statusCode];
 		$status = new Status($statusCode, $statusText, $exception->getMessage());
 
-		$cXml = $this->builder
+		return $this->builder
 			->status($status)
-			->build();
-
-		return $cXml;
+			->build()
+		;
 	}
 }

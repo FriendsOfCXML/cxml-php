@@ -4,12 +4,13 @@ namespace Mathielen\CXml\Model;
 
 use JMS\Serializer\Annotation as Ser;
 
-class MultilanguageString
+class MultilanguageShortName
 {
 	/**
-	 * @Ser\XmlValue(cdata=true)
+	 * @Ser\SerializedName("ShortName")
+	 * @Ser\XmlElement(cdata=true)
 	 */
-	private ?string $value;
+	private string $value;
 
 	/**
 	 * @Ser\XmlAttribute
@@ -21,7 +22,7 @@ class MultilanguageString
 	 */
 	private ?string $lang;
 
-	public function __construct(?string $value, ?string $type = null, string $lang = 'en')
+	public function __construct(string $value, ?string $type = null, string $lang = 'en')
 	{
 		$this->value = $value;
 		$this->lang = $lang;

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cXML.org/schemas/cXML/1.2.053/cXML.dtd">
+<cXML xml:lang="en-US" payloadID="933695160894" timestamp="2021-01-08T23:00:06-08:00">
+    <Header>
+        <From>
+            <Credential domain="DUNS">
+                <Identity>83528721</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="DUNS">
+                <Identity>65652314</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="workchairs.com">
+                <Identity>website 1</Identity>
+            </Credential>
+            <UserAgent>Workchairs cXML Application</UserAgent>
+        </Sender>
+    </Header>
+    <Message>
+        <PunchOutOrderMessage>
+            <BuyerCookie>1CX3L4843PPZO</BuyerCookie>
+            <PunchOutOrderMessageHeader operationAllowed="create">
+                <Total>
+                    <Money currency="USD">763.20</Money>
+                </Total>
+            </PunchOutOrderMessageHeader>
+            <ItemIn quantity="3">
+                <ItemID>
+                    <SupplierPartID>5555</SupplierPartID>
+                    <BuyerPartID>KD5555</BuyerPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="USD">763.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">
+                        <ShortName><![CDATA[Excelsior Desk Chair]]></ShortName>
+                    </Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="UNSPSC">ean1234</Classification>
+                </ItemDetail>
+            </ItemIn>
+            <ItemIn quantity="5">
+                <ItemID>
+                    <SupplierPartID>666</SupplierPartID>
+                    <BuyerPartID>KD666</BuyerPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="USD">763.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">
+                        <ShortName><![CDATA[22Excelsior Desk Chair]]></ShortName>
+                    </Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="UNSPSC">ean1234</Classification>
+                </ItemDetail>
+            </ItemIn>
+        </PunchOutOrderMessage>
+    </Message>
+</cXML>

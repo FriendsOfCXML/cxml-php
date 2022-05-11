@@ -22,6 +22,7 @@ class HeaderProcessor
 
 	/**
 	 * @throws CXmlCredentialInvalidException
+	 * @throws CXmlAuthenticationInvalidException
 	 */
 	public function process(Header $header): void
 	{
@@ -47,14 +48,10 @@ class HeaderProcessor
 	 */
 	private function checkCredentialIsValid(Credential $testCredential): void
 	{
-		$existingCredential = $this->credentialRepository->getCredentialByDomainAndId(
+		$this->credentialRepository->getCredentialByDomainAndId(
 			$testCredential->getDomain(),
 			$testCredential->getIdentity()
 		);
-
-		if (!$existingCredential) {
-			throw new CXmlCredentialInvalidException('Could not find credentials', $testCredential);
-		}
 	}
 
 	/**
@@ -63,14 +60,7 @@ class HeaderProcessor
 	 */
 	private function authenticateSender(Credential $testCredential): void
 	{
-		$actualCredential = $this->credentialRepository->getCredentialByDomainAndId(
-			$testCredential->getDomain(),
-			$testCredential->getIdentity()
-		);
-
-		if (!$actualCredential) {
-			throw new CXmlCredentialInvalidException('Could not find credentials', $testCredential);
-		}
+		$this->checkCredentialIsValid($testCredential);
 
 		$this->credentialAuthenticator->authenticate($testCredential);
 	}

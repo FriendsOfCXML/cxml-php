@@ -31,10 +31,10 @@ class Comment
 		$this->value = $value;
 		$this->type = $type;
 		$this->lang = $lang;
-		$this->attachment = $attachment ? new Url($attachment) : $attachment;
+		$this->attachment = $attachment ? new Url($attachment) : null;
 	}
 
-	public function getAttachment()
+	public function getAttachment(): ?Url
 	{
 		return $this->attachment;
 	}

@@ -36,7 +36,7 @@ class OrderReference
 		);
 	}
 
-	public function getDocumentReference(): DocumentReference
+	public function getDocumentReference(): ?DocumentReference
 	{
 		return $this->documentReference;
 	}

@@ -4,7 +4,6 @@ namespace Mathielen\CXml\Builder;
 
 use Mathielen\CXml\Model\Address;
 use Mathielen\CXml\Model\AddressWrapper;
-use Mathielen\CXml\Model\CarrierIdentifier;
 use Mathielen\CXml\Model\Comment;
 use Mathielen\CXml\Model\Contact;
 use Mathielen\CXml\Model\ItemDetail;
@@ -50,16 +49,15 @@ class OrderRequestBuilder
 	}
 
 	public function billTo(
-		string        $name,
+		string $name,
 		PostalAddress $postalAddress = null,
-		?string       $addressId = null,
-		?string       $addressIdDomain = null,
-		?string       $email = null,
-		?string       $phone = null,
-		?string       $fax = null,
-		?string       $url = null
-	): self
-	{
+		?string $addressId = null,
+		?string $addressIdDomain = null,
+		?string $email = null,
+		?string $phone = null,
+		?string $fax = null,
+		?string $url = null
+	): self {
 		$this->billTo = new AddressWrapper(
 			new MultilanguageString($name, null, $this->language),
 			$postalAddress,
@@ -78,8 +76,8 @@ class OrderRequestBuilder
 		string $name,
 		PostalAddress $postalAddress,
 		array $carrierIdentifiers = [],
-		string $carrierAccountNo = null): self
-	{
+		string $carrierAccountNo = null
+	): self {
 		$this->shipTo = new ShipTo(
 			new Address(
 				new MultilanguageString($name, null, $this->language),
@@ -89,7 +87,6 @@ class OrderRequestBuilder
 		);
 
 		foreach ($carrierIdentifiers as $domain => $identifier) {
-
 			$this->shipTo->addCarrierIdentifier($domain, $identifier);
 		}
 
@@ -117,14 +114,13 @@ class OrderRequestBuilder
 	}
 
 	public function addItem(
-		int    $quantity,
+		int $quantity,
 		ItemId $itemId,
 		string $description,
 		string $unitOfMeasure,
-		int    $unitPrice,
+		int $unitPrice,
 		\DateTime $requestDeliveryDate = null
-	): self
-	{
+	): self {
 		$lineNumber = \count($this->items) + 1;
 
 		$item = ItemOut::create(
@@ -190,7 +186,8 @@ class OrderRequestBuilder
 			$this->contacts
 		)
 			->setShipping($this->shipping)
-			->setTax($this->tax);
+			->setTax($this->tax)
+		;
 	}
 
 	public function build(): OrderRequest
@@ -199,5 +196,4 @@ class OrderRequestBuilder
 			$this->buildOrderRequestHeader()
 		)->addItems($this->items);
 	}
-
 }

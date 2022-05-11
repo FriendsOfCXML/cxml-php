@@ -22,5 +22,4 @@ class Tax
 		$this->money = $money;
 		$this->description = $description;
 	}
-
 }

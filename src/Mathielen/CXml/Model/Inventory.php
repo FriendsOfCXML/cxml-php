@@ -21,7 +21,7 @@ class Inventory
 		return new self();
 	}
 
-	public function getStockOnHandQuantity(): InventoryQuantity
+	public function getStockOnHandQuantity(): ?InventoryQuantity
 	{
 		return $this->stockOnHandQuantity;
 	}
@@ -33,7 +33,7 @@ class Inventory
 		return $this;
 	}
 
-	public function getIncrementQuantity(): InventoryQuantity
+	public function getIncrementQuantity(): ?InventoryQuantity
 	{
 		return $this->incrementQuantity;
 	}
@@ -44,5 +44,4 @@ class Inventory
 
 		return $this;
 	}
-
 }

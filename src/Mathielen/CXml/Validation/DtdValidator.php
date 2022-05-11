@@ -27,7 +27,7 @@ class DtdValidator
 			throw new CxmlInvalidException('XML was empty', $xml);
 		}
 
-		//disable throwing of php errors for libxml
+		// disable throwing of php errors for libxml
 		$internalErrors = \libxml_use_internal_errors(true);
 
 		$old = new \DOMDocument();
@@ -37,7 +37,7 @@ class DtdValidator
 
 		$this->validateAgainstMultipleDtd($validateFiles, $old);
 
-		//reset throwing of php errors for libxml
+		// reset throwing of php errors for libxml
 		\libxml_use_internal_errors($internalErrors);
 	}
 
@@ -47,13 +47,13 @@ class DtdValidator
 	private function injectDtd(\DOMDocument $originalDomDocument, string $dtdFilename): \DOMDocument
 	{
 		$creator = new \DOMImplementation();
-		$doctype = $creator->createDocumentType('cXML', null, $this->pathToCxmlDtds.'/'.$dtdFilename);
-		$new = $creator->createDocument(null, null, $doctype);
+		$doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
+		$new = $creator->createDocument(null, '', $doctype);
 		$new->encoding = 'utf-8';
 
 		$oldNode = $originalDomDocument->getElementsByTagName('cXML')->item(0);
 		if (!$oldNode) {
-			throw new CxmlInvalidException('Missing cXML root node', $originalDomDocument->saveXML());
+			throw new CxmlInvalidException('Missing cXML root node', (string) $originalDomDocument->saveXML());
 		}
 
 		$newNode = $new->importNode($oldNode, true);
@@ -68,13 +68,13 @@ class DtdValidator
 	private function validateAgainstMultipleDtd(array $validateFiles, \DOMDocument $old): void
 	{
 		foreach ($validateFiles as $validateFile) {
-			$dtdinjectedDomDocument = $this->injectDtd($old, $validateFile);
+			$dtdInjectedDomDocument = $this->injectDtd($old, $validateFile);
 
-			if ($dtdinjectedDomDocument->validate()) {
+			if ($dtdInjectedDomDocument->validate()) {
 				return;
 			}
 		}
 
-		throw CxmlInvalidException::fromLibXmlError(\libxml_get_last_error(), $old->saveXML());
+		throw CxmlInvalidException::fromLibXmlError(\libxml_get_last_error(), (string) $old->saveXML());
 	}
 }

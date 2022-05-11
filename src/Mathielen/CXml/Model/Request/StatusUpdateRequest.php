@@ -4,14 +4,12 @@ namespace Mathielen\CXml\Model\Request;
 
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\DocumentReference;
-use Mathielen\CXml\Model\Extrinsic;
 use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\RequestInterface;
 use Mathielen\CXml\Model\Status;
 
 class StatusUpdateRequest implements RequestInterface
 {
-
 	use ExtrinsicsTrait;
 
 	/**
@@ -47,5 +45,4 @@ class StatusUpdateRequest implements RequestInterface
 	{
 		return $this->status;
 	}
-
 }

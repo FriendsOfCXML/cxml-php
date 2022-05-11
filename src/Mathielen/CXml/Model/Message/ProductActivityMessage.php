@@ -3,13 +3,11 @@
 namespace Mathielen\CXml\Model\Message;
 
 use JMS\Serializer\Annotation as Ser;
-use Mathielen\CXml\Model\Extrinsic;
 use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\MessageInterface;
 
 class ProductActivityMessage implements MessageInterface
 {
-
 	use ExtrinsicsTrait;
 
 	/**
@@ -51,5 +49,4 @@ class ProductActivityMessage implements MessageInterface
 	{
 		return $this->productActivityDetails;
 	}
-
 }

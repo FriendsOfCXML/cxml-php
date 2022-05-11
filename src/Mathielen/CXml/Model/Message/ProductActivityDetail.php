@@ -4,7 +4,6 @@ namespace Mathielen\CXml\Model\Message;
 
 use JMS\Serializer\Annotation as Ser;
 use Mathielen\CXml\Model\Contact;
-use Mathielen\CXml\Model\Extrinsic;
 use Mathielen\CXml\Model\ExtrinsicsTrait;
 use Mathielen\CXml\Model\Inventory;
 use Mathielen\CXml\Model\ItemId;
@@ -12,7 +11,6 @@ use Mathielen\CXml\Model\MultilanguageString;
 
 class ProductActivityDetail
 {
-
 	use ExtrinsicsTrait;
 
 	/**
@@ -28,6 +26,7 @@ class ProductActivityDetail
 
 	/**
 	 * @Ser\SerializedName("Contact")
+	 * todo: more contact should be allowed
 	 */
 	private ?Contact $contact;
 
@@ -68,5 +67,4 @@ class ProductActivityDetail
 	{
 		return $this->contact;
 	}
-
 }

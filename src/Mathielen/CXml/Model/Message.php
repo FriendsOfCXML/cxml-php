@@ -4,7 +4,7 @@ namespace Mathielen\CXml\Model;
 
 use JMS\Serializer\Annotation as Ser;
 
-class Message implements PayloadInterface
+class Message implements MessageInterface
 {
 	/**
 	 * @Ser\SerializedName("Status")

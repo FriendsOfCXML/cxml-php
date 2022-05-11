@@ -8,10 +8,12 @@ use JMS\Serializer\EventDispatcher\ObjectEvent;
 use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
 use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
+use JMS\Serializer\XmlSerializationVisitor;
 use Mathielen\CXml\Model\Exception\CXmlModelNotFoundException;
 use Mathielen\CXml\Model\Message;
 use Mathielen\CXml\Model\Request;
 use Mathielen\CXml\Model\Response;
+use Metadata\ClassMetadata;
 
 class JmsEventSubscriber implements EventSubscriberInterface
 {
@@ -65,7 +67,7 @@ class JmsEventSubscriber implements EventSubscriberInterface
 				continue;
 			}
 
-			//first child if not 'Status'
+			// first child if not 'Status'
 			return $child;
 		}
 
@@ -74,15 +76,16 @@ class JmsEventSubscriber implements EventSubscriberInterface
 
 	public function onPostSerialize(ObjectEvent $event): void
 	{
+		/** @var XmlSerializationVisitor $visitor */
 		$visitor = $event->getVisitor();
 
-		//this is the actual payload object of type MessageInterface
+		// this is the actual payload object of type MessageInterface
 		$payload = $event->getObject()->getPayload();
 
 		if ($payload) {
 			$cls = (new \ReflectionClass($payload))->getShortName();
 
-			//tell jms to add the payload value in a wrapped node
+			// tell jms to add the payload value in a wrapped node
 			$visitor->visitProperty(
 				new StaticPropertyMetadata($event->getType()['name'], $cls, null),
 				$payload
@@ -95,6 +98,7 @@ class JmsEventSubscriber implements EventSubscriberInterface
 	 */
 	public function onPreDeserialize(PreDeserializeEvent $event): void
 	{
+		/** @var ClassMetadata $metadata */
 		$metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);
 
 		$payloadNode = self::findPayloadNode($event->getData());
@@ -104,13 +108,13 @@ class JmsEventSubscriber implements EventSubscriberInterface
 
 		$serializedName = $payloadNode->getName();
 
-		//TODO unintuitive combination of wrapper-cls and real payload
+		// TODO unintuitive combination of wrapper-cls and real payload
 		$cls = $event->getType()['name'].'\\'.$serializedName;
 		if (!\class_exists($cls)) {
 			throw new CXmlModelNotFoundException($serializedName);
 		}
 
-		//manipulate metadata of payload on-the-fly to match xml
+		// manipulate metadata of payload on-the-fly to match xml
 
 		/** @var PropertyMetadata $propertyMetadata */
 		$propertyMetadata = new PropertyMetadata(

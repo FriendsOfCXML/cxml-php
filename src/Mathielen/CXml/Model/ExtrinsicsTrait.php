@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 trait ExtrinsicsTrait
 {
-
 	/**
 	 * @Ser\XmlList(inline=true, entry="Extrinsic")
 	 * @Ser\Type("array<Mathielen\CXml\Model\Extrinsic>")

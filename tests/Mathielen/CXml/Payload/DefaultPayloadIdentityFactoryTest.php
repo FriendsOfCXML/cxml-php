@@ -2,15 +2,14 @@
 
 namespace Mathielen\CXml\Payload;
 
-use Mathielen\CXml\Validation\Exception\CxmlInvalidException;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class DefaultPayloadIdentityFactoryTest extends TestCase
 {
 	public function testGenerateNewPayloadId(): void
 	{
-		$pif = new DefaultPayloadIdentityFactory(function() {
-			//2022-04-22 08:00:00.400000 +00:00
+		$pif = new DefaultPayloadIdentityFactory(function () {
+			// 2022-04-22 08:00:00.400000 +00:00
 			return \DateTime::createFromFormat('U.v', '1650614400.400');
 		});
 		$actualIdentity = $pif->newPayloadIdentity();

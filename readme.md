@@ -1,15 +1,23 @@
 This repository is a public fork of https://github.com/mathielen/cxml implementation.
 
 # What is it?
-> cXML is a streamlined protocol intended for consistent communication of business documents between procurement applications, e-commerce hubs and suppliers. http://cxml.org/
+
+> cXML is a streamlined protocol intended for consistent communication of business documents between procurement
+> applications, e-commerce hubs and suppliers. http://cxml.org/
+>
+> cXML Reference Guide (PDF): http://xml.cxml.org/current/cXMLReferenceGuide.pdf
+
 # Status
-* Tested with cXML Specification 1.2.050
-* cXML Reference Guide (PDF): http://xml.cxml.org/current/cXMLReferenceGuide.pdf
-* WIP 
+
+|  CXML Version | Status Test  |
+|---|---|
+| 1.2.050  | OK |
+| 1.2.053  | OK |
 
 # Getting Started
 
 ## Installation
+
 ```bash
 $ composer require loeffelhardt/el-cxml
 ```
@@ -21,6 +29,7 @@ require_once 'vendor/autoload.php';
 ```
 
 ## Get current dtd definition files
+
 1. Download get current Specification from http://cxml.org/downloads.html
 2. Extract files
 3. Use cXML.dtd for validation (see below)
@@ -78,7 +87,8 @@ $cXml = \Mathielen\CXml\Builder::create()
 ```
 
 ### Register outgoing cXML documents
-You may want to register sent-out documents so they can be referenced by subsequent request-documents via payloadId. 
+
+You may want to register sent-out documents so they can be referenced by subsequent request-documents via payloadId.
 
 ```php
 $documentRegistory = new MyDocumentRegistry(); //implements Mathielen\CXml\Document\DocumentRegistryInterface
@@ -87,6 +97,7 @@ $documentRegistory->register($cXml);
 ```
 
 ### Process incoming cXML documents
+
 ```php
 $headerProcessor = new \Mathielen\CXml\Processor\HeaderProcessor($credentialRegistry);
 

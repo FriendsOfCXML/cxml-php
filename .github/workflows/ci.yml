@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup PHP
-        uses: Loeffelhardt/el-setup-php-action@v2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
           extensions: dom, libxml

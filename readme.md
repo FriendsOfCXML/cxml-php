@@ -17,7 +17,7 @@
 ## Installation
 
 ```bash
-$ composer require friendsofcsml/cxml-php
+$ composer require friendsofcxml/cxml-php
 ```
 
 Then include Composer’s autoloader:

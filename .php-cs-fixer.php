@@ -1,31 +1,34 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__.'/src')
-    ->in(__DIR__.'/tests')
+	->in(__DIR__.'/src')
+	->in(__DIR__.'/tests')
 ;
 
 $config = new PhpCsFixer\Config();
+
 return $config
-    ->setRules([
-        '@PSR2' => true,
-        '@PSR1' => true,
-        '@Symfony' => true,
-        '@Symfony:risky' => true,
-        'native_function_invocation' => [
+	->setRiskyAllowed(true)
+	->setRules([
+		'@PSR2' => true,
+		'@PSR1' => true,
+		'@PhpCsFixer' => true,
+		'@Symfony' => true,
+		'@Symfony:risky' => true,
+		'native_function_invocation' => [
 			'include' => [\PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer::SET_INTERNAL],
 			'scope' => 'namespaced',
-			'strict' => false
+			'strict' => false,
 		],
-        'void_return' => true,
-        'random_api_migration' => true,
-        'pow_to_exponentiation' => true,
-        'combine_nested_dirname' => true,
-        '@PHP73Migration' => true,
-        'global_namespace_import' => [
-            'import_classes' => false
-        ]
-    ])
-    ->setIndent("\t")
-    ->setFinder($finder)
+		'void_return' => true,
+		'random_api_migration' => true,
+		'pow_to_exponentiation' => true,
+		'combine_nested_dirname' => true,
+		'@PHP80Migration' => true,
+		'global_namespace_import' => [
+			'import_classes' => false,
+		],
+	])
+	->setIndent("\t")
+	->setFinder($finder)
 ;

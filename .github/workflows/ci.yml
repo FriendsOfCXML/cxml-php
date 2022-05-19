@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validation:
+    name: "Static validation / PHP 8.0 - 8.1"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: [
+          '8.0',
+          '8.1',
+        ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: dom, libxml
+          tools: composer:v2
+
+      - name: Composer get cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Composer cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Composer validate
+        run: composer validate
+
+      - name: Composer install
+        run: composer install --no-scripts --ignore-platform-reqs
+
+      - name: Run PHP Parallel Lint
+        run: vendor/bin/parallel-lint src/
+
+      - name: Run CodeStyle checks
+        run: vendor/bin/php-cs-fixer fix src --allow-risky=yes --diff --dry-run
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyze -clear-result-cache -c phpstan.neon src/ -l 8
+
+      - name: Run Tests
+        run: vendor/bin/phpunit --testdox tests
+
+      - name: Run Security check
+        run: vendor/bin/security-checker security:check composer.lock

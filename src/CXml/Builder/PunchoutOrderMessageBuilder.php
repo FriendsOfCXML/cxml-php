@@ -2,6 +2,7 @@
 
 namespace CXml\Builder;
 
+use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemIn;
@@ -35,7 +36,7 @@ class PunchoutOrderMessageBuilder
 		$punchoutOrderMessageItem = ItemIn::create(
 			$quantity,
 			new ItemId($sku, null, $sku),
-			new ItemDetail(new MultilanguageString($description, null, 'de'), $unitOfMeasure, new MoneyWrapper('EUR', $unitPrice)),
+			new ItemDetail(new Description($description, null, 'de'), $unitOfMeasure, new MoneyWrapper('EUR', $unitPrice)),
 		);
 
 		$this->punchOutOrderMessage->addPunchoutOrderMessageItem($punchoutOrderMessageItem);

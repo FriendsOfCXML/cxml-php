@@ -49,7 +49,7 @@ class DtdValidator
 	{
 		$creator = new \DOMImplementation();
 		$doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
-		$new = $creator->createDocument(null, '', $doctype);
+		$new = $creator->createDocument('', '', $doctype);
 		$new->encoding = 'utf-8';
 
 		$oldNode = $originalDomDocument->getElementsByTagName('cXML')->item(0);

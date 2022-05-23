@@ -17,7 +17,7 @@ class ItemDetail
 	 * @Ser\SerializedName("Description")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	/* mixed */ private $description;
+	private $description;
 
 	/**
 	 * @Ser\SerializedName("UnitOfMeasure")

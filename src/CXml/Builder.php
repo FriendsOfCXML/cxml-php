@@ -98,6 +98,7 @@ class Builder
 	{
 		switch (true) {
 			case $this->payload instanceof RequestInterface:
+				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forRequest(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
 					new Request($this->payload, $this->status, null, $deploymentMode),
@@ -107,6 +108,7 @@ class Builder
 				break;
 
 			case $this->payload instanceof MessageInterface:
+				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forMessage(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
 					new Message($this->payload, $this->status),
@@ -116,6 +118,7 @@ class Builder
 				break;
 
 			case $this->payload instanceof ResponseInterface:
+				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forResponse(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
 					new Response($this->payload, $this->status),

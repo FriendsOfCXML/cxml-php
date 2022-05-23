@@ -17,7 +17,7 @@ class ItemDetail
 	 * @Ser\SerializedName("Description")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private mixed $description;
+	private /*mixed*/ $description;
 
 	/**
 	 * @Ser\SerializedName("UnitOfMeasure")
@@ -51,7 +51,7 @@ class ItemDetail
 	 */
 	private ?string $url;
 
-	public function __construct(MultilanguageString|MultilanguageShortName $description, string $unitOfMeasure, MoneyWrapper $unitPrice, ?string $manufacturerPartId = null, ?string $manufacturerName = null, ?string $url = null)
+	public function __construct(/*MultilanguageString|MultilanguageShortName*/ $description, string $unitOfMeasure, MoneyWrapper $unitPrice, ?string $manufacturerPartId = null, ?string $manufacturerName = null, ?string $url = null)
 	{
 		$this->description = $description;
 		$this->unitOfMeasure = $unitOfMeasure;

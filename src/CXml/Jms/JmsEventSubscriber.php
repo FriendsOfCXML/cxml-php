@@ -116,7 +116,6 @@ class JmsEventSubscriber implements EventSubscriberInterface
 
 		// manipulate metadata of payload on-the-fly to match xml
 
-		/** @var PropertyMetadata $propertyMetadata */
 		$propertyMetadata = new PropertyMetadata(
 			$event->getType()['name'],
 			'payload'

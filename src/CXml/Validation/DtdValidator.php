@@ -43,6 +43,7 @@ class DtdValidator
 
 	/**
 	 * @throws CxmlInvalidException
+	 * @throws \DOMException
 	 */
 	private function injectDtd(\DOMDocument $originalDomDocument, string $dtdFilename): \DOMDocument
 	{
@@ -64,6 +65,7 @@ class DtdValidator
 
 	/**
 	 * @throws CxmlInvalidException
+	 * @throws \DOMException
 	 */
 	private function validateAgainstMultipleDtd(array $validateFiles, \DOMDocument $old): void
 	{

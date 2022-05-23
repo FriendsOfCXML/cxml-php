@@ -8,7 +8,7 @@ class Description extends MultilanguageString
 {
 	/**
 	 * @Ser\SerializedName("ShortName")
-	 * @Ser\XmlElement(cdata=true)
+	 * @Ser\XmlElement(cdata=false)
 	 */
 	private ?string $shortName = null;
 

@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Ser;
 class MultilanguageString
 {
 	/**
-	 * @Ser\XmlValue(cdata=true)
+	 * @Ser\XmlValue(cdata=false)
 	 */
 	private ?string $value;
 

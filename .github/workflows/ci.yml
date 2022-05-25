@@ -11,7 +11,7 @@ on:
 
 jobs:
   validation:
-    name: "Static validation / PHP 7.4 - 8.1"
+    name: "Static PHP Validation"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

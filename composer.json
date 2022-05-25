@@ -61,6 +61,6 @@
     "phpstan": "vendor/bin/phpstan analyze"
   },
   "conflict": {
-    "symfony/symfony": "^6.0"
+    "symfony/console": "^6.0"
   }
 }

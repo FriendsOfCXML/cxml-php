@@ -49,9 +49,7 @@ jobs:
         run: composer validate
 
       - name: Composer install
-        run: composer install --no-scripts --ignore-platform-reqs
-        with:
-          php-version: ${{ matrix.php-version }}
+        run: composer install --no-scripts
 
       - name: Run PHP Parallel Lint
         run: vendor/bin/parallel-lint src/

@@ -28,7 +28,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php-version }}
           extensions: dom, libxml
           tools: composer:v2
 
@@ -43,13 +43,15 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-composer-${{ matrix.php-version }}
+            ${{ runner.os }}-composer-
 
       - name: Composer validate
         run: composer validate
 
       - name: Composer install
         run: composer install --no-scripts --ignore-platform-reqs
+        with:
+          php-version: ${{ matrix.php-version }}
 
       - name: Run PHP Parallel Lint
         run: vendor/bin/parallel-lint src/

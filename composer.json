@@ -60,7 +60,7 @@
     "sniff-fix": "vendor/bin/php-cs-fixer fix",
     "phpstan": "vendor/bin/phpstan analyze"
   },
-  "conflicts": {
+  "conflict": {
     "symfony/symfony": "^6.0"
   }
 }

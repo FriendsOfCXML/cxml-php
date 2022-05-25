@@ -9,7 +9,6 @@ use CXml\Model\ItemIn;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
-use CXml\Model\MultilanguageString;
 
 // TODO not yet final and completed
 class PunchoutOrderMessageBuilder

@@ -29,5 +29,4 @@ class Description extends MultilanguageString
 	{
 		$this->shortName = $shortName;
 	}
-
 }

@@ -59,8 +59,5 @@
     "test": "vendor/bin/phpunit --testdox tests",
     "sniff-fix": "vendor/bin/php-cs-fixer fix",
     "phpstan": "vendor/bin/phpstan analyze"
-  },
-  "conflict": {
-    "symfony/console": "^6.0"
   }
 }

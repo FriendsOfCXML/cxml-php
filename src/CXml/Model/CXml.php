@@ -125,4 +125,19 @@ class CXml
 
 		return $shortName.'_'.$this->payloadId;
 	}
+
+	public function getStatus(): ?Status
+	{
+		if ($this->request) {
+			return $this->request->getStatus();
+		}
+		if ($this->message) {
+			return $this->message->getStatus();
+		}
+		if ($this->response) {
+			return $this->response->getStatus();
+		}
+
+		return null;
+	}
 }

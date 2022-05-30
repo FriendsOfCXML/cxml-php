@@ -33,10 +33,10 @@ class Processor
 	];
 
 	private static array $exceptionCodeMapping = [
-		//cxml
+		// cxml
 		450 => 'Not Implemented',
 
-		//http - shamelessly copied from Symfony\Component\HttpFoundation\Response
+		// http - shamelessly copied from Symfony\Component\HttpFoundation\Response
 		100 => 'Continue',
 		101 => 'Switching Protocols',
 		102 => 'Processing',            // RFC2518

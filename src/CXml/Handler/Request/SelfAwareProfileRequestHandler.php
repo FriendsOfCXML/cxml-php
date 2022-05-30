@@ -15,11 +15,13 @@ class SelfAwareProfileRequestHandler implements HandlerInterface
 {
 	private HandlerRegistry $handlerRegistry;
 	private UrlGeneratorInterface $urlGenerator;
+	private string $defaultRoute;
 
-	public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator)
+	public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator, string $defaultRoute = 'post_cxml')
 	{
 		$this->handlerRegistry = $handlerRegistry;
 		$this->urlGenerator = $urlGenerator;
+		$this->defaultRoute = $defaultRoute;
 	}
 
 	public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface
@@ -35,10 +37,9 @@ class SelfAwareProfileRequestHandler implements HandlerInterface
 		return $profileResponse;
 	}
 
-	// TODO probably should be moved to HandlerInterface for full-fledged routing solution
 	private function getEndpointUrl(): string
 	{
-		return $this->urlGenerator->generate('post_cxml', [], UrlGeneratorInterface::ABSOLUTE_URL);
+		return $this->urlGenerator->generate($this->defaultRoute, [], UrlGeneratorInterface::ABSOLUTE_URL);
 	}
 
 	public static function getRequestName(): string

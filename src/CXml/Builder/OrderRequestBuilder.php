@@ -6,6 +6,7 @@ use CXml\Model\Address;
 use CXml\Model\AddressWrapper;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
+use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemOut;
@@ -128,7 +129,7 @@ class OrderRequestBuilder
 			$quantity,
 			$itemId,
 			new ItemDetail(
-				new MultilanguageString(
+				new Description(
 					$description,
 					null,
 					$this->language

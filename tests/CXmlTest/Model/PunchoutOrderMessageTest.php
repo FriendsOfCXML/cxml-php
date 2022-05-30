@@ -12,7 +12,7 @@ use CXml\Model\ItemIn;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
-use CXml\Model\MultilanguageShortName;
+use CXml\Model\Description;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Validation\DtdValidator;
@@ -54,7 +54,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 				3,
 				new ItemId('5555', null, 'KD5555'),
 				(new ItemDetail(
-					new MultilanguageShortName('Excelsior Desk Chair', null, 'en'),
+					Description::createWithShortName('Excelsior Desk Chair', null, 'en'),
 					'EA',
 					new MoneyWrapper('USD', 76320)
 				))->addClassification((new Classification('UNSPSC', 'ean1234')))
@@ -64,7 +64,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 				5,
 				new ItemId('666', null, 'KD666'),
 				new ItemDetail(
-					new MultilanguageShortName('22Excelsior Desk Chair', null, 'en'),
+					Description::createWithShortName('22Excelsior Desk Chair', null, 'en'),
 					'EA',
 					new MoneyWrapper('USD', 76320)
 				)

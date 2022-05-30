@@ -20,7 +20,8 @@ class CxmlInvalidException extends CXmlNotAcceptableException
 		return $this->xml;
 	}
 
-	public static function fromLibXmlError(mixed $libXmlError, string $xml): self
+	/** @phpstan-ignore-next-line */
+	public static function fromLibXmlError($libXmlError, string $xml): self
 	{
 		if ($libXmlError instanceof \LibXMLError) {
 			$message = \sprintf('%s at line %d, column %d. Code %s.', \trim($libXmlError->message), $libXmlError->line, $libXmlError->column, $libXmlError->code);

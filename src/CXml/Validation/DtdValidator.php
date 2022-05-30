@@ -43,12 +43,13 @@ class DtdValidator
 
 	/**
 	 * @throws CxmlInvalidException
+	 * @throws \DOMException
 	 */
 	private function injectDtd(\DOMDocument $originalDomDocument, string $dtdFilename): \DOMDocument
 	{
 		$creator = new \DOMImplementation();
 		$doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
-		$new = $creator->createDocument(null, '', $doctype);
+		$new = $creator->createDocument('', '', $doctype);
 		$new->encoding = 'utf-8';
 
 		$oldNode = $originalDomDocument->getElementsByTagName('cXML')->item(0);
@@ -64,6 +65,7 @@ class DtdValidator
 
 	/**
 	 * @throws CxmlInvalidException
+	 * @throws \DOMException
 	 */
 	private function validateAgainstMultipleDtd(array $validateFiles, \DOMDocument $old): void
 	{

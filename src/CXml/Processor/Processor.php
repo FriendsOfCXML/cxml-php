@@ -192,7 +192,7 @@ class Processor
 	 */
 	private function processRequest(Model\Request $request, Context $context): CXml
 	{
-		$header = $context->getCXml()?->getHeader();
+		$header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
 		if (!$header) {
 			throw new CXmlException('Invalid CXml. Header is mandatory for request message.');
 		}

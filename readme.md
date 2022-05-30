@@ -7,10 +7,10 @@
 
 # Status
 
-|  CXML Version | Status Test  |
-|---|---|
-| 1.2.050  | OK |
-| 1.2.053  | OK |
+| CXML Version | Status Test |
+|--------------|-------------|
+| 1.2.050      | OK          |
+| 1.2.053      | OK          |
 
 # Getting Started
 

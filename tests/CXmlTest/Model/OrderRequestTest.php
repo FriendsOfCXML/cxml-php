@@ -9,6 +9,7 @@ use CXml\Model\AddressWrapper;
 use CXml\Model\Comment;
 use CXml\Model\Country;
 use CXml\Model\Credential;
+use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemOut;
@@ -99,7 +100,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			10,
 			new ItemId('1233244'),
 			new ItemDetail(
-				new MultilanguageString('hello from item 1'),
+				new Description('hello from item 1'),
 				'EA',
 				new MoneyWrapper(
 					'EUR',
@@ -115,7 +116,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			20,
 			new ItemId('1233245'),
 			new ItemDetail(
-				new MultilanguageString('hello from item 2'),
+				new Description('hello from item 2'),
 				'EA',
 				new MoneyWrapper(
 					'EUR',

@@ -11,12 +11,13 @@ on:
 
 jobs:
   validation:
-    name: "Static validation / PHP 8.0 - 8.1"
+    name: "Static PHP Validation"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         php-version: [
+          '7.4',
           '8.0',
           '8.1',
         ]
@@ -48,7 +49,7 @@ jobs:
         run: composer validate
 
       - name: Composer install
-        run: composer install --no-scripts --ignore-platform-reqs
+        run: composer install --no-scripts
 
       - name: Run PHP Parallel Lint
         run: vendor/bin/parallel-lint src/

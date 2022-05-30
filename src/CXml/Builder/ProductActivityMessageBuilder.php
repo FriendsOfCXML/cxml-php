@@ -29,7 +29,7 @@ class ProductActivityMessageBuilder
 		return new self($messageId, $warehouseCodeDomain);
 	}
 
-	public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, ?string $nextIntakeDate, ?int $nextIntakeQuantity): self
+	public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, ?array $extrinsics = null): self
 	{
 		$inventory = Inventory::create()
 			->setStockOnHandQuantity(new InventoryQuantity($stockLevel, 'EA'))
@@ -42,13 +42,10 @@ class ProductActivityMessageBuilder
 				->addIdReference($this->warehouseCodeDomain, $warehouseCode)
 		);
 
-		// TODO found not better way to transport this info
-		if ($nextIntakeDate) {
-			$activityDetail->addExtrinsic('next_intake_date', $nextIntakeDate);
-		}
-		// TODO found not better way to transport this info
-		if ($nextIntakeQuantity) {
-			$activityDetail->addExtrinsic('next_intake_quantity', (string) $nextIntakeQuantity);
+		if ($extrinsics) {
+			foreach ($extrinsics as $k => $v) {
+				$activityDetail->addExtrinsic($k, $v);
+			}
 		}
 
 		$this->productActivityMessage->addProductActivityDetail($activityDetail);

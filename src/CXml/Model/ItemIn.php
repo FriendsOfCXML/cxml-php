@@ -25,7 +25,7 @@ class ItemIn
 	private function __construct(
 		int $quantity,
 		ItemId $itemId,
-		ItemDetail $itemDetail,
+		ItemDetail $itemDetail
 	) {
 		$this->quantity = $quantity;
 		$this->itemId = $itemId;
@@ -35,7 +35,7 @@ class ItemIn
 	public static function create(
 		int $quantity,
 		ItemId $itemId,
-		ItemDetail $itemDetail,
+		ItemDetail $itemDetail
 	): self {
 		return new self(
 			$quantity,

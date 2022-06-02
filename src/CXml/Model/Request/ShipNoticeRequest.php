@@ -6,7 +6,7 @@ use CXml\Model\ShipControl;
 use CXml\Model\ShipNoticePortion;
 use JMS\Serializer\Annotation as Ser;
 
-class ShipNoticeRequestPayload implements RequestPayloadInterface
+class ShipNoticeRequest implements RequestPayloadInterface
 {
 	/**
 	 * @Ser\SerializedName("ShipNoticeHeader")

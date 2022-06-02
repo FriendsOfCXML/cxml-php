@@ -5,7 +5,7 @@ namespace CXml\Handler\Request;
 use CXml\Context;
 use CXml\Handler\HandlerInterface;
 use CXml\Model\PayloadInterface;
-use CXml\Model\Response\PunchoutSetupResponsePayload;
+use CXml\Model\Response\PunchoutSetupResponse;
 use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Url;
 
@@ -20,7 +20,7 @@ class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
 
 	public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
 	{
-		return new PunchoutSetupResponsePayload(
+		return new PunchoutSetupResponse(
 			new Url(
 				$this->startPageUrl
 			)
@@ -29,6 +29,6 @@ class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
 
 	public static function getRequestName(): string
 	{
-		return 'PunchOutSetupRequestPayload';
+		return 'PunchOutSetupRequest';
 	}
 }

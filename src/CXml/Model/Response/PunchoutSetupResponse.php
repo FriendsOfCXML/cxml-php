@@ -5,7 +5,7 @@ namespace CXml\Model\Response;
 use CXml\Model\Url;
 use JMS\Serializer\Annotation as Ser;
 
-class PunchoutSetupResponsePayload implements ResponsePayloadInterface
+class PunchoutSetupResponse implements ResponsePayloadInterface
 {
 	/**
 	 * @Ser\SerializedName("StartPage")

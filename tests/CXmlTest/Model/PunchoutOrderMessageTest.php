@@ -11,7 +11,7 @@ use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemIn;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
-use CXml\Model\Message\PunchOutOrderMessagePayload;
+use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
@@ -46,7 +46,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 			'website 1',
 		);
 
-		$punchoutOrderMessage = PunchOutOrderMessagePayload::create(
+		$punchoutOrderMessage = PunchOutOrderMessage::create(
 			'1CX3L4843PPZO',
 			new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320), 'create'),
 		)->addPunchoutOrderMessageItem(

@@ -7,7 +7,7 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
-class StatusUpdateRequestPayload implements RequestPayloadInterface
+class StatusUpdateRequest implements RequestPayloadInterface
 {
 	use ExtrinsicsTrait;
 

@@ -6,7 +6,7 @@ use CXml\Model\Option;
 use CXml\Model\Transaction;
 use JMS\Serializer\Annotation as Ser;
 
-class ProfileResponsePayload implements ResponsePayloadInterface
+class ProfileResponse implements ResponsePayloadInterface
 {
 	/**
 	 * @Ser\XmlAttribute

@@ -18,7 +18,7 @@ use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
 use CXml\Model\PostalAddress;
 use CXml\Model\Request\OrderRequestHeader;
-use CXml\Model\Request\OrderRequestPayload;
+use CXml\Model\Request\OrderRequest;
 use CXml\Model\ShipTo;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use PHPUnit\Framework\TestCase;
@@ -90,7 +90,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			[new Comment(null, null, null, 'delivery-note.pdf')]
 		);
 
-		$orderRequest = OrderRequestPayload::create(
+		$orderRequest = OrderRequest::create(
 			$orderRequestHeader
 		);
 
@@ -137,7 +137,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 		$this->assertEquals('OrderRequest_1625586002.193314.7293@dev', (string) $cxml);
 
 		$xml = Endpoint::serialize($cxml);
-		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequestPayload.xml', $xml);
+		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
 	}
 
 	public function newPayloadIdentity(): PayloadIdentity

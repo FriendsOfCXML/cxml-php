@@ -6,7 +6,7 @@ use CXml\Context;
 use CXml\Handler\HandlerInterface;
 use CXml\Handler\HandlerRegistry;
 use CXml\Model\PayloadInterface;
-use CXml\Model\Response\ProfileResponsePayload;
+use CXml\Model\Response\ProfileResponse;
 use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Transaction;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -26,7 +26,7 @@ class SelfAwareProfileRequestHandler implements HandlerInterface
 
 	public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
 	{
-		$profileResponse = new ProfileResponsePayload();
+		$profileResponse = new ProfileResponse();
 
 		foreach ($this->handlerRegistry->all() as $requestName => $handler) {
 			$transaction = new Transaction($requestName, $this->getEndpointUrl());
@@ -44,6 +44,6 @@ class SelfAwareProfileRequestHandler implements HandlerInterface
 
 	public static function getRequestName(): string
 	{
-		return 'ProfileRequestPayload';
+		return 'ProfileRequest';
 	}
 }

@@ -8,7 +8,7 @@ use CXml\Model\SelectedItem;
 use CXml\Model\Url;
 use JMS\Serializer\Annotation as Ser;
 
-class PunchOutSetupRequestPayload implements RequestPayloadInterface
+class PunchOutSetupRequest implements RequestPayloadInterface
 {
 	use ExtrinsicsTrait;
 

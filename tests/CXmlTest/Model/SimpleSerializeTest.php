@@ -8,11 +8,11 @@ use CXml\Model\CXml;
 use CXml\Model\Header;
 use CXml\Model\Message\Message;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
-use CXml\Model\Message\PunchOutOrderMessagePayload;
+use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\Party;
 use CXml\Model\PayloadIdentity;
-use CXml\Model\Request\PunchOutSetupRequestPayload;
+use CXml\Model\Request\PunchOutSetupRequest;
 use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
 use CXml\Model\Status;
@@ -37,7 +37,7 @@ class SimpleSerializeTest extends TestCase
 			'Network Hub 1.1'
 		);
 		$request = new Request(
-			new PunchOutSetupRequestPayload(
+			new PunchOutSetupRequest(
 				'nomnom',
 				'https://browserFormPost',
 				'https://supplierSetup'
@@ -84,7 +84,7 @@ class SimpleSerializeTest extends TestCase
 			</Sender>
 			</Header>
 			<Request>
-			<PunchOutSetupRequestPayload operation="create">
+			<PunchOutSetupRequest operation="create">
 			<BuyerCookie>nomnom</BuyerCookie>
 			<BrowserFormPost>
 			<URL>https://browserFormPost</URL>
@@ -92,7 +92,7 @@ class SimpleSerializeTest extends TestCase
 			<SupplierSetup>
 			<URL>https://supplierSetup</URL>
 			</SupplierSetup>
-			</PunchOutSetupRequestPayload>
+			</PunchOutSetupRequest>
 			</Request>
 			</cXML>
 			EOT;
@@ -113,7 +113,7 @@ class SimpleSerializeTest extends TestCase
 			'Network Hub 1.1'
 		);
 		$message = new Message\Message(
-			new PunchOutOrderMessagePayload(
+			new PunchOutOrderMessage(
 				'34234234ADFSDF234234',
 				new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320))
 			)
@@ -159,14 +159,14 @@ class SimpleSerializeTest extends TestCase
 			</Sender>
 			</Header>
 			<Message>
-			<PunchOutOrderMessagePayload>
+			<PunchOutOrderMessage>
 			<BuyerCookie>34234234ADFSDF234234</BuyerCookie>
 			<PunchOutOrderMessageHeader operationAllowed="create">
 			<Total>
 			<Money currency="USD">763.20</Money>
 			</Total>
 			</PunchOutOrderMessageHeader>
-			</PunchOutOrderMessagePayload>
+			</PunchOutOrderMessage>
 			</Message>
 			</cXML>
 			EOT;

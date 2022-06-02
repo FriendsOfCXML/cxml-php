@@ -48,6 +48,7 @@ class HeaderProcessor
 	 */
 	private function checkCredentialIsValid(Credential $testCredential): void
 	{
+		//provoke an exception if credential was not found
 		$this->credentialRepository->getCredentialByDomainAndId(
 			$testCredential->getDomain(),
 			$testCredential->getIdentity()

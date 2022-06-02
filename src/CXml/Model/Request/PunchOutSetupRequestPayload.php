@@ -4,12 +4,11 @@ namespace CXml\Model\Request;
 
 use CXml\Model\AddressWrapper;
 use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\RequestInterface;
 use CXml\Model\SelectedItem;
 use CXml\Model\Url;
 use JMS\Serializer\Annotation as Ser;
 
-class PunchOutSetupRequest implements RequestInterface
+class PunchOutSetupRequestPayload implements RequestPayloadInterface
 {
 	use ExtrinsicsTrait;
 

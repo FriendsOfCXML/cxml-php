@@ -1,10 +1,11 @@
 <?php
 
-namespace CXml\Model;
+namespace CXml\Model\Message;
 
+use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
-class Message implements MessageInterface
+class Message
 {
 	/**
 	 * @Ser\SerializedName("Status")
@@ -33,10 +34,10 @@ class Message implements MessageInterface
 	 * @Ser\Exclude
 	 * see JmsEventSubscriber
 	 */
-	private MessageInterface $payload;
+	private MessagePayloadInterface $payload;
 
 	public function __construct(
-		MessageInterface $message,
+		MessagePayloadInterface $message,
 		Status $status = null,
 		string $id = null,
 		string $deploymentMode = null,
@@ -69,7 +70,7 @@ class Message implements MessageInterface
 		return $this->id;
 	}
 
-	public function getPayload(): MessageInterface
+	public function getPayload(): MessagePayloadInterface
 	{
 		return $this->payload;
 	}

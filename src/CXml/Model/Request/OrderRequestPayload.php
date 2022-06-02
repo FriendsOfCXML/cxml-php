@@ -3,10 +3,9 @@
 namespace CXml\Model\Request;
 
 use CXml\Model\ItemOut;
-use CXml\Model\RequestInterface;
 use JMS\Serializer\Annotation as Ser;
 
-class OrderRequest implements RequestInterface
+class OrderRequestPayload implements RequestPayloadInterface
 {
 	/**
 	 * @Ser\SerializedName("OrderRequestHeader")

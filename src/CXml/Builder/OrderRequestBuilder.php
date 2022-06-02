@@ -14,8 +14,8 @@ use CXml\Model\Money;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PostalAddress;
-use CXml\Model\Request\OrderRequest;
 use CXml\Model\Request\OrderRequestHeader;
+use CXml\Model\Request\OrderRequestPayload;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\Tax;
@@ -191,9 +191,9 @@ class OrderRequestBuilder
 		;
 	}
 
-	public function build(): OrderRequest
+	public function build(): OrderRequestPayload
 	{
-		return OrderRequest::create(
+		return OrderRequestPayload::create(
 			$this->buildOrderRequestHeader()
 		)->addItems($this->items);
 	}

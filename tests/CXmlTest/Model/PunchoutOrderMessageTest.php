@@ -6,13 +6,13 @@ use CXml\Builder;
 use CXml\Endpoint;
 use CXml\Model\Classification;
 use CXml\Model\Credential;
+use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemIn;
-use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
+use CXml\Model\Message\PunchOutOrderMessagePayload;
 use CXml\Model\MoneyWrapper;
-use CXml\Model\Description;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Validation\DtdValidator;
@@ -46,7 +46,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 			'website 1',
 		);
 
-		$punchoutOrderMessage = PunchOutOrderMessage::create(
+		$punchoutOrderMessage = PunchOutOrderMessagePayload::create(
 			'1CX3L4843PPZO',
 			new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320), 'create'),
 		)->addPunchoutOrderMessageItem(

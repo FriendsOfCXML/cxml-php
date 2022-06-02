@@ -7,14 +7,14 @@ use CXml\Exception\CXmlException;
 use CXml\Model\Credential;
 use CXml\Model\CXml;
 use CXml\Model\Header;
-use CXml\Model\Message;
-use CXml\Model\MessageInterface;
+use CXml\Model\Message\Message;
+use CXml\Model\Message\MessagePayloadInterface;
 use CXml\Model\Party;
 use CXml\Model\PayloadInterface;
-use CXml\Model\Request;
-use CXml\Model\RequestInterface;
-use CXml\Model\Response;
-use CXml\Model\ResponseInterface;
+use CXml\Model\Request\Request;
+use CXml\Model\Request\RequestPayloadInterface;
+use CXml\Model\Response\Response;
+use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
 use CXml\Payload\DefaultPayloadIdentityFactory;
 use CXml\Payload\PayloadIdentityFactoryInterface;
@@ -97,7 +97,7 @@ class Builder
 	public function build(string $deploymentMode = null): CXml
 	{
 		switch (true) {
-			case $this->payload instanceof RequestInterface:
+			case $this->payload instanceof RequestPayloadInterface:
 				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forRequest(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
@@ -107,7 +107,7 @@ class Builder
 				);
 				break;
 
-			case $this->payload instanceof MessageInterface:
+			case $this->payload instanceof MessagePayloadInterface:
 				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forMessage(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
@@ -117,7 +117,7 @@ class Builder
 				);
 				break;
 
-			case $this->payload instanceof ResponseInterface:
+			case $this->payload instanceof ResponsePayloadInterface:
 				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forResponse(
 					$this->payloadIdentityFactory->newPayloadIdentity(),

@@ -1,10 +1,11 @@
 <?php
 
-namespace CXml\Model;
+namespace CXml\Model\Response;
 
+use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
-class Response implements ResponseInterface
+class Response
 {
 	/**
 	 * @Ser\SerializedName("Status")
@@ -21,10 +22,10 @@ class Response implements ResponseInterface
 	 * @Ser\Exclude
 	 * see JmsEventSubscriber
 	 */
-	private ?ResponseInterface $payload;
+	private ?ResponsePayloadInterface $payload;
 
 	public function __construct(
-		?ResponseInterface $payload,
+		?ResponsePayloadInterface $payload,
 		?Status $status = null,
 		?string $id = null
 	) {
@@ -43,7 +44,7 @@ class Response implements ResponseInterface
 		return $this->id;
 	}
 
-	public function getPayload(): ?ResponseInterface
+	public function getPayload(): ?ResponsePayloadInterface
 	{
 		return $this->payload;
 	}

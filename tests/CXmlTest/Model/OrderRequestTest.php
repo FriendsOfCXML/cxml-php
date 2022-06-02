@@ -17,9 +17,8 @@ use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
 use CXml\Model\PostalAddress;
-use CXml\Model\Request;
-use CXml\Model\Request\OrderRequest;
 use CXml\Model\Request\OrderRequestHeader;
+use CXml\Model\Request\OrderRequestPayload;
 use CXml\Model\ShipTo;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use PHPUnit\Framework\TestCase;
@@ -91,7 +90,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			[new Comment(null, null, null, 'delivery-note.pdf')]
 		);
 
-		$orderRequest = OrderRequest::create(
+		$orderRequest = OrderRequestPayload::create(
 			$orderRequestHeader
 		);
 
@@ -132,13 +131,13 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			->to($to)
 			->sender($sender, 'Platform Order Fulfillment Hub')
 			->payload($orderRequest)
-			->build(Request::DEPLOYMENT_TEST)
+			->build(Request\Request::DEPLOYMENT_TEST)
 		;
 
 		$this->assertEquals('OrderRequest_1625586002.193314.7293@dev', (string) $cxml);
 
 		$xml = Endpoint::serialize($cxml);
-		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
+		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequestPayload.xml', $xml);
 	}
 
 	public function newPayloadIdentity(): PayloadIdentity

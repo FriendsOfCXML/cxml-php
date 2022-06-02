@@ -3,10 +3,9 @@
 namespace CXml\Model\Request;
 
 use CXml\Model\OrderReference;
-use CXml\Model\RequestInterface;
 use JMS\Serializer\Annotation as Ser;
 
-class ConfirmationRequest implements RequestInterface
+class ConfirmationRequestPayload implements RequestPayloadInterface
 {
 	/**
 	 * @Ser\SerializedName("ConfirmationHeader")

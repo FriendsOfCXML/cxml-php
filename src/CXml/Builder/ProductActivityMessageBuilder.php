@@ -7,17 +7,17 @@ use CXml\Model\Inventory;
 use CXml\Model\InventoryQuantity;
 use CXml\Model\ItemId;
 use CXml\Model\Message\ProductActivityDetail;
-use CXml\Model\Message\ProductActivityMessage;
+use CXml\Model\Message\ProductActivityMessagePayload;
 use CXml\Model\MultilanguageString;
 
 class ProductActivityMessageBuilder
 {
-	private ProductActivityMessage $productActivityMessage;
+	private ProductActivityMessagePayload $productActivityMessage;
 	private string $warehouseCodeDomain;
 
 	private function __construct(string $messageId, string $warehouseCodeDomain)
 	{
-		$this->productActivityMessage = ProductActivityMessage::create(
+		$this->productActivityMessage = ProductActivityMessagePayload::create(
 			$messageId,
 		);
 
@@ -53,10 +53,10 @@ class ProductActivityMessageBuilder
 		return $this;
 	}
 
-	public function build(): ProductActivityMessage
+	public function build(): ProductActivityMessagePayload
 	{
 		if (empty($this->productActivityMessage->getProductActivityDetails())) {
-			throw new \RuntimeException('Cannot build ProductActivityMessage without any ProductActivityDetail');
+			throw new \RuntimeException('Cannot build ProductActivityMessagePayload without any ProductActivityDetail');
 		}
 
 		return $this->productActivityMessage;

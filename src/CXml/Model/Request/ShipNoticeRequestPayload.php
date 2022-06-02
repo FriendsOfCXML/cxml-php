@@ -2,12 +2,11 @@
 
 namespace CXml\Model\Request;
 
-use CXml\Model\RequestInterface;
 use CXml\Model\ShipControl;
 use CXml\Model\ShipNoticePortion;
 use JMS\Serializer\Annotation as Ser;
 
-class ShipNoticeRequest implements RequestInterface
+class ShipNoticeRequestPayload implements RequestPayloadInterface
 {
 	/**
 	 * @Ser\SerializedName("ShipNoticeHeader")

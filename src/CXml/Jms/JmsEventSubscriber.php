@@ -3,9 +3,9 @@
 namespace CXml\Jms;
 
 use CXml\Model\Exception\CXmlModelNotFoundException;
-use CXml\Model\Message;
-use CXml\Model\Request;
-use CXml\Model\Response;
+use CXml\Model\Message\Message;
+use CXml\Model\Request\Request;
+use CXml\Model\Response\Response;
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
@@ -79,7 +79,7 @@ class JmsEventSubscriber implements EventSubscriberInterface
 		/** @var XmlSerializationVisitor $visitor */
 		$visitor = $event->getVisitor();
 
-		// this is the actual payload object of type MessageInterface
+		// this is the actual payload object of type MessagePayloadInterface
 		$payload = $event->getObject()->getPayload();
 
 		if ($payload) {

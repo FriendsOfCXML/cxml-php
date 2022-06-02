@@ -6,20 +6,20 @@ use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemIn;
-use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
+use CXml\Model\Message\PunchOutOrderMessagePayload;
 use CXml\Model\MoneyWrapper;
 
 // TODO not yet final and completed
 class PunchoutOrderMessageBuilder
 {
-	private PunchOutOrderMessage $punchOutOrderMessage;
+	private PunchOutOrderMessagePayload $punchOutOrderMessage;
 
 	private function __construct(string $buyerCookie, int $total, string $currency, ?string $operationAllowed)
 	{
 		$total = new MoneyWrapper($currency, $total);
 		$punchoutOrderMessageHeader = new PunchOutOrderMessageHeader($total, $operationAllowed);
-		$this->punchOutOrderMessage = PunchOutOrderMessage::create(
+		$this->punchOutOrderMessage = PunchOutOrderMessagePayload::create(
 			$buyerCookie,
 			$punchoutOrderMessageHeader
 		);
@@ -43,10 +43,10 @@ class PunchoutOrderMessageBuilder
 		return $this;
 	}
 
-	public function build(): PunchOutOrderMessage
+	public function build(): PunchOutOrderMessagePayload
 	{
 		if (empty($this->punchOutOrderMessage->getPunchoutOrderMessageItems())) {
-			throw new \RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
+			throw new \RuntimeException('Cannot build PunchOutOrderMessagePayload without any PunchoutOrderMessageItem');
 		}
 
 		return $this->punchOutOrderMessage;

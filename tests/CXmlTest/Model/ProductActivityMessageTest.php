@@ -10,7 +10,7 @@ use CXml\Model\Inventory;
 use CXml\Model\InventoryQuantity;
 use CXml\Model\ItemId;
 use CXml\Model\Message\ProductActivityDetail;
-use CXml\Model\Message\ProductActivityMessage;
+use CXml\Model\Message\ProductActivityMessagePayload;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
@@ -38,7 +38,7 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 			'abracadabra'
 		);
 
-		$productActivityMessage = ProductActivityMessage::create(
+		$productActivityMessage = ProductActivityMessagePayload::create(
 			'CP12465192-1552965424130',
 			'SMI',
 			new \DateTime('2019-02-20T14:39:48-08:00')
@@ -62,7 +62,7 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 		$this->assertEquals('ProductActivityMessage_0c30050@supplierorg.com', (string) $cxml);
 
 		$xml = Endpoint::serialize($cxml);
-		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessage.xml', $xml);
+		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessagePayload.xml', $xml);
 	}
 
 	public function newPayloadIdentity(): PayloadIdentity

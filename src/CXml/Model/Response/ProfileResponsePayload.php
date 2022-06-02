@@ -3,11 +3,10 @@
 namespace CXml\Model\Response;
 
 use CXml\Model\Option;
-use CXml\Model\ResponseInterface;
 use CXml\Model\Transaction;
 use JMS\Serializer\Annotation as Ser;
 
-class ProfileResponse implements ResponseInterface
+class ProfileResponsePayload implements ResponsePayloadInterface
 {
 	/**
 	 * @Ser\XmlAttribute

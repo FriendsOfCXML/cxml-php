@@ -6,15 +6,15 @@ use CXml\Endpoint;
 use CXml\Model\Credential;
 use CXml\Model\CXml;
 use CXml\Model\Header;
-use CXml\Model\Message;
-use CXml\Model\Message\PunchOutOrderMessage;
+use CXml\Model\Message\Message;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
+use CXml\Model\Message\PunchOutOrderMessagePayload;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\Party;
 use CXml\Model\PayloadIdentity;
-use CXml\Model\Request;
-use CXml\Model\Request\PunchOutSetupRequest;
-use CXml\Model\Response;
+use CXml\Model\Request\PunchOutSetupRequestPayload;
+use CXml\Model\Request\Request;
+use CXml\Model\Response\Response;
 use CXml\Model\Status;
 use PHPUnit\Framework\TestCase;
 
@@ -37,7 +37,7 @@ class SimpleSerializeTest extends TestCase
 			'Network Hub 1.1'
 		);
 		$request = new Request(
-			new PunchOutSetupRequest(
+			new PunchOutSetupRequestPayload(
 				'nomnom',
 				'https://browserFormPost',
 				'https://supplierSetup'
@@ -84,7 +84,7 @@ class SimpleSerializeTest extends TestCase
 			</Sender>
 			</Header>
 			<Request>
-			<PunchOutSetupRequest operation="create">
+			<PunchOutSetupRequestPayload operation="create">
 			<BuyerCookie>nomnom</BuyerCookie>
 			<BrowserFormPost>
 			<URL>https://browserFormPost</URL>
@@ -92,7 +92,7 @@ class SimpleSerializeTest extends TestCase
 			<SupplierSetup>
 			<URL>https://supplierSetup</URL>
 			</SupplierSetup>
-			</PunchOutSetupRequest>
+			</PunchOutSetupRequestPayload>
 			</Request>
 			</cXML>
 			EOT;
@@ -112,8 +112,8 @@ class SimpleSerializeTest extends TestCase
 			new Credential('AribaNetworkUserId', 'sysadmin@buyer.com', 'abracadabra'),
 			'Network Hub 1.1'
 		);
-		$message = new Message(
-			new PunchOutOrderMessage(
+		$message = new Message\Message(
+			new PunchOutOrderMessagePayload(
 				'34234234ADFSDF234234',
 				new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320))
 			)
@@ -159,14 +159,14 @@ class SimpleSerializeTest extends TestCase
 			</Sender>
 			</Header>
 			<Message>
-			<PunchOutOrderMessage>
+			<PunchOutOrderMessagePayload>
 			<BuyerCookie>34234234ADFSDF234234</BuyerCookie>
 			<PunchOutOrderMessageHeader operationAllowed="create">
 			<Total>
 			<Money currency="USD">763.20</Money>
 			</Total>
 			</PunchOutOrderMessageHeader>
-			</PunchOutOrderMessage>
+			</PunchOutOrderMessagePayload>
 			</Message>
 			</cXML>
 			EOT;

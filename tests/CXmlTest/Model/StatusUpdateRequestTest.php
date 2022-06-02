@@ -6,7 +6,7 @@ use CXml\Builder;
 use CXml\Endpoint;
 use CXml\Model\Credential;
 use CXml\Model\PayloadIdentity;
-use CXml\Model\Request\StatusUpdateRequest;
+use CXml\Model\Request\StatusUpdateRequestPayload;
 use CXml\Model\Status;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +33,7 @@ class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactory
 			'abracadabra'
 		);
 
-		$statusUpdateRequest = new StatusUpdateRequest(
+		$statusUpdateRequest = new StatusUpdateRequestPayload(
 			new Status(200, 'OK', 'Forwarded to supplier', 'en-US'),
 			'0c300508b7863dcclb_14999'
 		);
@@ -49,7 +49,7 @@ class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactory
 		$this->assertEquals('StatusUpdateRequest_0c30050@supplierorg.com', (string) $cxml);
 
 		$xml = Endpoint::serialize($cxml);
-		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequest.xml', $xml);
+		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequestPayload.xml', $xml);
 	}
 
 	public function newPayloadIdentity(): PayloadIdentity

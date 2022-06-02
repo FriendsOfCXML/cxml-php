@@ -16,7 +16,7 @@ use CXml\Handler\HandlerRegistryInterface;
 use CXml\Model;
 use CXml\Model\CXml;
 use CXml\Model\PayloadInterface;
-use CXml\Model\ResponseInterface;
+use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
 use CXml\Processor\Exception\CXmlProcessException;
 
@@ -156,7 +156,7 @@ class Processor
 	 * @throws CXmlProcessException
 	 * @throws CXmlException
 	 */
-	private function processMessage(Model\Message $message, Context $context): void
+	private function processMessage(Model\Message\Message $message, Context $context): void
 	{
 		$payload = $message->getPayload();
 
@@ -171,11 +171,11 @@ class Processor
 	 * @throws CXmlProcessException
 	 * @throws CXmlException
 	 */
-	private function processResponse(Model\Response $response, Context $context): void
+	private function processResponse(Model\Response\Response $response, Context $context): void
 	{
 		$payload = $response->getPayload();
 
-		if (!$payload instanceof ResponseInterface) {
+		if (!$payload instanceof ResponsePayloadInterface) {
 			return;
 		}
 
@@ -190,7 +190,7 @@ class Processor
 	 * @throws CXmlProcessException
 	 * @throws CXmlException
 	 */
-	private function processRequest(Model\Request $request, Context $context): CXml
+	private function processRequest(Model\Request\Request $request, Context $context): CXml
 	{
 		$header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
 		if (!$header) {

@@ -8,7 +8,7 @@ use CXml\Model\CarrierIdentifier;
 use CXml\Model\Credential;
 use CXml\Model\PayloadIdentity;
 use CXml\Model\Request\ShipNoticeHeader;
-use CXml\Model\Request\ShipNoticeRequest;
+use CXml\Model\Request\ShipNoticeRequestPayload;
 use CXml\Model\ShipControl;
 use CXml\Model\ShipmentIdentifier;
 use CXml\Model\ShipNoticePortion;
@@ -37,7 +37,7 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
 			'abracadabra'
 		);
 
-		$statusUpdateRequest = ShipNoticeRequest::create(
+		$statusUpdateRequest = ShipNoticeRequestPayload::create(
 			ShipNoticeHeader::create(
 				'S2-123',
 				new \DateTime('2000-10-14T18:39:09-08:00'),
@@ -66,7 +66,7 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
 		$this->assertEquals('ShipNoticeRequest_0c30050@supplierorg.com', (string) $cxml);
 
 		$xml = Endpoint::serialize($cxml);
-		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ShipNoticeRequest.xml', $xml);
+		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ShipNoticeRequestPayload.xml', $xml);
 	}
 
 	public function newPayloadIdentity(): PayloadIdentity

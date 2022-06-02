@@ -1,11 +1,12 @@
 <?php
 
-namespace CXml\Model;
+namespace CXml\Model\Request;
 
 use Assert\Assertion;
+use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
-class Request implements RequestInterface
+class Request
 {
 	public const DEPLOYMENT_TEST = 'test';
 	public const DEPLOYMENT_PROD = 'production';
@@ -31,10 +32,10 @@ class Request implements RequestInterface
 	 * @Ser\Exclude
 	 * see JmsEventSubscriber
 	 */
-	private RequestInterface $payload;
+	private RequestPayloadInterface $payload;
 
 	public function __construct(
-		RequestInterface $payload,
+		RequestPayloadInterface $payload,
 		?Status $status = null,
 		?string $id = null,
 		?string $deploymentMode = null
@@ -64,7 +65,7 @@ class Request implements RequestInterface
 		return $this->deploymentMode;
 	}
 
-	public function getPayload(): RequestInterface
+	public function getPayload(): RequestPayloadInterface
 	{
 		return $this->payload;
 	}

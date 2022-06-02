@@ -3,10 +3,9 @@
 namespace CXml\Model\Message;
 
 use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\MessageInterface;
 use JMS\Serializer\Annotation as Ser;
 
-class ProductActivityMessage implements MessageInterface
+class ProductActivityMessagePayload implements MessagePayloadInterface
 {
 	use ExtrinsicsTrait;
 
@@ -17,7 +16,7 @@ class ProductActivityMessage implements MessageInterface
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="ProductActivityDetails")
-	 * @Ser\Type("array<CXml\Model\Message\ProductActivityDetail>")
+	 * @Ser\Type("array<CXml\Model\Message\Message\ProductActivityDetail>")
 	 *
 	 * @var ProductActivityDetail[]
 	 */

@@ -3,10 +3,9 @@
 namespace CXml\Model\Message;
 
 use CXml\Model\ItemIn;
-use CXml\Model\MessageInterface;
 use JMS\Serializer\Annotation as Ser;
 
-class PunchOutOrderMessage implements MessageInterface
+class PunchOutOrderMessagePayload implements MessagePayloadInterface
 {
 	/**
 	 * @Ser\SerializedName("BuyerCookie")

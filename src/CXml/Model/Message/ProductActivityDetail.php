@@ -22,18 +22,18 @@ class ProductActivityDetail
 	 * @Ser\SerializedName("Description")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?MultilanguageString $description;
+	private ?MultilanguageString $description = null;
 
 	/**
 	 * @Ser\SerializedName("Contact")
 	 * todo: more contact should be allowed
 	 */
-	private ?Contact $contact;
+	private ?Contact $contact = null;
 
 	/**
 	 * @Ser\SerializedName("Inventory")
 	 */
-	private ?Inventory $inventory;
+	private ?Inventory $inventory = null;
 
 	private function __construct(ItemId $itemId, ?Inventory $inventory = null, ?Contact $contact = null, ?MultilanguageString $description = null)
 	{

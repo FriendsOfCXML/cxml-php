@@ -112,7 +112,7 @@ class SimpleSerializeTest extends TestCase
 			new Credential('AribaNetworkUserId', 'sysadmin@buyer.com', 'abracadabra'),
 			'Network Hub 1.1'
 		);
-		$message = new Message\Message(
+		$message = new Message(
 			new PunchOutOrderMessage(
 				'34234234ADFSDF234234',
 				new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320))

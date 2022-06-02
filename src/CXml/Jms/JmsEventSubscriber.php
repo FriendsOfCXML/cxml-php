@@ -107,9 +107,9 @@ class JmsEventSubscriber implements EventSubscriberInterface
 		}
 
 		$serializedName = $payloadNode->getName();
+		$targetNamespace = (new \ReflectionClass($event->getType()['name']))->getNamespaceName();
 
-		// TODO unintuitive combination of wrapper-cls and real payload
-		$cls = $event->getType()['name'].'\\'.$serializedName;
+		$cls = $targetNamespace.'\\'.$serializedName;
 		if (!\class_exists($cls)) {
 			throw new CXmlModelNotFoundException($serializedName);
 		}

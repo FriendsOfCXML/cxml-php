@@ -16,7 +16,7 @@ class ProductActivityMessage implements MessagePayloadInterface
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="ProductActivityDetails")
-	 * @Ser\Type("array<CXml\Model\Message\Message\ProductActivityDetail>")
+	 * @Ser\Type("array<CXml\Model\Message\ProductActivityDetail>")
 	 *
 	 * @var ProductActivityDetail[]
 	 */

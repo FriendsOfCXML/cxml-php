@@ -19,6 +19,7 @@ use CXml\Model\PayloadIdentity;
 use CXml\Model\PostalAddress;
 use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Request\OrderRequest;
+use CXml\Model\Request\Request;
 use CXml\Model\ShipTo;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use PHPUnit\Framework\TestCase;
@@ -131,7 +132,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			->to($to)
 			->sender($sender, 'Platform Order Fulfillment Hub')
 			->payload($orderRequest)
-			->build(Request\Request::DEPLOYMENT_TEST)
+			->build(Request::DEPLOYMENT_TEST)
 		;
 
 		$this->assertEquals('OrderRequest_1625586002.193314.7293@dev', (string) $cxml);

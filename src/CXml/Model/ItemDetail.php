@@ -37,19 +37,19 @@ class ItemDetail
 	 * @Ser\SerializedName("ManufacturerPartID")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $manufacturerPartId;
+	private ?string $manufacturerPartId = null;
 
 	/**
 	 * @Ser\SerializedName("ManufacturerName")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $manufacturerName;
+	private ?string $manufacturerName = null;
 
 	/**
 	 * @Ser\SerializedName("URL")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $url;
+	private ?string $url = null;
 
 	public function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, ?string $manufacturerPartId = null, ?string $manufacturerName = null, ?string $url = null)
 	{

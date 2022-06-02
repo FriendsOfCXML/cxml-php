@@ -24,7 +24,7 @@ class Status
 	/**
 	 * @Ser\XmlValue(cdata=false)
 	 */
-	private ?string $message;
+	private ?string $message = null;
 
 	public function __construct(int $code = 200, string $text = 'OK', ?string $message = null, ?string $lang = null)
 	{

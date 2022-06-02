@@ -12,7 +12,7 @@ class PostalAddress
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("name")
 	 */
-	private ?string $name;
+	private ?string $name = null;
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="DeliverTo")
@@ -38,19 +38,19 @@ class PostalAddress
 	 * @Ser\SerializedName("Municipality")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $municipality;
+	private ?string $municipality = null;
 
 	/**
 	 * @Ser\SerializedName("State")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $state;
+	private ?string $state = null;
 
 	/**
 	 * @Ser\SerializedName("PostalCode")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $postalCode;
+	private ?string $postalCode = null;
 
 	/**
 	 * @Ser\SerializedName("Country")

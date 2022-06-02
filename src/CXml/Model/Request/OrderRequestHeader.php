@@ -43,7 +43,7 @@ class OrderRequestHeader
 	 * @Ser\XmlElement
 	 * @Ser\SerializedName("ShipTo")
 	 */
-	private ?ShipTo $shipTo;
+	private ?ShipTo $shipTo = null;
 
 	/**
 	 * @Ser\XmlElement
@@ -69,7 +69,7 @@ class OrderRequestHeader
 	 *
 	 * @var Contact[]
 	 */
-	private ?array $contacts;
+	private ?array $contacts = null;
 
 	/**
 	 * @Ser\XmlList(inline=true, entry="Comments")
@@ -77,7 +77,7 @@ class OrderRequestHeader
 	 *
 	 * @var Comment[]
 	 */
-	private ?array $comments;
+	private ?array $comments = null;
 
 	public function __construct(
 		string $orderId,

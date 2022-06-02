@@ -26,7 +26,7 @@ class Contact
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?string $role;
+	private ?string $role = null;
 
 	/**
 	 * @Ser\SerializedName("Name")

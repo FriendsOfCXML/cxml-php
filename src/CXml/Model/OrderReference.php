@@ -9,18 +9,18 @@ class OrderReference
 	/**
 	 * @Ser\SerializedName("DocumentReference")
 	 */
-	private ?DocumentReference $documentReference;
+	private ?DocumentReference $documentReference = null;
 
 	/**
 	 * @Ser\SerializedName("orderID")
 	 * @Ser\XmlAttribute
 	 */
-	private ?string $orderId;
+	private ?string $orderId = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?\DateTime $orderDate;
+	private ?\DateTime $orderDate = null;
 
 	public function __construct(DocumentReference $documentReference, ?string $orderId = null, ?\DateTime $orderDate = null)
 	{

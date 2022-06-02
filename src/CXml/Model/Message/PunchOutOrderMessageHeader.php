@@ -14,7 +14,7 @@ class PunchOutOrderMessageHeader
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?string $operationAllowed;
+	private ?string $operationAllowed = null;
 
 	/**
 	 * @Ser\SerializedName("Total")

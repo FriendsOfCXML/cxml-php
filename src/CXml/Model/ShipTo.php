@@ -22,7 +22,7 @@ class ShipTo
 	/**
 	 * @Ser\SerializedName("TransportInformation")
 	 */
-	private ?TransportInformation $transportInformation;
+	private ?TransportInformation $transportInformation = null;
 
 	public function __construct(Address $address, ?TransportInformation $transportInformation = null)
 	{

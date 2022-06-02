@@ -10,25 +10,25 @@ class Message
 	/**
 	 * @Ser\SerializedName("Status")
 	 */
-	private ?Status $status;
+	private ?Status $status = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("deploymentMode")
 	 */
-	private ?string $deploymentMode;
+	private ?string $deploymentMode = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("inReplyTo")
 	 */
-	private ?string $inReplyTo;
+	private ?string $inReplyTo = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("Id")
 	 */
-	private ?string $id;
+	private ?string $id = null;
 
 	/**
 	 * @Ser\Exclude

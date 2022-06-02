@@ -15,7 +15,7 @@ class Tax
 	 * @Ser\SerializedName("Description")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?MultilanguageString $description;
+	private ?MultilanguageString $description = null;
 
 	public function __construct(Money $money, ?MultilanguageString $description = null)
 	{

@@ -10,7 +10,7 @@ class Response
 	/**
 	 * @Ser\SerializedName("Status")
 	 */
-	private ?Status $status = null;
+	private Status $status;
 
 	/**
 	 * @Ser\XmlAttribute
@@ -25,8 +25,8 @@ class Response
 	private ?ResponsePayloadInterface $payload = null;
 
 	public function __construct(
-		?ResponsePayloadInterface $payload,
-		?Status $status = null,
+		Status $status,
+		?ResponsePayloadInterface $payload = null,
 		?string $id = null
 	) {
 		$this->status = $status;
@@ -34,7 +34,7 @@ class Response
 		$this->payload = $payload;
 	}
 
-	public function getStatus(): ?Status
+	public function getStatus(): Status
 	{
 		return $this->status;
 	}

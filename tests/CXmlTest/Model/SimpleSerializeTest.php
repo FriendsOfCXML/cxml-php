@@ -182,8 +182,8 @@ class SimpleSerializeTest extends TestCase
 				new \DateTime('2001-01-08T10:47:01-08:00')
 			),
 			new Response(
-				null,
-				new Status(200, 'OK', 'Ping Response CXml')
+				new Status(200, 'OK', 'Ping Response CXml'),
+				null
 			)
 		);
 

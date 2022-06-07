@@ -118,10 +118,17 @@ class Builder
 				break;
 
 			case $this->payload instanceof ResponsePayloadInterface:
+				$status = $this->status;
+
+				//response requires a status
+				if ($status === null) {
+					$status = new Status(); //200 OK
+				}
+
 				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forResponse(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
-					new Response($this->payload, $this->status),
+					new Response($status, $this->payload),
 					$this->locale
 				);
 				break;
@@ -131,7 +138,7 @@ class Builder
 				if ($this->status) {
 					$cXml = CXml::forResponse(
 						$this->payloadIdentityFactory->newPayloadIdentity(),
-						new Response(null, $this->status),
+						new Response($this->status),
 						$this->locale
 					);
 

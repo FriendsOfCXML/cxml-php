@@ -30,7 +30,7 @@ class Request
 
 	/**
 	 * @Ser\Exclude
-	 * see JmsEventSubscriber
+	 * see CXmlWrappingNodeJmsEventSubscriber
 	 */
 	private RequestPayloadInterface $payload;
 

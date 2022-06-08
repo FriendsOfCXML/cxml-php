@@ -2,7 +2,6 @@
 
 namespace CXmlTest\Model;
 
-use CXml\Endpoint;
 use CXml\Model\Credential;
 use CXml\Model\CXml;
 use CXml\Model\Header;
@@ -16,13 +15,14 @@ use CXml\Model\Request\PunchOutSetupRequest;
 use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
 use CXml\Model\Status;
+use CXml\Serializer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  * @coversNothing
  */
-class SimpleSerializeTest extends TestCase
+class SerializerTest extends TestCase
 {
 	public function testSimpleRequest(): void
 	{
@@ -56,13 +56,11 @@ class SimpleSerializeTest extends TestCase
 			$header
 		);
 
-		$actualXml = Endpoint::buildSerializer()
-			->serialize($msg, 'xml')
-		;
+		$actualXml = Serializer::create()->serialize($msg);
 
 		// XML copied from cXML Reference Guide
-		$expectedXml = <<<'EOT'
-			<?xml version="1.0" encoding="UTF-8"?>
+		$expectedXml =
+			'<?xml version="1.0" encoding="UTF-8"?>
 			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
 			<Header>
 			<From>
@@ -94,8 +92,7 @@ class SimpleSerializeTest extends TestCase
 			</SupplierSetup>
 			</PunchOutSetupRequest>
 			</Request>
-			</cXML>
-			EOT;
+			</cXML>';
 
 		$this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
 	}
@@ -131,13 +128,11 @@ class SimpleSerializeTest extends TestCase
 			$header
 		);
 
-		$actualXml = Endpoint::buildSerializer()
-			->serialize($msg, 'xml')
-		;
+		$actualXml = Serializer::create()->serialize($msg);
 
 		// XML *NOT* copied from cXML Reference Guide
-		$expectedXml = <<<'EOT'
-			<?xml version="1.0" encoding="UTF-8"?>
+		$expectedXml =
+			'<?xml version="1.0" encoding="UTF-8"?>
 			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
 			<Header>
 			<From>
@@ -168,8 +163,7 @@ class SimpleSerializeTest extends TestCase
 			</PunchOutOrderMessageHeader>
 			</PunchOutOrderMessage>
 			</Message>
-			</cXML>
-			EOT;
+			</cXML>';
 
 		$this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
 	}
@@ -187,20 +181,64 @@ class SimpleSerializeTest extends TestCase
 			)
 		);
 
-		$actualXml = Endpoint::buildSerializer()
-			->serialize($msg, 'xml')
-		;
+		$actualXml = Serializer::create()->serialize($msg);
 
 		// XML copied from cXML Reference Guide
-		$expectedXml = <<<'EOT'
-			<?xml version="1.0" encoding="UTF-8"?>
+		$expectedXml =
+			'<?xml version="1.0" encoding="UTF-8"?>
 			<cXML timestamp="2001-01-08T10:47:01-08:00" payloadID="978979621537--4882920031100014936@206.251.25.169">
 			<Response>
 			<Status code="200" text="OK">Ping Response CXml</Status>
 			</Response>
-			</cXML>
-			EOT;
+			</cXML>';
 
 		$this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+	}
+
+	public function testDeserialize(): void
+	{
+		$xml =
+			'<?xml version="1.0" encoding="UTF-8"?>
+			<cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
+			<Response>
+			<Status code="200" text="OK">Ping Response CXml</Status>
+			</Response>
+			</cXML>';
+
+		$serializer = Serializer::create();
+		$cXml = $serializer->deserialize($xml);
+
+		$resultingXml = $serializer->serialize($cXml);
+
+		$this->assertXmlStringEqualsXmlString($xml, $resultingXml);
+	}
+
+	/**
+	 * even though the cXML definition defines the timestamp value to be in ISO-8601 format there are some providers that
+	 * also uses the milliseconds value (i.e. JAGGAER)
+	 */
+	public function testDeserializeWithMilliseconds(): void
+	{
+		$xmlIn =
+			'<?xml version="1.0" encoding="UTF-8"?>
+			<cXML timestamp="2022-06-07T10:09:56.728+00:00" payloadID="x.y.z">
+			<Response>
+			<Status code="200" text="OK">Ping Response CXml</Status>
+			</Response>
+			</cXML>';
+
+		$serializer = Serializer::create();
+		$cXml = $serializer->deserialize($xmlIn);
+
+		$actual = $serializer->serialize($cXml);
+
+		$xmlOut =
+			'<?xml version="1.0" encoding="UTF-8"?>
+			<cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
+			<Response>
+			<Status code="200" text="OK">Ping Response CXml</Status>
+			</Response>
+			</cXML>';
+		$this->assertXmlStringEqualsXmlString($xmlOut, $actual);
 	}
 }

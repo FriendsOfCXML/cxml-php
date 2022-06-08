@@ -20,7 +20,7 @@ class Response
 
 	/**
 	 * @Ser\Exclude
-	 * see JmsEventSubscriber
+	 * see CXmlWrappingNodeJmsEventSubscriber
 	 */
 	private ?ResponsePayloadInterface $payload = null;
 

@@ -4,7 +4,7 @@ namespace CXml\Validation\Exception;
 
 use CXml\Exception\CXmlNotAcceptableException;
 
-class CxmlInvalidException extends CXmlNotAcceptableException
+class CXmlInvalidException extends CXmlNotAcceptableException
 {
 	private string $xml;
 

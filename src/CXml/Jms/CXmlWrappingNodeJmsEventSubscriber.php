@@ -15,7 +15,7 @@ use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\XmlSerializationVisitor;
 use Metadata\ClassMetadata;
 
-class JmsEventSubscriber implements EventSubscriberInterface
+class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 {
 	public static function getSubscribedEvents(): array
 	{

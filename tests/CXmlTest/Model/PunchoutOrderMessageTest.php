@@ -15,6 +15,7 @@ use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use CXml\Serializer;
 use CXml\Validation\DtdValidator;
 use PHPUnit\Framework\TestCase;
 
@@ -81,7 +82,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 
 		$this->assertEquals('PunchOutOrderMessage_933695160894', (string) $cxml);
 
-		$xml = Endpoint::serialize($cxml);
+		$xml = Serializer::create()->serialize($cxml);
 		$this->dtdValidator->validateAgainstDtd($xml);
 
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchoutOrderMessage.xml', $xml);

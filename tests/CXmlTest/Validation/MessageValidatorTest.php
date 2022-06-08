@@ -3,7 +3,7 @@
 namespace CXmlTest\Validation;
 
 use CXml\Validation\DtdValidator;
-use CXml\Validation\Exception\CxmlInvalidException;
+use CXml\Validation\Exception\CXmlInvalidException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,7 +29,7 @@ class MessageValidatorTest extends TestCase
 
 	public function testValidateMissingRootNode(): void
 	{
-		$this->expectException(CxmlInvalidException::class);
+		$this->expectException(CXmlInvalidException::class);
 
 		$xml = '<some-node></some-node>';
 		$this->dtdValidator->validateAgainstDtd($xml);
@@ -37,7 +37,7 @@ class MessageValidatorTest extends TestCase
 
 	public function testValidateInvalid(): void
 	{
-		$this->expectException(CxmlInvalidException::class);
+		$this->expectException(CXmlInvalidException::class);
 
 		$xml = '<cXML></cXML>';
 		$this->dtdValidator->validateAgainstDtd($xml);

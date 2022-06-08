@@ -3,58 +3,30 @@
 namespace CXml;
 
 use CXml\Exception\CXmlException;
-use CXml\Jms\JmsEventSubscriber;
 use CXml\Model\CXml;
 use CXml\Processor\Processor;
 use CXml\Validation\DtdValidator;
-use CXml\Validation\Exception\CxmlInvalidException;
-use JMS\Serializer\EventDispatcher\EventDispatcherInterface;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
-use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\SerializerInterface;
+use CXml\Validation\Exception\CXmlInvalidException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 class Endpoint
 {
+	private Serializer $serializer;
 	private DtdValidator $dtdValidator;
 	private Processor $processor;
 	private LoggerInterface $logger;
 
 	public function __construct(
+		Serializer $serializer,
 		DtdValidator $messageValidator,
 		Processor $processor,
 		LoggerInterface $logger = null
 	) {
+		$this->serializer = $serializer;
 		$this->dtdValidator = $messageValidator;
 		$this->processor = $processor;
 		$this->logger = $logger ?? new NullLogger();
-	}
-
-	public static function buildSerializer(): SerializerInterface
-	{
-		return SerializerBuilder::create()
-			->configureListeners(function (EventDispatcherInterface $dispatcher): void {
-				$dispatcher->addSubscriber(new JmsEventSubscriber());
-			})
-			->setPropertyNamingStrategy(
-				new IdenticalPropertyNamingStrategy()
-			)
-			->build()
-		;
-	}
-
-	public static function deserialize(string $xml): CXml
-	{
-		// remove doctype, as it would throw a JMS\Serializer\Exception\InvalidArgumentException
-		$xml = \preg_replace('/<!doctype.+>/i', '', $xml);
-
-		return self::buildSerializer()->deserialize((string) $xml, CXml::class, 'xml');
-	}
-
-	public static function serialize(CXml $cxml): string
-	{
-		return self::buildSerializer()->serialize($cxml, 'xml');
 	}
 
 	/**
@@ -67,7 +39,7 @@ class Endpoint
 		// validate
 		try {
 			$this->dtdValidator->validateAgainstDtd($xml);
-		} catch (CxmlInvalidException $e) {
+		} catch (CXmlInvalidException $e) {
 			$this->logger->error('Incoming CXml was invalid (via DTD)', ['xml' => $xml]);
 
 			throw $e;
@@ -75,11 +47,11 @@ class Endpoint
 
 		// deserialize
 		try {
-			$cxml = self::deserialize($xml);
+			$cxml = $this->serializer->deserialize($xml);
 		} catch (\RuntimeException $e) {
 			$this->logger->error('Error while deserializing xml to CXml: '.$e->getMessage(), ['xml' => $xml]);
 
-			throw new CxmlInvalidException('Error while deserializing xml: '.$e->getMessage(), $xml, $e);
+			throw new CXmlInvalidException('Error while deserializing xml: '.$e->getMessage(), $xml, $e);
 		}
 
 		// process

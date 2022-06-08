@@ -14,6 +14,7 @@ use CXml\Model\Message\ProductActivityMessage;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use CXml\Serializer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -61,7 +62,7 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 
 		$this->assertEquals('ProductActivityMessage_0c30050@supplierorg.com', (string) $cxml);
 
-		$xml = Endpoint::serialize($cxml);
+		$xml = Serializer::create()->serialize($cxml);
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessage.xml', $xml);
 	}
 

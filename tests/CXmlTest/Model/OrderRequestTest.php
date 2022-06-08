@@ -22,6 +22,7 @@ use CXml\Model\Request\OrderRequest;
 use CXml\Model\Request\Request;
 use CXml\Model\ShipTo;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use CXml\Serializer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -137,7 +138,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 
 		$this->assertEquals('OrderRequest_1625586002.193314.7293@dev', (string) $cxml);
 
-		$xml = Endpoint::serialize($cxml);
+		$xml = Serializer::create()->serialize($cxml);
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
 	}
 

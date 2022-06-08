@@ -32,7 +32,7 @@ class Message
 
 	/**
 	 * @Ser\Exclude
-	 * see JmsEventSubscriber
+	 * see CXmlWrappingNodeJmsEventSubscriber
 	 */
 	private MessagePayloadInterface $payload;
 

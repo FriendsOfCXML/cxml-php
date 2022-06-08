@@ -27,8 +27,14 @@ class JmsDateTimeHandler
 
 	public function deserialize(XmlDeserializationVisitor $visitor, $dateAsString, array $type, Context $context)
 	{
+		if (isset($type['params'][0])) {
+			return \DateTime::createFromFormat($type['params'][0], $dateAsString);
+		}
+
+		// try milliseconds
 		$dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString);
 
+		// fallback to ISO-8601
 		if ($dateTime === false) {
 			$dateTime = \DateTime::createFromFormat(\DateTime::ATOM, $dateAsString);
 		}

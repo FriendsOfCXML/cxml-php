@@ -31,12 +31,12 @@ class JmsDateTimeHandler
 			return \DateTime::createFromFormat($type['params'][0], $dateAsString);
 		}
 
-		// try milliseconds
-		$dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString);
+		// try ISO-8601
+		$dateTime = \DateTime::createFromFormat(\DateTime::ATOM, $dateAsString);
 
-		// fallback to ISO-8601
+		// is failed, try milliseconds-format
 		if ($dateTime === false) {
-			$dateTime = \DateTime::createFromFormat(\DateTime::ATOM, $dateAsString);
+			$dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString);
 		}
 
 		return $dateTime;

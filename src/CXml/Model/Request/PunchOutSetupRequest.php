@@ -2,9 +2,9 @@
 
 namespace CXml\Model\Request;
 
-use CXml\Model\ShipTo;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\SelectedItem;
+use CXml\Model\ShipTo;
 use CXml\Model\Url;
 use JMS\Serializer\Annotation as Ser;
 

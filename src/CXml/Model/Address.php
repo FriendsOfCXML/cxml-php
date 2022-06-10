@@ -64,4 +64,44 @@ class Address
 		$this->fax = $fax;
 		$this->url = $url;
 	}
+
+	public function getAddressId(): ?string
+	{
+		return $this->addressId;
+	}
+
+	public function getAddressIdDomain(): ?string
+	{
+		return $this->addressIdDomain;
+	}
+
+	public function getName(): MultilanguageString
+	{
+		return $this->name;
+	}
+
+	public function getPostalAddress(): ?PostalAddress
+	{
+		return $this->postalAddress;
+	}
+
+	public function getEmail(): ?string
+	{
+		return $this->email;
+	}
+
+	public function getPhone(): ?string
+	{
+		return $this->phone;
+	}
+
+	public function getFax(): ?string
+	{
+		return $this->fax;
+	}
+
+	public function getUrl(): ?string
+	{
+		return $this->url;
+	}
 }

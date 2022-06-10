@@ -27,4 +27,19 @@ class MultilanguageString
 		$this->lang = $lang;
 		$this->type = $type;
 	}
+
+	public function getValue(): ?string
+	{
+		return $this->value;
+	}
+
+	public function getType(): ?string
+	{
+		return $this->type;
+	}
+
+	public function getLang(): ?string
+	{
+		return $this->lang;
+	}
 }

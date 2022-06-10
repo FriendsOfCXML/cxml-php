@@ -58,7 +58,7 @@ class PostalAddress
 	 */
 	private Country $country;
 
-	public function __construct(array $deliverTo, array $street, string $city, Country $country, ?string $municipality, ?string $state, ?string $postalCode, ?string $name = null)
+	public function __construct(array $deliverTo, array $street, string $city, Country $country, ?string $municipality = null, ?string $state = null, ?string $postalCode = null, ?string $name = null)
 	{
 		$this->name = $name;
 		$this->deliverTo = $deliverTo;
@@ -68,5 +68,60 @@ class PostalAddress
 		$this->state = $state;
 		$this->postalCode = $postalCode;
 		$this->country = $country;
+	}
+
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
+
+	public function getDeliverTo(): array
+	{
+		return $this->deliverTo;
+	}
+
+	public function getStreet(): array
+	{
+		return $this->street;
+	}
+
+	public function getCity(): string
+	{
+		return $this->city;
+	}
+
+	public function getMunicipality(): ?string
+	{
+		return $this->municipality;
+	}
+
+	public function getState(): ?string
+	{
+		return $this->state;
+	}
+
+	public function getPostalCode(): ?string
+	{
+		return $this->postalCode;
+	}
+
+	public function getCountry(): Country
+	{
+		return $this->country;
+	}
+
+	/**
+	 * Convenience method to detect empty-string filled addresses.
+	 */
+	public function isEmpty(): bool
+	{
+		return
+			empty($this->name)
+			&& empty(\array_filter($this->deliverTo))
+			&& empty(\array_filter($this->street))
+			&& empty($this->city)
+			&& empty($this->municipality)
+			&& empty($this->state)
+			&& empty($this->postalCode);
 	}
 }

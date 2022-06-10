@@ -36,4 +36,9 @@ class ShipTo
 
 		return $this;
 	}
+
+	public function getAddress(): Address
+	{
+		return $this->address;
+	}
 }

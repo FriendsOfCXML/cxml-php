@@ -3,15 +3,14 @@
 namespace CXmlTest\Model;
 
 use CXml\Builder;
-use CXml\Endpoint;
 use CXml\Model\Classification;
 use CXml\Model\Credential;
 use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemIn;
-use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\Message\PunchOutOrderMessage;
+use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;

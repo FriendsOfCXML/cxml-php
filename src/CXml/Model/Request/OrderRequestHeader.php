@@ -3,7 +3,7 @@
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
-use CXml\Model\AddressWrapper;
+use CXml\Model\BillTo;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
 use CXml\Model\MoneyWrapper;
@@ -49,7 +49,7 @@ class OrderRequestHeader
 	 * @Ser\XmlElement
 	 * @Ser\SerializedName("BillTo")
 	 */
-	private AddressWrapper $billTo;
+	private BillTo $billTo;
 
 	/**
 	 * @Ser\XmlElement
@@ -83,7 +83,7 @@ class OrderRequestHeader
 		string $orderId,
 		\DateTime $orderDate,
 		?ShipTo $shipTo,
-		AddressWrapper $billTo,
+		BillTo $billTo,
 		MoneyWrapper $total,
 		?array $comments = null,
 		string $type = self::TYPE_NEW,
@@ -110,7 +110,7 @@ class OrderRequestHeader
 		string $orderId,
 		\DateTime $orderDate,
 		?ShipTo $shipTo,
-		AddressWrapper $billTo,
+		BillTo $billTo,
 		MoneyWrapper $total,
 		?array $comments = null,
 		string $type = self::TYPE_NEW,
@@ -168,7 +168,7 @@ class OrderRequestHeader
 		return $this->shipTo;
 	}
 
-	public function getBillTo(): AddressWrapper
+	public function getBillTo(): BillTo
 	{
 		return $this->billTo;
 	}

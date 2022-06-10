@@ -6,8 +6,8 @@ use CXml\Model\Credential;
 use CXml\Model\CXml;
 use CXml\Model\Header;
 use CXml\Model\Message\Message;
-use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\Message\PunchOutOrderMessage;
+use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\Party;
 use CXml\Model\PayloadIdentity;
@@ -215,7 +215,7 @@ class SerializerTest extends TestCase
 
 	/**
 	 * even though the cXML definition defines the timestamp value to be in ISO-8601 format there are some providers that
-	 * also uses the milliseconds value (i.e. JAGGAER)
+	 * also uses the milliseconds value (i.e. JAGGAER).
 	 */
 	public function testDeserializeWithMilliseconds(): void
 	{

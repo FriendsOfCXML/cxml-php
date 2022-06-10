@@ -15,6 +15,9 @@ use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\XmlSerializationVisitor;
 use Metadata\ClassMetadata;
 
+/**
+ * Certain CXml-nodes have "wrappers"-nodes which this subscriber automatically handles.
+ */
 class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 {
 	public static function getSubscribedEvents(): array
@@ -22,38 +25,38 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 		return [
 			[
 				'event' => Events::POST_SERIALIZE,
-				'method' => 'onPostSerialize',
+				'method' => 'onPostSerializePayload',
 				'class' => Message::class,
 				'format' => 'xml',
 			],
 			[
 				'event' => Events::POST_SERIALIZE,
-				'method' => 'onPostSerialize',
+				'method' => 'onPostSerializePayload',
 				'class' => Request::class,
 				'format' => 'xml',
 			],
 			[
 				'event' => Events::POST_SERIALIZE,
-				'method' => 'onPostSerialize',
+				'method' => 'onPostSerializePayload',
 				'class' => Response::class,
 				'format' => 'xml',
 			],
 
 			[
 				'event' => Events::PRE_DESERIALIZE,
-				'method' => 'onPreDeserialize',
+				'method' => 'onPreDeserializePayload',
 				'class' => Message::class,
 				'format' => 'xml',
 			],
 			[
 				'event' => Events::PRE_DESERIALIZE,
-				'method' => 'onPreDeserialize',
+				'method' => 'onPreDeserializePayload',
 				'class' => Request::class,
 				'format' => 'xml',
 			],
 			[
 				'event' => Events::PRE_DESERIALIZE,
-				'method' => 'onPreDeserialize',
+				'method' => 'onPreDeserializePayload',
 				'class' => Response::class,
 				'format' => 'xml',
 			],
@@ -74,7 +77,10 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 		return null;
 	}
 
-	public function onPostSerialize(ObjectEvent $event): void
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function onPostSerializePayload(ObjectEvent $event): void
 	{
 		/** @var XmlSerializationVisitor $visitor */
 		$visitor = $event->getVisitor();
@@ -95,8 +101,9 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
 	/**
 	 * @throws CXmlModelNotFoundException
+	 * @throws \ReflectionException
 	 */
-	public function onPreDeserialize(PreDeserializeEvent $event): void
+	public function onPreDeserializePayload(PreDeserializeEvent $event): void
 	{
 		/** @var ClassMetadata $metadata */
 		$metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);

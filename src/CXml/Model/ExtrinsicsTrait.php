@@ -36,4 +36,15 @@ trait ExtrinsicsTrait
 
 		return null;
 	}
+
+	public function getExtrinsicsAsKeyValue(): array
+	{
+		$extrinsics = [];
+
+		foreach ($this->getExtrinsics() as $extrinsic) {
+			$extrinsics[$extrinsic->getName()] = $extrinsic->getValue();
+		}
+
+		return $extrinsics;
+	}
 }

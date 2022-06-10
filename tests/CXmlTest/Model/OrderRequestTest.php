@@ -3,9 +3,8 @@
 namespace CXmlTest\Model;
 
 use CXml\Builder;
-use CXml\Endpoint;
 use CXml\Model\Address;
-use CXml\Model\AddressWrapper;
+use CXml\Model\BillTo;
 use CXml\Model\Comment;
 use CXml\Model\Country;
 use CXml\Model\Credential;
@@ -17,8 +16,8 @@ use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
 use CXml\Model\PostalAddress;
-use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Request\OrderRequest;
+use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Request\Request;
 use CXml\Model\ShipTo;
 use CXml\Payload\PayloadIdentityFactoryInterface;
@@ -70,19 +69,21 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 					)
 				)
 			),
-			new AddressWrapper(
-				new MultilanguageString('Zinc GmbH'),
-				new PostalAddress(
-					[],
-					[
-						'An den Eichen 18',
-					],
-					'Solingen',
-					new Country('DE', 'Deutschland'),
-					null,
-					null,
-					'42699',
-					'default'
+			new BillTo(
+				new Address(
+					new MultilanguageString('Zinc GmbH'),
+					new PostalAddress(
+						[],
+						[
+							'An den Eichen 18',
+						],
+						'Solingen',
+						new Country('DE', 'Deutschland'),
+						null,
+						null,
+						'42699',
+						'default'
+					)
 				)
 			),
 			new MoneyWrapper(

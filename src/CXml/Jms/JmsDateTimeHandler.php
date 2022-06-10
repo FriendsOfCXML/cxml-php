@@ -14,7 +14,6 @@ use JMS\Serializer\XmlSerializationVisitor;
  */
 class JmsDateTimeHandler
 {
-
 	public function serialize(XmlSerializationVisitor $visitor, \DateTime $date, array $type, Context $context)
 	{
 		return $visitor->visitSimpleString($date->format($this->getFormat($type)), $type);
@@ -35,11 +34,10 @@ class JmsDateTimeHandler
 		$dateTime = \DateTime::createFromFormat(\DateTime::ATOM, $dateAsString);
 
 		// is failed, try milliseconds-format
-		if ($dateTime === false) {
+		if (false === $dateTime) {
 			$dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString);
 		}
 
 		return $dateTime;
 	}
-
 }

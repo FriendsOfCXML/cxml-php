@@ -3,7 +3,6 @@
 namespace CXmlTest\Model;
 
 use CXml\Builder;
-use CXml\Endpoint;
 use CXml\Model\Contact;
 use CXml\Model\Credential;
 use CXml\Model\Inventory;

@@ -120,9 +120,9 @@ class Builder
 			case $this->payload instanceof ResponsePayloadInterface:
 				$status = $this->status;
 
-				//response requires a status
-				if ($status === null) {
-					$status = new Status(); //200 OK
+				// response requires a status
+				if (null === $status) {
+					$status = new Status(); // 200 OK
 				}
 
 				/** @noinspection PhpParamsInspection */

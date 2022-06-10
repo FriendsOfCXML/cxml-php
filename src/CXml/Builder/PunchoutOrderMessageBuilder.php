@@ -6,8 +6,8 @@ use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemIn;
-use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\Message\PunchOutOrderMessage;
+use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
 
 // TODO not yet final and completed

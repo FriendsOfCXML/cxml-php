@@ -14,7 +14,6 @@ use JMS\Serializer\SerializerInterface;
 
 class Serializer
 {
-
 	private SerializerInterface $jmsSerializer;
 
 	private function __construct(SerializerInterface $jmsSerializer)
@@ -24,23 +23,23 @@ class Serializer
 
 	public static function create(): self
 	{
-		$jmsSerializer =  SerializerBuilder::create()
+		$jmsSerializer = SerializerBuilder::create()
 			->configureListeners(function (EventDispatcherInterface $dispatcher): void {
 				$dispatcher->addSubscriber(new CXmlWrappingNodeJmsEventSubscriber());
 			})
-			->configureHandlers(function(HandlerRegistry $registry) {
+			->configureHandlers(function (HandlerRegistry $registry): void {
 				$handler = new JmsDateTimeHandler();
 
 				$callable = [
 					$handler,
-					'serialize'
+					'serialize',
 				];
 				$registry->registerHandler(GraphNavigatorInterface::DIRECTION_SERIALIZATION, \DateTimeInterface::class, 'xml', $callable);
 				$registry->registerHandler(GraphNavigatorInterface::DIRECTION_SERIALIZATION, \DateTime::class, 'xml', $callable);
 
 				$callable = [
 					$handler,
-					'deserialize'
+					'deserialize',
 				];
 				$registry->registerHandler(GraphNavigatorInterface::DIRECTION_DESERIALIZATION, \DateTimeInterface::class, 'xml', $callable);
 				$registry->registerHandler(GraphNavigatorInterface::DIRECTION_DESERIALIZATION, \DateTime::class, 'xml', $callable);
@@ -48,7 +47,8 @@ class Serializer
 			->setPropertyNamingStrategy(
 				new IdenticalPropertyNamingStrategy()
 			)
-			->build();
+			->build()
+		;
 
 		return new self($jmsSerializer);
 	}
@@ -65,5 +65,4 @@ class Serializer
 	{
 		return $this->jmsSerializer->serialize($cxml, 'xml');
 	}
-
 }

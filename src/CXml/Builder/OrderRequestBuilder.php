@@ -3,7 +3,7 @@
 namespace CXml\Builder;
 
 use CXml\Model\Address;
-use CXml\Model\AddressWrapper;
+use CXml\Model\BillTo;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
 use CXml\Model\Description;
@@ -14,8 +14,8 @@ use CXml\Model\Money;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PostalAddress;
-use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Request\OrderRequest;
+use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\Tax;
@@ -31,7 +31,7 @@ class OrderRequestBuilder
 	private array $comments = [];
 	private array $contacts = [];
 	private ?ShipTo $shipTo = null;
-	private AddressWrapper $billTo;
+	private BillTo $billTo;
 	private string $language;
 	private ?Shipping $shipping = null;
 	private ?Tax $tax = null;
@@ -59,15 +59,17 @@ class OrderRequestBuilder
 		?string $fax = null,
 		?string $url = null
 	): self {
-		$this->billTo = new AddressWrapper(
-			new MultilanguageString($name, null, $this->language),
-			$postalAddress,
-			$addressId,
-			$addressIdDomain,
-			$email,
-			$phone,
-			$fax,
-			$url
+		$this->billTo = new BillTo(
+			new Address(
+				new MultilanguageString($name, null, $this->language),
+				$postalAddress,
+				$addressId,
+				$addressIdDomain,
+				$email,
+				$phone,
+				$fax,
+				$url
+			)
 		);
 
 		return $this;

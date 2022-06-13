@@ -26,7 +26,7 @@ class PunchOutOrderMessage implements MessagePayloadInterface
 	 */
 	private array $punchoutOrderMessageItems = [];
 
-	public function __construct(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader)
+	private function __construct(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader)
 	{
 		$this->buyerCookie = $buyerCookie;
 		$this->punchOutOrderMessageHeader = $punchOutOrderMessageHeader;

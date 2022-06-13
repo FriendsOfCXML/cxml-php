@@ -110,7 +110,7 @@ class SerializerTest extends TestCase
 			'Network Hub 1.1'
 		);
 		$message = new Message(
-			new PunchOutOrderMessage(
+			PunchOutOrderMessage::create(
 				'34234234ADFSDF234234',
 				new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320))
 			)

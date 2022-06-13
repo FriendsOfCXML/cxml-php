@@ -11,7 +11,7 @@ use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
 
-class PunchoutOrderMessageBuilder
+class PunchOutOrderMessageBuilder
 {
 
 	private string $buyerCookie;

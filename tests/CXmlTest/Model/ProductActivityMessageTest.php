@@ -51,10 +51,10 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 			)
 		);
 
-		$cxml = Builder::create('en-US', $this)
+		$cxml = Builder::create('en-US', 'Supplier’s Super Order Processor', $this)
 			->from($from)
 			->to($to)
-			->sender($sender, 'Supplier’s Super Order Processor')
+			->sender($sender)
 			->payload($productActivityMessage)
 			->build()
 		;

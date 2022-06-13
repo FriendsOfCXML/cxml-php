@@ -101,7 +101,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			1,
 			10,
 			new ItemId('1233244'),
-			new ItemDetail(
+			ItemDetail::create(
 				new Description('hello from item 1'),
 				'EA',
 				new MoneyWrapper(
@@ -117,7 +117,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 			2,
 			20,
 			new ItemId('1233245'),
-			new ItemDetail(
+			ItemDetail::create(
 				new Description('hello from item 2'),
 				'EA',
 				new MoneyWrapper(
@@ -129,10 +129,10 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 		)->addClassification('custom', 0);
 		$orderRequest->addItem($item);
 
-		$cxml = Builder::create(null, $this)
+		$cxml = Builder::create(null, 'Platform Order Fulfillment Hub', $this)
 			->from($from)
 			->to($to)
-			->sender($sender, 'Platform Order Fulfillment Hub')
+			->sender($sender)
 			->payload($orderRequest)
 			->build(Request::DEPLOYMENT_TEST)
 		;

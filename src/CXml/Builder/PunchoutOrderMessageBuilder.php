@@ -2,6 +2,7 @@
 
 namespace CXml\Builder;
 
+use CXml\Model\Classification;
 use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
@@ -10,45 +11,114 @@ use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
 
-// TODO not yet final and completed
 class PunchoutOrderMessageBuilder
 {
-	private PunchOutOrderMessage $punchOutOrderMessage;
 
-	private function __construct(string $buyerCookie, int $total, string $currency, ?string $operationAllowed)
+	private string $buyerCookie;
+	private string $currency;
+	private ?string $operationAllowed;
+	private string $language;
+	private array $punchoutOrderMessageItems = [];
+	private int $total = 0;
+	private ?int $shipping = null;
+	private ?int $tax = null;
+
+	private function __construct(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null)
 	{
-		$total = new MoneyWrapper($currency, $total);
-		$punchoutOrderMessageHeader = new PunchOutOrderMessageHeader($total, $operationAllowed);
-		$this->punchOutOrderMessage = PunchOutOrderMessage::create(
-			$buyerCookie,
-			$punchoutOrderMessageHeader
-		);
+		$this->buyerCookie = $buyerCookie;
+		$this->currency = $currency;
+		$this->operationAllowed = $operationAllowed;
+		$this->language = $language;
 	}
 
-	public static function create(string $buyerCookie, int $total, string $currency, ?string $operationAllowed): self
+	public static function create(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null): self
 	{
-		return new self($buyerCookie, $total, $currency, $operationAllowed);
+		return new self($language, $buyerCookie, $currency, $operationAllowed);
 	}
 
-	public function addPunchoutOrderMessageItem(string $sku, int $quantity, string $description, string $unitOfMeasure, int $unitPrice): self
+	public function shipping(?int $shipping): self
 	{
+		$this->shipping = $shipping;
+
+		if (is_int($shipping)) {
+			$this->total += $shipping;
+		}
+
+		return $this;
+	}
+
+	public function tax(?int $tax): self
+	{
+		$this->tax = $tax;
+
+		if (is_int($tax)) {
+			$this->total += $tax;
+		}
+
+		return $this;
+	}
+
+	public function addPunchoutOrderMessageItem(
+		string $sku,
+		int $quantity,
+		string $description,
+		string $unitOfMeasure,
+		int $unitPrice,
+		array $classifications,
+		?string $manufacturerPartId = null,
+		?string $manufacturerName = null,
+		?int $leadTime = null): self
+	{
+		$itemDetail = ItemDetail::create(
+			new Description(
+				$description,
+				null,
+				$this->language
+			),
+			$unitOfMeasure,
+			new MoneyWrapper(
+				$this->currency,
+				$unitPrice
+			)
+		)
+			->setManufacturerPartId($manufacturerPartId)
+			->setManufacturerName($manufacturerName)
+			->setLeadtime($leadTime);
+
+		foreach ($classifications as $k=>$v) {
+			$itemDetail->addClassification(new Classification($k, $v));
+		}
+
 		$punchoutOrderMessageItem = ItemIn::create(
 			$quantity,
 			new ItemId($sku, null, $sku),
-			new ItemDetail(new Description($description, null, 'de'), $unitOfMeasure, new MoneyWrapper('EUR', $unitPrice)),
+			$itemDetail
 		);
 
-		$this->punchOutOrderMessage->addPunchoutOrderMessageItem($punchoutOrderMessageItem);
+		$this->punchoutOrderMessageItems[] = $punchoutOrderMessageItem;
+		$this->total += ($unitPrice * $quantity);
 
 		return $this;
 	}
 
 	public function build(): PunchOutOrderMessage
 	{
-		if (empty($this->punchOutOrderMessage->getPunchoutOrderMessageItems())) {
+		if (empty($this->punchoutOrderMessageItems)) {
 			throw new \RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
 		}
 
-		return $this->punchOutOrderMessage;
+		$punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(
+			new MoneyWrapper($this->currency, $this->total),
+			$this->shipping ? new MoneyWrapper($this->currency, $this->shipping) : null,
+			$this->tax ? new MoneyWrapper($this->currency, $this->tax) : null,
+			$this->operationAllowed
+		);
+
+		$punchOutOrderMessage = PunchOutOrderMessage::create(
+			$this->buyerCookie,
+			$punchoutOrderMessageHeader
+		);
+
+		return $punchOutOrderMessage;
 	}
 }

@@ -130,7 +130,7 @@ class OrderRequestBuilder
 			$lineNumber,
 			$quantity,
 			$itemId,
-			new ItemDetail(
+			ItemDetail::create(
 				new Description(
 					$description,
 					null,

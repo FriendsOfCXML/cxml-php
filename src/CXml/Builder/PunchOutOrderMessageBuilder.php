@@ -18,6 +18,10 @@ class PunchOutOrderMessageBuilder
 	private string $currency;
 	private ?string $operationAllowed;
 	private string $language;
+
+	/**
+	 * @var ItemIn[]
+	 */
 	private array $punchoutOrderMessageItems = [];
 	private int $total = 0;
 	private ?int $shipping = null;
@@ -118,6 +122,10 @@ class PunchOutOrderMessageBuilder
 			$this->buyerCookie,
 			$punchoutOrderMessageHeader
 		);
+
+		foreach ($this->punchoutOrderMessageItems as $punchoutOrderMessageItem) {
+			$punchOutOrderMessage->addPunchoutOrderMessageItem($punchoutOrderMessageItem);
+		}
 
 		return $punchOutOrderMessage;
 	}

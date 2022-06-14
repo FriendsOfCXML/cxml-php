@@ -49,7 +49,7 @@ class DtdValidator
 		$creator = new \DOMImplementation();
 
 		try {
-			$doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds . '/' . $dtdFilename);
+			$doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
 			$new = $creator->createDocument('', '', $doctype);
 		} catch (\DOMException $e) {
 			throw new CXmlInvalidException($e->getMessage(), (string) $originalDomDocument->saveXML(), $e);

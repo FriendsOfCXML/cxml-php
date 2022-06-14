@@ -58,6 +58,10 @@ class Serializer
 		// remove doctype (if exists), as it would throw a JMS\Serializer\Exception\InvalidArgumentException
 		$xml = \preg_replace('/<!doctype.+>/i', '', $xml);
 
+		if (empty($xml)) {
+			throw new \RuntimeException('Cannot deserialize empty string');
+		}
+
 		return $this->jmsSerializer->deserialize($xml, CXml::class, 'xml');
 	}
 

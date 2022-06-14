@@ -71,8 +71,7 @@ class PunchOutOrderMessageBuilder
 		?string $manufacturerPartId = null,
 		?string $manufacturerName = null,
 		?int $leadTime = null
-	): self
-	{
+	): self {
 		$itemDetail = ItemDetail::create(
 			new Description(
 				$description,

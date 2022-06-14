@@ -48,7 +48,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 
 		$punchoutOrderMessage = PunchOutOrderMessage::create(
 			'1CX3L4843PPZO',
-			new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320), 'create'),
+			new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320)),
 		)->addPunchoutOrderMessageItem(
 			ItemIn::create(
 				3,

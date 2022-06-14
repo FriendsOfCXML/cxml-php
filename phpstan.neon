@@ -11,5 +11,6 @@ parameters:
         - '#Property .+::\$.+ is never read, only written.#'
         - '#(Property|Method) .+::.+ type has no value type specified in iterable type array.#'
         - '#Method .+::.+\(\) has parameter \$.+ with no value type specified in iterable type array.#'
+        - '#Method .+JmsDateTimeHandler::.+\(\).+type specified.#'
 
     reportUnmatchedIgnoredErrors: false

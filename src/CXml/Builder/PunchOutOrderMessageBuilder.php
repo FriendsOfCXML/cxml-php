@@ -13,7 +13,6 @@ use CXml\Model\MoneyWrapper;
 
 class PunchOutOrderMessageBuilder
 {
-
 	private string $buyerCookie;
 	private string $currency;
 	private ?string $operationAllowed;
@@ -44,7 +43,7 @@ class PunchOutOrderMessageBuilder
 	{
 		$this->shipping = $shipping;
 
-		if (is_int($shipping)) {
+		if (\is_int($shipping)) {
 			$this->total += $shipping;
 		}
 
@@ -55,7 +54,7 @@ class PunchOutOrderMessageBuilder
 	{
 		$this->tax = $tax;
 
-		if (is_int($tax)) {
+		if (\is_int($tax)) {
 			$this->total += $tax;
 		}
 
@@ -71,7 +70,8 @@ class PunchOutOrderMessageBuilder
 		array $classifications,
 		?string $manufacturerPartId = null,
 		?string $manufacturerName = null,
-		?int $leadTime = null): self
+		?int $leadTime = null
+	): self
 	{
 		$itemDetail = ItemDetail::create(
 			new Description(
@@ -87,9 +87,10 @@ class PunchOutOrderMessageBuilder
 		)
 			->setManufacturerPartId($manufacturerPartId)
 			->setManufacturerName($manufacturerName)
-			->setLeadtime($leadTime);
+			->setLeadtime($leadTime)
+		;
 
-		foreach ($classifications as $k=>$v) {
+		foreach ($classifications as $k => $v) {
 			$itemDetail->addClassification(new Classification($k, $v));
 		}
 

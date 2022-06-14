@@ -38,7 +38,7 @@ trait ExtrinsicsTrait
 	}
 
 	/**
-	 * Convenience method
+	 * Convenience method.
 	 */
 	public function getExtrinsicsAsKeyValue(): array
 	{

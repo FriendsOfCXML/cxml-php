@@ -129,7 +129,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 		)->addClassification('custom', 0);
 		$orderRequest->addItem($item);
 
-		$cxml = Builder::create(null, 'Platform Order Fulfillment Hub', $this)
+		$cxml = Builder::create('Platform Order Fulfillment Hub', null, $this)
 			->from($from)
 			->to($to)
 			->sender($sender)

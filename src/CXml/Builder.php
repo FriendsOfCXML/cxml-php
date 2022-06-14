@@ -31,16 +31,16 @@ class Builder
 	private ?Status $status = null;
 	private ?string $locale;
 
-	private function __construct(?string $locale = null, ?string $senderUserAgent = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+	private function __construct(string $senderUserAgent, ?string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
 	{
 		$this->locale = $locale;
 		$this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
 		$this->senderUserAgent = $senderUserAgent;
 	}
 
-	public static function create(string $locale = null, ?string $senderUserAgent = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
+	public static function create(string $senderUserAgent = 'cxml-php UserAgent', string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
 	{
-		return new self($locale, $senderUserAgent, $payloadIdentityFactory);
+		return new self($senderUserAgent, $locale, $payloadIdentityFactory);
 	}
 
 	public function payload(?PayloadInterface $payload = null): self

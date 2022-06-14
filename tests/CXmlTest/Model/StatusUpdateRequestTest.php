@@ -38,7 +38,7 @@ class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactory
 			'0c300508b7863dcclb_14999'
 		);
 
-		$cxml = Builder::create('en-US', 'Supplier’s Super Order Processor', $this)
+		$cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
 			->from($from)
 			->to($to)
 			->sender($sender)

@@ -55,7 +55,7 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
 			)
 		;
 
-		$cxml = Builder::create('en-US', 'Supplier’s Super Order Processor', $this)
+		$cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
 			->from($from)
 			->to($to)
 			->sender($sender)

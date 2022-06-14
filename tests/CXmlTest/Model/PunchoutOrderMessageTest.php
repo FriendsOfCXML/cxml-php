@@ -71,7 +71,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 			)->addClassification('UNSPSC', 'ean1234')
 		);
 
-		$cxml = Builder::create('en-US', 'Workchairs cXML Application', $this)
+		$cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)
 			->from($from)
 			->to($to)
 			->sender($sender)

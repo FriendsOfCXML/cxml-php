@@ -12,5 +12,6 @@ parameters:
         - '#(Property|Method) .+::.+ type has no value type specified in iterable type array.#'
         - '#Method .+::.+\(\) has parameter \$.+ with no value type specified in iterable type array.#'
         - '#Method .+JmsDateTimeHandler::.+\(\).+type specified.#'
+        - '#Method CXml\\Context::getOption\(\) has no return type specified.#'
 
     reportUnmatchedIgnoredErrors: false

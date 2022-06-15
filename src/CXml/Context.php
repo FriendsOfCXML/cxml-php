@@ -19,7 +19,7 @@ class Context
 		return new self($options);
 	}
 
-	public function getOption(string $key)/*: mixed*/
+	public function getOption(string $key)/* : mixed */
 	{
 		return $this->options[$key] ?? null;
 	}

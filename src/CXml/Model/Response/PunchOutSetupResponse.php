@@ -2,11 +2,10 @@
 
 namespace CXml\Model\Response;
 
-use CXml\Model\ResponseInterface;
 use CXml\Model\Url;
 use JMS\Serializer\Annotation as Ser;
 
-class PunchoutSetupResponse implements ResponseInterface
+class PunchOutSetupResponse implements ResponsePayloadInterface
 {
 	/**
 	 * @Ser\SerializedName("StartPage")

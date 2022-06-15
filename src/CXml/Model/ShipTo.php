@@ -22,7 +22,7 @@ class ShipTo
 	/**
 	 * @Ser\SerializedName("TransportInformation")
 	 */
-	private ?TransportInformation $transportInformation;
+	private ?TransportInformation $transportInformation = null;
 
 	public function __construct(Address $address, ?TransportInformation $transportInformation = null)
 	{
@@ -35,5 +35,10 @@ class ShipTo
 		$this->carrierIdentifiers[] = new CarrierIdentifier($domain, $identifier);
 
 		return $this;
+	}
+
+	public function getAddress(): Address
+	{
+		return $this->address;
 	}
 }

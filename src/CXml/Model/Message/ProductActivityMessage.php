@@ -3,10 +3,9 @@
 namespace CXml\Model\Message;
 
 use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\MessageInterface;
 use JMS\Serializer\Annotation as Ser;
 
-class ProductActivityMessage implements MessageInterface
+class ProductActivityMessage implements MessagePayloadInterface
 {
 	use ExtrinsicsTrait;
 

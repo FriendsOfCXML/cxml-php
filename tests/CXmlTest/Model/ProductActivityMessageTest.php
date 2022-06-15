@@ -3,7 +3,6 @@
 namespace CXmlTest\Model;
 
 use CXml\Builder;
-use CXml\Endpoint;
 use CXml\Model\Contact;
 use CXml\Model\Credential;
 use CXml\Model\Inventory;
@@ -14,6 +13,7 @@ use CXml\Model\Message\ProductActivityMessage;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use CXml\Serializer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -51,17 +51,17 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
 			)
 		);
 
-		$cxml = Builder::create('en-US', $this)
+		$cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
 			->from($from)
 			->to($to)
-			->sender($sender, 'Supplier’s Super Order Processor')
+			->sender($sender)
 			->payload($productActivityMessage)
 			->build()
 		;
 
 		$this->assertEquals('ProductActivityMessage_0c30050@supplierorg.com', (string) $cxml);
 
-		$xml = Endpoint::serialize($cxml);
+		$xml = Serializer::create()->serialize($cxml);
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessage.xml', $xml);
 	}
 

@@ -2,6 +2,9 @@
 
 namespace CXml\Model;
 
+use CXml\Model\Message\Message;
+use CXml\Model\Request\Request;
+use CXml\Model\Response\Response;
 use JMS\Serializer\Annotation as Ser;
 
 /**

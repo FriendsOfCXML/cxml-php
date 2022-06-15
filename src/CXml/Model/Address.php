@@ -10,13 +10,13 @@ class Address
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("addressID")
 	 */
-	private ?string $addressId;
+	private ?string $addressId = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("addressIDDomain")
 	 */
-	private ?string $addressIdDomain;
+	private ?string $addressIdDomain = null;
 
 	/**
 	 * @Ser\SerializedName("Name")
@@ -27,31 +27,31 @@ class Address
 	/**
 	 * @Ser\SerializedName("PostalAddress")
 	 */
-	private ?PostalAddress $postalAddress;
+	private ?PostalAddress $postalAddress = null;
 
 	/**
 	 * @Ser\SerializedName("Email")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $email;
+	private ?string $email = null;
 
 	/**
 	 * @Ser\SerializedName("Phone")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $phone;
+	private ?string $phone = null;
 
 	/**
 	 * @Ser\SerializedName("Fax")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $fax;
+	private ?string $fax = null;
 
 	/**
 	 * @Ser\SerializedName("URL")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $url;
+	private ?string $url = null;
 
 	public function __construct(MultilanguageString $name, ?PostalAddress $postalAddress = null, ?string $addressId = null, ?string $addressIdDomain = null, ?string $email = null, ?string $phone = null, ?string $fax = null, ?string $url = null)
 	{
@@ -63,5 +63,45 @@ class Address
 		$this->phone = $phone;
 		$this->fax = $fax;
 		$this->url = $url;
+	}
+
+	public function getAddressId(): ?string
+	{
+		return $this->addressId;
+	}
+
+	public function getAddressIdDomain(): ?string
+	{
+		return $this->addressIdDomain;
+	}
+
+	public function getName(): MultilanguageString
+	{
+		return $this->name;
+	}
+
+	public function getPostalAddress(): ?PostalAddress
+	{
+		return $this->postalAddress;
+	}
+
+	public function getEmail(): ?string
+	{
+		return $this->email;
+	}
+
+	public function getPhone(): ?string
+	{
+		return $this->phone;
+	}
+
+	public function getFax(): ?string
+	{
+		return $this->fax;
+	}
+
+	public function getUrl(): ?string
+	{
+		return $this->url;
 	}
 }

@@ -15,7 +15,7 @@ class Party
 	 * @Ser\SerializedName("UserAgent")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $userAgent;
+	private ?string $userAgent = null;
 
 	public function __construct(Credential $credential, ?string $userAgent = null)
 	{

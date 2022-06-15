@@ -3,10 +3,9 @@
 namespace CXml\Model\Message;
 
 use CXml\Model\ItemIn;
-use CXml\Model\MessageInterface;
 use JMS\Serializer\Annotation as Ser;
 
-class PunchOutOrderMessage implements MessageInterface
+class PunchOutOrderMessage implements MessagePayloadInterface
 {
 	/**
 	 * @Ser\SerializedName("BuyerCookie")
@@ -27,7 +26,7 @@ class PunchOutOrderMessage implements MessageInterface
 	 */
 	private array $punchoutOrderMessageItems = [];
 
-	public function __construct(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader)
+	private function __construct(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader)
 	{
 		$this->buyerCookie = $buyerCookie;
 		$this->punchOutOrderMessageHeader = $punchOutOrderMessageHeader;

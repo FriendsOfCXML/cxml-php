@@ -4,11 +4,10 @@ namespace CXml\Model\Request;
 
 use CXml\Model\DocumentReference;
 use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\RequestInterface;
 use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
-class StatusUpdateRequest implements RequestInterface
+class StatusUpdateRequest implements RequestPayloadInterface
 {
 	use ExtrinsicsTrait;
 

@@ -9,7 +9,7 @@ class TransportInformation
 	/**
 	 * @Ser\SerializedName("ShippingContractNumber")
 	 */
-	private ?ShippingContractNumber $shippingContractNumber;
+	private ?ShippingContractNumber $shippingContractNumber = null;
 
 	public function __construct(?ShippingContractNumber $shippingContractNumber)
 	{

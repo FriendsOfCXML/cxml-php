@@ -37,28 +37,64 @@ class ItemDetail
 	 * @Ser\SerializedName("ManufacturerPartID")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $manufacturerPartId;
+	private ?string $manufacturerPartId = null;
 
 	/**
 	 * @Ser\SerializedName("ManufacturerName")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $manufacturerName;
+	private ?string $manufacturerName = null;
 
 	/**
 	 * @Ser\SerializedName("URL")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?string $url;
+	private ?string $url = null;
 
-	public function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, ?string $manufacturerPartId = null, ?string $manufacturerName = null, ?string $url = null)
+	/**
+	 * @Ser\SerializedName("LeadTime")
+	 * @Ser\XmlElement (cdata=false)
+	 */
+	private ?int $leadtime = null;
+
+	private function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice)
 	{
 		$this->description = $description;
 		$this->unitOfMeasure = $unitOfMeasure;
 		$this->unitPrice = $unitPrice;
-		$this->manufacturerPartId = $manufacturerPartId;
-		$this->manufacturerName = $manufacturerName;
+	}
+
+	public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice): self
+	{
+		return new self($description, $unitOfMeasure, $unitPrice);
+	}
+
+	public function setUrl(?string $url): self
+	{
 		$this->url = $url;
+
+		return $this;
+	}
+
+	public function setLeadtime(?int $leadtime): self
+	{
+		$this->leadtime = $leadtime;
+
+		return $this;
+	}
+
+	public function setManufacturerPartId(?string $manufacturerPartId): self
+	{
+		$this->manufacturerPartId = $manufacturerPartId;
+
+		return $this;
+	}
+
+	public function setManufacturerName(?string $manufacturerName): self
+	{
+		$this->manufacturerName = $manufacturerName;
+
+		return $this;
 	}
 
 	public function addClassification(Classification $classification): self

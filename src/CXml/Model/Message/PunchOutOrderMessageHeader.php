@@ -14,16 +14,28 @@ class PunchOutOrderMessageHeader
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?string $operationAllowed;
+	private ?string $operationAllowed = null;
 
 	/**
 	 * @Ser\SerializedName("Total")
 	 */
 	private MoneyWrapper $total;
 
-	public function __construct(MoneyWrapper $total, ?string $operationAllowed = null)
+	/**
+	 * @Ser\SerializedName("Shipping")
+	 */
+	private ?MoneyWrapper $shipping;
+
+	/**
+	 * @Ser\SerializedName("Tax")
+	 */
+	private ?MoneyWrapper $tax;
+
+	public function __construct(MoneyWrapper $total, ?MoneyWrapper $shipping = null, ?MoneyWrapper $tax = null, ?string $operationAllowed = null)
 	{
 		$this->total = $total;
+		$this->shipping = $shipping;
+		$this->tax = $tax;
 		$this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
 	}
 }

@@ -3,7 +3,6 @@
 namespace CXmlTest\Model;
 
 use CXml\Builder;
-use CXml\Endpoint;
 use CXml\Model\CarrierIdentifier;
 use CXml\Model\Credential;
 use CXml\Model\PayloadIdentity;
@@ -13,6 +12,7 @@ use CXml\Model\ShipControl;
 use CXml\Model\ShipmentIdentifier;
 use CXml\Model\ShipNoticePortion;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use CXml\Serializer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -55,17 +55,17 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
 			)
 		;
 
-		$cxml = Builder::create('en-US', $this)
+		$cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
 			->from($from)
 			->to($to)
-			->sender($sender, 'Supplier’s Super Order Processor')
+			->sender($sender)
 			->payload($statusUpdateRequest)
 			->build()
 		;
 
 		$this->assertEquals('ShipNoticeRequest_0c30050@supplierorg.com', (string) $cxml);
 
-		$xml = Endpoint::serialize($cxml);
+		$xml = Serializer::create()->serialize($cxml);
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ShipNoticeRequest.xml', $xml);
 	}
 

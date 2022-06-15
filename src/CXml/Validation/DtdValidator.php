@@ -3,7 +3,7 @@
 namespace CXml\Validation;
 
 use Assert\Assertion;
-use CXml\Validation\Exception\CxmlInvalidException;
+use CXml\Validation\Exception\CXmlInvalidException;
 
 class DtdValidator
 {
@@ -19,12 +19,12 @@ class DtdValidator
 	}
 
 	/**
-	 * @throws CxmlInvalidException
+	 * @throws CXmlInvalidException
 	 */
 	public function validateAgainstDtd(string $xml): void
 	{
 		if (empty($xml)) {
-			throw new CxmlInvalidException('XML was empty', $xml);
+			throw new CXmlInvalidException('XML was empty', $xml);
 		}
 
 		// disable throwing of php errors for libxml
@@ -42,19 +42,24 @@ class DtdValidator
 	}
 
 	/**
-	 * @throws CxmlInvalidException
-	 * @throws \DOMException
+	 * @throws CXmlInvalidException
 	 */
 	private function injectDtd(\DOMDocument $originalDomDocument, string $dtdFilename): \DOMDocument
 	{
 		$creator = new \DOMImplementation();
-		$doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
-		$new = $creator->createDocument('', '', $doctype);
+
+		try {
+			$doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
+			$new = $creator->createDocument('', '', $doctype);
+		} catch (\DOMException $e) {
+			throw new CXmlInvalidException($e->getMessage(), (string) $originalDomDocument->saveXML(), $e);
+		}
+
 		$new->encoding = 'utf-8';
 
 		$oldNode = $originalDomDocument->getElementsByTagName('cXML')->item(0);
 		if (!$oldNode) {
-			throw new CxmlInvalidException('Missing cXML root node', (string) $originalDomDocument->saveXML());
+			throw new CXmlInvalidException('Missing cXML root node', (string) $originalDomDocument->saveXML());
 		}
 
 		$newNode = $new->importNode($oldNode, true);
@@ -64,8 +69,7 @@ class DtdValidator
 	}
 
 	/**
-	 * @throws CxmlInvalidException
-	 * @throws \DOMException
+	 * @throws CXmlInvalidException
 	 */
 	private function validateAgainstMultipleDtd(array $validateFiles, \DOMDocument $old): void
 	{
@@ -77,6 +81,6 @@ class DtdValidator
 			}
 		}
 
-		throw CxmlInvalidException::fromLibXmlError(\libxml_get_last_error(), (string) $old->saveXML());
+		throw CXmlInvalidException::fromLibXmlError(\libxml_get_last_error(), (string) $old->saveXML());
 	}
 }

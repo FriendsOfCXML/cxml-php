@@ -3,18 +3,18 @@
 namespace CXmlTest\Model;
 
 use CXml\Builder;
-use CXml\Endpoint;
 use CXml\Model\Classification;
 use CXml\Model\Credential;
+use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemIn;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
-use CXml\Model\Description;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use CXml\Serializer;
 use CXml\Validation\DtdValidator;
 use PHPUnit\Framework\TestCase;
 
@@ -48,12 +48,12 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 
 		$punchoutOrderMessage = PunchOutOrderMessage::create(
 			'1CX3L4843PPZO',
-			new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320), 'create'),
+			new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320)),
 		)->addPunchoutOrderMessageItem(
 			ItemIn::create(
 				3,
 				new ItemId('5555', null, 'KD5555'),
-				(new ItemDetail(
+				(ItemDetail::create(
 					Description::createWithShortName('Excelsior Desk Chair', null, 'en'),
 					'EA',
 					new MoneyWrapper('USD', 76320)
@@ -63,7 +63,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 			ItemIn::create(
 				5,
 				new ItemId('666', null, 'KD666'),
-				new ItemDetail(
+				ItemDetail::create(
 					Description::createWithShortName('22Excelsior Desk Chair', null, 'en'),
 					'EA',
 					new MoneyWrapper('USD', 76320)
@@ -71,17 +71,17 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 			)->addClassification('UNSPSC', 'ean1234')
 		);
 
-		$cxml = Builder::create('en-US', $this)
+		$cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)
 			->from($from)
 			->to($to)
-			->sender($sender, 'Workchairs cXML Application')
+			->sender($sender)
 			->payload($punchoutOrderMessage)
 			->build()
 		;
 
 		$this->assertEquals('PunchOutOrderMessage_933695160894', (string) $cxml);
 
-		$xml = Endpoint::serialize($cxml);
+		$xml = Serializer::create()->serialize($cxml);
 		$this->dtdValidator->validateAgainstDtd($xml);
 
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchoutOrderMessage.xml', $xml);

@@ -3,9 +3,9 @@
 namespace CXml\Jms;
 
 use CXml\Model\Exception\CXmlModelNotFoundException;
-use CXml\Model\Message;
-use CXml\Model\Request;
-use CXml\Model\Response;
+use CXml\Model\Message\Message;
+use CXml\Model\Request\Request;
+use CXml\Model\Response\Response;
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
@@ -15,45 +15,48 @@ use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\XmlSerializationVisitor;
 use Metadata\ClassMetadata;
 
-class JmsEventSubscriber implements EventSubscriberInterface
+/**
+ * Certain CXml-nodes have "wrappers"-nodes which this subscriber automatically handles.
+ */
+class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 {
 	public static function getSubscribedEvents(): array
 	{
 		return [
 			[
 				'event' => Events::POST_SERIALIZE,
-				'method' => 'onPostSerialize',
+				'method' => 'onPostSerializePayload',
 				'class' => Message::class,
 				'format' => 'xml',
 			],
 			[
 				'event' => Events::POST_SERIALIZE,
-				'method' => 'onPostSerialize',
+				'method' => 'onPostSerializePayload',
 				'class' => Request::class,
 				'format' => 'xml',
 			],
 			[
 				'event' => Events::POST_SERIALIZE,
-				'method' => 'onPostSerialize',
+				'method' => 'onPostSerializePayload',
 				'class' => Response::class,
 				'format' => 'xml',
 			],
 
 			[
 				'event' => Events::PRE_DESERIALIZE,
-				'method' => 'onPreDeserialize',
+				'method' => 'onPreDeserializePayload',
 				'class' => Message::class,
 				'format' => 'xml',
 			],
 			[
 				'event' => Events::PRE_DESERIALIZE,
-				'method' => 'onPreDeserialize',
+				'method' => 'onPreDeserializePayload',
 				'class' => Request::class,
 				'format' => 'xml',
 			],
 			[
 				'event' => Events::PRE_DESERIALIZE,
-				'method' => 'onPreDeserialize',
+				'method' => 'onPreDeserializePayload',
 				'class' => Response::class,
 				'format' => 'xml',
 			],
@@ -74,12 +77,15 @@ class JmsEventSubscriber implements EventSubscriberInterface
 		return null;
 	}
 
-	public function onPostSerialize(ObjectEvent $event): void
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function onPostSerializePayload(ObjectEvent $event): void
 	{
 		/** @var XmlSerializationVisitor $visitor */
 		$visitor = $event->getVisitor();
 
-		// this is the actual payload object of type MessageInterface
+		// this is the actual payload object of type MessagePayloadInterface
 		$payload = $event->getObject()->getPayload();
 
 		if ($payload) {
@@ -95,8 +101,9 @@ class JmsEventSubscriber implements EventSubscriberInterface
 
 	/**
 	 * @throws CXmlModelNotFoundException
+	 * @throws \ReflectionException
 	 */
-	public function onPreDeserialize(PreDeserializeEvent $event): void
+	public function onPreDeserializePayload(PreDeserializeEvent $event): void
 	{
 		/** @var ClassMetadata $metadata */
 		$metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);
@@ -107,9 +114,9 @@ class JmsEventSubscriber implements EventSubscriberInterface
 		}
 
 		$serializedName = $payloadNode->getName();
+		$targetNamespace = (new \ReflectionClass($event->getType()['name']))->getNamespaceName();
 
-		// TODO unintuitive combination of wrapper-cls and real payload
-		$cls = $event->getType()['name'].'\\'.$serializedName;
+		$cls = $targetNamespace.'\\'.$serializedName;
 		if (!\class_exists($cls)) {
 			throw new CXmlModelNotFoundException($serializedName);
 		}

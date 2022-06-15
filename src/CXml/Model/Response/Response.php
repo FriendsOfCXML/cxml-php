@@ -1,31 +1,32 @@
 <?php
 
-namespace CXml\Model;
+namespace CXml\Model\Response;
 
+use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
-class Response implements ResponseInterface
+class Response
 {
 	/**
 	 * @Ser\SerializedName("Status")
 	 */
-	private ?Status $status;
+	private Status $status;
 
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("Id")
 	 */
-	private ?string $id;
+	private ?string $id = null;
 
 	/**
 	 * @Ser\Exclude
-	 * see JmsEventSubscriber
+	 * see CXmlWrappingNodeJmsEventSubscriber
 	 */
-	private ?ResponseInterface $payload;
+	private ?ResponsePayloadInterface $payload = null;
 
 	public function __construct(
-		?ResponseInterface $payload,
-		?Status $status = null,
+		Status $status,
+		?ResponsePayloadInterface $payload = null,
 		?string $id = null
 	) {
 		$this->status = $status;
@@ -33,7 +34,7 @@ class Response implements ResponseInterface
 		$this->payload = $payload;
 	}
 
-	public function getStatus(): ?Status
+	public function getStatus(): Status
 	{
 		return $this->status;
 	}
@@ -43,7 +44,7 @@ class Response implements ResponseInterface
 		return $this->id;
 	}
 
-	public function getPayload(): ?ResponseInterface
+	public function getPayload(): ?ResponsePayloadInterface
 	{
 		return $this->payload;
 	}

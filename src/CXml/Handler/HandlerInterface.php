@@ -3,12 +3,16 @@
 namespace CXml\Handler;
 
 use CXml\Context;
+use CXml\Exception\CXmlNotImplementedException;
 use CXml\Model\PayloadInterface;
-use CXml\Model\ResponseInterface;
+use CXml\Model\Response\ResponsePayloadInterface;
 
 interface HandlerInterface
 {
-	public function handle(PayloadInterface $payload, Context $context): ?ResponseInterface;
+	/**
+	 * @throws CXmlNotImplementedException
+	 */
+	public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface;
 
 	public static function getRequestName(): string;
 }

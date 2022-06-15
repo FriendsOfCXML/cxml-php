@@ -1,42 +1,43 @@
 <?php
 
-namespace CXml\Model;
+namespace CXml\Model\Message;
 
+use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
-class Message implements MessageInterface
+class Message
 {
 	/**
 	 * @Ser\SerializedName("Status")
 	 */
-	private ?Status $status;
+	private ?Status $status = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("deploymentMode")
 	 */
-	private ?string $deploymentMode;
+	private ?string $deploymentMode = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("inReplyTo")
 	 */
-	private ?string $inReplyTo;
+	private ?string $inReplyTo = null;
 
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("Id")
 	 */
-	private ?string $id;
+	private ?string $id = null;
 
 	/**
 	 * @Ser\Exclude
-	 * see JmsEventSubscriber
+	 * see CXmlWrappingNodeJmsEventSubscriber
 	 */
-	private MessageInterface $payload;
+	private MessagePayloadInterface $payload;
 
 	public function __construct(
-		MessageInterface $message,
+		MessagePayloadInterface $message,
 		Status $status = null,
 		string $id = null,
 		string $deploymentMode = null,
@@ -69,7 +70,7 @@ class Message implements MessageInterface
 		return $this->id;
 	}
 
-	public function getPayload(): MessageInterface
+	public function getPayload(): MessagePayloadInterface
 	{
 		return $this->payload;
 	}

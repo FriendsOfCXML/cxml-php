@@ -7,14 +7,14 @@ use CXml\Exception\CXmlException;
 use CXml\Model\Credential;
 use CXml\Model\CXml;
 use CXml\Model\Header;
-use CXml\Model\Message;
-use CXml\Model\MessageInterface;
+use CXml\Model\Message\Message;
+use CXml\Model\Message\MessagePayloadInterface;
 use CXml\Model\Party;
 use CXml\Model\PayloadInterface;
-use CXml\Model\Request;
-use CXml\Model\RequestInterface;
-use CXml\Model\Response;
-use CXml\Model\ResponseInterface;
+use CXml\Model\Request\Request;
+use CXml\Model\Request\RequestPayloadInterface;
+use CXml\Model\Response\Response;
+use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
 use CXml\Payload\DefaultPayloadIdentityFactory;
 use CXml\Payload\PayloadIdentityFactoryInterface;
@@ -27,19 +27,20 @@ class Builder
 	private Credential $from;
 	private Credential $to;
 	private Credential $sender;
-	private ?string $senderUserAgent = null;
+	private ?string $senderUserAgent;
 	private ?Status $status = null;
 	private ?string $locale;
 
-	private function __construct(?string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+	private function __construct(string $senderUserAgent, ?string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
 	{
 		$this->locale = $locale;
 		$this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
+		$this->senderUserAgent = $senderUserAgent;
 	}
 
-	public static function create(string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
+	public static function create(string $senderUserAgent = 'cxml-php UserAgent', string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
 	{
-		return new self($locale, $payloadIdentityFactory);
+		return new self($senderUserAgent, $locale, $payloadIdentityFactory);
 	}
 
 	public function payload(?PayloadInterface $payload = null): self
@@ -56,10 +57,16 @@ class Builder
 		return $this;
 	}
 
-	public function sender(Credential $sender, string $userAgent): self
+	public function sender(Credential $sender): self
 	{
 		$this->sender = $sender;
-		$this->senderUserAgent = $userAgent;
+
+		return $this;
+	}
+
+	public function setSenderUserAgent(?string $senderUserAgent): self
+	{
+		$this->senderUserAgent = $senderUserAgent;
 
 		return $this;
 	}
@@ -97,7 +104,7 @@ class Builder
 	public function build(string $deploymentMode = null): CXml
 	{
 		switch (true) {
-			case $this->payload instanceof RequestInterface:
+			case $this->payload instanceof RequestPayloadInterface:
 				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forRequest(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
@@ -107,7 +114,7 @@ class Builder
 				);
 				break;
 
-			case $this->payload instanceof MessageInterface:
+			case $this->payload instanceof MessagePayloadInterface:
 				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forMessage(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
@@ -117,11 +124,18 @@ class Builder
 				);
 				break;
 
-			case $this->payload instanceof ResponseInterface:
+			case $this->payload instanceof ResponsePayloadInterface:
+				$status = $this->status;
+
+				// response requires a status
+				if (null === $status) {
+					$status = new Status(); // 200 OK
+				}
+
 				/** @noinspection PhpParamsInspection */
 				$cXml = CXml::forResponse(
 					$this->payloadIdentityFactory->newPayloadIdentity(),
-					new Response($this->payload, $this->status),
+					new Response($status, $this->payload),
 					$this->locale
 				);
 				break;
@@ -131,7 +145,7 @@ class Builder
 				if ($this->status) {
 					$cXml = CXml::forResponse(
 						$this->payloadIdentityFactory->newPayloadIdentity(),
-						new Response(null, $this->status),
+						new Response($this->status),
 						$this->locale
 					);
 

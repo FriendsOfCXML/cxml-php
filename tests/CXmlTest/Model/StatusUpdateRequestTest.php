@@ -3,12 +3,12 @@
 namespace CXmlTest\Model;
 
 use CXml\Builder;
-use CXml\Endpoint;
 use CXml\Model\Credential;
 use CXml\Model\PayloadIdentity;
 use CXml\Model\Request\StatusUpdateRequest;
 use CXml\Model\Status;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use CXml\Serializer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -38,17 +38,17 @@ class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactory
 			'0c300508b7863dcclb_14999'
 		);
 
-		$cxml = Builder::create('en-US', $this)
+		$cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
 			->from($from)
 			->to($to)
-			->sender($sender, 'Supplier’s Super Order Processor')
+			->sender($sender)
 			->payload($statusUpdateRequest)
 			->build()
 		;
 
 		$this->assertEquals('StatusUpdateRequest_0c30050@supplierorg.com', (string) $cxml);
 
-		$xml = Endpoint::serialize($cxml);
+		$xml = Serializer::create()->serialize($cxml);
 		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequest.xml', $xml);
 	}
 

@@ -33,7 +33,7 @@ class Context
 
 	public function isDryRun(): bool
 	{
-		return $this->options['dryrun'];
+		return $this->options['dryrun'] ?? false;
 	}
 
 	public function getCXml(): ?CXml

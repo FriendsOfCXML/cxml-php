@@ -38,7 +38,7 @@ require_once 'vendor/autoload.php';
 
 ```php
 //we use a basic registry here. You could use your own (db-based?) repository that implements CredentialRepositoryInterface
-$credentialRegistry = new \CXml\Credential\CredentialRegistry();
+$credentialRegistry = new \CXml\Credential\Registry();
 
 $someSupplier = new \CXml\Model\Credential('DUNS', 12345);
 $credentialRegistry->registerCredential($someSupplier);
@@ -111,7 +111,7 @@ $cXmlProcessor->process($cXml);
 ### Putting it all together
 
 ```php
-$credentialRegistry = new \CXml\Credential\CredentialRegistry();
+$credentialRegistry = new \CXml\Credential\Registry();
 //TODO register...
 
 $handlerRegistry = new \CXml\Handler\HandlerRegistry();
@@ -119,7 +119,7 @@ $handlerRegistry = new \CXml\Handler\HandlerRegistry();
 
 $builder = \CXml\Builder::create();
 
-$headerProcessor = new \CXml\Processor\HeaderProcessor($credentialRegistry);
+$headerProcessor = new \CXml\Processor\HeaderProcessor($credentialRegistry, $credentialRegistry);
 $cXmlProcessor = new \CXml\Processor\Processor(
   $headerProcessor, 
   $handlerRegistry,

@@ -2,7 +2,8 @@
 
 namespace CXml\Processor;
 
-use CXml\Credential\CredentialAuthenticatorInterface;
+use CXml\Authentication\AuthenticatorInterface;
+use CXml\Context;
 use CXml\Credential\CredentialRepositoryInterface;
 use CXml\Exception\CXmlAuthenticationInvalidException;
 use CXml\Exception\CXmlCredentialInvalidException;
@@ -12,23 +13,23 @@ use CXml\Model\Header;
 class HeaderProcessor
 {
 	private CredentialRepositoryInterface $credentialRepository;
-	private CredentialAuthenticatorInterface $credentialAuthenticator;
+	private AuthenticatorInterface $authenticator;
 
-	public function __construct(CredentialRepositoryInterface $credentialRepository, CredentialAuthenticatorInterface $credentialAuthenticator)
+	public function __construct(CredentialRepositoryInterface $credentialRepository, AuthenticatorInterface $authenticator)
 	{
 		$this->credentialRepository = $credentialRepository;
-		$this->credentialAuthenticator = $credentialAuthenticator;
+		$this->authenticator = $authenticator;
 	}
 
 	/**
 	 * @throws CXmlCredentialInvalidException
 	 * @throws CXmlAuthenticationInvalidException
 	 */
-	public function process(Header $header): void
+	public function process(Header $header, Context $context): void
 	{
 		$this->validatePartys($header);
 
-		$this->authenticateSender($header->getSender()->getCredential());
+		$this->authenticator->authenticate($header, $context);
 	}
 
 	/**
@@ -53,16 +54,5 @@ class HeaderProcessor
 			$testCredential->getDomain(),
 			$testCredential->getIdentity()
 		);
-	}
-
-	/**
-	 * @throws CXmlAuthenticationInvalidException
-	 * @throws CXmlCredentialInvalidException
-	 */
-	private function authenticateSender(Credential $testCredential): void
-	{
-		$this->checkCredentialIsValid($testCredential);
-
-		$this->credentialAuthenticator->authenticate($testCredential);
 	}
 }

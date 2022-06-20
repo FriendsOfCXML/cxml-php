@@ -2,11 +2,14 @@
 
 namespace CXml\Credential;
 
+use CXml\Authentication\AuthenticatorInterface;
+use CXml\Context;
 use CXml\Exception\CXmlAuthenticationInvalidException;
 use CXml\Exception\CXmlCredentialInvalidException;
 use CXml\Model\Credential;
+use CXml\Model\Header;
 
-class CredentialRegistry implements CredentialRepositoryInterface, CredentialAuthenticatorInterface
+class Registry implements CredentialRepositoryInterface, AuthenticatorInterface
 {
 	/**
 	 * @var Credential[]
@@ -36,8 +39,10 @@ class CredentialRegistry implements CredentialRepositoryInterface, CredentialAut
 	 * @throws CXmlAuthenticationInvalidException
 	 * @throws CXmlCredentialInvalidException
 	 */
-	public function authenticate(Credential $senderCredential): void
+	public function authenticate(Header $header, Context $context): void
 	{
+		$senderCredential = $header->getSender()->getCredential();
+
 		$baseCredential = $this->getCredentialByDomainAndId(
 			$senderCredential->getDomain(),
 			$senderCredential->getIdentity(),

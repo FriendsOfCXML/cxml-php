@@ -13,9 +13,11 @@ use CXml\Exception\CXmlNotImplementedException;
 use CXml\Exception\CXmlPreconditionFailedException;
 use CXml\Handler\HandlerInterface;
 use CXml\Handler\HandlerRegistryInterface;
-use CXml\Model;
 use CXml\Model\CXml;
+use CXml\Model\Message\Message;
 use CXml\Model\PayloadInterface;
+use CXml\Model\Request\Request;
+use CXml\Model\Response\Response;
 use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
 use CXml\Processor\Exception\CXmlProcessException;
@@ -156,7 +158,7 @@ class Processor
 	 * @throws CXmlProcessException
 	 * @throws CXmlException
 	 */
-	private function processMessage(Model\Message\Message $message, Context $context): void
+	private function processMessage(Message $message, Context $context): void
 	{
 		$payload = $message->getPayload();
 
@@ -171,7 +173,7 @@ class Processor
 	 * @throws CXmlProcessException
 	 * @throws CXmlException
 	 */
-	private function processResponse(Model\Response\Response $response, Context $context): void
+	private function processResponse(Response $response, Context $context): void
 	{
 		$payload = $response->getPayload();
 
@@ -190,7 +192,7 @@ class Processor
 	 * @throws CXmlProcessException
 	 * @throws CXmlException
 	 */
-	private function processRequest(Model\Request\Request $request, Context $context): CXml
+	private function processRequest(Request $request, Context $context): CXml
 	{
 		$header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
 		if (!$header) {
@@ -198,7 +200,7 @@ class Processor
 		}
 
 		try {
-			$this->headerProcessor->process($header);
+			$this->headerProcessor->process($header, $context);
 		} catch (\Throwable $e) {
 			throw new CXmlProcessException($e);
 		}
@@ -210,7 +212,7 @@ class Processor
 
 		// if no response was returned, set an implicit 200/OK
 		if (!$response) {
-			$this->builder->status(new Model\Status(
+			$this->builder->status(new Status(
 				200,
 				'OK'
 			));

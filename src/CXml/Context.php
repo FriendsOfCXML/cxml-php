@@ -7,27 +7,33 @@ use CXml\Model\CXml;
 class Context
 {
 	private ?CXml $cxml = null;
-	private bool $dryrun = false;
+	private array $options;
 
-	private function __construct()
+	private function __construct(array $options = [])
 	{
+		$this->options = $options;
 	}
 
-	public static function create(): self
+	public static function create(array $options = []): self
 	{
-		return new self();
+		return new self($options);
+	}
+
+	public function getOption(string $key)/* : mixed */
+	{
+		return $this->options[$key] ?? null;
 	}
 
 	public function setDryRun(bool $dryrun): self
 	{
-		$this->dryrun = $dryrun;
+		$this->options['dryrun'] = $dryrun;
 
 		return $this;
 	}
 
 	public function isDryRun(): bool
 	{
-		return $this->dryrun;
+		return $this->options['dryrun'] ?? false;
 	}
 
 	public function getCXml(): ?CXml

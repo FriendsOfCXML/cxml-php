@@ -47,7 +47,7 @@ class PunchOutOrderMessageHeader
 		$this->total = $total;
 		$this->shipping = $shipping;
 		$this->tax = $tax;
-		$this->operationAllowed = $operationAllowed;
+		$this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
 	}
 
 	public function setSupplierOrderInfo(string $orderId, \DateTime $orderDate = null): self

@@ -15,4 +15,9 @@ class MoneyWrapper
 	{
 		$this->money = new Money($currency, $value);
 	}
+
+	public function getMoney(): Money
+	{
+		return $this->money;
+	}
 }

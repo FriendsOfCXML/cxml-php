@@ -21,4 +21,14 @@ class Money
 		$this->currency = $currency;
 		$this->value = \number_format($value / 100, 2, '.', '');
 	}
+
+	public function getCurrency(): string
+	{
+		return $this->currency;
+	}
+
+	public function getValue(): string
+	{
+		return $this->value;
+	}
 }

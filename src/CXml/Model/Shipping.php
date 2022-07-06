@@ -22,4 +22,14 @@ class Shipping
 		$this->money = $money;
 		$this->description = $description;
 	}
+
+	public function getMoney(): Money
+	{
+		return $this->money;
+	}
+
+	public function getDescription(): ?MultilanguageString
+	{
+		return $this->description;
+	}
 }

@@ -2,8 +2,11 @@
 
 namespace CXml\Model\Message;
 
+use Assert\Assertion;
 use CXml\Model\MoneyWrapper;
+use CXml\Model\Shipping;
 use CXml\Model\SupplierOrderInfo;
+use CXml\Model\Tax;
 use JMS\Serializer\Annotation as Ser;
 
 class PunchOutOrderMessageHeader
@@ -25,24 +28,26 @@ class PunchOutOrderMessageHeader
 	/**
 	 * @Ser\SerializedName("Shipping")
 	 */
-	private ?MoneyWrapper $shipping = null;
+	private ?Shipping $shipping = null;
 
 	/**
 	 * @Ser\SerializedName("Tax")
 	 */
-	private ?MoneyWrapper $tax = null;
+	private ?Tax $tax = null;
 
 	/**
 	 * @Ser\SerializedName("SupplierOrderInfo")
 	 */
 	private ?SupplierOrderInfo $supplierOrderInfo = null;
 
-	public function __construct(MoneyWrapper $total, ?MoneyWrapper $shipping = null, ?MoneyWrapper $tax = null, ?string $operationAllowed = null)
+	public function __construct(MoneyWrapper $total, ?Shipping $shipping = null, ?Tax $tax = null, ?string $operationAllowed = null)
 	{
+		Assertion::inArray($operationAllowed, [self::OPERATION_CREATE, self::OPERATION_EDIT, self::OPERATION_INSPECT, null]);
+
 		$this->total = $total;
 		$this->shipping = $shipping;
 		$this->tax = $tax;
-		$this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
+		$this->operationAllowed = $operationAllowed;
 	}
 
 	public function setSupplierOrderInfo(string $orderId, \DateTime $orderDate = null): self
@@ -50,5 +55,30 @@ class PunchOutOrderMessageHeader
 		$this->supplierOrderInfo = new SupplierOrderInfo($orderId, $orderDate);
 
 		return $this;
+	}
+
+	public function getOperationAllowed(): ?string
+	{
+		return $this->operationAllowed;
+	}
+
+	public function getTotal(): MoneyWrapper
+	{
+		return $this->total;
+	}
+
+	public function getShipping(): ?Shipping
+	{
+		return $this->shipping;
+	}
+
+	public function getTax(): ?Tax
+	{
+		return $this->tax;
+	}
+
+	public function getSupplierOrderInfo(): ?SupplierOrderInfo
+	{
+		return $this->supplierOrderInfo;
 	}
 }

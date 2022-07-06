@@ -9,6 +9,7 @@ use CXml\Model\Contact;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
+use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
 use JMS\Serializer\Annotation as Ser;
 
@@ -78,6 +79,11 @@ class OrderRequestHeader
 	 * @var Comment[]
 	 */
 	private ?array $comments = null;
+
+	/**
+	 * @Ser\SerializedName("SupplierOrderInfo")
+	 */
+	private ?SupplierOrderInfo $supplierOrderInfo = null;
 
 	public function __construct(
 		string $orderId,
@@ -187,5 +193,15 @@ class OrderRequestHeader
 		$this->contacts[] = $contact;
 
 		return $this;
+	}
+
+	public function getContacts(): ?array
+	{
+		return $this->contacts;
+	}
+
+	public function getSupplierOrderInfo(): ?SupplierOrderInfo
+	{
+		return $this->supplierOrderInfo;
 	}
 }

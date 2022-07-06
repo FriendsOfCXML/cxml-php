@@ -3,6 +3,7 @@
 namespace CXml\Model\Message;
 
 use CXml\Model\MoneyWrapper;
+use CXml\Model\SupplierOrderInfo;
 use JMS\Serializer\Annotation as Ser;
 
 class PunchOutOrderMessageHeader
@@ -24,12 +25,17 @@ class PunchOutOrderMessageHeader
 	/**
 	 * @Ser\SerializedName("Shipping")
 	 */
-	private ?MoneyWrapper $shipping;
+	private ?MoneyWrapper $shipping = null;
 
 	/**
 	 * @Ser\SerializedName("Tax")
 	 */
-	private ?MoneyWrapper $tax;
+	private ?MoneyWrapper $tax = null;
+
+	/**
+	 * @Ser\SerializedName("SupplierOrderInfo")
+	 */
+	private ?SupplierOrderInfo $supplierOrderInfo = null;
 
 	public function __construct(MoneyWrapper $total, ?MoneyWrapper $shipping = null, ?MoneyWrapper $tax = null, ?string $operationAllowed = null)
 	{
@@ -37,5 +43,12 @@ class PunchOutOrderMessageHeader
 		$this->shipping = $shipping;
 		$this->tax = $tax;
 		$this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
+	}
+
+	public function setSupplierOrderInfo(string $orderId, \DateTime $orderDate = null): self
+	{
+		$this->supplierOrderInfo = new SupplierOrderInfo($orderId, $orderDate);
+
+		return $this;
 	}
 }

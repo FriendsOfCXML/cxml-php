@@ -17,9 +17,9 @@ class Shipping
 	 */
 	private ?MultilanguageString $description = null;
 
-	public function __construct(Money $money, ?MultilanguageString $description = null)
+	public function __construct(string $currency, int $value, ?MultilanguageString $description = null)
 	{
-		$this->money = $money;
+		$this->money = new Money($currency, $value);
 		$this->description = $description;
 	}
 

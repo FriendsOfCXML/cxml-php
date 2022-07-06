@@ -10,6 +10,8 @@ use CXml\Model\ItemIn;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
+use CXml\Model\Shipping;
+use CXml\Model\Tax;
 
 class PunchOutOrderMessageBuilder
 {
@@ -123,8 +125,8 @@ class PunchOutOrderMessageBuilder
 
 		$punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(
 			new MoneyWrapper($this->currency, $this->total),
-			$this->shipping ? new MoneyWrapper($this->currency, $this->shipping) : null,
-			$this->tax ? new MoneyWrapper($this->currency, $this->tax) : null,
+			$this->shipping ? new Shipping($this->currency, $this->shipping) : null,
+			$this->tax ? new Tax($this->currency, $this->tax) : null,
 			$this->operationAllowed
 		);
 

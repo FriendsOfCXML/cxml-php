@@ -99,7 +99,8 @@ class OrderRequestBuilder
 	public function shipping(int $costs, string $description = null): self
 	{
 		$this->shipping = new Shipping(
-			new Money($this->currency, $costs),
+			$this->currency,
+			$costs,
 			new MultilanguageString($description, null, $this->language),
 		);
 
@@ -109,7 +110,8 @@ class OrderRequestBuilder
 	public function tax(int $costs, string $description = null): self
 	{
 		$this->tax = new Tax(
-			new Money($this->currency, $costs),
+			$this->currency,
+			$costs,
 			new MultilanguageString($description, null, $this->language),
 		);
 

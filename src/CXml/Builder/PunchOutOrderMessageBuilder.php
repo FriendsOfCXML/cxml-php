@@ -25,6 +25,8 @@ class PunchOutOrderMessageBuilder
 	private int $total = 0;
 	private ?int $shipping = null;
 	private ?int $tax = null;
+	private string $orderId;
+	private ?\DateTime $orderDate;
 
 	private function __construct(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null)
 	{
@@ -37,6 +39,14 @@ class PunchOutOrderMessageBuilder
 	public static function create(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null): self
 	{
 		return new self($language, $buyerCookie, $currency, $operationAllowed);
+	}
+
+	public function orderReference(string $orderId, \DateTime $orderDate = null): self
+	{
+		$this->orderId = $orderId;
+		$this->orderDate = $orderDate;
+
+		return $this;
 	}
 
 	public function shipping(?int $shipping): self
@@ -117,6 +127,10 @@ class PunchOutOrderMessageBuilder
 			$this->tax ? new MoneyWrapper($this->currency, $this->tax) : null,
 			$this->operationAllowed
 		);
+
+		if (isset($this->orderId)) {
+			$punchoutOrderMessageHeader->setSupplierOrderInfo($this->orderId, $this->orderDate);
+		}
 
 		$punchOutOrderMessage = PunchOutOrderMessage::create(
 			$this->buyerCookie,

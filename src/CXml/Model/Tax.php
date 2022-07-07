@@ -15,9 +15,9 @@ class Tax
 	 * @Ser\SerializedName("Description")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?MultilanguageString $description = null;
+	private MultilanguageString $description;
 
-	public function __construct(string $currency, int $value, ?MultilanguageString $description = null)
+	public function __construct(string $currency, int $value, MultilanguageString $description)
 	{
 		$this->money = new Money($currency, $value);
 		$this->description = $description;
@@ -28,7 +28,7 @@ class Tax
 		return $this->money;
 	}
 
-	public function getDescription(): ?MultilanguageString
+	public function getDescription(): MultilanguageString
 	{
 		return $this->description;
 	}

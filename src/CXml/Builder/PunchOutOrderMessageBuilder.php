@@ -26,7 +26,7 @@ class PunchOutOrderMessageBuilder
 	private array $punchoutOrderMessageItems = [];
 	private int $total = 0;
 	private ?int $shipping = null;
-	private ?int $tax = null;
+	private ?Tax $tax = null;
 	private string $orderId;
 	private ?\DateTime $orderDate;
 
@@ -62,9 +62,24 @@ class PunchOutOrderMessageBuilder
 		return $this;
 	}
 
-	public function tax(?int $tax): self
+	public function tax(?int $tax, ?string $taxDescription): self
 	{
-		$this->tax = $tax;
+		if (null === $tax && null !== $taxDescription) {
+			throw new \LogicException('If tax is null, taxDescription must be null too.');
+		}
+		if (null !== $tax && null === $taxDescription) {
+			throw new \LogicException('if tax is not null, taxDescription must be not null too.');
+		}
+
+		$this->tax = new Tax(
+			$this->currency,
+			$tax,
+			new Description(
+				$taxDescription,
+				null,
+				$this->language
+			)
+		);
 
 		if (\is_int($tax)) {
 			$this->total += $tax;
@@ -126,7 +141,7 @@ class PunchOutOrderMessageBuilder
 		$punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(
 			new MoneyWrapper($this->currency, $this->total),
 			$this->shipping ? new Shipping($this->currency, $this->shipping) : null,
-			$this->tax ? new Tax($this->currency, $this->tax) : null,
+			$this->tax,
 			$this->operationAllowed
 		);
 

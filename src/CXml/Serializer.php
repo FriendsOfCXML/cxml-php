@@ -26,9 +26,6 @@ class Serializer
 		$jmsSerializer = SerializerBuilder::create()
 			->configureListeners(function (EventDispatcherInterface $dispatcher): void {
 				$dispatcher->addSubscriber(new CXmlWrappingNodeJmsEventSubscriber());
-				/*$dispatcher->addListener('serializer.pre_serialize', function() {
-
-				});*/
 			})
 			->configureHandlers(function (HandlerRegistry $registry): void {
 				$handler = new JmsDateTimeHandler();
@@ -68,13 +65,14 @@ class Serializer
 		return $this->jmsSerializer->deserialize($xml, CXml::class, 'xml');
 	}
 
-	public function serialize(CXml $cxml): string
+	public function serialize(CXml $cxml, string $docTypeVersion = '1.2.054'): string
 	{
 		$xml = $this->jmsSerializer->serialize($cxml, 'xml');
 
-		// TODO ugly hack todo fix me - necessary for ariba
-		$docType = '<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">';
+		$docType = '<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/'.$docTypeVersion.'/cXML.dtd">';
+		$xmlPrefix = '<?xml version="1.0" encoding="UTF-8"?>';
 
-		return \str_replace('<?xml version="1.0" encoding="UTF-8"?>', '<?xml version="1.0" encoding="UTF-8"?>'.$docType, $xml);
+		// add doctype, as it is mandatory in cXML
+		return \str_replace($xmlPrefix, $xmlPrefix.$docType, $xml);
 	}
 }

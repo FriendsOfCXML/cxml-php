@@ -62,15 +62,8 @@ class PunchOutOrderMessageBuilder
 		return $this;
 	}
 
-	public function tax(?int $tax, ?string $taxDescription): self
+	public function tax(int $tax, string $taxDescription): self
 	{
-		if (null === $tax && null !== $taxDescription) {
-			throw new \LogicException('If tax is null, taxDescription must be null too.');
-		}
-		if (null !== $tax && null === $taxDescription) {
-			throw new \LogicException('if tax is not null, taxDescription must be not null too.');
-		}
-
 		$this->tax = new Tax(
 			$this->currency,
 			$tax,
@@ -81,9 +74,7 @@ class PunchOutOrderMessageBuilder
 			)
 		);
 
-		if (\is_int($tax)) {
-			$this->total += $tax;
-		}
+		$this->total += $tax;
 
 		return $this;
 	}

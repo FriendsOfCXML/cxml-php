@@ -89,7 +89,7 @@ class PunchOutOrderMessageBuilder
 	}
 
 	public function addPunchoutOrderMessageItem(
-		string $sku,
+		ItemId $itemId,
 		int $quantity,
 		string $description,
 		string $unitOfMeasure,
@@ -122,7 +122,7 @@ class PunchOutOrderMessageBuilder
 
 		$punchoutOrderMessageItem = ItemIn::create(
 			$quantity,
-			new ItemId($sku, null, $sku),
+			$itemId,
 			$itemDetail
 		);
 

@@ -72,4 +72,29 @@ class ItemOut
 
 		return $this;
 	}
+
+	public function getLineNumber(): int
+	{
+		return $this->lineNumber;
+	}
+
+	public function getQuantity(): int
+	{
+		return $this->quantity;
+	}
+
+	public function getRequestedDeliveryDate(): ?\DateTime
+	{
+		return $this->requestedDeliveryDate;
+	}
+
+	public function getItemId(): ItemId
+	{
+		return $this->itemId;
+	}
+
+	public function getItemDetail(): ItemDetail
+	{
+		return $this->itemDetail;
+	}
 }

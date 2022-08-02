@@ -21,7 +21,7 @@ trait IdReferencesTrait
 		return $this;
 	}
 
-    public function getIdReferences(): array
+	public function getIdReferences(): array
 	{
 		return $this->idReferences;
 	}

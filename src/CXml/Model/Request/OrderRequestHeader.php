@@ -17,7 +17,7 @@ use JMS\Serializer\Annotation as Ser;
 
 class OrderRequestHeader
 {
-    use IdReferencesTrait, ExtrinsicsTrait;
+	use IdReferencesTrait, ExtrinsicsTrait;
 
 	public const TYPE_NEW = 'new';
 

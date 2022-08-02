@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShipTo
 {
+    use IdReferencesTrait;
+
 	/**
 	 * @Ser\SerializedName("Address")
 	 */

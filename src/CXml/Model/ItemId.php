@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation as Ser;
 
 class ItemId
 {
+    use IdReferencesTrait;
+
 	/**
 	 * @Ser\SerializedName("SupplierPartID")
 	 * @Ser\XmlElement (cdata=false)

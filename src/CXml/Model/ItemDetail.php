@@ -6,6 +6,7 @@ use JMS\Serializer\Annotation as Ser;
 
 class ItemDetail
 {
+    use ExtrinsicsTrait;
 	public const UNIT_OF_MEASURE_EACH = 'EA';
 
 	/**

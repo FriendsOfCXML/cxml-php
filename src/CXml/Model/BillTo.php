@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation as Ser;
 
 class BillTo
 {
+    use IdReferencesTrait;
+
 	/**
 	 * @Ser\SerializedName("Address")
 	 */

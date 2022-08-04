@@ -29,7 +29,7 @@ class CXmlInvalidException extends CXmlNotAcceptableException
 			$message = 'No LibXMLError was given.';
 		}
 
-		return new self(
+		return new static(
 			$message,
 			$xml
 		);

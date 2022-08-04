@@ -26,7 +26,7 @@ class ProductActivityMessageBuilder
 
 	public static function create(string $messageId, string $warehouseCodeDomain): self
 	{
-		return new self($messageId, $warehouseCodeDomain);
+		return new static($messageId, $warehouseCodeDomain);
 	}
 
 	public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, ?array $extrinsics = null): self

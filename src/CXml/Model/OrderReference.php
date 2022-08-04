@@ -31,7 +31,7 @@ class OrderReference
 
 	public static function create(string $documentReference): self
 	{
-		return new self(
+		return new static(
 			new DocumentReference($documentReference)
 		);
 	}

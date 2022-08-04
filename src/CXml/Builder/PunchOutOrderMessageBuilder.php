@@ -40,7 +40,7 @@ class PunchOutOrderMessageBuilder
 
 	public static function create(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null): self
 	{
-		return new self($language, $buyerCookie, $currency, $operationAllowed);
+		return new static($language, $buyerCookie, $currency, $operationAllowed);
 	}
 
 	public function orderReference(string $orderId, \DateTime $orderDate = null): self

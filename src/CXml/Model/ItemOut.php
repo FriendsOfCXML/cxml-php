@@ -56,7 +56,7 @@ class ItemOut
 		ItemDetail $itemDetail,
 		?\DateTime $requestedDeliveryDate = null
 	): self {
-		return new self(
+		return new static(
 			$lineNumber,
 			$quantity,
 			$itemId,

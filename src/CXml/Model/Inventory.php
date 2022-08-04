@@ -18,7 +18,7 @@ class Inventory
 
 	public static function create(): self
 	{
-		return new self();
+		return new static();
 	}
 
 	public function getStockOnHandQuantity(): ?InventoryQuantity

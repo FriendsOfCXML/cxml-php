@@ -67,7 +67,7 @@ class ItemDetail
 
 	public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice): self
 	{
-		return new self($description, $unitOfMeasure, $unitPrice);
+		return new static($description, $unitOfMeasure, $unitPrice);
 	}
 
 	public function setUrl(?string $url): self

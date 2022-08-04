@@ -45,7 +45,7 @@ class OrderRequestBuilder
 
 	public static function create(string $orderId, \DateTime $orderDate, string $currency, string $language = 'en'): self
 	{
-		return new self($orderId, $orderDate, $currency, $language);
+		return new static($orderId, $orderDate, $currency, $language);
 	}
 
 	public function billTo(

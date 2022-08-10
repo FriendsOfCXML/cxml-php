@@ -3,13 +3,14 @@
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
-use CXml\Model\IdReferencesTrait;
 use CXml\Model\ExtrinsicsTrait;
+use CXml\Model\IdReferencesTrait;
 use JMS\Serializer\Annotation as Ser;
 
 class ConfirmationHeader
 {
-	use IdReferencesTrait, ExtrinsicsTrait;
+	use ExtrinsicsTrait;
+	use IdReferencesTrait;
 	public const TYPE_ACCEPT = 'accept';
 	public const TYPE_ALLDETAIL = 'allDetail';
 	public const TYPE_DETAIL = 'detail';

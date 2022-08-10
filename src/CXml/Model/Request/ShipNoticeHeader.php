@@ -10,7 +10,8 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShipNoticeHeader
 {
-	use IdReferencesTrait, ExtrinsicsTrait;
+	use ExtrinsicsTrait;
+	use IdReferencesTrait;
 
 	/**
 	 * @Ser\XmlAttribute

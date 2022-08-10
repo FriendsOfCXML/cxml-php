@@ -6,7 +6,8 @@ use JMS\Serializer\Annotation as Ser;
 
 class Contact
 {
-	use IdReferencesTrait, ExtrinsicsTrait;
+	use ExtrinsicsTrait;
+	use IdReferencesTrait;
 
 	public const ROLE_ENDUSER = 'endUser';
 	public const ROLE_ADMINISTRATOR = 'administrator';

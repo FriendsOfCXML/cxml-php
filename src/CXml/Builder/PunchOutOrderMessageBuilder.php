@@ -88,7 +88,8 @@ class PunchOutOrderMessageBuilder
 		array $classifications,
 		?string $manufacturerPartId = null,
 		?string $manufacturerName = null,
-		?int $leadTime = null
+		?int $leadTime = null,
+		array $extrinsics = null
 	): self {
 		$itemDetail = ItemDetail::create(
 			new Description(
@@ -106,6 +107,12 @@ class PunchOutOrderMessageBuilder
 			->setManufacturerName($manufacturerName)
 			->setLeadtime($leadTime)
 		;
+
+		if ($extrinsics) {
+			foreach ($extrinsics as $k=>$v) {
+				$itemDetail->addExtrinsic($k, $v);
+			}
+		}
 
 		foreach ($classifications as $k => $v) {
 			$itemDetail->addClassification(new Classification($k, $v));

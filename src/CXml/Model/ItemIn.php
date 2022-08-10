@@ -51,4 +51,19 @@ class ItemIn
 
 		return $this;
 	}
+
+	public function getQuantity(): int
+	{
+		return $this->quantity;
+	}
+
+	public function getItemId(): ItemId
+	{
+		return $this->itemId;
+	}
+
+	public function getItemDetail(): ItemDetail
+	{
+		return $this->itemDetail;
+	}
 }

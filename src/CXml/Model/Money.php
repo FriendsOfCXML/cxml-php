@@ -16,10 +16,16 @@ class Money
 	 */
 	private string $value;
 
-	public function __construct(string $currency, int $value)
+	/**
+	 * @Ser\Exclude()
+	 */
+	private int $valueCent;
+
+	public function __construct(string $currency, int $valueCent)
 	{
 		$this->currency = $currency;
-		$this->value = \number_format($value / 100, 2, '.', '');
+		$this->valueCent = $valueCent;
+		$this->value = \number_format($valueCent / 100, 2, '.', '');
 	}
 
 	public function getCurrency(): string
@@ -30,5 +36,10 @@ class Money
 	public function getValue(): string
 	{
 		return $this->value;
+	}
+
+	public function getValueCent(): int
+	{
+		return $this->valueCent;
 	}
 }

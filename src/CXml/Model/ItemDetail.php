@@ -104,4 +104,44 @@ class ItemDetail
 
 		return $this;
 	}
+
+	public function getUnitPrice(): MoneyWrapper
+	{
+		return $this->unitPrice;
+	}
+
+	public function getDescription(): Description
+	{
+		return $this->description;
+	}
+
+	public function getUnitOfMeasure(): string
+	{
+		return $this->unitOfMeasure;
+	}
+
+	public function getClassifications(): array
+	{
+		return $this->classifications;
+	}
+
+	public function getManufacturerPartId(): ?string
+	{
+		return $this->manufacturerPartId;
+	}
+
+	public function getManufacturerName(): ?string
+	{
+		return $this->manufacturerName;
+	}
+
+	public function getUrl(): ?string
+	{
+		return $this->url;
+	}
+
+	public function getLeadtime(): ?int
+	{
+		return $this->leadtime;
+	}
 }

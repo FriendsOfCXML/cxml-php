@@ -124,8 +124,13 @@ class PunchOutOrderMessageBuilder
 			$itemDetail
 		);
 
-		$this->punchoutOrderMessageItems[] = $punchoutOrderMessageItem;
-		$this->total += ($unitPrice * $quantity);
+		return $this->addItem($punchoutOrderMessageItem);
+	}
+
+	public function addItem(ItemIn $itemIn): self
+	{
+		$this->punchoutOrderMessageItems[] = $itemIn;
+		$this->total += ($itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent() * $itemIn->getQuantity());
 
 		return $this;
 	}

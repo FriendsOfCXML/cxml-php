@@ -109,7 +109,7 @@ class PunchOutOrderMessageBuilder
 		;
 
 		if ($extrinsics) {
-			foreach ($extrinsics as $k=>$v) {
+			foreach ($extrinsics as $k => $v) {
 				$itemDetail->addExtrinsic($k, $v);
 			}
 		}

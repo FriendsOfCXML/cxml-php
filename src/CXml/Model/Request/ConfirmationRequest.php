@@ -25,7 +25,7 @@ class ConfirmationRequest implements RequestPayloadInterface
 
 	public static function create(ConfirmationHeader $confirmationHeader, OrderReference $orderReference): self
 	{
-		return new static($confirmationHeader, $orderReference);
+		return new self($confirmationHeader, $orderReference);
 	}
 
 	public function getConfirmationHeader(): ConfirmationHeader

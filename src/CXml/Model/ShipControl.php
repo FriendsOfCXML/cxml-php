@@ -30,7 +30,7 @@ class ShipControl
 
 	public static function create(CarrierIdentifier $carrierIdentifier, ShipmentIdentifier $shipmentIdentifier): self
 	{
-		return new static($carrierIdentifier, $shipmentIdentifier);
+		return new self($carrierIdentifier, $shipmentIdentifier);
 	}
 
 	public function addCarrierIdentifier(string $domain, string $value): self

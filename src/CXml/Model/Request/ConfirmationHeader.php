@@ -50,7 +50,7 @@ class ConfirmationHeader
 
 	public static function create(string $type, \DateTime $noticeDate = null): self
 	{
-		return new static(
+		return new self(
 			$type,
 			$noticeDate
 		);

@@ -37,7 +37,7 @@ class ItemIn
 		ItemId $itemId,
 		ItemDetail $itemDetail
 	): self {
-		return new static(
+		return new self(
 			$quantity,
 			$itemId,
 			$itemDetail,

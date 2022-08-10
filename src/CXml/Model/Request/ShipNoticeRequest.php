@@ -36,7 +36,7 @@ class ShipNoticeRequest implements RequestPayloadInterface
 
 	public static function create(ShipNoticeHeader $shipNoticeHeader): self
 	{
-		return new static($shipNoticeHeader);
+		return new self($shipNoticeHeader);
 	}
 
 	public function addShipControl(ShipControl $shipControl): self

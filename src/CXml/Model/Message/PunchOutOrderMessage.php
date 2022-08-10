@@ -34,7 +34,7 @@ class PunchOutOrderMessage implements MessagePayloadInterface
 
 	public static function create(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader): self
 	{
-		return new static($buyerCookie, $punchOutOrderMessageHeader);
+		return new self($buyerCookie, $punchOutOrderMessageHeader);
 	}
 
 	public function getBuyerCookie(): string

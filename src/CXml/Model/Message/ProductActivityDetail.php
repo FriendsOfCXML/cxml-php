@@ -45,7 +45,7 @@ class ProductActivityDetail
 
 	public static function create(ItemId $itemId, ?Inventory $inventory = null, ?Contact $contact = null, ?MultilanguageString $description = null): self
 	{
-		return new static($itemId, $inventory, $contact, $description);
+		return new self($itemId, $inventory, $contact, $description);
 	}
 
 	public function getItemId(): ItemId

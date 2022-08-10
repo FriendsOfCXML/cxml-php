@@ -18,6 +18,6 @@ class TransportInformation
 
 	public static function fromContractAccountNumber(string $carrierAccountNo): self
 	{
-		return new static(new ShippingContractNumber($carrierAccountNo));
+		return new self(new ShippingContractNumber($carrierAccountNo));
 	}
 }

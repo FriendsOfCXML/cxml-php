@@ -16,7 +16,7 @@ class Context
 
 	public static function create(array $options = []): self
 	{
-		return new static($options);
+		return new self($options);
 	}
 
 	public function getOption(string $key)/* : mixed */

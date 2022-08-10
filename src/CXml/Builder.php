@@ -40,7 +40,7 @@ class Builder
 
 	public static function create(string $senderUserAgent = 'cxml-php UserAgent', string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
 	{
-		return new static($senderUserAgent, $locale, $payloadIdentityFactory);
+		return new self($senderUserAgent, $locale, $payloadIdentityFactory);
 	}
 
 	public function payload(?PayloadInterface $payload = null): self

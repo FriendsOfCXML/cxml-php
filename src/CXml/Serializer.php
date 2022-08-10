@@ -50,7 +50,7 @@ class Serializer
 			->build()
 		;
 
-		return new static($jmsSerializer);
+		return new self($jmsSerializer);
 	}
 
 	public function deserialize(string $xml): CXml

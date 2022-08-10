@@ -127,7 +127,7 @@ class OrderRequestHeader
 		string $type = self::TYPE_NEW,
 		?array $contacts = null
 	): self {
-		return new static($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
+		return new self($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
 	}
 
 	public function getShipping(): ?Shipping

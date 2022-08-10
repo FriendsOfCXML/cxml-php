@@ -29,7 +29,7 @@ class StatusUpdateRequest implements RequestPayloadInterface
 
 	public static function create(Status $status, ?string $documentReference = null): self
 	{
-		return new static(
+		return new self(
 			$status,
 			$documentReference
 		);

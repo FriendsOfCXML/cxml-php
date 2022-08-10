@@ -49,7 +49,7 @@ class Contact
 
 	public static function create(MultilanguageString $name, ?string $role = null): self
 	{
-		return new static($name, $role);
+		return new self($name, $role);
 	}
 
 	public function getRole(): ?string

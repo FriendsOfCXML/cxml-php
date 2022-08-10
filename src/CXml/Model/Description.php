@@ -19,7 +19,7 @@ class Description extends MultilanguageString
 
 	public static function createWithShortName(string $shortName, ?string $type = null, string $lang = 'en'): self
 	{
-		$new = new self(null, $type, $lang);
+		$new = new static(null, $type, $lang);
 		$new->setShortname($shortName);
 
 		return $new;

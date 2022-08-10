@@ -5,12 +5,12 @@ namespace CXml\Model\Request;
 use CXml\Model\Comment;
 use CXml\Model\DocumentReference;
 use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\IdReference;
+use CXml\Model\IdReferencesTrait;
 use JMS\Serializer\Annotation as Ser;
 
 class ShipNoticeHeader
 {
-	use ExtrinsicsTrait;
+	use IdReferencesTrait, ExtrinsicsTrait;
 
 	/**
 	 * @Ser\XmlAttribute
@@ -46,14 +46,6 @@ class ShipNoticeHeader
 	 */
 	private ?array $comments = null;
 
-	/**
-	 * @Ser\XmlList(inline=true, entry="IdReference")
-	 * @Ser\Type("array<CXml\Model\IdReference>")
-	 *
-	 * @var IdReference[]
-	 */
-	private array $idReferences = [];
-
 	public function __construct(string $shipmentId, ?\DateTime $noticeDate = null, ?\DateTime $shipmentDate = null, ?\DateTime $deliveryDate = null, string $documentReference = null)
 	{
 		$this->shipmentId = $shipmentId;
@@ -65,7 +57,7 @@ class ShipNoticeHeader
 
 	public static function create(string $shipmentId, ?\DateTime $noticeDate = null, ?\DateTime $shipmentDate = null, ?\DateTime $deliveryDate = null, string $documentReference = null): self
 	{
-		return new self($shipmentId, $noticeDate, $shipmentDate, $deliveryDate, $documentReference);
+		return new static($shipmentId, $noticeDate, $shipmentDate, $deliveryDate, $documentReference);
 	}
 
 	public function getDocumentReference(): ?DocumentReference
@@ -107,28 +99,5 @@ class ShipNoticeHeader
 	public function getDeliveryDate(): ?\DateTime
 	{
 		return $this->deliveryDate;
-	}
-
-	public function addIdReference(string $domain, string $identifier): self
-	{
-		$this->idReferences[] = new IdReference($domain, $identifier);
-
-		return $this;
-	}
-
-	public function getIdReferences(): array
-	{
-		return $this->idReferences;
-	}
-
-	public function getIdReference(string $domain): ?string
-	{
-		foreach ($this->idReferences as $idReference) {
-			if ($idReference->getDomain() === $domain) {
-				return $idReference->getIdentifier();
-			}
-		}
-
-		return null;
 	}
 }

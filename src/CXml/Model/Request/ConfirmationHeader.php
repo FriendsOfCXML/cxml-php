@@ -3,13 +3,13 @@
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
+use CXml\Model\IdReferencesTrait;
 use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\IdReference;
 use JMS\Serializer\Annotation as Ser;
 
 class ConfirmationHeader
 {
-	use ExtrinsicsTrait;
+	use IdReferencesTrait, ExtrinsicsTrait;
 	public const TYPE_ACCEPT = 'accept';
 	public const TYPE_ALLDETAIL = 'allDetail';
 	public const TYPE_DETAIL = 'detail';
@@ -30,14 +30,6 @@ class ConfirmationHeader
 	 */
 	private \DateTime $noticeDate;
 
-	/**
-	 * @Ser\XmlList(inline=true, entry="IdReference")
-	 * @Ser\Type("array<CXml\Model\IdReference>")
-	 *
-	 * @var IdReference[]
-	 */
-	private array $idReferences = [];
-
 	public function __construct(string $type, \DateTime $noticeDate = null)
 	{
 		Assertion::inArray($type, [
@@ -57,7 +49,7 @@ class ConfirmationHeader
 
 	public static function create(string $type, \DateTime $noticeDate = null): self
 	{
-		return new self(
+		return new static(
 			$type,
 			$noticeDate
 		);
@@ -71,28 +63,5 @@ class ConfirmationHeader
 	public function getNoticeDate(): \DateTime
 	{
 		return $this->noticeDate;
-	}
-
-	public function addIdReference(string $domain, string $identifier): self
-	{
-		$this->idReferences[] = new IdReference($domain, $identifier);
-
-		return $this;
-	}
-
-	public function getIdReferences(): array
-	{
-		return $this->idReferences;
-	}
-
-	public function getIdReference(string $domain): ?string
-	{
-		foreach ($this->idReferences as $idReference) {
-			if ($idReference->getDomain() === $domain) {
-				return $idReference->getIdentifier();
-			}
-		}
-
-		return null;
 	}
 }

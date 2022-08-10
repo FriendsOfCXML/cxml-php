@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Ser;
 
 class Contact
 {
-	use ExtrinsicsTrait;
+	use IdReferencesTrait, ExtrinsicsTrait;
 
 	public const ROLE_ENDUSER = 'endUser';
 	public const ROLE_ADMINISTRATOR = 'administrator';
@@ -40,14 +40,6 @@ class Contact
 	 */
 	private ?string $email = null;
 
-	/**
-	 * @Ser\XmlList(inline=true, entry="IdReference")
-	 * @Ser\Type("array<CXml\Model\IdReference>")
-	 *
-	 * @var IdReference[]
-	 */
-	private array $idReferences = [];
-
 	public function __construct(MultilanguageString $name, ?string $role = null)
 	{
 		$this->role = $role;
@@ -56,14 +48,7 @@ class Contact
 
 	public static function create(MultilanguageString $name, ?string $role = null): self
 	{
-		return new self($name, $role);
-	}
-
-	public function addIdReference(string $domain, string $identifier): self
-	{
-		$this->idReferences[] = new IdReference($domain, $identifier);
-
-		return $this;
+		return new static($name, $role);
 	}
 
 	public function getRole(): ?string
@@ -74,22 +59,6 @@ class Contact
 	public function getName(): MultilanguageString
 	{
 		return $this->name;
-	}
-
-	public function getIdReferences(): array
-	{
-		return $this->idReferences;
-	}
-
-	public function getIdReference(string $domain): ?string
-	{
-		foreach ($this->idReferences as $idReference) {
-			if ($idReference->getDomain() === $domain) {
-				return $idReference->getIdentifier();
-			}
-		}
-
-		return null;
 	}
 
 	public function addEmail(string $email): self

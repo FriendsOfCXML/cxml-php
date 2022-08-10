@@ -27,7 +27,7 @@ class OrderRequest implements RequestPayloadInterface
 
 	public static function create(OrderRequestHeader $orderRequestHeader): self
 	{
-		return new self(
+		return new static(
 			$orderRequestHeader
 		);
 	}

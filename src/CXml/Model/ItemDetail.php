@@ -6,6 +6,7 @@ use JMS\Serializer\Annotation as Ser;
 
 class ItemDetail
 {
+	use ExtrinsicsTrait;
 	public const UNIT_OF_MEASURE_EACH = 'EA';
 
 	/**
@@ -66,7 +67,7 @@ class ItemDetail
 
 	public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice): self
 	{
-		return new self($description, $unitOfMeasure, $unitPrice);
+		return new static($description, $unitOfMeasure, $unitPrice);
 	}
 
 	public function setUrl(?string $url): self

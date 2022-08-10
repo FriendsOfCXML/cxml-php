@@ -6,6 +6,8 @@ use Assert\Assertion;
 use CXml\Model\BillTo;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
+use CXml\Model\ExtrinsicsTrait;
+use CXml\Model\IdReferencesTrait;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
@@ -15,6 +17,8 @@ use JMS\Serializer\Annotation as Ser;
 
 class OrderRequestHeader
 {
+	use IdReferencesTrait, ExtrinsicsTrait;
+
 	public const TYPE_NEW = 'new';
 
 	/**
@@ -122,7 +126,7 @@ class OrderRequestHeader
 		string $type = self::TYPE_NEW,
 		?array $contacts = null
 	): self {
-		return new self($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
+		return new static($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
 	}
 
 	public function getShipping(): ?Shipping

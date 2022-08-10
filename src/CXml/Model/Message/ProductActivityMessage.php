@@ -29,7 +29,7 @@ class ProductActivityMessage implements MessagePayloadInterface
 
 	public static function create(string $messageId, ?string $processType = null, \DateTime $creationDate = null): self
 	{
-		return new self($messageId, $processType, $creationDate);
+		return new static($messageId, $processType, $creationDate);
 	}
 
 	public function addProductActivityDetail(ProductActivityDetail $productActivityDetail): self

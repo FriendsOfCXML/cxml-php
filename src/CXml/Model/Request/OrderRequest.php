@@ -20,7 +20,7 @@ class OrderRequest implements RequestPayloadInterface
 	 */
 	private array $itemOut = [];
 
-	private function __construct(OrderRequestHeader $orderRequestHeader)
+	protected function __construct(OrderRequestHeader $orderRequestHeader)
 	{
 		$this->orderRequestHeader = $orderRequestHeader;
 	}

@@ -58,7 +58,7 @@ class ItemDetail
 	 */
 	private ?int $leadtime = null;
 
-	private function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice)
+	protected function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice)
 	{
 		$this->description = $description;
 		$this->unitOfMeasure = $unitOfMeasure;

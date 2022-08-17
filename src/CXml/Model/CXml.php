@@ -48,7 +48,7 @@ class CXml
 	 */
 	private ?Message $message = null;
 
-	private function __construct(
+	protected function __construct(
 		string $payloadId,
 		\DateTime $timestamp,
 		?Request $request,

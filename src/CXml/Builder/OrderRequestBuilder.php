@@ -95,18 +95,18 @@ class OrderRequestBuilder
 		return $this;
 	}
 
-	public function shipping(int $costs, string $description = null): self
+	public function shipping(int $costs, string $description): self
 	{
 		$this->shipping = new Shipping(
 			$this->currency,
 			$costs,
-			new MultilanguageString($description, null, $this->language),
+			new Description($description, null, $this->language),
 		);
 
 		return $this;
 	}
 
-	public function tax(int $costs, string $description = null): self
+	public function tax(int $costs, string $description): self
 	{
 		$this->tax = new Tax(
 			$this->currency,

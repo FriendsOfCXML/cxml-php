@@ -15,9 +15,9 @@ class Shipping
 	 * @Ser\SerializedName("Description")
 	 * @Ser\XmlElement (cdata=false)
 	 */
-	private ?MultilanguageString $description = null;
+	private Description $description;
 
-	public function __construct(string $currency, int $value, ?MultilanguageString $description = null)
+	public function __construct(string $currency, int $value, Description $description)
 	{
 		$this->money = new Money($currency, $value);
 		$this->description = $description;

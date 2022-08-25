@@ -25,7 +25,7 @@ class PunchOutOrderMessageBuilder
 	 */
 	private array $punchoutOrderMessageItems = [];
 	private int $total = 0;
-	private ?int $shipping = null;
+	private ?Shipping $shipping = null;
 	private ?Tax $tax = null;
 	private string $orderId;
 	private ?\DateTime $orderDate;
@@ -51,13 +51,19 @@ class PunchOutOrderMessageBuilder
 		return $this;
 	}
 
-	public function shipping(?int $shipping): self
+	public function shipping(int $shipping, string $taxDescription): self
 	{
-		$this->shipping = $shipping;
+		$this->shipping = new Shipping(
+			$this->currency,
+			$shipping,
+			new Description(
+				$taxDescription,
+				null,
+				$this->language
+			)
+		);
 
-		if (\is_int($shipping)) {
-			$this->total += $shipping;
-		}
+		$this->total += $shipping;
 
 		return $this;
 	}
@@ -143,7 +149,7 @@ class PunchOutOrderMessageBuilder
 
 		$punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(
 			new MoneyWrapper($this->currency, $this->total),
-			$this->shipping ? new Shipping($this->currency, $this->shipping) : null,
+			$this->shipping,
 			$this->tax,
 			$this->operationAllowed
 		);

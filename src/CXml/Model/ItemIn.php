@@ -22,7 +22,7 @@ class ItemIn
 	 */
 	private ItemDetail $itemDetail;
 
-	private function __construct(
+	protected function __construct(
 		int $quantity,
 		ItemId $itemId,
 		ItemDetail $itemDetail

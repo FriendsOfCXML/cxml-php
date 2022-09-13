@@ -17,4 +17,9 @@ class BillTo
 	{
 		$this->address = $address;
 	}
+
+	public function getAddress(): Address
+	{
+		return $this->address;
+	}
 }

@@ -5,6 +5,7 @@ namespace CXml\Model\Message;
 use Assert\Assertion;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\Shipping;
+use CXml\Model\ShipTo;
 use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
 use JMS\Serializer\Annotation as Ser;
@@ -24,6 +25,11 @@ class PunchOutOrderMessageHeader
 	 * @Ser\SerializedName("Total")
 	 */
 	private MoneyWrapper $total;
+
+	/**
+	 * @Ser\SerializedName("ShipTo")
+	 */
+	private ?ShipTo $shipTo = null;
 
 	/**
 	 * @Ser\SerializedName("Shipping")
@@ -48,6 +54,18 @@ class PunchOutOrderMessageHeader
 		$this->shipping = $shipping;
 		$this->tax = $tax;
 		$this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
+	}
+
+	public function setShipTo(?ShipTo $shipTo): self
+	{
+		$this->shipTo = $shipTo;
+
+		return $this;
+	}
+
+	public function getShipTo(): ?ShipTo
+	{
+		return $this->shipTo;
 	}
 
 	public function setSupplierOrderInfo(string $orderId, \DateTime $orderDate = null): self

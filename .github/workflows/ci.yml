@@ -58,7 +58,7 @@ jobs:
         run: vendor/bin/php-cs-fixer fix src --allow-risky=yes --diff --dry-run
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyze -clear-result-cache -c phpstan.neon src/ -l 8
+        run: vendor/bin/phpstan analyze -clear-result-cache -c phpstan.neon src/ -l 8 --no-progress
 
       - name: Run Tests
         run: vendor/bin/phpunit --testdox tests

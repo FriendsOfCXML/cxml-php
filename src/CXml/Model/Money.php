@@ -40,6 +40,6 @@ class Money
 
 	public function getValueCent(): int
 	{
-		return $this->valueCent;
+		return $this->valueCent ?? (int) (((float) $this->value) * 100);
 	}
 }

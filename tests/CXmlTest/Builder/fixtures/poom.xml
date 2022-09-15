@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.054/cXML.dtd">
+<cXML xml:lang="en-US" payloadID="933695160894" timestamp="2021-01-08T23:00:06-08:00">
+    <Header>
+        <From>
+            <Credential domain="DUNS">
+                <Identity>83528721</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="DUNS">
+                <Identity>65652314</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="workchairs.com">
+                <Identity>website 1</Identity>
+            </Credential>
+            <UserAgent>Workchairs cXML Application</UserAgent>
+        </Sender>
+    </Header>
+    <Message>
+        <PunchOutOrderMessage>
+            <BuyerCookie>1CX3L4843PPZO</BuyerCookie>
+            <PunchOutOrderMessageHeader operationAllowed="create">
+                <Total>
+                    <Money currency="USD">763.20</Money>
+                </Total>
+                <ShipTo>
+                    <Address>
+                        <Name xml:lang="en">Acme</Name>
+                        <PostalAddress name="default">
+                            <DeliverTo>Joe Smith</DeliverTo>
+                            <DeliverTo>Mailstop M-543</DeliverTo>
+                            <Street>123 Anystreet</Street>
+                            <City>Sunnyvale</City>
+                            <State>CA</State>
+                            <PostalCode>90489</PostalCode>
+                            <Country isoCountryCode="US">United States</Country>
+                        </PostalAddress>
+                    </Address>
+                </ShipTo>
+                <SupplierOrderInfo orderID="myorder-1" orderDate="2022-09-14T16:12:13+00:00"/>
+            </PunchOutOrderMessageHeader>
+            <ItemIn quantity="3">
+                <ItemID>
+                    <SupplierPartID>5555</SupplierPartID>
+                    <BuyerPartID>KD5555</BuyerPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="USD">763.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">Excelsior Desk Chair</Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="UNSPSC">ean1234</Classification>
+                </ItemDetail>
+            </ItemIn>
+            <ItemIn quantity="5">
+                <ItemID>
+                    <SupplierPartID>666</SupplierPartID>
+                    <BuyerPartID>KD666</BuyerPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="USD">226.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">Other Desk Chair</Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="UNSPSC">ean6666</Classification>
+                </ItemDetail>
+            </ItemIn>
+        </PunchOutOrderMessage>
+    </Message>
+</cXML>

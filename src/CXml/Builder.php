@@ -2,7 +2,6 @@
 
 namespace CXml;
 
-use Assert\Assertion;
 use CXml\Exception\CXmlException;
 use CXml\Model\Credential;
 use CXml\Model\CXml;
@@ -87,9 +86,15 @@ class Builder
 
 	private function buildHeader(): Header
 	{
-		Assertion::notNull($this->from, "No 'from' has been set. Necessary for build a Header.");
-		Assertion::notNull($this->to, "No 'to' has been set. Necessary for build a Header.");
-		Assertion::notNull($this->sender, "No 'sender' has been set. Necessary for build a Header.");
+		if (!isset($this->from)) {
+			throw new \LogicException("No 'from' has been set. Necessary for building a header.");
+		}
+		if (!isset($this->to)) {
+			throw new \LogicException("No 'to' has been set. Necessary for building a header.");
+		}
+		if (!isset($this->sender)) {
+			throw new \LogicException("No 'sender' has been set. Necessary for building a header.");
+		}
 
 		return new Header(
 			new Party($this->from),

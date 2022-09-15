@@ -4,12 +4,14 @@ namespace CXml\Builder;
 
 use CXml\Model\Address;
 use CXml\Model\BillTo;
+use CXml\Model\Classification;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
 use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemOut;
+use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PostalAddress;
@@ -46,6 +48,51 @@ class OrderRequestBuilder
 	public static function create(string $orderId, \DateTime $orderDate, string $currency, string $language = 'en'): self
 	{
 		return new self($orderId, $orderDate, $currency, $language);
+	}
+
+	public static function fromPunchOutOrderMessage(
+		PunchOutOrderMessage $punchOutOrderMessage,
+		?string $currency = null,
+		?string $orderId = null,
+		?\DateTime $orderDate = null,
+		string $language = 'en'
+	): self {
+		if ($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) {
+			$orderId ??= $supplierOrderInfo->getOrderId();
+			$orderDate ??= $supplierOrderInfo->getOrderDate();
+		}
+		$currency ??= $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getTotal()->getMoney()->getCurrency();
+
+		if (null === $orderId) {
+			throw new \LogicException('orderId should either be given or present in the PunchOutOrderMessage');
+		}
+		if (null === $orderDate) {
+			throw new \LogicException('orderDate should either be given or present in the PunchOutOrderMessage');
+		}
+
+		$orb = new self(
+			$orderId,
+			$orderDate,
+			$currency,
+			$language
+		);
+
+		$orb->setShipTo($punchOutOrderMessage->getPunchOutOrderMessageHeader()->getShipTo());
+
+		foreach ($punchOutOrderMessage->getPunchoutOrderMessageItems() as $item) {
+			$orb->addItem(
+				$item->getQuantity(),
+				$item->getItemId(),
+				$item->getItemDetail()->getDescription()->getValue(),
+				$item->getItemDetail()->getUnitOfMeasure(),
+				$item->getItemDetail()->getUnitPrice()->getMoney()->getValueCent(),
+				[
+					new Classification('custom', '0'), // TODO make this configurable
+				]
+			);
+		}
+
+		return $orb;
 	}
 
 	public function billTo(
@@ -95,6 +142,13 @@ class OrderRequestBuilder
 		return $this;
 	}
 
+	public function setShipTo(?ShipTo $shipTo): self
+	{
+		$this->shipTo = $shipTo;
+
+		return $this;
+	}
+
 	public function shipping(int $costs, string $description): self
 	{
 		$this->shipping = new Shipping(
@@ -123,6 +177,7 @@ class OrderRequestBuilder
 		string $description,
 		string $unitOfMeasure,
 		int $unitPrice,
+		array $classifications,
 		\DateTime $requestDeliveryDate = null
 	): self {
 		$lineNumber = \count($this->items) + 1;
@@ -141,7 +196,8 @@ class OrderRequestBuilder
 				new MoneyWrapper(
 					$this->currency,
 					$unitPrice
-				)
+				),
+				$classifications
 			),
 			$requestDeliveryDate
 		);
@@ -196,6 +252,10 @@ class OrderRequestBuilder
 
 	public function build(): OrderRequest
 	{
+		if (!isset($this->billTo)) {
+			throw new \LogicException('BillTo is required');
+		}
+
 		return OrderRequest::create(
 			$this->buildOrderRequestHeader()
 		)->addItems($this->items);

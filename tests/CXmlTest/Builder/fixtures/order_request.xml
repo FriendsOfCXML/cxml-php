@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cXML.org/schemas/cXML/1.2.050/cXML.dtd">
+<cXML payloadID="933695160894" timestamp="2021-01-08T23:00:06-08:00">
+    <Header>
+        <From>
+            <Credential domain="NetworkId">
+                <Identity>inbound@prominate-platform.com</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="NetworkId">
+                <Identity>supplier@supplier.com</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="NetworkId">
+                <Identity>inbound@prominate-platform.com</Identity>
+            </Credential>
+            <UserAgent>cxml-php UserAgent</UserAgent>
+        </Sender>
+    </Header>
+    <Request>
+        <OrderRequest>
+            <OrderRequestHeader orderID="myorder-1" orderDate="2022-09-14T16:12:13+00:00"
+                                type="new">
+                <Total>
+                    <Money currency="USD">3420.60</Money>
+                </Total>
+                <ShipTo>
+                    <Address>
+                        <Name xml:lang="en">Acme</Name>
+                        <PostalAddress name="default">
+                            <DeliverTo>Joe Smith</DeliverTo>
+                            <DeliverTo>Mailstop M-543</DeliverTo>
+                            <Street>123 Anystreet</Street>
+                            <City>Sunnyvale</City>
+                            <State>CA</State>
+                            <PostalCode>90489</PostalCode>
+                            <Country isoCountryCode="US">United States</Country>
+                        </PostalAddress>
+                    </Address>
+                </ShipTo>
+                <BillTo>
+                    <Address>
+                        <Name xml:lang="en">name</Name>
+                    </Address>
+                </BillTo>
+            </OrderRequestHeader>
+            <ItemOut quantity="3" lineNumber="1">
+                <ItemID>
+                    <SupplierPartID>5555</SupplierPartID>
+                    <BuyerPartID>KD5555</BuyerPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="USD">763.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">Excelsior Desk Chair</Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="custom">0</Classification>
+                </ItemDetail>
+            </ItemOut>
+            <ItemOut quantity="5" lineNumber="2">
+                <ItemID>
+                    <SupplierPartID>666</SupplierPartID>
+                    <BuyerPartID>KD666</BuyerPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="USD">226.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">Other Desk Chair</Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="custom">0</Classification>
+                </ItemDetail>
+            </ItemOut>
+        </OrderRequest>
+    </Request>
+</cXML>

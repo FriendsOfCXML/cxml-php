@@ -56,8 +56,11 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 				(ItemDetail::create(
 					Description::createWithShortName('Excelsior Desk Chair', null, 'en'),
 					'EA',
-					new MoneyWrapper('USD', 76320)
-				))->addClassification((new Classification('UNSPSC', 'ean1234')))
+					new MoneyWrapper('USD', 76320),
+					[
+						new Classification('UNSPSC', 'ean1234')
+					]
+				))
 			)
 		)->addPunchoutOrderMessageItem(
 			ItemIn::create(
@@ -66,9 +69,12 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 				ItemDetail::create(
 					Description::createWithShortName('22Excelsior Desk Chair', null, 'en'),
 					'EA',
-					new MoneyWrapper('USD', 76320)
+					new MoneyWrapper('USD', 76320),
+					[
+						new Classification('UNSPSC', 'ean1234')
+					]
 				)
-			)->addClassification('UNSPSC', 'ean1234')
+			)
 		);
 
 		$cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)

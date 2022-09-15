@@ -2,6 +2,7 @@
 
 namespace CXml\Model;
 
+use Assert\Assertion;
 use JMS\Serializer\Annotation as Ser;
 
 class ItemDetail
@@ -65,9 +66,18 @@ class ItemDetail
 		$this->unitPrice = $unitPrice;
 	}
 
-	public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice): self
+	public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications): self
 	{
-		return new self($description, $unitOfMeasure, $unitPrice);
+		Assertion::allIsInstanceOf($classifications, Classification::class);
+		Assertion::notEmpty($classifications); // at least one classification is necessary (via DTD)
+
+		$itemDetail = new self($description, $unitOfMeasure, $unitPrice);
+
+		foreach ($classifications as $classification) {
+			$itemDetail->addClassification($classification);
+		}
+
+		return $itemDetail;
 	}
 
 	public function setUrl(?string $url): self

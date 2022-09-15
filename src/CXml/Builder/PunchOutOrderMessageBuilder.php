@@ -2,7 +2,6 @@
 
 namespace CXml\Builder;
 
-use CXml\Model\Classification;
 use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
@@ -107,7 +106,8 @@ class PunchOutOrderMessageBuilder
 			new MoneyWrapper(
 				$this->currency,
 				$unitPrice
-			)
+			),
+			$classifications
 		)
 			->setManufacturerPartId($manufacturerPartId)
 			->setManufacturerName($manufacturerName)
@@ -118,10 +118,6 @@ class PunchOutOrderMessageBuilder
 			foreach ($extrinsics as $k => $v) {
 				$itemDetail->addExtrinsic($k, $v);
 			}
-		}
-
-		foreach ($classifications as $k => $v) {
-			$itemDetail->addClassification(new Classification($k, $v));
 		}
 
 		$punchoutOrderMessageItem = ItemIn::create(

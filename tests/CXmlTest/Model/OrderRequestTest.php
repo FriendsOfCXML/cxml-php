@@ -5,6 +5,7 @@ namespace CXmlTest\Model;
 use CXml\Builder;
 use CXml\Model\Address;
 use CXml\Model\BillTo;
+use CXml\Model\Classification;
 use CXml\Model\Comment;
 use CXml\Model\Country;
 use CXml\Model\Credential;
@@ -107,10 +108,13 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 				new MoneyWrapper(
 					'EUR',
 					210
-				)
+				),
+				[
+					new Classification('custom', 0)
+				]
 			),
 			new \DateTime('2020-02-28')
-		)->addClassification('custom', 0);
+		);
 		$orderRequest->addItem($item);
 
 		$item = ItemOut::create(
@@ -123,10 +127,13 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 				new MoneyWrapper(
 					'EUR',
 					320
-				)
+				),
+				[
+					new Classification('custom', 0)
+				]
 			),
 			new \DateTime('2020-02-28')
-		)->addClassification('custom', 0);
+		);
 		$orderRequest->addItem($item);
 
 		$cxml = Builder::create('Platform Order Fulfillment Hub', null, $this)

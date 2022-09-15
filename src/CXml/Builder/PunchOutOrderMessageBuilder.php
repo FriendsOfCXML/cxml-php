@@ -89,8 +89,6 @@ class PunchOutOrderMessageBuilder
 			)
 		);
 
-		$this->total += $shipping;
-
 		return $this;
 	}
 
@@ -105,8 +103,6 @@ class PunchOutOrderMessageBuilder
 				$this->language
 			)
 		);
-
-		$this->total += $tax;
 
 		return $this;
 	}

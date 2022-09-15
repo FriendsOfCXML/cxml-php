@@ -2,6 +2,7 @@
 
 namespace CXml\Builder;
 
+use CXml\Model\Address;
 use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
@@ -9,8 +10,12 @@ use CXml\Model\ItemIn;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
+use CXml\Model\MultilanguageString;
+use CXml\Model\PostalAddress;
 use CXml\Model\Shipping;
+use CXml\Model\ShipTo;
 use CXml\Model\Tax;
+use CXml\Model\TransportInformation;
 
 class PunchOutOrderMessageBuilder
 {
@@ -28,6 +33,7 @@ class PunchOutOrderMessageBuilder
 	private ?Tax $tax = null;
 	private string $orderId;
 	private ?\DateTime $orderDate;
+	private ?ShipTo $shipTo = null;
 
 	private function __construct(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null)
 	{
@@ -46,6 +52,27 @@ class PunchOutOrderMessageBuilder
 	{
 		$this->orderId = $orderId;
 		$this->orderDate = $orderDate;
+
+		return $this;
+	}
+
+	public function shipTo(
+		string $name,
+		PostalAddress $postalAddress,
+		array $carrierIdentifiers = [],
+		string $carrierAccountNo = null
+	): self {
+		$this->shipTo = new ShipTo(
+			new Address(
+				new MultilanguageString($name, null, $this->language),
+				$postalAddress
+			),
+			$carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null
+		);
+
+		foreach ($carrierIdentifiers as $domain => $identifier) {
+			$this->shipTo->addCarrierIdentifier($domain, $identifier);
+		}
 
 		return $this;
 	}
@@ -149,6 +176,10 @@ class PunchOutOrderMessageBuilder
 			$this->tax,
 			$this->operationAllowed
 		);
+
+		if (isset($this->shipTo)) {
+			$punchoutOrderMessageHeader->setShipTo($this->shipTo);
+		}
 
 		if (isset($this->orderId)) {
 			$punchoutOrderMessageHeader->setSupplierOrderInfo($this->orderId, $this->orderDate);

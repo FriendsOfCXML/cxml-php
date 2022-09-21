@@ -44,7 +44,7 @@ class ProductActivityMessageBuilder
 
 		if ($extrinsics) {
 			foreach ($extrinsics as $k => $v) {
-				$activityDetail->addExtrinsic($k, $v);
+				$activityDetail->addExtrinsicAsKeyValue($k, $v);
 			}
 		}
 

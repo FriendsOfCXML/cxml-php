@@ -8,6 +8,7 @@ use CXml\Model\Classification;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
 use CXml\Model\Description;
+use CXml\Model\Extrinsic;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
 use CXml\Model\ItemOut;
@@ -36,6 +37,7 @@ class OrderRequestBuilder
 	private string $language;
 	private ?Shipping $shipping = null;
 	private ?Tax $tax = null;
+	private array $extrinsics = [];
 
 	private function __construct(string $orderId, \DateTime $orderDate, string $currency, string $language = 'en')
 	{
@@ -233,9 +235,16 @@ class OrderRequestBuilder
 		return $this;
 	}
 
+	public function addExtrinsic(Extrinsic $extrinsic): self
+	{
+		$this->extrinsics[] = $extrinsic;
+
+		return $this;
+	}
+
 	private function buildOrderRequestHeader(): OrderRequestHeader
 	{
-		return OrderRequestHeader::create(
+		$orh = OrderRequestHeader::create(
 			$this->orderId,
 			$this->orderDate,
 			$this->shipTo,
@@ -248,6 +257,12 @@ class OrderRequestBuilder
 			->setShipping($this->shipping)
 			->setTax($this->tax)
 		;
+
+		foreach ($this->extrinsics as $extrinsic) {
+			$orh->addExtrinsic($extrinsic);
+		}
+
+		return $orh;
 	}
 
 	public function build(): OrderRequest

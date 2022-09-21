@@ -14,13 +14,16 @@ trait ExtrinsicsTrait
 	 */
 	protected array $extrinsics = [];
 
-	public function addExtrinsic(string $name, string $value): self
+	public function addExtrinsic(Extrinsic $extrinsic): self
 	{
-		$this->extrinsics[] = new Extrinsic($name, $value);
+		$this->extrinsics[] = $extrinsic;
 
 		return $this;
 	}
 
+	/**
+	 * @return Extrinsic[]
+	 */
 	public function getExtrinsics(): array
 	{
 		return $this->extrinsics;
@@ -35,6 +38,14 @@ trait ExtrinsicsTrait
 		}
 
 		return null;
+	}
+
+	/**
+	 * Convenience method.
+	 */
+	public function addExtrinsicAsKeyValue(string $name, string $value): self
+	{
+		return $this->addExtrinsic(new Extrinsic($name, $value));
 	}
 
 	/**

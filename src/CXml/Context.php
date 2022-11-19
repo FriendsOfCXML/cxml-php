@@ -24,6 +24,11 @@ class Context
 		return $this->options[$key] ?? null;
 	}
 
+	public function getOptions(): array
+	{
+		return $this->options;
+	}
+
 	public function setDryRun(bool $dryrun): self
 	{
 		$this->options['dryrun'] = $dryrun;

@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Ser;
 class SelectedItem
 {
 	/**
-	 * @Ser\SerializedName("ItemId")
+	 * @Ser\SerializedName("ItemID")
 	 */
 	private ItemId $itemId;
 

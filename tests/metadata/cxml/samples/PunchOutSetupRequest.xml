@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd">
+<cXML payloadID="933695160890" timestamp="2023-01-23T16:00:06-01:00" xml:lang="en-US">
+    <Header>
+        <From>
+            <Credential domain="NetworkId">
+                <Identity>inbound@prominate-platform.com</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="NetworkId">
+                <Identity>supplier@supplier.com</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="NetworkId">
+                <Identity>inbound@prominate-platform.com</Identity>
+                <SharedSecret>s3cr3t</SharedSecret>
+            </Credential>
+            <UserAgent>Workchairs cXML Application</UserAgent>
+        </Sender>
+    </Header>
+    <Request deploymentMode="test">
+        <PunchOutSetupRequest operation="create">
+            <BuyerCookie>550bce3e592023b2e7b015307f965133</BuyerCookie>
+            <Extrinsic name="UserEmail">john-doe@domain.com</Extrinsic>
+            <BrowserFormPost>
+                <URL>https://prominate-platform.com/hook-url</URL>
+            </BrowserFormPost>
+            <SupplierSetup>
+                <URL>http://workchairs.com/cxml</URL>
+            </SupplierSetup>
+            <ShipTo>
+                <Address>
+                    <Name xml:lang="en">Acme</Name>
+                    <PostalAddress name="default">
+                        <DeliverTo>Joe Smith</DeliverTo>
+                        <DeliverTo>Mailstop M-543</DeliverTo>
+                        <Street>123 Anystreet</Street>
+                        <City>Sunnyvale</City>
+                        <State>CA</State>
+                        <PostalCode>90489</PostalCode>
+                        <Country isoCountryCode="US">United States</Country>
+                    </PostalAddress>
+                </Address>
+            </ShipTo>
+            <SelectedItem>
+                <ItemID>
+                    <SupplierPartID>4545321</SupplierPartID>
+                    <BuyerPartID>II99825</BuyerPartID>
+                </ItemID>
+            </SelectedItem>
+            <ItemOut quantity="2" requestedDeliveryDate="2023-01-23"
+                     lineNumber="10">
+                <ItemID>
+                    <SupplierPartID>5555</SupplierPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="EUR">763.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">
+                        <ShortName>Excelsior Desk Chair</ShortName>
+                    </Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="UNSPSC">ean1234</Classification>
+                </ItemDetail>
+            </ItemOut>
+            <ItemOut quantity="1" requestedDeliveryDate="2023-01-23"
+                     lineNumber="20">
+                <ItemID>
+                    <SupplierPartID>6666</SupplierPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="EUR">764.20</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">
+                        <ShortName>22Excelsior Desk Chair</ShortName>
+                    </Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="UNSPSC">ean1230</Classification>
+                </ItemDetail>
+            </ItemOut>
+        </PunchOutSetupRequest>
+    </Request>
+</cXML>

@@ -81,7 +81,7 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
 			new SelectedItem(
 				new ItemId('4545321', null, 'II99825')
 			),
-		))->addPunchOutSetupRequestItem(
+		))->addItem(
 			ItemOut::create(
 				10,
 				2,
@@ -96,7 +96,7 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
 				),
 				new \DateTime('2023-01-23T16:00:06-01:00'),
 			)
-		)->addPunchOutSetupRequestItem(
+		)->addItem(
 			ItemOut::create(
 				20,
 				1,

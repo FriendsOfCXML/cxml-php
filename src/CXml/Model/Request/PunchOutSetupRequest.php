@@ -58,7 +58,7 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 	 *
 	 * @var ItemOut[]
 	 */
-	private array $punchOutSetupRequestItems = [];
+	private array $itemOut = [];
 
 	public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ?ShipTo $shipTo = null, ?SelectedItem $selectedItem = null, string $operation = 'create')
 	{
@@ -100,14 +100,23 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 		return $this->selectedItem;
 	}
 
-	public function getPunchOutSetupRequestItems(): array
+	public function getItems(): array
 	{
-		return $this->punchOutSetupRequestItems;
+		return $this->itemOut;
 	}
 
-	public function addPunchOutSetupRequestItem(ItemOut $punchOutSetupRequestItem): self
+	public function addItems(array $items): self
 	{
-		$this->punchOutSetupRequestItems[] = $punchOutSetupRequestItem;
+		foreach ($items as $item) {
+			$this->addItem($item);
+		}
+
+		return $this;
+	}
+
+	public function addItem(ItemOut $item): self
+	{
+		$this->itemOut[] = $item;
 
 		return $this;
 	}

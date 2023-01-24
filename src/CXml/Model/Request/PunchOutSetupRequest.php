@@ -2,7 +2,9 @@
 
 namespace CXml\Model\Request;
 
+use CXml\Model\Extrinsic;
 use CXml\Model\ExtrinsicsTrait;
+use CXml\Model\ItemOut;
 use CXml\Model\SelectedItem;
 use CXml\Model\ShipTo;
 use CXml\Model\Url;
@@ -23,6 +25,14 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 	private string $buyerCookie;
 
 	/**
+	 * @Ser\XmlList(inline=true, entry="Extrinsic")
+	 * @Ser\Type("array<CXml\Model\Extrinsic>")
+	 *
+	 * @var Extrinsic[]
+	 */
+	protected array $extrinsics = [];
+
+	/**
 	 * @Ser\SerializedName("BrowserFormPost")
 	 */
 	private Url $browserFormPost;
@@ -41,6 +51,14 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 	 * @Ser\SerializedName("SelectedItem")
 	 */
 	private ?SelectedItem $selectedItem = null;
+
+	/**
+	 * @Ser\XmlList(inline=true, entry="ItemOut")
+	 * @Ser\Type("array<CXml\Model\ItemOut>")
+	 *
+	 * @var ItemOut[]
+	 */
+	private array $punchOutSetupRequestItems = [];
 
 	public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ?ShipTo $shipTo = null, ?SelectedItem $selectedItem = null, string $operation = 'create')
 	{
@@ -80,5 +98,17 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 	public function getSelectedItem(): ?SelectedItem
 	{
 		return $this->selectedItem;
+	}
+
+	public function getPunchOutSetupRequestItems(): array
+	{
+		return $this->punchOutSetupRequestItems;
+	}
+
+	public function addPunchOutSetupRequestItem(ItemOut $punchOutSetupRequestItem): self
+	{
+		$this->punchOutSetupRequestItems[] = $punchOutSetupRequestItem;
+
+		return $this;
 	}
 }

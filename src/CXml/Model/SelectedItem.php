@@ -16,8 +16,8 @@ class SelectedItem
 		$this->itemId = $itemId;
 	}
 
-    public function getItemId(): ItemId
-    {
-        return $this->itemId;
-    }
+	public function getItemId(): ItemId
+	{
+		return $this->itemId;
+	}
 }

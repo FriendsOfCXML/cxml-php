@@ -24,7 +24,7 @@ return $config
 		'random_api_migration' => true,
 		'pow_to_exponentiation' => true,
 		'combine_nested_dirname' => true,
-		'skip_unlisted_annotations' => true,
+		'phpdoc_separation' => false,
 		'@PHP74Migration' => true,
 		'global_namespace_import' => [
 			'import_classes' => false,

@@ -60,7 +60,7 @@
                      </Attachment>
                  </Comments>
              </OrderRequestHeader>
-             <ItemOut quantity="10" requestedDeliveryDate="2020-02-28"
+             <ItemOut quantity="10" requestedDeliveryDate="2020-02-28T00:00:00+00:00"
                       lineNumber="1">
                  <ItemID>
                      <SupplierPartID>1233244</SupplierPartID>
@@ -74,7 +74,7 @@
                     <Classification domain="custom">0</Classification>
                  </ItemDetail>
              </ItemOut>
-             <ItemOut quantity="20" requestedDeliveryDate="2020-02-28"
+             <ItemOut quantity="20" requestedDeliveryDate="2020-02-28T00:00:00+00:00"
                       lineNumber="2">
                  <ItemID>
                      <SupplierPartID>1233245</SupplierPartID>

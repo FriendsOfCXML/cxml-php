@@ -38,7 +38,6 @@ class OrderRequestBuilderTest extends TestCase implements PayloadIdentityFactory
 
 		$expectedOrderRequest = \file_get_contents(__DIR__ . '/fixtures/order_request.xml');
 
-
 		$this->assertXmlStringEqualsXmlString($expectedOrderRequest, $actualOrderRequest);
 	}
 

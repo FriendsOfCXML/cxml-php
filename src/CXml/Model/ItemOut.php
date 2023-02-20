@@ -21,7 +21,6 @@ class ItemOut
 	/**
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("requestedDeliveryDate")
-	 * @Ser\Type("DateTime<'Y-m-d'>")
 	 */
 	private ?\DateTime $requestedDeliveryDate = null;
 

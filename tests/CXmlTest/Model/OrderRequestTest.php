@@ -110,7 +110,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 					210
 				),
 				[
-					new Classification('custom', 0)
+					new Classification('custom', 0),
 				]
 			),
 			new \DateTime('2020-02-28')
@@ -129,7 +129,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 					320
 				),
 				[
-					new Classification('custom', 0)
+					new Classification('custom', 0),
 				]
 			),
 			new \DateTime('2020-02-28')

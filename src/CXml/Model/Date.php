@@ -29,7 +29,8 @@ if (PHP_VERSION_ID < 80000) {
 	 */
 	class Date extends \DateTime
 	{
-		public static function createFromFormat(string $format, string $datetime, \DateTimeZone $timezone = null): \DateTime|false
+		#[\ReturnTypeWillChange]
+		public static function createFromFormat(string $format, string $datetime, \DateTimeZone $timezone = null)
 		{
 			$dateTime = parent::createFromFormat($format, $datetime, $timezone);
 			if (!$dateTime) {

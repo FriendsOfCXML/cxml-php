@@ -7,6 +7,7 @@ namespace CXml\Model;
  */
 class Date extends \DateTime
 {
+	#[\ReturnTypeWillChange]
 	public static function createFromFormat($format, $datetime, \DateTimeZone $timezone = null)
 	{
 		$dateTime = parent::createFromFormat($format, $datetime, $timezone);

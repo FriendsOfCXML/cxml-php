@@ -62,6 +62,7 @@ class Serializer
 			throw new \RuntimeException('Cannot deserialize empty string');
 		}
 
+		/* @phpstan-ignore-next-line */
 		return $this->jmsSerializer->deserialize($xml, CXml::class, 'xml');
 	}
 

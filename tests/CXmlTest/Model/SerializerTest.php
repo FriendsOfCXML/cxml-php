@@ -258,9 +258,9 @@ class SerializerTest extends TestCase
 			    <ItemOut quantity="1" requestedDeliveryDate="2023-02-25T02:30:00-08:00" lineNumber="1">
 			    </ItemOut>
 			    <ItemOut quantity="2" requestedDeliveryDate="2023-02-26" lineNumber="2">
-			    </ItemOut>					    			    
+			    </ItemOut>
 			    <ItemOut quantity="3" lineNumber="3">
-			    </ItemOut>					    			    
+			    </ItemOut>
    			  </OrderRequest>
 			</Request>
 			</cXML>';
@@ -277,7 +277,7 @@ class SerializerTest extends TestCase
 		$this->assertEquals('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
 		$this->assertInstanceOf(Date::class, $orderRequest->getItems()[1]->getRequestedDeliveryDate());
 
-		$this->assertEquals(null, $orderRequest->getItems()[2]->getRequestedDeliveryDate());
+		$this->assertNull($orderRequest->getItems()[2]->getRequestedDeliveryDate());
 	}
 
 	public function testDeserializeInvalidDate(): void
@@ -320,7 +320,8 @@ class SerializerTest extends TestCase
 		$orderRequest =
 			OrderRequestBuilder::create('order-id', $orderDate, 'EUR')
 				->billTo('name')
-				->build();
+				->build()
+			;
 
 		$header = new Header(
 			$from,

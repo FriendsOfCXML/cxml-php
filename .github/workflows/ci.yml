@@ -20,10 +20,11 @@ jobs:
           '7.4',
           '8.0',
           '8.1',
+          '8.2',
         ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -35,10 +36,10 @@ jobs:
       - name: Composer get cache directory
         id: composer-cache
         run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Composer cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -55,7 +56,7 @@ jobs:
         run: vendor/bin/parallel-lint src/
 
       - name: Run CodeStyle checks
-        run: vendor/bin/php-cs-fixer fix src --allow-risky=yes --diff --dry-run
+        run: PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix src --allow-risky=yes --diff --dry-run
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze -clear-result-cache -c phpstan.neon src/ -l 8 --no-progress --xdebug

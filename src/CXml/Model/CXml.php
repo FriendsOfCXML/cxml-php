@@ -26,7 +26,7 @@ class CXml
 	/**
 	 * @Ser\XmlAttribute()
 	 */
-	private \DateTime $timestamp;
+	private \DateTimeInterface $timestamp;
 
 	/**
 	 * @Ser\SerializedName("Header")
@@ -50,7 +50,7 @@ class CXml
 
 	protected function __construct(
 		string $payloadId,
-		\DateTime $timestamp,
+		\DateTimeInterface $timestamp,
 		?Request $request,
 		?Response $response = null,
 		?Message $message = null,
@@ -86,7 +86,7 @@ class CXml
 		return $this->payloadId;
 	}
 
-	public function getTimestamp(): \DateTime
+	public function getTimestamp(): \DateTimeInterface
 	{
 		return $this->timestamp;
 	}

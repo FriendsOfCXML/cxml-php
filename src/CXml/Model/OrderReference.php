@@ -20,9 +20,9 @@ class OrderReference
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?\DateTime $orderDate = null;
+	private ?\DateTimeInterface $orderDate = null;
 
-	public function __construct(DocumentReference $documentReference, ?string $orderId = null, ?\DateTime $orderDate = null)
+	public function __construct(DocumentReference $documentReference, ?string $orderId = null, ?\DateTimeInterface $orderDate = null)
 	{
 		$this->documentReference = $documentReference;
 		$this->orderId = $orderId;
@@ -46,7 +46,7 @@ class OrderReference
 		return $this->orderId;
 	}
 
-	public function getOrderDate(): ?\DateTime
+	public function getOrderDate(): ?\DateTimeInterface
 	{
 		return $this->orderDate;
 	}

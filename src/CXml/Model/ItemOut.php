@@ -22,7 +22,7 @@ class ItemOut
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("requestedDeliveryDate")
 	 */
-	private ?\DateTime $requestedDeliveryDate = null;
+	private ?\DateTimeInterface $requestedDeliveryDate = null;
 
 	/**
 	 * @Ser\SerializedName("ItemID")
@@ -39,7 +39,7 @@ class ItemOut
 		int $quantity,
 		ItemId $itemId,
 		ItemDetail $itemDetail,
-		?\DateTime $requestedDeliveryDate = null
+		?\DateTimeInterface $requestedDeliveryDate = null
 	) {
 		$this->lineNumber = $lineNumber;
 		$this->quantity = $quantity;
@@ -53,7 +53,7 @@ class ItemOut
 		int $quantity,
 		ItemId $itemId,
 		ItemDetail $itemDetail,
-		?\DateTime $requestedDeliveryDate = null
+		?\DateTimeInterface $requestedDeliveryDate = null
 	): self {
 		return new self(
 			$lineNumber,
@@ -82,7 +82,7 @@ class ItemOut
 		return $this->quantity;
 	}
 
-	public function getRequestedDeliveryDate(): ?\DateTime
+	public function getRequestedDeliveryDate(): ?\DateTimeInterface
 	{
 		return $this->requestedDeliveryDate;
 	}

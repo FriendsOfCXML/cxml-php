@@ -32,7 +32,7 @@ class OrderRequestHeader
 	 * @Ser\XmlAttribute
 	 * @Ser\SerializedName("orderDate")
 	 */
-	private \DateTime $orderDate;
+	private \DateTimeInterface $orderDate;
 
 	/**
 	 * @Ser\XmlAttribute
@@ -92,7 +92,7 @@ class OrderRequestHeader
 
 	public function __construct(
 		string $orderId,
-		\DateTime $orderDate,
+		\DateTimeInterface $orderDate,
 		?ShipTo $shipTo,
 		BillTo $billTo,
 		MoneyWrapper $total,
@@ -119,7 +119,7 @@ class OrderRequestHeader
 
 	public static function create(
 		string $orderId,
-		\DateTime $orderDate,
+		\DateTimeInterface $orderDate,
 		?ShipTo $shipTo,
 		BillTo $billTo,
 		MoneyWrapper $total,
@@ -159,7 +159,7 @@ class OrderRequestHeader
 		return $this->orderId;
 	}
 
-	public function getOrderDate(): \DateTime
+	public function getOrderDate(): \DateTimeInterface
 	{
 		return $this->orderDate;
 	}

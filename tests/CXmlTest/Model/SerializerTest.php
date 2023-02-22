@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SerializerTest extends TestCase
 {
-	public function testSimpleRequest(): void
+	public function testSerializeSimpleRequest(): void
 	{
 		$from = new Party(
 			new Credential('AribaNetworkUserId', 'admin@acme.com')
@@ -98,7 +98,7 @@ class SerializerTest extends TestCase
 		$this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
 	}
 
-	public function testSimpleMessage(): void
+	public function testSerializeSimpleMessage(): void
 	{
 		$from = new Party(
 			new Credential('AribaNetworkUserId', 'admin@acme.com')
@@ -169,7 +169,7 @@ class SerializerTest extends TestCase
 		$this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
 	}
 
-	public function testSimpleResponse(): void
+	public function testSerializeSimpleResponse(): void
 	{
 		$msg = CXml::forResponse(
 			new PayloadIdentity(
@@ -256,10 +256,8 @@ class SerializerTest extends TestCase
 			    <ItemOut quantity="1" requestedDeliveryDate="2023-02-25T02:30:00-08:00" lineNumber="1">
 			    </ItemOut>
 			    <ItemOut quantity="2" requestedDeliveryDate="2023-02-26" lineNumber="2">
-			    </ItemOut>
-			    <ItemOut quantity="3" requestedDeliveryDate="invalid" lineNumber="3">
 			    </ItemOut>					    			    
-			    <ItemOut quantity="4" lineNumber="4">
+			    <ItemOut quantity="3" lineNumber="3">
 			    </ItemOut>					    			    
    			  </OrderRequest>
 			</Request>
@@ -274,6 +272,27 @@ class SerializerTest extends TestCase
 		$this->assertEquals('2023-02-25 02:30:00', $orderRequest->getItems()[0]->getRequestedDeliveryDate()->format('Y-m-d H:i:s'));
 		$this->assertEquals('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
 		$this->assertEquals(null, $orderRequest->getItems()[2]->getRequestedDeliveryDate());
-		$this->assertEquals(null, $orderRequest->getItems()[3]->getRequestedDeliveryDate());
+	}
+
+	public function testDeserializeInvalidDate(): void
+	{
+		$this->expectException(\RuntimeException::class);
+
+		$xmlIn =
+			'<?xml version="1.0" encoding="UTF-8"?>
+			<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
+			<cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
+			<Header>
+			</Header>
+			<Request deploymentMode="test">
+			  <OrderRequest>
+			    <ItemOut quantity="1" requestedDeliveryDate="invalid" lineNumber="1">
+			    </ItemOut>
+   			  </OrderRequest>
+			</Request>
+			</cXML>';
+
+		$serializer = Serializer::create();
+		$serializer->deserialize($xmlIn);
 	}
 }

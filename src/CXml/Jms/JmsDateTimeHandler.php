@@ -14,14 +14,14 @@ use JMS\Serializer\XmlSerializationVisitor;
  */
 class JmsDateTimeHandler
 {
-	public function serialize(XmlSerializationVisitor $visitor, \DateTime $date, array $type, Context $context)
+	public function serialize(XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context)
 	{
 		return $visitor->visitSimpleString($date->format($this->getFormat($type)), $type);
 	}
 
 	private function getFormat(array $type): string
 	{
-		return $type['params'][0] ?? \DateTime::ATOM;
+		return $type['params'][0] ?? \DateTimeInterface::ATOM;
 	}
 
 	public function deserialize(XmlDeserializationVisitor $visitor, $dateAsString, array $type, Context $context)
@@ -32,7 +32,7 @@ class JmsDateTimeHandler
 		}
 
 		// else try ISO-8601
-		$dateTime = \DateTime::createFromFormat(\DateTime::ATOM, $dateAsString);
+		$dateTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $dateAsString);
 		if ($dateTime) {
 			return $dateTime;
 		}
@@ -51,6 +51,7 @@ class JmsDateTimeHandler
 			return $dateTime;
 		}
 
-		return null;
+		// last resort: throw exception
+		throw new \RuntimeException('Could not parse date: '.$dateAsString);
 	}
 }

@@ -68,7 +68,7 @@ class PunchOutOrderMessageHeader
 		return $this->shipTo;
 	}
 
-	public function setSupplierOrderInfo(string $orderId, \DateTime $orderDate = null): self
+	public function setSupplierOrderInfo(string $orderId, \DateTimeInterface $orderDate = null): self
 	{
 		$this->supplierOrderInfo = new SupplierOrderInfo($orderId, $orderDate);
 

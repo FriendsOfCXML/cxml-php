@@ -22,12 +22,12 @@ class ProductActivityMessage implements MessagePayloadInterface
 	 */
 	private array $productActivityDetails = [];
 
-	private function __construct(string $messageId, ?string $processType = null, \DateTime $creationDate = null)
+	private function __construct(string $messageId, ?string $processType = null, \DateTimeInterface $creationDate = null)
 	{
 		$this->productActivityHeader = new ProductActivityHeader($messageId, $processType, $creationDate);
 	}
 
-	public static function create(string $messageId, ?string $processType = null, \DateTime $creationDate = null): self
+	public static function create(string $messageId, ?string $processType = null, \DateTimeInterface $creationDate = null): self
 	{
 		return new self($messageId, $processType, $creationDate);
 	}

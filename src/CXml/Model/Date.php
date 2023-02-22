@@ -2,7 +2,7 @@
 
 namespace CXml\Model;
 
-if (PHP_VERSION_ID < 80000) {
+if (\PHP_VERSION_ID < 80000) {
 	/**
 	 * Represents a date *without* time. This is a separate class to allow for different serialization formats.
 	 */

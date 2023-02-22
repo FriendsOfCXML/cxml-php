@@ -2,6 +2,7 @@
 
 namespace CXml\Jms;
 
+use CXml\Model\Date;
 use JMS\Serializer\Context;
 use JMS\Serializer\XmlDeserializationVisitor;
 use JMS\Serializer\XmlSerializationVisitor;
@@ -16,7 +17,13 @@ class JmsDateTimeHandler
 {
 	public function serialize(XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context)
 	{
-		return $visitor->visitSimpleString($date->format($this->getFormat($type)), $type);
+		if ($date instanceof Date) {
+			$format = 'Y-m-d';
+		} else {
+			$format = $this->getFormat($type);
+		}
+
+		return $visitor->visitSimpleString($date->format($format), $type);
 	}
 
 	private function getFormat(array $type): string
@@ -44,10 +51,8 @@ class JmsDateTimeHandler
 		}
 
 		// else try simple date-format
-		$dateTime = \DateTime::createFromFormat('Y-m-d', $dateAsString);
+		$dateTime = Date::createFromFormat('Y-m-d', $dateAsString);
 		if ($dateTime) {
-			$dateTime->setTime(0, 0, 0);
-
 			return $dateTime;
 		}
 

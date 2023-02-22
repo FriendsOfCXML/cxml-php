@@ -33,6 +33,7 @@ class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
 
 	public function newPayloadIdentity(): PayloadIdentity
 	{
+		/** @var \DateTimeInterface $timestamp */
 		$timestamp = \call_user_func($this->timeCallable);
 		$payloadId = self::generateNewPayloadId($timestamp);
 

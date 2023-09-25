@@ -180,7 +180,8 @@ class OrderRequestBuilder
 		string $unitOfMeasure,
 		int $unitPrice,
 		array $classifications,
-		\DateTimeInterface $requestDeliveryDate = null
+		\DateTimeInterface $requestDeliveryDate = null,
+		ItemOut $parent = null
 	): self {
 		$lineNumber = \count($this->items) + 1;
 
@@ -201,7 +202,8 @@ class OrderRequestBuilder
 				),
 				$classifications
 			),
-			$requestDeliveryDate
+			$requestDeliveryDate,
+			$parent ? $parent->getLineNumber() : null
 		);
 
 		$this->items[] = $item;
@@ -274,5 +276,13 @@ class OrderRequestBuilder
 		return OrderRequest::create(
 			$this->buildOrderRequestHeader()
 		)->addItems($this->items);
+	}
+
+	/**
+	 * @return ItemOut[]
+	 */
+	public function getItems(): array
+	{
+		return $this->items;
 	}
 }

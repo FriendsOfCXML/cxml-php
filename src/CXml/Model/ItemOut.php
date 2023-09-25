@@ -25,6 +25,12 @@ class ItemOut
 	private ?\DateTimeInterface $requestedDeliveryDate = null;
 
 	/**
+	 * @Ser\XmlAttribute
+	 * @Ser\SerializedName("parentLineNumber")
+	 */
+	private ?int $parentLineNumber = null;
+
+	/**
 	 * @Ser\SerializedName("ItemID")
 	 */
 	private ItemId $itemId;
@@ -39,13 +45,15 @@ class ItemOut
 		int $quantity,
 		ItemId $itemId,
 		ItemDetail $itemDetail,
-		?\DateTimeInterface $requestedDeliveryDate = null
+		?\DateTimeInterface $requestedDeliveryDate = null,
+		?int $parentLineNumber = null
 	) {
 		$this->lineNumber = $lineNumber;
 		$this->quantity = $quantity;
 		$this->itemId = $itemId;
 		$this->itemDetail = $itemDetail;
 		$this->requestedDeliveryDate = $requestedDeliveryDate;
+		$this->parentLineNumber = $parentLineNumber;
 	}
 
 	public static function create(
@@ -53,7 +61,8 @@ class ItemOut
 		int $quantity,
 		ItemId $itemId,
 		ItemDetail $itemDetail,
-		?\DateTimeInterface $requestedDeliveryDate = null
+		?\DateTimeInterface $requestedDeliveryDate = null,
+		?int $parentLineNumber = null
 	): self {
 		return new self(
 			$lineNumber,
@@ -61,6 +70,7 @@ class ItemOut
 			$itemId,
 			$itemDetail,
 			$requestedDeliveryDate,
+			$parentLineNumber
 		);
 	}
 
@@ -95,5 +105,10 @@ class ItemOut
 	public function getItemDetail(): ItemDetail
 	{
 		return $this->itemDetail;
+	}
+
+	public function getParentLineNumber(): ?int
+	{
+		return $this->parentLineNumber;
 	}
 }

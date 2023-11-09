@@ -25,7 +25,7 @@ class ProductActivityHeader
 	 */
 	private ?\DateTimeInterface $creationDate = null;
 
-	public function __construct(string $messageId, ?string $processType = null, \DateTimeInterface $creationDate = null)
+	public function __construct(string $messageId, string $processType = null, \DateTimeInterface $creationDate = null)
 	{
 		$this->messageId = $messageId;
 		$this->processType = $processType;

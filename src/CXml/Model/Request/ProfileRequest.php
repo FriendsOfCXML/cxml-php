@@ -2,6 +2,4 @@
 
 namespace CXml\Model\Request;
 
-class ProfileRequest implements RequestPayloadInterface
-{
-}
+class ProfileRequest implements RequestPayloadInterface {}

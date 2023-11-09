@@ -58,7 +58,7 @@ class PostalAddress
 	 */
 	private Country $country;
 
-	public function __construct(array $deliverTo, array $street, string $city, Country $country, ?string $municipality = null, ?string $state = null, ?string $postalCode = null, ?string $name = null)
+	public function __construct(array $deliverTo, array $street, string $city, Country $country, string $municipality = null, string $state = null, string $postalCode = null, string $name = null)
 	{
 		$this->name = $name;
 		$this->deliverTo = $deliverTo;

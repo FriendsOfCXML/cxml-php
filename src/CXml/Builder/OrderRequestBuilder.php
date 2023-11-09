@@ -54,9 +54,9 @@ class OrderRequestBuilder
 
 	public static function fromPunchOutOrderMessage(
 		PunchOutOrderMessage $punchOutOrderMessage,
-		?string $currency = null,
-		?string $orderId = null,
-		?\DateTimeInterface $orderDate = null,
+		string $currency = null,
+		string $orderId = null,
+		\DateTimeInterface $orderDate = null,
 		string $language = 'en'
 	): self {
 		if ($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) {
@@ -100,12 +100,12 @@ class OrderRequestBuilder
 	public function billTo(
 		string $name,
 		PostalAddress $postalAddress = null,
-		?string $addressId = null,
-		?string $addressIdDomain = null,
-		?string $email = null,
-		?string $phone = null,
-		?string $fax = null,
-		?string $url = null
+		string $addressId = null,
+		string $addressIdDomain = null,
+		string $email = null,
+		string $phone = null,
+		string $fax = null,
+		string $url = null
 	): self {
 		$this->billTo = new BillTo(
 			new Address(
@@ -212,7 +212,7 @@ class OrderRequestBuilder
 		return $this;
 	}
 
-	public function addComment(?string $value = null, ?string $type = null, ?string $lang = null, ?string $attachmentUrl = null): self
+	public function addComment(string $value = null, string $type = null, string $lang = null, string $attachmentUrl = null): self
 	{
 		$this->comments[] = new Comment(
 			$value,

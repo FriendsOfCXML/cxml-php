@@ -26,7 +26,7 @@ class ShipmentIdentifier
 	 */
 	private string $value;
 
-	public function __construct(string $value, ?string $domain = null, ?string $trackingNumberDate = null, ?string $trackingURL = null)
+	public function __construct(string $value, string $domain = null, string $trackingNumberDate = null, string $trackingURL = null)
 	{
 		$this->value = $value;
 		$this->domain = $domain;

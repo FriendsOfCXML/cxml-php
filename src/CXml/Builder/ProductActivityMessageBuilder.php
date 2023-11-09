@@ -29,7 +29,7 @@ class ProductActivityMessageBuilder
 		return new self($messageId, $warehouseCodeDomain);
 	}
 
-	public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, ?array $extrinsics = null): self
+	public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, array $extrinsics = null): self
 	{
 		$inventory = Inventory::create()
 			->setStockOnHandQuantity(new InventoryQuantity($stockLevel, 'EA'))

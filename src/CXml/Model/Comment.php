@@ -26,7 +26,7 @@ class Comment
 	 */
 	private ?string $type = null;
 
-	public function __construct(?string $value = null, ?string $type = null, ?string $lang = null, ?string $attachment = null)
+	public function __construct(string $value = null, string $type = null, string $lang = null, string $attachment = null)
 	{
 		$this->value = $value;
 		$this->type = $type;

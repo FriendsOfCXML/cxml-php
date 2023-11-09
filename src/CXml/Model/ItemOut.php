@@ -45,8 +45,8 @@ class ItemOut
 		int $quantity,
 		ItemId $itemId,
 		ItemDetail $itemDetail,
-		?\DateTimeInterface $requestedDeliveryDate = null,
-		?int $parentLineNumber = null
+		\DateTimeInterface $requestedDeliveryDate = null,
+		int $parentLineNumber = null
 	) {
 		$this->lineNumber = $lineNumber;
 		$this->quantity = $quantity;
@@ -61,8 +61,8 @@ class ItemOut
 		int $quantity,
 		ItemId $itemId,
 		ItemDetail $itemDetail,
-		?\DateTimeInterface $requestedDeliveryDate = null,
-		?int $parentLineNumber = null
+		\DateTimeInterface $requestedDeliveryDate = null,
+		int $parentLineNumber = null
 	): self {
 		return new self(
 			$lineNumber,

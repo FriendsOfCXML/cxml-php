@@ -29,7 +29,7 @@ class Credential
 	 */
 	private ?string $sharedSecret = null;
 
-	public function __construct(string $domain, string $identity, ?string $sharedSecret = null)
+	public function __construct(string $domain, string $identity, string $sharedSecret = null)
 	{
 		$this->domain = $domain;
 		$this->identity = $identity;

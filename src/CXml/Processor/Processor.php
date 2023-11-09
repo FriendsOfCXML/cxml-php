@@ -226,7 +226,7 @@ class Processor
 
 	public function buildResponseForException(CXmlException $exception): CXml
 	{
-		$statusCode = self::$exceptionMapping[$exception::class] ?? 500;
+		$statusCode = self::$exceptionMapping[\get_class($exception)] ?? 500;
 		$statusText = self::$exceptionCodeMapping[$statusCode] ?? 'Unknown status';
 		$status = new Status($statusCode, $statusText, $exception->getMessage());
 

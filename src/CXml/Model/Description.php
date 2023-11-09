@@ -6,27 +6,27 @@ use JMS\Serializer\Annotation as Ser;
 
 class Description extends MultilanguageString
 {
-	/**
-	 * @Ser\SerializedName("ShortName")
-	 * @Ser\XmlElement(cdata=false)
-	 */
-	private ?string $shortName = null;
+    /**
+     * @Ser\SerializedName("ShortName")
+     * @Ser\XmlElement(cdata=false)
+     */
+    private ?string $shortName = null;
 
-	public function __construct(?string $value, string $type = null, string $lang = 'en')
-	{
-		parent::__construct($value, $type, $lang);
-	}
+    public function __construct(?string $value, string $type = null, string $lang = 'en')
+    {
+        parent::__construct($value, $type, $lang);
+    }
 
-	public static function createWithShortName(string $shortName, string $type = null, string $lang = 'en'): self
-	{
-		$new = new self(null, $type, $lang);
-		$new->setShortname($shortName);
+    public static function createWithShortName(string $shortName, string $type = null, string $lang = 'en'): self
+    {
+        $new = new self(null, $type, $lang);
+        $new->setShortname($shortName);
 
-		return $new;
-	}
+        return $new;
+    }
 
-	public function setShortname(?string $shortName): void
-	{
-		$this->shortName = $shortName;
-	}
+    public function setShortname(?string $shortName): void
+    {
+        $this->shortName = $shortName;
+    }
 }

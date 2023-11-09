@@ -6,59 +6,59 @@ use JMS\Serializer\Annotation as Ser;
 
 trait ExtrinsicsTrait
 {
-	/**
-	 * @Ser\XmlList(inline=true, entry="Extrinsic")
-	 * @Ser\Type("array<CXml\Model\Extrinsic>")
-	 *
-	 * @var Extrinsic[]
-	 */
-	protected array $extrinsics = [];
+    /**
+     * @Ser\XmlList(inline=true, entry="Extrinsic")
+     * @Ser\Type("array<CXml\Model\Extrinsic>")
+     *
+     * @var Extrinsic[]
+     */
+    protected array $extrinsics = [];
 
-	public function addExtrinsic(Extrinsic $extrinsic): self
-	{
-		$this->extrinsics[] = $extrinsic;
+    public function addExtrinsic(Extrinsic $extrinsic): self
+    {
+        $this->extrinsics[] = $extrinsic;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return Extrinsic[]
-	 */
-	public function getExtrinsics(): array
-	{
-		return $this->extrinsics;
-	}
+    /**
+     * @return Extrinsic[]
+     */
+    public function getExtrinsics(): array
+    {
+        return $this->extrinsics;
+    }
 
-	public function getExtrinsicByName(string $name): ?Extrinsic
-	{
-		foreach ($this->extrinsics as $extrinsic) {
-			if ($extrinsic->getName() === $name) {
-				return $extrinsic;
-			}
-		}
+    public function getExtrinsicByName(string $name): ?Extrinsic
+    {
+        foreach ($this->extrinsics as $extrinsic) {
+            if ($extrinsic->getName() === $name) {
+                return $extrinsic;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Convenience method.
-	 */
-	public function addExtrinsicAsKeyValue(string $name, string $value): self
-	{
-		return $this->addExtrinsic(new Extrinsic($name, $value));
-	}
+    /**
+     * Convenience method.
+     */
+    public function addExtrinsicAsKeyValue(string $name, string $value): self
+    {
+        return $this->addExtrinsic(new Extrinsic($name, $value));
+    }
 
-	/**
-	 * Convenience method.
-	 */
-	public function getExtrinsicsAsKeyValue(): array
-	{
-		$extrinsics = [];
+    /**
+     * Convenience method.
+     */
+    public function getExtrinsicsAsKeyValue(): array
+    {
+        $extrinsics = [];
 
-		foreach ($this->getExtrinsics() as $extrinsic) {
-			$extrinsics[\trim($extrinsic->getName())] = \trim($extrinsic->getValue());
-		}
+        foreach ($this->getExtrinsics() as $extrinsic) {
+            $extrinsics[\trim($extrinsic->getName())] = \trim($extrinsic->getValue());
+        }
 
-		return $extrinsics;
-	}
+        return $extrinsics;
+    }
 }

@@ -6,20 +6,20 @@ use JMS\Serializer\Annotation as Ser;
 
 class BillTo
 {
-	use IdReferencesTrait;
+    use IdReferencesTrait;
 
-	/**
-	 * @Ser\SerializedName("Address")
-	 */
-	private Address $address;
+    /**
+     * @Ser\SerializedName("Address")
+     */
+    private Address $address;
 
-	public function __construct(Address $address)
-	{
-		$this->address = $address;
-	}
+    public function __construct(Address $address)
+    {
+        $this->address = $address;
+    }
 
-	public function getAddress(): Address
-	{
-		return $this->address;
-	}
+    public function getAddress(): Address
+    {
+        return $this->address;
+    }
 }

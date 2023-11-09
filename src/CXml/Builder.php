@@ -20,148 +20,148 @@ use CXml\Payload\PayloadIdentityFactoryInterface;
 
 class Builder
 {
-	private PayloadIdentityFactoryInterface $payloadIdentityFactory;
+    private PayloadIdentityFactoryInterface $payloadIdentityFactory;
 
-	private ?PayloadInterface $payload = null;
-	private Credential $from;
-	private Credential $to;
-	private Credential $sender;
-	private ?string $senderUserAgent;
-	private ?Status $status = null;
-	private ?string $locale;
+    private ?PayloadInterface $payload = null;
+    private Credential $from;
+    private Credential $to;
+    private Credential $sender;
+    private ?string $senderUserAgent;
+    private ?Status $status = null;
+    private ?string $locale;
 
-	private function __construct(string $senderUserAgent, string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
-	{
-		$this->locale = $locale;
-		$this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
-		$this->senderUserAgent = $senderUserAgent;
-	}
+    private function __construct(string $senderUserAgent, string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+    {
+        $this->locale = $locale;
+        $this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
+        $this->senderUserAgent = $senderUserAgent;
+    }
 
-	public static function create(string $senderUserAgent = 'cxml-php UserAgent', string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
-	{
-		return new self($senderUserAgent, $locale, $payloadIdentityFactory);
-	}
+    public static function create(string $senderUserAgent = 'cxml-php UserAgent', string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
+    {
+        return new self($senderUserAgent, $locale, $payloadIdentityFactory);
+    }
 
-	public function payload(PayloadInterface $payload = null): self
-	{
-		$this->payload = $payload;
+    public function payload(PayloadInterface $payload = null): self
+    {
+        $this->payload = $payload;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function status(Status $status): self
-	{
-		$this->status = $status;
+    public function status(Status $status): self
+    {
+        $this->status = $status;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function sender(Credential $sender): self
-	{
-		$this->sender = $sender;
+    public function sender(Credential $sender): self
+    {
+        $this->sender = $sender;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setSenderUserAgent(?string $senderUserAgent): self
-	{
-		$this->senderUserAgent = $senderUserAgent;
+    public function setSenderUserAgent(?string $senderUserAgent): self
+    {
+        $this->senderUserAgent = $senderUserAgent;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function from(Credential $from): self
-	{
-		$this->from = $from;
+    public function from(Credential $from): self
+    {
+        $this->from = $from;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function to(Credential $to): self
-	{
-		$this->to = $to;
+    public function to(Credential $to): self
+    {
+        $this->to = $to;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	private function buildHeader(): Header
-	{
-		if (!isset($this->from)) {
-			throw new \LogicException("No 'from' has been set. Necessary for building a header.");
-		}
-		if (!isset($this->to)) {
-			throw new \LogicException("No 'to' has been set. Necessary for building a header.");
-		}
-		if (!isset($this->sender)) {
-			throw new \LogicException("No 'sender' has been set. Necessary for building a header.");
-		}
+    private function buildHeader(): Header
+    {
+        if (!isset($this->from)) {
+            throw new \LogicException("No 'from' has been set. Necessary for building a header.");
+        }
+        if (!isset($this->to)) {
+            throw new \LogicException("No 'to' has been set. Necessary for building a header.");
+        }
+        if (!isset($this->sender)) {
+            throw new \LogicException("No 'sender' has been set. Necessary for building a header.");
+        }
 
-		return new Header(
-			new Party($this->from),
-			new Party($this->to),
-			new Party($this->sender, $this->senderUserAgent)
-		);
-	}
+        return new Header(
+            new Party($this->from),
+            new Party($this->to),
+            new Party($this->sender, $this->senderUserAgent)
+        );
+    }
 
-	/**
-	 * @throws CXmlException
-	 */
-	public function build(string $deploymentMode = null): CXml
-	{
-		switch (true) {
-			case $this->payload instanceof RequestPayloadInterface:
-				/** @noinspection PhpParamsInspection */
-				$cXml = CXml::forRequest(
-					$this->payloadIdentityFactory->newPayloadIdentity(),
-					new Request($this->payload, $this->status, null, $deploymentMode),
-					$this->buildHeader(),
-					$this->locale
-				);
-				break;
+    /**
+     * @throws CXmlException
+     */
+    public function build(string $deploymentMode = null): CXml
+    {
+        switch (true) {
+            case $this->payload instanceof RequestPayloadInterface:
+                /** @noinspection PhpParamsInspection */
+                $cXml = CXml::forRequest(
+                    $this->payloadIdentityFactory->newPayloadIdentity(),
+                    new Request($this->payload, $this->status, null, $deploymentMode),
+                    $this->buildHeader(),
+                    $this->locale
+                );
+                break;
 
-			case $this->payload instanceof MessagePayloadInterface:
-				/** @noinspection PhpParamsInspection */
-				$cXml = CXml::forMessage(
-					$this->payloadIdentityFactory->newPayloadIdentity(),
-					new Message($this->payload, $this->status),
-					$this->buildHeader(),
-					$this->locale
-				);
-				break;
+            case $this->payload instanceof MessagePayloadInterface:
+                /** @noinspection PhpParamsInspection */
+                $cXml = CXml::forMessage(
+                    $this->payloadIdentityFactory->newPayloadIdentity(),
+                    new Message($this->payload, $this->status),
+                    $this->buildHeader(),
+                    $this->locale
+                );
+                break;
 
-			case $this->payload instanceof ResponsePayloadInterface:
-				$status = $this->status;
+            case $this->payload instanceof ResponsePayloadInterface:
+                $status = $this->status;
 
-				// response requires a status
-				if (null === $status) {
-					$status = new Status(); // 200 OK
-				}
+                // response requires a status
+                if (null === $status) {
+                    $status = new Status(); // 200 OK
+                }
 
-				/** @noinspection PhpParamsInspection */
-				$cXml = CXml::forResponse(
-					$this->payloadIdentityFactory->newPayloadIdentity(),
-					new Response($status, $this->payload),
-					$this->locale
-				);
-				break;
+                /** @noinspection PhpParamsInspection */
+                $cXml = CXml::forResponse(
+                    $this->payloadIdentityFactory->newPayloadIdentity(),
+                    new Response($status, $this->payload),
+                    $this->locale
+                );
+                break;
 
-			default:
-				// simple status ping-pong response
-				if ($this->status) {
-					$cXml = CXml::forResponse(
-						$this->payloadIdentityFactory->newPayloadIdentity(),
-						new Response($this->status),
-						$this->locale
-					);
+            default:
+                // simple status ping-pong response
+                if ($this->status) {
+                    $cXml = CXml::forResponse(
+                        $this->payloadIdentityFactory->newPayloadIdentity(),
+                        new Response($this->status),
+                        $this->locale
+                    );
 
-					break;
-				}
-		}
+                    break;
+                }
+        }
 
-		if (!isset($cXml)) {
-			throw new CXmlException('Neither payload (Request, Message, Response) was set.');
-		}
+        if (!isset($cXml)) {
+            throw new CXmlException('Neither payload (Request, Message, Response) was set.');
+        }
 
-		return $cXml;
-	}
+        return $cXml;
+    }
 }

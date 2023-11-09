@@ -6,75 +6,75 @@ use CXml\Model\CXml;
 
 class Context
 {
-	private ?CXml $cxml = null;
-	private array $options;
+    private ?CXml $cxml = null;
+    private array $options;
 
-	private function __construct(array $options = [])
-	{
-		$this->options = $options;
-	}
+    private function __construct(array $options = [])
+    {
+        $this->options = $options;
+    }
 
-	public static function create(array $options = []): self
-	{
-		return new self($options);
-	}
+    public static function create(array $options = []): self
+    {
+        return new self($options);
+    }
 
-	public function getOption(string $key)/* : mixed */
-	{
-		return $this->options[$key] ?? null;
-	}
+    public function getOption(string $key)/* : mixed */
+    {
+        return $this->options[$key] ?? null;
+    }
 
-	public function getOptions(): array
-	{
-		return $this->options;
-	}
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
 
-	public function setDryRun(bool $dryrun): self
-	{
-		$this->options['dryrun'] = $dryrun;
+    public function setDryRun(bool $dryrun): self
+    {
+        $this->options['dryrun'] = $dryrun;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function isDryRun(): bool
-	{
-		return $this->options['dryrun'] ?? false;
-	}
+    public function isDryRun(): bool
+    {
+        return $this->options['dryrun'] ?? false;
+    }
 
-	public function getCXml(): ?CXml
-	{
-		return $this->cxml;
-	}
+    public function getCXml(): ?CXml
+    {
+        return $this->cxml;
+    }
 
-	public function setCXml(CXml $cxml): self
-	{
-		$this->cxml = $cxml;
+    public function setCXml(CXml $cxml): self
+    {
+        $this->cxml = $cxml;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getSenderUserAgent(): ?string
-	{
-		$cxml = $this->getCxml();
-		if (!$cxml) {
-			return null;
-		}
+    public function getSenderUserAgent(): ?string
+    {
+        $cxml = $this->getCxml();
+        if (!$cxml) {
+            return null;
+        }
 
-		$header = $cxml->getHeader();
-		if (!$header) {
-			return null;
-		}
+        $header = $cxml->getHeader();
+        if (!$header) {
+            return null;
+        }
 
-		return $header->getSender()->getUserAgent();
-	}
+        return $header->getSender()->getUserAgent();
+    }
 
-	public function getPayloadId(): ?string
-	{
-		$cxml = $this->getCxml();
-		if (!$cxml) {
-			return null;
-		}
+    public function getPayloadId(): ?string
+    {
+        $cxml = $this->getCxml();
+        if (!$cxml) {
+            return null;
+        }
 
-		return $cxml->getPayloadId();
-	}
+        return $cxml->getPayloadId();
+    }
 }

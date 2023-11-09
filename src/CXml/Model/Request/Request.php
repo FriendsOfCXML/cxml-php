@@ -36,9 +36,9 @@ class Request
 
 	public function __construct(
 		RequestPayloadInterface $payload,
-		?Status $status = null,
-		?string $id = null,
-		?string $deploymentMode = null
+		Status $status = null,
+		string $id = null,
+		string $deploymentMode = null
 	) {
 		if (null !== $deploymentMode) {
 			Assertion::inArray($deploymentMode, [self::DEPLOYMENT_PROD, self::DEPLOYMENT_TEST]);

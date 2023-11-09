@@ -35,7 +35,7 @@ class PunchOutOrderMessageBuilder
 	private ?\DateTimeInterface $orderDate;
 	private ?ShipTo $shipTo = null;
 
-	private function __construct(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null)
+	private function __construct(string $language, string $buyerCookie, string $currency, string $operationAllowed = null)
 	{
 		$this->buyerCookie = $buyerCookie;
 		$this->currency = $currency;
@@ -43,7 +43,7 @@ class PunchOutOrderMessageBuilder
 		$this->language = $language;
 	}
 
-	public static function create(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null): self
+	public static function create(string $language, string $buyerCookie, string $currency, string $operationAllowed = null): self
 	{
 		return new self($language, $buyerCookie, $currency, $operationAllowed);
 	}
@@ -114,9 +114,9 @@ class PunchOutOrderMessageBuilder
 		string $unitOfMeasure,
 		int $unitPrice,
 		array $classifications,
-		?string $manufacturerPartId = null,
-		?string $manufacturerName = null,
-		?int $leadTime = null,
+		string $manufacturerPartId = null,
+		string $manufacturerName = null,
+		int $leadTime = null,
 		array $extrinsics = null
 	): self {
 		$itemDetail = ItemDetail::create(

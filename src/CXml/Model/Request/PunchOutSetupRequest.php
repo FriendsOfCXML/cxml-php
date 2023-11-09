@@ -60,7 +60,7 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 	 */
 	private array $itemOut = [];
 
-	public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ?ShipTo $shipTo = null, ?SelectedItem $selectedItem = null, string $operation = 'create')
+	public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ShipTo $shipTo = null, SelectedItem $selectedItem = null, string $operation = 'create')
 	{
 		$this->operation = $operation;
 		$this->buyerCookie = $buyerCookie;

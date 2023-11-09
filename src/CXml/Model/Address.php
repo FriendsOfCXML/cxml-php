@@ -53,7 +53,7 @@ class Address
 	 */
 	private ?string $url = null;
 
-	public function __construct(MultilanguageString $name, ?PostalAddress $postalAddress = null, ?string $addressId = null, ?string $addressIdDomain = null, ?string $email = null, ?string $phone = null, ?string $fax = null, ?string $url = null)
+	public function __construct(MultilanguageString $name, PostalAddress $postalAddress = null, string $addressId = null, string $addressIdDomain = null, string $email = null, string $phone = null, string $fax = null, string $url = null)
 	{
 		$this->addressId = $addressId;
 		$this->addressIdDomain = $addressIdDomain;

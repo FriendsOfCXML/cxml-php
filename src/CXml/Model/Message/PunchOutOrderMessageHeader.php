@@ -46,7 +46,7 @@ class PunchOutOrderMessageHeader
 	 */
 	private ?SupplierOrderInfo $supplierOrderInfo = null;
 
-	public function __construct(MoneyWrapper $total, ?Shipping $shipping = null, ?Tax $tax = null, ?string $operationAllowed = null)
+	public function __construct(MoneyWrapper $total, Shipping $shipping = null, Tax $tax = null, string $operationAllowed = null)
 	{
 		Assertion::inArray($operationAllowed, [self::OPERATION_CREATE, self::OPERATION_EDIT, self::OPERATION_INSPECT, null]);
 

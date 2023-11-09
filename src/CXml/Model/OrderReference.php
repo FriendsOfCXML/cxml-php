@@ -22,7 +22,7 @@ class OrderReference
 	 */
 	private ?\DateTimeInterface $orderDate = null;
 
-	public function __construct(DocumentReference $documentReference, ?string $orderId = null, ?\DateTimeInterface $orderDate = null)
+	public function __construct(DocumentReference $documentReference, string $orderId = null, \DateTimeInterface $orderDate = null)
 	{
 		$this->documentReference = $documentReference;
 		$this->orderId = $orderId;

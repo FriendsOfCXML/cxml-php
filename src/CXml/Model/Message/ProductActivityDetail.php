@@ -35,7 +35,7 @@ class ProductActivityDetail
 	 */
 	private ?Inventory $inventory = null;
 
-	private function __construct(ItemId $itemId, ?Inventory $inventory = null, ?Contact $contact = null, ?MultilanguageString $description = null)
+	private function __construct(ItemId $itemId, Inventory $inventory = null, Contact $contact = null, MultilanguageString $description = null)
 	{
 		$this->contact = $contact;
 		$this->description = $description;
@@ -43,7 +43,7 @@ class ProductActivityDetail
 		$this->inventory = $inventory;
 	}
 
-	public static function create(ItemId $itemId, ?Inventory $inventory = null, ?Contact $contact = null, ?MultilanguageString $description = null): self
+	public static function create(ItemId $itemId, Inventory $inventory = null, Contact $contact = null, MultilanguageString $description = null): self
 	{
 		return new self($itemId, $inventory, $contact, $description);
 	}

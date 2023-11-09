@@ -47,7 +47,7 @@ class ShipNoticeHeader
 	 */
 	private ?array $comments = null;
 
-	public function __construct(string $shipmentId, ?\DateTimeInterface $noticeDate = null, ?\DateTimeInterface $shipmentDate = null, ?\DateTimeInterface $deliveryDate = null, string $documentReference = null)
+	public function __construct(string $shipmentId, \DateTimeInterface $noticeDate = null, \DateTimeInterface $shipmentDate = null, \DateTimeInterface $deliveryDate = null, string $documentReference = null)
 	{
 		$this->shipmentId = $shipmentId;
 		$this->noticeDate = $noticeDate ?? new \DateTime();
@@ -56,7 +56,7 @@ class ShipNoticeHeader
 		$this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
 	}
 
-	public static function create(string $shipmentId, ?\DateTimeInterface $noticeDate = null, ?\DateTimeInterface $shipmentDate = null, ?\DateTimeInterface $deliveryDate = null, string $documentReference = null): self
+	public static function create(string $shipmentId, \DateTimeInterface $noticeDate = null, \DateTimeInterface $shipmentDate = null, \DateTimeInterface $deliveryDate = null, string $documentReference = null): self
 	{
 		return new self($shipmentId, $noticeDate, $shipmentDate, $deliveryDate, $documentReference);
 	}
@@ -66,7 +66,7 @@ class ShipNoticeHeader
 		return $this->documentReference;
 	}
 
-	public function addComment(string $comment, ?string $type = null, ?string $lang = null): self
+	public function addComment(string $comment, string $type = null, string $lang = null): self
 	{
 		if (null === $this->comments) {
 			$this->comments = [];

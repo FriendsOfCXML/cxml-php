@@ -9,39 +9,39 @@ use JMS\Serializer\Annotation as Ser;
 
 class StatusUpdateRequest implements RequestPayloadInterface
 {
-	use ExtrinsicsTrait;
+    use ExtrinsicsTrait;
 
-	/**
-	 * @Ser\SerializedName("DocumentReference")
-	 */
-	private ?DocumentReference $documentReference = null;
+    /**
+     * @Ser\SerializedName("DocumentReference")
+     */
+    private ?DocumentReference $documentReference = null;
 
-	/**
-	 * @Ser\SerializedName("Status")
-	 */
-	private Status $status;
+    /**
+     * @Ser\SerializedName("Status")
+     */
+    private Status $status;
 
-	public function __construct(Status $status, string $documentReference = null)
-	{
-		$this->status = $status;
-		$this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
-	}
+    public function __construct(Status $status, string $documentReference = null)
+    {
+        $this->status = $status;
+        $this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
+    }
 
-	public static function create(Status $status, string $documentReference = null): self
-	{
-		return new self(
-			$status,
-			$documentReference
-		);
-	}
+    public static function create(Status $status, string $documentReference = null): self
+    {
+        return new self(
+            $status,
+            $documentReference
+        );
+    }
 
-	public function getDocumentReference(): ?DocumentReference
-	{
-		return $this->documentReference;
-	}
+    public function getDocumentReference(): ?DocumentReference
+    {
+        return $this->documentReference;
+    }
 
-	public function getStatus(): Status
-	{
-		return $this->status;
-	}
+    public function getStatus(): Status
+    {
+        return $this->status;
+    }
 }

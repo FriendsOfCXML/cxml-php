@@ -19,177 +19,177 @@ use CXml\Model\TransportInformation;
 
 class PunchOutOrderMessageBuilder
 {
-	private string $buyerCookie;
-	private string $currency;
-	private ?string $operationAllowed;
-	private string $language;
+    private string $buyerCookie;
+    private string $currency;
+    private ?string $operationAllowed;
+    private string $language;
 
-	/**
-	 * @var ItemIn[]
-	 */
-	private array $punchoutOrderMessageItems = [];
-	private int $total = 0;
-	private ?Shipping $shipping = null;
-	private ?Tax $tax = null;
-	private string $orderId;
-	private ?\DateTimeInterface $orderDate;
-	private ?ShipTo $shipTo = null;
+    /**
+     * @var ItemIn[]
+     */
+    private array $punchoutOrderMessageItems = [];
+    private int $total = 0;
+    private ?Shipping $shipping = null;
+    private ?Tax $tax = null;
+    private string $orderId;
+    private ?\DateTimeInterface $orderDate;
+    private ?ShipTo $shipTo = null;
 
-	private function __construct(string $language, string $buyerCookie, string $currency, string $operationAllowed = null)
-	{
-		$this->buyerCookie = $buyerCookie;
-		$this->currency = $currency;
-		$this->operationAllowed = $operationAllowed;
-		$this->language = $language;
-	}
+    private function __construct(string $language, string $buyerCookie, string $currency, string $operationAllowed = null)
+    {
+        $this->buyerCookie = $buyerCookie;
+        $this->currency = $currency;
+        $this->operationAllowed = $operationAllowed;
+        $this->language = $language;
+    }
 
-	public static function create(string $language, string $buyerCookie, string $currency, string $operationAllowed = null): self
-	{
-		return new self($language, $buyerCookie, $currency, $operationAllowed);
-	}
+    public static function create(string $language, string $buyerCookie, string $currency, string $operationAllowed = null): self
+    {
+        return new self($language, $buyerCookie, $currency, $operationAllowed);
+    }
 
-	public function orderReference(string $orderId, \DateTimeInterface $orderDate = null): self
-	{
-		$this->orderId = $orderId;
-		$this->orderDate = $orderDate;
+    public function orderReference(string $orderId, \DateTimeInterface $orderDate = null): self
+    {
+        $this->orderId = $orderId;
+        $this->orderDate = $orderDate;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function shipTo(
-		string $name,
-		PostalAddress $postalAddress,
-		array $carrierIdentifiers = [],
-		string $carrierAccountNo = null
-	): self {
-		$this->shipTo = new ShipTo(
-			new Address(
-				new MultilanguageString($name, null, $this->language),
-				$postalAddress
-			),
-			$carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null
-		);
+    public function shipTo(
+        string $name,
+        PostalAddress $postalAddress,
+        array $carrierIdentifiers = [],
+        string $carrierAccountNo = null
+    ): self {
+        $this->shipTo = new ShipTo(
+            new Address(
+                new MultilanguageString($name, null, $this->language),
+                $postalAddress
+            ),
+            $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null
+        );
 
-		foreach ($carrierIdentifiers as $domain => $identifier) {
-			$this->shipTo->addCarrierIdentifier($domain, $identifier);
-		}
+        foreach ($carrierIdentifiers as $domain => $identifier) {
+            $this->shipTo->addCarrierIdentifier($domain, $identifier);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function shipping(int $shipping, string $taxDescription): self
-	{
-		$this->shipping = new Shipping(
-			$this->currency,
-			$shipping,
-			new Description(
-				$taxDescription,
-				null,
-				$this->language
-			)
-		);
+    public function shipping(int $shipping, string $taxDescription): self
+    {
+        $this->shipping = new Shipping(
+            $this->currency,
+            $shipping,
+            new Description(
+                $taxDescription,
+                null,
+                $this->language
+            )
+        );
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function tax(int $tax, string $taxDescription): self
-	{
-		$this->tax = new Tax(
-			$this->currency,
-			$tax,
-			new Description(
-				$taxDescription,
-				null,
-				$this->language
-			)
-		);
+    public function tax(int $tax, string $taxDescription): self
+    {
+        $this->tax = new Tax(
+            $this->currency,
+            $tax,
+            new Description(
+                $taxDescription,
+                null,
+                $this->language
+            )
+        );
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function addPunchoutOrderMessageItem(
-		ItemId $itemId,
-		int $quantity,
-		string $description,
-		string $unitOfMeasure,
-		int $unitPrice,
-		array $classifications,
-		string $manufacturerPartId = null,
-		string $manufacturerName = null,
-		int $leadTime = null,
-		array $extrinsics = null
-	): self {
-		$itemDetail = ItemDetail::create(
-			new Description(
-				$description,
-				null,
-				$this->language
-			),
-			$unitOfMeasure,
-			new MoneyWrapper(
-				$this->currency,
-				$unitPrice
-			),
-			$classifications
-		)
-			->setManufacturerPartId($manufacturerPartId)
-			->setManufacturerName($manufacturerName)
-			->setLeadtime($leadTime)
-		;
+    public function addPunchoutOrderMessageItem(
+        ItemId $itemId,
+        int $quantity,
+        string $description,
+        string $unitOfMeasure,
+        int $unitPrice,
+        array $classifications,
+        string $manufacturerPartId = null,
+        string $manufacturerName = null,
+        int $leadTime = null,
+        array $extrinsics = null
+    ): self {
+        $itemDetail = ItemDetail::create(
+            new Description(
+                $description,
+                null,
+                $this->language
+            ),
+            $unitOfMeasure,
+            new MoneyWrapper(
+                $this->currency,
+                $unitPrice
+            ),
+            $classifications
+        )
+            ->setManufacturerPartId($manufacturerPartId)
+            ->setManufacturerName($manufacturerName)
+            ->setLeadtime($leadTime)
+        ;
 
-		if ($extrinsics) {
-			foreach ($extrinsics as $k => $v) {
-				$itemDetail->addExtrinsicAsKeyValue($k, $v);
-			}
-		}
+        if ($extrinsics) {
+            foreach ($extrinsics as $k => $v) {
+                $itemDetail->addExtrinsicAsKeyValue($k, $v);
+            }
+        }
 
-		$punchoutOrderMessageItem = ItemIn::create(
-			$quantity,
-			$itemId,
-			$itemDetail
-		);
+        $punchoutOrderMessageItem = ItemIn::create(
+            $quantity,
+            $itemId,
+            $itemDetail
+        );
 
-		return $this->addItem($punchoutOrderMessageItem);
-	}
+        return $this->addItem($punchoutOrderMessageItem);
+    }
 
-	public function addItem(ItemIn $itemIn): self
-	{
-		$this->punchoutOrderMessageItems[] = $itemIn;
-		$this->total += ($itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent() * $itemIn->getQuantity());
+    public function addItem(ItemIn $itemIn): self
+    {
+        $this->punchoutOrderMessageItems[] = $itemIn;
+        $this->total += ($itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent() * $itemIn->getQuantity());
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function build(): PunchOutOrderMessage
-	{
-		if (empty($this->punchoutOrderMessageItems)) {
-			throw new \RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
-		}
+    public function build(): PunchOutOrderMessage
+    {
+        if (empty($this->punchoutOrderMessageItems)) {
+            throw new \RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
+        }
 
-		$punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(
-			new MoneyWrapper($this->currency, $this->total),
-			$this->shipping,
-			$this->tax,
-			$this->operationAllowed
-		);
+        $punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(
+            new MoneyWrapper($this->currency, $this->total),
+            $this->shipping,
+            $this->tax,
+            $this->operationAllowed
+        );
 
-		if (isset($this->shipTo)) {
-			$punchoutOrderMessageHeader->setShipTo($this->shipTo);
-		}
+        if (isset($this->shipTo)) {
+            $punchoutOrderMessageHeader->setShipTo($this->shipTo);
+        }
 
-		if (isset($this->orderId)) {
-			$punchoutOrderMessageHeader->setSupplierOrderInfo($this->orderId, $this->orderDate);
-		}
+        if (isset($this->orderId)) {
+            $punchoutOrderMessageHeader->setSupplierOrderInfo($this->orderId, $this->orderDate);
+        }
 
-		$punchOutOrderMessage = PunchOutOrderMessage::create(
-			$this->buyerCookie,
-			$punchoutOrderMessageHeader
-		);
+        $punchOutOrderMessage = PunchOutOrderMessage::create(
+            $this->buyerCookie,
+            $punchoutOrderMessageHeader
+        );
 
-		foreach ($this->punchoutOrderMessageItems as $punchoutOrderMessageItem) {
-			$punchOutOrderMessage->addPunchoutOrderMessageItem($punchoutOrderMessageItem);
-		}
+        foreach ($this->punchoutOrderMessageItems as $punchoutOrderMessageItem) {
+            $punchOutOrderMessage->addPunchoutOrderMessageItem($punchoutOrderMessageItem);
+        }
 
-		return $punchOutOrderMessage;
-	}
+        return $punchOutOrderMessage;
+    }
 }

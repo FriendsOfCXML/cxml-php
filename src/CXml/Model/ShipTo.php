@@ -6,41 +6,41 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShipTo
 {
-	use IdReferencesTrait;
+    use IdReferencesTrait;
 
-	/**
-	 * @Ser\SerializedName("Address")
-	 */
-	private Address $address;
+    /**
+     * @Ser\SerializedName("Address")
+     */
+    private Address $address;
 
-	/**
-	 * @Ser\XmlList(inline=true, entry="CarrierIdentifier")
-	 * @Ser\Type("array<CXml\Model\CarrierIdentifier>")
-	 *
-	 * @var CarrierIdentifier[]
-	 */
-	private array $carrierIdentifiers = [];
+    /**
+     * @Ser\XmlList(inline=true, entry="CarrierIdentifier")
+     * @Ser\Type("array<CXml\Model\CarrierIdentifier>")
+     *
+     * @var CarrierIdentifier[]
+     */
+    private array $carrierIdentifiers = [];
 
-	/**
-	 * @Ser\SerializedName("TransportInformation")
-	 */
-	private ?TransportInformation $transportInformation = null;
+    /**
+     * @Ser\SerializedName("TransportInformation")
+     */
+    private ?TransportInformation $transportInformation = null;
 
-	public function __construct(Address $address, TransportInformation $transportInformation = null)
-	{
-		$this->address = $address;
-		$this->transportInformation = $transportInformation;
-	}
+    public function __construct(Address $address, TransportInformation $transportInformation = null)
+    {
+        $this->address = $address;
+        $this->transportInformation = $transportInformation;
+    }
 
-	public function addCarrierIdentifier(string $domain, string $identifier): self
-	{
-		$this->carrierIdentifiers[] = new CarrierIdentifier($domain, $identifier);
+    public function addCarrierIdentifier(string $domain, string $identifier): self
+    {
+        $this->carrierIdentifiers[] = new CarrierIdentifier($domain, $identifier);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getAddress(): Address
-	{
-		return $this->address;
-	}
+    public function getAddress(): Address
+    {
+        return $this->address;
+    }
 }

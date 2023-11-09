@@ -15,48 +15,48 @@ use JMS\Serializer\XmlSerializationVisitor;
  */
 class JmsDateTimeHandler
 {
-	public function serialize(XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context)
-	{
-		if ($date instanceof Date) {
-			$format = 'Y-m-d';
-		} else {
-			$format = $this->getFormat($type);
-		}
+    public function serialize(XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context)
+    {
+        if ($date instanceof Date) {
+            $format = 'Y-m-d';
+        } else {
+            $format = $this->getFormat($type);
+        }
 
-		return $visitor->visitSimpleString($date->format($format), $type);
-	}
+        return $visitor->visitSimpleString($date->format($format), $type);
+    }
 
-	private function getFormat(array $type): string
-	{
-		return $type['params'][0] ?? \DateTimeInterface::ATOM;
-	}
+    private function getFormat(array $type): string
+    {
+        return $type['params'][0] ?? \DateTimeInterface::ATOM;
+    }
 
-	public function deserialize(XmlDeserializationVisitor $visitor, $dateAsString, array $type, Context $context)
-	{
-		// explicit date-format was defined in property annotation
-		if (isset($type['params'][0])) {
-			return \DateTime::createFromFormat($type['params'][0], $dateAsString);
-		}
+    public function deserialize(XmlDeserializationVisitor $visitor, $dateAsString, array $type, Context $context)
+    {
+        // explicit date-format was defined in property annotation
+        if (isset($type['params'][0])) {
+            return \DateTime::createFromFormat($type['params'][0], $dateAsString);
+        }
 
-		// else try ISO-8601
-		$dateTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $dateAsString);
-		if ($dateTime) {
-			return $dateTime;
-		}
+        // else try ISO-8601
+        $dateTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $dateAsString);
+        if ($dateTime) {
+            return $dateTime;
+        }
 
-		// else try milliseconds-format
-		$dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString);
-		if ($dateTime) {
-			return $dateTime;
-		}
+        // else try milliseconds-format
+        $dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString);
+        if ($dateTime) {
+            return $dateTime;
+        }
 
-		// else try simple date-format
-		$dateTime = Date::createFromFormat('Y-m-d', $dateAsString);
-		if ($dateTime) {
-			return $dateTime;
-		}
+        // else try simple date-format
+        $dateTime = Date::createFromFormat('Y-m-d', $dateAsString);
+        if ($dateTime) {
+            return $dateTime;
+        }
 
-		// last resort: throw exception
-		throw new \RuntimeException('Could not parse date: '.$dateAsString);
-	}
+        // last resort: throw exception
+        throw new \RuntimeException('Could not parse date: '.$dateAsString);
+    }
 }

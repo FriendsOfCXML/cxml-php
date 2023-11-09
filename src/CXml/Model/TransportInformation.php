@@ -6,18 +6,18 @@ use JMS\Serializer\Annotation as Ser;
 
 class TransportInformation
 {
-	/**
-	 * @Ser\SerializedName("ShippingContractNumber")
-	 */
-	private ?ShippingContractNumber $shippingContractNumber = null;
+    /**
+     * @Ser\SerializedName("ShippingContractNumber")
+     */
+    private ?ShippingContractNumber $shippingContractNumber = null;
 
-	public function __construct(?ShippingContractNumber $shippingContractNumber)
-	{
-		$this->shippingContractNumber = $shippingContractNumber;
-	}
+    public function __construct(?ShippingContractNumber $shippingContractNumber)
+    {
+        $this->shippingContractNumber = $shippingContractNumber;
+    }
 
-	public static function fromContractAccountNumber(string $carrierAccountNo): self
-	{
-		return new self(new ShippingContractNumber($carrierAccountNo));
-	}
+    public static function fromContractAccountNumber(string $carrierAccountNo): self
+    {
+        return new self(new ShippingContractNumber($carrierAccountNo));
+    }
 }

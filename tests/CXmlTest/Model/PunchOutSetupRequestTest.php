@@ -31,114 +31,114 @@ use PHPUnit\Framework\TestCase;
  */
 class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
-	private DtdValidator $dtdValidator;
+    private DtdValidator $dtdValidator;
 
-	protected function setUp(): void
-	{
-		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.053/');
-	}
+    protected function setUp(): void
+    {
+        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.053/');
+    }
 
-	public function testMinimumExample(): void
-	{
-		$from = new Credential(
-			'NetworkId',
-			'inbound@prominate-platform.com'
-		);
-		$to = new Credential(
-			'NetworkId',
-			'supplier@supplier.com'
-		);
-		$sender = new Credential(
-			'NetworkId',
-			'inbound@prominate-platform.com',
-			's3cr3t'
-		);
+    public function testMinimumExample(): void
+    {
+        $from = new Credential(
+            'NetworkId',
+            'inbound@prominate-platform.com'
+        );
+        $to = new Credential(
+            'NetworkId',
+            'supplier@supplier.com'
+        );
+        $sender = new Credential(
+            'NetworkId',
+            'inbound@prominate-platform.com',
+            's3cr3t'
+        );
 
-		$punchoutSetupRequest = (new PunchOutSetupRequest(
-			'550bce3e592023b2e7b015307f965133',
-			'https://prominate-platform.com/hook-url',
-			'http://workchairs.com/cxml',
-			new ShipTo(
-				new Address(
-					new MultilanguageString('Acme'),
-					new PostalAddress(
-						[
-							'Joe Smith',
-							'Mailstop M-543',
-						],
-						[
-							'123 Anystreet',
-						],
-						'Sunnyvale',
-						new Country('US', 'United States'),
-						null,
-						'CA',
-						'90489',
-						'default'
-					)
-				)
-			),
-			new SelectedItem(
-				new ItemId('4545321', null, 'II99825')
-			),
-		))->addItem(
-			ItemOut::create(
-				10,
-				2,
-				new ItemId('5555'),
-				ItemDetail::create(
-					Description::createWithShortName('Excelsior Desk Chair', null, 'en'),
-					'EA',
-					new MoneyWrapper('EUR', 76320),
-					[
-						new Classification('UNSPSC', 'ean1234'),
-					]
-				),
-				new \DateTime('2023-01-23T16:00:06-01:00'),
-			)
-		)->addItem(
-			ItemOut::create(
-				20,
-				1,
-				new ItemId('6666'),
-				ItemDetail::create(
-					Description::createWithShortName('22Excelsior Desk Chair', null, 'en'),
-					'EA',
-					new MoneyWrapper('EUR', 76420),
-					[
-						new Classification('UNSPSC', 'ean1230'),
-					]
-				),
-				new \DateTime('2023-01-23T16:00:06-01:00'),
-			)
-		);
+        $punchoutSetupRequest = (new PunchOutSetupRequest(
+            '550bce3e592023b2e7b015307f965133',
+            'https://prominate-platform.com/hook-url',
+            'http://workchairs.com/cxml',
+            new ShipTo(
+                new Address(
+                    new MultilanguageString('Acme'),
+                    new PostalAddress(
+                        [
+                            'Joe Smith',
+                            'Mailstop M-543',
+                        ],
+                        [
+                            '123 Anystreet',
+                        ],
+                        'Sunnyvale',
+                        new Country('US', 'United States'),
+                        null,
+                        'CA',
+                        '90489',
+                        'default'
+                    )
+                )
+            ),
+            new SelectedItem(
+                new ItemId('4545321', null, 'II99825')
+            ),
+        ))->addItem(
+            ItemOut::create(
+                10,
+                2,
+                new ItemId('5555'),
+                ItemDetail::create(
+                    Description::createWithShortName('Excelsior Desk Chair', null, 'en'),
+                    'EA',
+                    new MoneyWrapper('EUR', 76320),
+                    [
+                        new Classification('UNSPSC', 'ean1234'),
+                    ]
+                ),
+                new \DateTime('2023-01-23T16:00:06-01:00'),
+            )
+        )->addItem(
+            ItemOut::create(
+                20,
+                1,
+                new ItemId('6666'),
+                ItemDetail::create(
+                    Description::createWithShortName('22Excelsior Desk Chair', null, 'en'),
+                    'EA',
+                    new MoneyWrapper('EUR', 76420),
+                    [
+                        new Classification('UNSPSC', 'ean1230'),
+                    ]
+                ),
+                new \DateTime('2023-01-23T16:00:06-01:00'),
+            )
+        );
 
-		$punchoutSetupRequest->addExtrinsic(
-			new Extrinsic('UserEmail', 'john-doe@domain.com')
-		);
+        $punchoutSetupRequest->addExtrinsic(
+            new Extrinsic('UserEmail', 'john-doe@domain.com')
+        );
 
-		$cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)
-			->from($from)
-			->to($to)
-			->sender($sender)
-			->payload($punchoutSetupRequest)
-			->build('test')
-		;
+        $cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)
+            ->from($from)
+            ->to($to)
+            ->sender($sender)
+            ->payload($punchoutSetupRequest)
+            ->build('test')
+        ;
 
-		$this->assertEquals('PunchOutSetupRequest_933695160890', (string) $cxml);
+        $this->assertEquals('PunchOutSetupRequest_933695160890', (string) $cxml);
 
-		$xml = Serializer::create()->serialize($cxml);
+        $xml = Serializer::create()->serialize($cxml);
 
-		$this->dtdValidator->validateAgainstDtd($xml);
+        $this->dtdValidator->validateAgainstDtd($xml);
 
-		$this->assertXmlStringEqualsXmlFile(__DIR__.'/../../metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
-	}
+        $this->assertXmlStringEqualsXmlFile(__DIR__.'/../../metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
+    }
 
-	public function newPayloadIdentity(): PayloadIdentity
-	{
-		return new PayloadIdentity(
-			'933695160890',
-			new \DateTime('2023-01-23T16:00:06-01:00')
-		);
-	}
+    public function newPayloadIdentity(): PayloadIdentity
+    {
+        return new PayloadIdentity(
+            '933695160890',
+            new \DateTime('2023-01-23T16:00:06-01:00')
+        );
+    }
 }

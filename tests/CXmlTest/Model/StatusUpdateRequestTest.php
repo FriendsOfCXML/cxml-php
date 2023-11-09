@@ -17,46 +17,46 @@ use PHPUnit\Framework\TestCase;
  */
 class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
-	public function testMinimumExample(): void
-	{
-		$from = new Credential(
-			'NetworkId',
-			'AN00000123'
-		);
-		$to = new Credential(
-			'NetworkId',
-			'AN00000456'
-		);
-		$sender = new Credential(
-			'NetworkId',
-			'AN00000123',
-			'abracadabra'
-		);
+    public function testMinimumExample(): void
+    {
+        $from = new Credential(
+            'NetworkId',
+            'AN00000123'
+        );
+        $to = new Credential(
+            'NetworkId',
+            'AN00000456'
+        );
+        $sender = new Credential(
+            'NetworkId',
+            'AN00000123',
+            'abracadabra'
+        );
 
-		$statusUpdateRequest = new StatusUpdateRequest(
-			new Status(200, 'OK', 'Forwarded to supplier', 'en-US'),
-			'0c300508b7863dcclb_14999'
-		);
+        $statusUpdateRequest = new StatusUpdateRequest(
+            new Status(200, 'OK', 'Forwarded to supplier', 'en-US'),
+            '0c300508b7863dcclb_14999'
+        );
 
-		$cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
-			->from($from)
-			->to($to)
-			->sender($sender)
-			->payload($statusUpdateRequest)
-			->build()
-		;
+        $cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
+            ->from($from)
+            ->to($to)
+            ->sender($sender)
+            ->payload($statusUpdateRequest)
+            ->build()
+        ;
 
-		$this->assertEquals('StatusUpdateRequest_0c30050@supplierorg.com', (string) $cxml);
+        $this->assertEquals('StatusUpdateRequest_0c30050@supplierorg.com', (string) $cxml);
 
-		$xml = Serializer::create()->serialize($cxml);
-		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequest.xml', $xml);
-	}
+        $xml = Serializer::create()->serialize($cxml);
+        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequest.xml', $xml);
+    }
 
-	public function newPayloadIdentity(): PayloadIdentity
-	{
-		return new PayloadIdentity(
-			'0c30050@supplierorg.com',
-			new \DateTime('2021-01-08T23:00:06-08:00')
-		);
-	}
+    public function newPayloadIdentity(): PayloadIdentity
+    {
+        return new PayloadIdentity(
+            '0c30050@supplierorg.com',
+            new \DateTime('2021-01-08T23:00:06-08:00')
+        );
+    }
 }

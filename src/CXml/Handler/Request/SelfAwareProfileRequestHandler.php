@@ -13,37 +13,37 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SelfAwareProfileRequestHandler implements HandlerInterface
 {
-	private HandlerRegistry $handlerRegistry;
-	private UrlGeneratorInterface $urlGenerator;
-	private string $defaultRoute;
+    private HandlerRegistry $handlerRegistry;
+    private UrlGeneratorInterface $urlGenerator;
+    private string $defaultRoute;
 
-	public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator, string $defaultRoute = 'post_cxml')
-	{
-		$this->handlerRegistry = $handlerRegistry;
-		$this->urlGenerator = $urlGenerator;
-		$this->defaultRoute = $defaultRoute;
-	}
+    public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator, string $defaultRoute = 'post_cxml')
+    {
+        $this->handlerRegistry = $handlerRegistry;
+        $this->urlGenerator = $urlGenerator;
+        $this->defaultRoute = $defaultRoute;
+    }
 
-	public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
-	{
-		$profileResponse = new ProfileResponse();
+    public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
+    {
+        $profileResponse = new ProfileResponse();
 
-		foreach ($this->handlerRegistry->all() as $requestName => $handler) {
-			$transaction = new Transaction($requestName, $this->getEndpointUrl());
+        foreach ($this->handlerRegistry->all() as $requestName => $handler) {
+            $transaction = new Transaction($requestName, $this->getEndpointUrl());
 
-			$profileResponse->addTransaction($transaction);
-		}
+            $profileResponse->addTransaction($transaction);
+        }
 
-		return $profileResponse;
-	}
+        return $profileResponse;
+    }
 
-	private function getEndpointUrl(): string
-	{
-		return $this->urlGenerator->generate($this->defaultRoute, [], UrlGeneratorInterface::ABSOLUTE_URL);
-	}
+    private function getEndpointUrl(): string
+    {
+        return $this->urlGenerator->generate($this->defaultRoute, [], UrlGeneratorInterface::ABSOLUTE_URL);
+    }
 
-	public static function getRequestName(): string
-	{
-		return 'ProfileRequest';
-	}
+    public static function getRequestName(): string
+    {
+        return 'ProfileRequest';
+    }
 }

@@ -11,24 +11,24 @@ use CXml\Model\Url;
 
 class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
 {
-	private string $startPageUrl;
+    private string $startPageUrl;
 
-	public function __construct(string $startPageUrl)
-	{
-		$this->startPageUrl = $startPageUrl;
-	}
+    public function __construct(string $startPageUrl)
+    {
+        $this->startPageUrl = $startPageUrl;
+    }
 
-	public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
-	{
-		return new PunchOutSetupResponse(
-			new Url(
-				$this->startPageUrl
-			)
-		);
-	}
+    public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
+    {
+        return new PunchOutSetupResponse(
+            new Url(
+                $this->startPageUrl
+            )
+        );
+    }
 
-	public static function getRequestName(): string
-	{
-		return 'PunchOutSetupRequest';
-	}
+    public static function getRequestName(): string
+    {
+        return 'PunchOutSetupRequest';
+    }
 }

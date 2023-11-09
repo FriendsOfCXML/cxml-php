@@ -4,5 +4,5 @@ namespace CXml\Handler;
 
 interface HandlerRegistryInterface
 {
-	public function get(string $handlerId): HandlerInterface;
+    public function get(string $handlerId): HandlerInterface;
 }

@@ -12,53 +12,53 @@ use CXml\Model\MultilanguageString;
 
 class ProductActivityMessageBuilder
 {
-	private ProductActivityMessage $productActivityMessage;
-	private string $warehouseCodeDomain;
+    private ProductActivityMessage $productActivityMessage;
+    private string $warehouseCodeDomain;
 
-	private function __construct(string $messageId, string $warehouseCodeDomain)
-	{
-		$this->productActivityMessage = ProductActivityMessage::create(
-			$messageId,
-		);
+    private function __construct(string $messageId, string $warehouseCodeDomain)
+    {
+        $this->productActivityMessage = ProductActivityMessage::create(
+            $messageId,
+        );
 
-		$this->warehouseCodeDomain = $warehouseCodeDomain;
-	}
+        $this->warehouseCodeDomain = $warehouseCodeDomain;
+    }
 
-	public static function create(string $messageId, string $warehouseCodeDomain): self
-	{
-		return new self($messageId, $warehouseCodeDomain);
-	}
+    public static function create(string $messageId, string $warehouseCodeDomain): self
+    {
+        return new self($messageId, $warehouseCodeDomain);
+    }
 
-	public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, array $extrinsics = null): self
-	{
-		$inventory = Inventory::create()
-			->setStockOnHandQuantity(new InventoryQuantity($stockLevel, 'EA'))
-		;
+    public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, array $extrinsics = null): self
+    {
+        $inventory = Inventory::create()
+            ->setStockOnHandQuantity(new InventoryQuantity($stockLevel, 'EA'))
+        ;
 
-		$activityDetail = ProductActivityDetail::create(
-			new ItemId($sku, null, $sku),
-			$inventory,
-			Contact::create(new MultilanguageString($warehouseCode, null, 'en'), 'locationFrom')
-				->addIdReference($this->warehouseCodeDomain, $warehouseCode)
-		);
+        $activityDetail = ProductActivityDetail::create(
+            new ItemId($sku, null, $sku),
+            $inventory,
+            Contact::create(new MultilanguageString($warehouseCode, null, 'en'), 'locationFrom')
+                ->addIdReference($this->warehouseCodeDomain, $warehouseCode)
+        );
 
-		if ($extrinsics) {
-			foreach ($extrinsics as $k => $v) {
-				$activityDetail->addExtrinsicAsKeyValue($k, $v);
-			}
-		}
+        if ($extrinsics) {
+            foreach ($extrinsics as $k => $v) {
+                $activityDetail->addExtrinsicAsKeyValue($k, $v);
+            }
+        }
 
-		$this->productActivityMessage->addProductActivityDetail($activityDetail);
+        $this->productActivityMessage->addProductActivityDetail($activityDetail);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function build(): ProductActivityMessage
-	{
-		if (empty($this->productActivityMessage->getProductActivityDetails())) {
-			throw new \RuntimeException('Cannot build ProductActivityMessage without any ProductActivityDetail');
-		}
+    public function build(): ProductActivityMessage
+    {
+        if (empty($this->productActivityMessage->getProductActivityDetails())) {
+            throw new \RuntimeException('Cannot build ProductActivityMessage without any ProductActivityDetail');
+        }
 
-		return $this->productActivityMessage;
-	}
+        return $this->productActivityMessage;
+    }
 }

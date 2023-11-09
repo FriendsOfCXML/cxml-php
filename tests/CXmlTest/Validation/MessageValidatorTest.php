@@ -12,34 +12,34 @@ use PHPUnit\Framework\TestCase;
  */
 class MessageValidatorTest extends TestCase
 {
-	private DtdValidator $dtdValidator;
+    private DtdValidator $dtdValidator;
 
-	protected function setUp(): void
-	{
-		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.053');
-	}
+    protected function setUp(): void
+    {
+        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.053');
+    }
 
-	public function testValidateSuccess(): void
-	{
-		$this->expectNotToPerformAssertions();
+    public function testValidateSuccess(): void
+    {
+        $this->expectNotToPerformAssertions();
 
-		$xml = \file_get_contents('tests/metadata/cxml/samples/simple-profile-request.xml');
-		$this->dtdValidator->validateAgainstDtd($xml);
-	}
+        $xml = \file_get_contents('tests/metadata/cxml/samples/simple-profile-request.xml');
+        $this->dtdValidator->validateAgainstDtd($xml);
+    }
 
-	public function testValidateMissingRootNode(): void
-	{
-		$this->expectException(CXmlInvalidException::class);
+    public function testValidateMissingRootNode(): void
+    {
+        $this->expectException(CXmlInvalidException::class);
 
-		$xml = '<some-node></some-node>';
-		$this->dtdValidator->validateAgainstDtd($xml);
-	}
+        $xml = '<some-node></some-node>';
+        $this->dtdValidator->validateAgainstDtd($xml);
+    }
 
-	public function testValidateInvalid(): void
-	{
-		$this->expectException(CXmlInvalidException::class);
+    public function testValidateInvalid(): void
+    {
+        $this->expectException(CXmlInvalidException::class);
 
-		$xml = '<cXML></cXML>';
-		$this->dtdValidator->validateAgainstDtd($xml);
-	}
+        $xml = '<cXML></cXML>';
+        $this->dtdValidator->validateAgainstDtd($xml);
+    }
 }

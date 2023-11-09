@@ -7,13 +7,13 @@ use JMS\Serializer\Annotation as Ser;
 
 class PunchOutSetupResponse implements ResponsePayloadInterface
 {
-	/**
-	 * @Ser\SerializedName("StartPage")
-	 */
-	private Url $startPage;
+    /**
+     * @Ser\SerializedName("StartPage")
+     */
+    private Url $startPage;
 
-	public function __construct(Url $startPage)
-	{
-		$this->startPage = $startPage;
-	}
+    public function __construct(Url $startPage)
+    {
+        $this->startPage = $startPage;
+    }
 }

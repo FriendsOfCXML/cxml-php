@@ -12,91 +12,91 @@ use JMS\Serializer\Annotation as Ser;
 
 class PunchOutOrderMessageHeader
 {
-	public const OPERATION_CREATE = 'create';
-	public const OPERATION_EDIT = 'edit';
-	public const OPERATION_INSPECT = 'inspect';
+    public const OPERATION_CREATE = 'create';
+    public const OPERATION_EDIT = 'edit';
+    public const OPERATION_INSPECT = 'inspect';
 
-	/**
-	 * @Ser\XmlAttribute
-	 */
-	private ?string $operationAllowed = null;
+    /**
+     * @Ser\XmlAttribute
+     */
+    private ?string $operationAllowed = null;
 
-	/**
-	 * @Ser\SerializedName("Total")
-	 */
-	private MoneyWrapper $total;
+    /**
+     * @Ser\SerializedName("Total")
+     */
+    private MoneyWrapper $total;
 
-	/**
-	 * @Ser\SerializedName("ShipTo")
-	 */
-	private ?ShipTo $shipTo = null;
+    /**
+     * @Ser\SerializedName("ShipTo")
+     */
+    private ?ShipTo $shipTo = null;
 
-	/**
-	 * @Ser\SerializedName("Shipping")
-	 */
-	private ?Shipping $shipping = null;
+    /**
+     * @Ser\SerializedName("Shipping")
+     */
+    private ?Shipping $shipping = null;
 
-	/**
-	 * @Ser\SerializedName("Tax")
-	 */
-	private ?Tax $tax = null;
+    /**
+     * @Ser\SerializedName("Tax")
+     */
+    private ?Tax $tax = null;
 
-	/**
-	 * @Ser\SerializedName("SupplierOrderInfo")
-	 */
-	private ?SupplierOrderInfo $supplierOrderInfo = null;
+    /**
+     * @Ser\SerializedName("SupplierOrderInfo")
+     */
+    private ?SupplierOrderInfo $supplierOrderInfo = null;
 
-	public function __construct(MoneyWrapper $total, Shipping $shipping = null, Tax $tax = null, string $operationAllowed = null)
-	{
-		Assertion::inArray($operationAllowed, [self::OPERATION_CREATE, self::OPERATION_EDIT, self::OPERATION_INSPECT, null]);
+    public function __construct(MoneyWrapper $total, Shipping $shipping = null, Tax $tax = null, string $operationAllowed = null)
+    {
+        Assertion::inArray($operationAllowed, [self::OPERATION_CREATE, self::OPERATION_EDIT, self::OPERATION_INSPECT, null]);
 
-		$this->total = $total;
-		$this->shipping = $shipping;
-		$this->tax = $tax;
-		$this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
-	}
+        $this->total = $total;
+        $this->shipping = $shipping;
+        $this->tax = $tax;
+        $this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
+    }
 
-	public function setShipTo(?ShipTo $shipTo): self
-	{
-		$this->shipTo = $shipTo;
+    public function setShipTo(?ShipTo $shipTo): self
+    {
+        $this->shipTo = $shipTo;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getShipTo(): ?ShipTo
-	{
-		return $this->shipTo;
-	}
+    public function getShipTo(): ?ShipTo
+    {
+        return $this->shipTo;
+    }
 
-	public function setSupplierOrderInfo(string $orderId, \DateTimeInterface $orderDate = null): self
-	{
-		$this->supplierOrderInfo = new SupplierOrderInfo($orderId, $orderDate);
+    public function setSupplierOrderInfo(string $orderId, \DateTimeInterface $orderDate = null): self
+    {
+        $this->supplierOrderInfo = new SupplierOrderInfo($orderId, $orderDate);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getOperationAllowed(): ?string
-	{
-		return $this->operationAllowed;
-	}
+    public function getOperationAllowed(): ?string
+    {
+        return $this->operationAllowed;
+    }
 
-	public function getTotal(): MoneyWrapper
-	{
-		return $this->total;
-	}
+    public function getTotal(): MoneyWrapper
+    {
+        return $this->total;
+    }
 
-	public function getShipping(): ?Shipping
-	{
-		return $this->shipping;
-	}
+    public function getShipping(): ?Shipping
+    {
+        return $this->shipping;
+    }
 
-	public function getTax(): ?Tax
-	{
-		return $this->tax;
-	}
+    public function getTax(): ?Tax
+    {
+        return $this->tax;
+    }
 
-	public function getSupplierOrderInfo(): ?SupplierOrderInfo
-	{
-		return $this->supplierOrderInfo;
-	}
+    public function getSupplierOrderInfo(): ?SupplierOrderInfo
+    {
+        return $this->supplierOrderInfo;
+    }
 }

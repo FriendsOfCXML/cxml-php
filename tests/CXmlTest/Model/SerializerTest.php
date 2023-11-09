@@ -241,4 +241,17 @@ class SerializerTest extends TestCase
 			</cXML>';
 		$this->assertXmlStringEqualsXmlString($xmlOut, $actual);
 	}
+
+    public function testDeserializeOneRowXml(): void
+    {
+        $xml =
+            '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.1.008/cXML.dtd"><cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z"><Response><Status code="200" text="OK">Ping Response CXml</Status></Response></cXML>';
+
+        $serializer = Serializer::create();
+        $cXml = $serializer->deserialize($xml);
+
+        $resultingXml = $serializer->serialize($cXml);
+
+        $this->assertXmlStringEqualsXmlString($xml, $resultingXml);
+    }
 }

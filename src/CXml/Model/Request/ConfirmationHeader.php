@@ -29,9 +29,9 @@ class ConfirmationHeader
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private \DateTime $noticeDate;
+	private \DateTimeInterface $noticeDate;
 
-	public function __construct(string $type, \DateTime $noticeDate = null)
+	public function __construct(string $type, \DateTimeInterface $noticeDate = null)
 	{
 		Assertion::inArray($type, [
 			self::TYPE_ACCEPT,
@@ -48,7 +48,7 @@ class ConfirmationHeader
 		$this->noticeDate = $noticeDate ?? new \DateTime();
 	}
 
-	public static function create(string $type, \DateTime $noticeDate = null): self
+	public static function create(string $type, \DateTimeInterface $noticeDate = null): self
 	{
 		return new self(
 			$type,
@@ -61,7 +61,7 @@ class ConfirmationHeader
 		return $this->type;
 	}
 
-	public function getNoticeDate(): \DateTime
+	public function getNoticeDate(): \DateTimeInterface
 	{
 		return $this->noticeDate;
 	}

@@ -23,9 +23,9 @@ class ProductActivityHeader
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?\DateTime $creationDate = null;
+	private ?\DateTimeInterface $creationDate = null;
 
-	public function __construct(string $messageId, ?string $processType = null, \DateTime $creationDate = null)
+	public function __construct(string $messageId, ?string $processType = null, \DateTimeInterface $creationDate = null)
 	{
 		$this->messageId = $messageId;
 		$this->processType = $processType;
@@ -42,7 +42,7 @@ class ProductActivityHeader
 		return $this->processType;
 	}
 
-	public function getCreationDate(): ?\DateTime
+	public function getCreationDate(): ?\DateTimeInterface
 	{
 		return $this->creationDate;
 	}

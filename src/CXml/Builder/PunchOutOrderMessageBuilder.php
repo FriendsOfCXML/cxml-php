@@ -32,7 +32,7 @@ class PunchOutOrderMessageBuilder
 	private ?Shipping $shipping = null;
 	private ?Tax $tax = null;
 	private string $orderId;
-	private ?\DateTime $orderDate;
+	private ?\DateTimeInterface $orderDate;
 	private ?ShipTo $shipTo = null;
 
 	private function __construct(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null)
@@ -48,7 +48,7 @@ class PunchOutOrderMessageBuilder
 		return new self($language, $buyerCookie, $currency, $operationAllowed);
 	}
 
-	public function orderReference(string $orderId, \DateTime $orderDate = null): self
+	public function orderReference(string $orderId, \DateTimeInterface $orderDate = null): self
 	{
 		$this->orderId = $orderId;
 		$this->orderDate = $orderDate;

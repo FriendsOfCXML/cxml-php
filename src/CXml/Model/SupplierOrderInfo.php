@@ -15,9 +15,9 @@ class SupplierOrderInfo
 	/**
 	 * @Ser\XmlAttribute
 	 */
-	private ?\DateTime $orderDate;
+	private ?\DateTimeInterface $orderDate;
 
-	public function __construct(string $orderId, \DateTime $orderDate = null)
+	public function __construct(string $orderId, \DateTimeInterface $orderDate = null)
 	{
 		$this->orderId = $orderId;
 		$this->orderDate = $orderDate;
@@ -28,7 +28,7 @@ class SupplierOrderInfo
 		return $this->orderId;
 	}
 
-	public function getOrderDate(): ?\DateTime
+	public function getOrderDate(): ?\DateTimeInterface
 	{
 		return $this->orderDate;
 	}

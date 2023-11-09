@@ -28,7 +28,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 
 	protected function setUp(): void
 	{
-		$this->dtdValidator = new DtdValidator('tests/metadata/cxml/dtd/1.2.053/');
+		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.053/');
 	}
 
 	public function testMinimumExample(): void
@@ -53,14 +53,14 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 			ItemIn::create(
 				3,
 				new ItemId('5555', null, 'KD5555'),
-				(ItemDetail::create(
+				ItemDetail::create(
 					Description::createWithShortName('Excelsior Desk Chair', null, 'en'),
 					'EA',
 					new MoneyWrapper('USD', 76320),
 					[
-						new Classification('UNSPSC', 'ean1234')
+						new Classification('UNSPSC', 'ean1234'),
 					]
-				))
+				)
 			)
 		)->addPunchoutOrderMessageItem(
 			ItemIn::create(
@@ -71,7 +71,7 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
 					'EA',
 					new MoneyWrapper('USD', 76320),
 					[
-						new Classification('UNSPSC', 'ean1234')
+						new Classification('UNSPSC', 'ean1234'),
 					]
 				)
 			)

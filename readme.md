@@ -141,5 +141,31 @@ $result = $endpoint->parseAndProcessStringAsCXml($xmlString);
 //$result could be null (i.e. for a Response or Message) or another CXml object which would be the Response to a Request
 //you would have to handle the transport yourself
 ```
+
+### Handling Date vs DateTime
+
+The cXML specification is not perfectly clear about the format of dates and times. The specification says that dates 
+should be formatted "in the restricted subset of ISO 8601". That means that the format could either be a full ISO 8601
+format with time and timezone information (i.e. 2015-04-14T13:36:00-08:00) or a format without time and timezone
+(2015-04-14).
+
+With some fields the actual time of day is not relevant and could lead to confusion. For example, the 
+`requestedDeliveryDate` field in `ItemOut`. Real-world experience shows that here it is common to only specify the date.
+Althout one could argue that the time of day is still relevant here for real tight on-point deliveries.
+
+To solve this problem we introduced a determined `CXml\Mode\Date` class in case of using an explicit 
+date (without time). This class extends `DateTime` and is therefore compatible with the rest of the model. The class
+enforces a date-only representation (Y-m-d).
+
+#### Serialization
+
+You should use the `CXml\Mode\Date` class when generating your object-graph in cases you want to output a date-only
+value.
+
+#### Deserialization
+
+When parsing a date-property from a cXML document, the `CXml\Mode\Date` will be instantiated **if** a date-only
+value was discovered (Y-m-d).
+
 # Credits
 - Markus Thielen (https://github.com/mathielen)

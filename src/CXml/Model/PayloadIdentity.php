@@ -5,9 +5,9 @@ namespace CXml\Model;
 class PayloadIdentity
 {
 	private string $payloadId;
-	private \DateTime $timestamp;
+	private \DateTimeInterface $timestamp;
 
-	public function __construct(string $payloadId, \DateTime $timestamp = null)
+	public function __construct(string $payloadId, \DateTimeInterface $timestamp = null)
 	{
 		$this->payloadId = $payloadId;
 		$this->timestamp = $timestamp ?? new \DateTime();
@@ -18,7 +18,7 @@ class PayloadIdentity
 		return $this->payloadId;
 	}
 
-	public function getTimestamp(): \DateTime
+	public function getTimestamp(): \DateTimeInterface
 	{
 		return $this->timestamp;
 	}

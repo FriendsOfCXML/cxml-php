@@ -27,7 +27,7 @@ class OrderRequestBuilder
 {
 	private array $items = [];
 	private string $orderId;
-	private \DateTime $orderDate;
+	private \DateTimeInterface $orderDate;
 	private int $total = 0;
 	private string $currency;
 	private array $comments = [];
@@ -39,7 +39,7 @@ class OrderRequestBuilder
 	private ?Tax $tax = null;
 	private array $extrinsics = [];
 
-	private function __construct(string $orderId, \DateTime $orderDate, string $currency, string $language = 'en')
+	private function __construct(string $orderId, \DateTimeInterface $orderDate, string $currency, string $language = 'en')
 	{
 		$this->orderId = $orderId;
 		$this->orderDate = $orderDate;
@@ -47,7 +47,7 @@ class OrderRequestBuilder
 		$this->language = $language;
 	}
 
-	public static function create(string $orderId, \DateTime $orderDate, string $currency, string $language = 'en'): self
+	public static function create(string $orderId, \DateTimeInterface $orderDate, string $currency, string $language = 'en'): self
 	{
 		return new self($orderId, $orderDate, $currency, $language);
 	}
@@ -56,7 +56,7 @@ class OrderRequestBuilder
 		PunchOutOrderMessage $punchOutOrderMessage,
 		?string $currency = null,
 		?string $orderId = null,
-		?\DateTime $orderDate = null,
+		?\DateTimeInterface $orderDate = null,
 		string $language = 'en'
 	): self {
 		if ($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) {
@@ -180,7 +180,8 @@ class OrderRequestBuilder
 		string $unitOfMeasure,
 		int $unitPrice,
 		array $classifications,
-		\DateTime $requestDeliveryDate = null
+		\DateTimeInterface $requestDeliveryDate = null,
+		ItemOut $parent = null
 	): self {
 		$lineNumber = \count($this->items) + 1;
 
@@ -201,7 +202,8 @@ class OrderRequestBuilder
 				),
 				$classifications
 			),
-			$requestDeliveryDate
+			$requestDeliveryDate,
+			$parent ? $parent->getLineNumber() : null
 		);
 
 		$this->items[] = $item;
@@ -274,5 +276,13 @@ class OrderRequestBuilder
 		return OrderRequest::create(
 			$this->buildOrderRequestHeader()
 		)->addItems($this->items);
+	}
+
+	/**
+	 * @return ItemOut[]
+	 */
+	public function getItems(): array
+	{
+		return $this->items;
 	}
 }

@@ -35,7 +35,7 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
 
 	protected function setUp(): void
 	{
-		$this->dtdValidator = new DtdValidator('tests/metadata/cxml/dtd/1.2.053/');
+		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.053/');
 	}
 
 	public function testMinimumExample(): void
@@ -131,7 +131,7 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
 
 		$this->dtdValidator->validateAgainstDtd($xml);
 
-		$this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
+		$this->assertXmlStringEqualsXmlFile(__DIR__.'/../../metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
 	}
 
 	public function newPayloadIdentity(): PayloadIdentity

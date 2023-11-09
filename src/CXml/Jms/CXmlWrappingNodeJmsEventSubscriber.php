@@ -86,6 +86,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 		$visitor = $event->getVisitor();
 
 		// this is the actual payload object of type MessagePayloadInterface
+		/* @phpstan-ignore-next-line */
 		$payload = $event->getObject()->getPayload();
 
 		if ($payload) {
@@ -108,7 +109,9 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 		/** @var ClassMetadata $metadata */
 		$metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);
 
-		$payloadNode = self::findPayloadNode($event->getData());
+		/** @var \SimpleXMLElement $data */
+		$data = $event->getData();
+		$payloadNode = self::findPayloadNode($data);
 		if (null === $payloadNode) {
 			return;
 		}

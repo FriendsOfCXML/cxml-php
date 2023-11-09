@@ -2,6 +2,4 @@
 
 namespace CXml\Exception;
 
-class CXmlPreconditionFailedException extends CXmlException
-{
-}
+class CXmlPreconditionFailedException extends CXmlException {}

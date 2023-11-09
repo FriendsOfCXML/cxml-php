@@ -41,13 +41,13 @@ class Contact
 	 */
 	private ?string $email = null;
 
-	public function __construct(MultilanguageString $name, ?string $role = null)
+	public function __construct(MultilanguageString $name, string $role = null)
 	{
 		$this->role = $role;
 		$this->name = $name;
 	}
 
-	public static function create(MultilanguageString $name, ?string $role = null): self
+	public static function create(MultilanguageString $name, string $role = null): self
 	{
 		return new self($name, $role);
 	}

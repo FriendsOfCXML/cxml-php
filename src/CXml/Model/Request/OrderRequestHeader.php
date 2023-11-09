@@ -96,9 +96,9 @@ class OrderRequestHeader
 		?ShipTo $shipTo,
 		BillTo $billTo,
 		MoneyWrapper $total,
-		?array $comments = null,
+		array $comments = null,
 		string $type = self::TYPE_NEW,
-		?array $contacts = null
+		array $contacts = null
 	) {
 		if ($comments) {
 			Assertion::allIsInstanceOf($comments, Comment::class);
@@ -123,9 +123,9 @@ class OrderRequestHeader
 		?ShipTo $shipTo,
 		BillTo $billTo,
 		MoneyWrapper $total,
-		?array $comments = null,
+		array $comments = null,
 		string $type = self::TYPE_NEW,
-		?array $contacts = null
+		array $contacts = null
 	): self {
 		return new self($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
 	}

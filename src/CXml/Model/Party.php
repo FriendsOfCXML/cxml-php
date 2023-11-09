@@ -17,7 +17,7 @@ class Party
 	 */
 	private ?string $userAgent = null;
 
-	public function __construct(Credential $credential, ?string $userAgent = null)
+	public function __construct(Credential $credential, string $userAgent = null)
 	{
 		$this->credential = $credential;
 		$this->userAgent = $userAgent;

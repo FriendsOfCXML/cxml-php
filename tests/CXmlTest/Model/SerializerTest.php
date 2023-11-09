@@ -321,7 +321,7 @@ class SerializerTest extends TestCase
 			OrderRequestBuilder::create('order-id', $orderDate, 'EUR')
 				->billTo('name')
 				->build()
-			;
+		;
 
 		$header = new Header(
 			$from,

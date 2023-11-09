@@ -2,6 +2,4 @@
 
 namespace CXml\Exception;
 
-class CXmlConflictException extends CXmlException
-{
-}
+class CXmlConflictException extends CXmlException {}

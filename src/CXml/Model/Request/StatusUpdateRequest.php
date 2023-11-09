@@ -21,13 +21,13 @@ class StatusUpdateRequest implements RequestPayloadInterface
 	 */
 	private Status $status;
 
-	public function __construct(Status $status, ?string $documentReference = null)
+	public function __construct(Status $status, string $documentReference = null)
 	{
 		$this->status = $status;
 		$this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
 	}
 
-	public static function create(Status $status, ?string $documentReference = null): self
+	public static function create(Status $status, string $documentReference = null): self
 	{
 		return new self(
 			$status,

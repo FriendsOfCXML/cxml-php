@@ -26,7 +26,7 @@ class ShipTo
 	 */
 	private ?TransportInformation $transportInformation = null;
 
-	public function __construct(Address $address, ?TransportInformation $transportInformation = null)
+	public function __construct(Address $address, TransportInformation $transportInformation = null)
 	{
 		$this->address = $address;
 		$this->transportInformation = $transportInformation;

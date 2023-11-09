@@ -34,7 +34,7 @@ class ProfileResponse implements ResponsePayloadInterface
 	 */
 	private array $transactions = [];
 
-	public function __construct(\DateTimeInterface $effectiveDate = null, ?\DateTimeInterface $lastRefresh = null)
+	public function __construct(\DateTimeInterface $effectiveDate = null, \DateTimeInterface $lastRefresh = null)
 	{
 		$this->effectiveDate = $effectiveDate ?? new \DateTime();
 		$this->lastRefresh = $lastRefresh;

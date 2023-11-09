@@ -21,7 +21,7 @@ class MultilanguageString
 	 */
 	private ?string $lang = null;
 
-	public function __construct(?string $value, ?string $type = null, string $lang = 'en')
+	public function __construct(?string $value, string $type = null, string $lang = 'en')
 	{
 		$this->value = $value;
 		$this->lang = $lang;

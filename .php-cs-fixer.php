@@ -14,7 +14,7 @@ return $config
 		'@PSR1' => true,
 		'@PhpCsFixer' => true,
 		'@Symfony' => true,
-		'@Symfony:risky' => true,
+		'@Symfony:risky' => false,
 		'native_function_invocation' => [
 			'include' => [\PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer::SET_INTERNAL],
 			'scope' => 'namespaced',

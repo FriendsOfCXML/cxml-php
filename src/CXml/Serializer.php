@@ -56,7 +56,7 @@ class Serializer
 	public function deserialize(string $xml): CXml
 	{
 		// remove doctype (if exists), as it would throw a JMS\Serializer\Exception\InvalidArgumentException
-        $xml = \preg_replace('/<!doctype[^>]+?>/i', '', $xml);
+                $xml = \preg_replace('/<!doctype[^>]+?>/i', '', $xml);
 
 		if (empty($xml)) {
 			throw new \RuntimeException('Cannot deserialize empty string');

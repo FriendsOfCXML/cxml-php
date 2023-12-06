@@ -13,7 +13,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class QuoteMessageHeader
 {
-
     use CommentsTrait;
     use ExtrinsicsTrait;
 
@@ -28,7 +27,6 @@ class QuoteMessageHeader
      * @Ser\XmlAttribute
      */
     private string $type;
-
 
     /**
      * @Ser\SerializedName("quoteID")

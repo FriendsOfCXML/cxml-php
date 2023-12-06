@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Ser;
 
 trait CommentsTrait
 {
-
     /**
      * @Ser\XmlList(inline=true, entry="Comments")
      * @Ser\Type("array<CXml\Model\Comment>")

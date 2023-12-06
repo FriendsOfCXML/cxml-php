@@ -70,14 +70,6 @@ class ShipNoticeRequest implements RequestPayloadInterface
 
     public function getCommentsAsString(): ?string
     {
-        $commentStrings = [];
-
-        if ($comments = $this->shipNoticeHeader->getComments()) {
-            foreach ($comments as $comment) {
-                $commentStrings[] = $comment->getValue();
-            }
-        }
-
-        return empty($commentStrings) ? null : \implode("\n", $commentStrings);
+        return $this->shipNoticeHeader->getCommentsAsString();
     }
 }

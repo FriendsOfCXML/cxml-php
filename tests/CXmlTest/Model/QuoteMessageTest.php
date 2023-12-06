@@ -3,25 +3,34 @@
 namespace CXmlTest\Model;
 
 use CXml\Builder;
+use CXml\Model\Address;
 use CXml\Model\Contact;
+use CXml\Model\Country;
 use CXml\Model\Credential;
 use CXml\Model\Inventory;
 use CXml\Model\InventoryQuantity;
 use CXml\Model\ItemId;
 use CXml\Model\Message\ProductActivityDetail;
 use CXml\Model\Message\ProductActivityMessage;
+use CXml\Model\Message\QuoteMessage;
+use CXml\Model\Message\QuoteMessageHeader;
+use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
+use CXml\Model\OrganizationId;
 use CXml\Model\PayloadIdentity;
+use CXml\Model\PostalAddress;
+use CXml\Model\ShipTo;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use PhpParser\Node\Expr\AssignOp\Mul;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  * @coversNothing
  */
-class ProductActivityMessageTest extends TestCase implements PayloadIdentityFactoryInterface
+class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterface
 {
 
 	private DtdValidator $dtdValidator;
@@ -47,34 +56,64 @@ class ProductActivityMessageTest extends TestCase implements PayloadIdentityFact
             'abracadabra'
         );
 
-        $productActivityMessage = ProductActivityMessage::create(
-            'CP12465192-1552965424130',
-            'SMI',
-            new \DateTime('2019-02-20T14:39:48-08:00')
-        )->addProductActivityDetail(
-            ProductActivityDetail::create(
-                new ItemId('SII99825', null, 'II99825'),
-                Inventory::create()->setStockOnHandQuantity(new InventoryQuantity(200, 'EA')),
-                Contact::create(new MultilanguageString('Warehouse', null, 'en'), 'locationFrom')
-                    ->addIdReference('NetworkId', '0003')
-            )
+		$organizationId = new OrganizationId(
+			new Credential(
+				'domain',
+				'identity'
+			)
+		);
+
+		$total = new MoneyWrapper('USD', 10000);
+
+        $quoteMessage = QuoteMessage::create(
+			$organizationId,
+			$total,
+			QuoteMessageHeader::TYPE_ACCEPT,
+			'quoteId',
+			new \DateTime('2021-01-08T23:00:06-08:00'),
+			'de'
         );
+
+		$contact = Contact::create(new MultilanguageString('Joe Smith'))
+			->addEmail('joe.smith@siemens.com')
+			->addIdReference('GUID', '123456');
+
+		$shipTo = new ShipTo(
+			new Address(
+				new MultilanguageString('Acme Inc.'),
+				new PostalAddress(
+					['Acme Inc.', 'Joe Smith'],
+					['123 Anystreet'],
+					'Sunnyvale',
+					new Country('US', 'United States'),
+					null,
+					'CA',
+					'90489'
+				)
+			)
+		);
+
+		$quoteMessage->getQuoteMessageHeader()
+			->setContact($contact)
+			->setShipTo($shipTo)
+			->addExtrinsicAsKeyValue('expiry_date', '2023-01-08T23:00:06-08:00')
+			->addCommentAsString('This is a comment');
 
         $cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
             ->from($from)
             ->to($to)
             ->sender($sender)
-            ->payload($productActivityMessage)
+            ->payload($quoteMessage)
             ->build()
         ;
 
-        $this->assertEquals('ProductActivityMessage_0c30050@supplierorg.com', (string) $cxml);
+        $this->assertEquals('QuoteMessage_0c30050@supplierorg.com', (string) $cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessage.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/QuoteMessage.xml', $xml);
 
 		$this->dtdValidator->validateAgainstDtd($xml);
-	}
+    }
 
     public function newPayloadIdentity(): PayloadIdentity
     {

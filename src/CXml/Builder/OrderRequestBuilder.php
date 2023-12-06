@@ -252,7 +252,6 @@ class OrderRequestBuilder
             $this->shipTo,
             $this->billTo,
             new MoneyWrapper($this->currency, $this->total),
-            $this->comments,
             OrderRequestHeader::TYPE_NEW,
             $this->contacts
         )

@@ -4,7 +4,7 @@ namespace CXml\Model\Request;
 
 use Assert\Assertion;
 use CXml\Model\BillTo;
-use CXml\Model\Comment;
+use CXml\Model\CommentsTrait;
 use CXml\Model\Contact;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
@@ -19,6 +19,7 @@ class OrderRequestHeader
 {
     use ExtrinsicsTrait;
     use IdReferencesTrait;
+	use CommentsTrait;
 
     public const TYPE_NEW = 'new';
 
@@ -78,14 +79,6 @@ class OrderRequestHeader
     private ?array $contacts = null;
 
     /**
-     * @Ser\XmlList(inline=true, entry="Comments")
-     * @Ser\Type("array<CXml\Model\Comment>")
-     *
-     * @var Comment[]
-     */
-    private ?array $comments = null;
-
-    /**
      * @Ser\SerializedName("SupplierOrderInfo")
      */
     private ?SupplierOrderInfo $supplierOrderInfo = null;
@@ -96,13 +89,9 @@ class OrderRequestHeader
         ?ShipTo $shipTo,
         BillTo $billTo,
         MoneyWrapper $total,
-        array $comments = null,
         string $type = self::TYPE_NEW,
         array $contacts = null
     ) {
-        if ($comments) {
-            Assertion::allIsInstanceOf($comments, Comment::class);
-        }
         if ($contacts) {
             Assertion::allIsInstanceOf($contacts, Contact::class);
         }
@@ -113,7 +102,6 @@ class OrderRequestHeader
         $this->total = $total;
         $this->shipTo = $shipTo;
         $this->billTo = $billTo;
-        $this->comments = $comments;
         $this->contacts = $contacts;
     }
 
@@ -123,11 +111,10 @@ class OrderRequestHeader
         ?ShipTo $shipTo,
         BillTo $billTo,
         MoneyWrapper $total,
-        array $comments = null,
         string $type = self::TYPE_NEW,
         array $contacts = null
     ): self {
-        return new self($orderId, $orderDate, $shipTo, $billTo, $total, $comments, $type, $contacts);
+        return new self($orderId, $orderDate, $shipTo, $billTo, $total, $type, $contacts);
     }
 
     public function getShipping(): ?Shipping

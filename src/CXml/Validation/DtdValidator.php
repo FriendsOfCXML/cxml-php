@@ -14,6 +14,7 @@ class DtdValidator
         Assertion::directory($pathToCxmlDtds);
         Assertion::file($pathToCxmlDtds.'/cXML.dtd');
         Assertion::file($pathToCxmlDtds.'/Fulfill.dtd');
+		Assertion::file($pathToCxmlDtds.'/Quote.dtd');
 
         $this->pathToCxmlDtds = $pathToCxmlDtds;
     }
@@ -33,7 +34,7 @@ class DtdValidator
         $old = new \DOMDocument();
         $old->loadXML($xml);
 
-        $validateFiles = ['cXML.dtd', 'Fulfill.dtd'];
+        $validateFiles = ['cXML.dtd', 'Fulfill.dtd', 'Quote.dtd'];
 
         $this->validateAgainstMultipleDtd($validateFiles, $old);
 

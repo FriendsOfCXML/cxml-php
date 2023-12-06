@@ -23,6 +23,7 @@ use CXml\Model\Request\Request;
 use CXml\Model\ShipTo;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
+use CXml\Validation\DtdValidator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,6 +32,14 @@ use PHPUnit\Framework\TestCase;
  */
 class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
+
+	private DtdValidator $dtdValidator;
+
+	protected function setUp(): void
+	{
+		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+	}
+
     public function testMinimumExample(): void
     {
         $from = new Credential(
@@ -90,9 +99,10 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
             new MoneyWrapper(
                 'EUR',
                 8500
-            ),
-            [new Comment(null, null, null, 'delivery-note.pdf')]
+            )
         );
+		$orderRequestHeader->addComment(new Comment(null, null, null, 'delivery-note.pdf'));
+
 
         $orderRequest = OrderRequest::create(
             $orderRequestHeader
@@ -148,6 +158,8 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
 
         $xml = Serializer::create()->serialize($cxml);
         $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
+
+		$this->dtdValidator->validateAgainstDtd($xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

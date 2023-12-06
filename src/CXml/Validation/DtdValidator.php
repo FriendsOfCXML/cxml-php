@@ -14,7 +14,7 @@ class DtdValidator
         Assertion::directory($pathToCxmlDtds);
         Assertion::file($pathToCxmlDtds.'/cXML.dtd');
         Assertion::file($pathToCxmlDtds.'/Fulfill.dtd');
-		Assertion::file($pathToCxmlDtds.'/Quote.dtd');
+        Assertion::file($pathToCxmlDtds.'/Quote.dtd');
 
         $this->pathToCxmlDtds = $pathToCxmlDtds;
     }

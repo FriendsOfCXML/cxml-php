@@ -19,7 +19,7 @@ class OrderRequestHeader
 {
     use ExtrinsicsTrait;
     use IdReferencesTrait;
-	use CommentsTrait;
+    use CommentsTrait;
 
     public const TYPE_NEW = 'new';
 

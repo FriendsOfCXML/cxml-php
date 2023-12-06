@@ -12,7 +12,7 @@ class ShipNoticeHeader
 {
     use ExtrinsicsTrait;
     use IdReferencesTrait;
-	use CommentsTrait;
+    use CommentsTrait;
 
     /**
      * @Ser\XmlAttribute

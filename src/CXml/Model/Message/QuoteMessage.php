@@ -14,19 +14,19 @@ class QuoteMessage implements MessagePayloadInterface
     private QuoteMessageHeader $quoteMessageHeader;
 
     private function __construct(QuoteMessageHeader $quoteMessageHeader)
-	{
-		$this->quoteMessageHeader = $quoteMessageHeader;
-	}
+    {
+        $this->quoteMessageHeader = $quoteMessageHeader;
+    }
 
     public static function create(OrganizationId $organizationId, MoneyWrapper $total, string $type, string $quoteId, \DateTime $quoteDate, string $lang = 'en'): self
     {
         return new self(
-			new QuoteMessageHeader($organizationId, $total, $type, $quoteId, $quoteDate, $total->getMoney()->getCurrency(), $lang)
-		);
+            new QuoteMessageHeader($organizationId, $total, $type, $quoteId, $quoteDate, $total->getMoney()->getCurrency(), $lang)
+        );
     }
 
-	public function getQuoteMessageHeader(): QuoteMessageHeader
-	{
-		return $this->quoteMessageHeader;
-	}
+    public function getQuoteMessageHeader(): QuoteMessageHeader
+    {
+        return $this->quoteMessageHeader;
+    }
 }

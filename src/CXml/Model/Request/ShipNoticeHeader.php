@@ -2,7 +2,7 @@
 
 namespace CXml\Model\Request;
 
-use CXml\Model\Comment;
+use CXml\Model\CommentsTrait;
 use CXml\Model\DocumentReference;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
@@ -12,6 +12,7 @@ class ShipNoticeHeader
 {
     use ExtrinsicsTrait;
     use IdReferencesTrait;
+    use CommentsTrait;
 
     /**
      * @Ser\XmlAttribute
@@ -39,14 +40,6 @@ class ShipNoticeHeader
      */
     private ?DocumentReference $documentReference = null;
 
-    /**
-     * @Ser\XmlList(inline=true, entry="Comments")
-     * @Ser\Type("array<CXml\Model\Comment>")
-     *
-     * @var Comment[]
-     */
-    private ?array $comments = null;
-
     public function __construct(string $shipmentId, \DateTimeInterface $noticeDate = null, \DateTimeInterface $shipmentDate = null, \DateTimeInterface $deliveryDate = null, string $documentReference = null)
     {
         $this->shipmentId = $shipmentId;
@@ -64,22 +57,6 @@ class ShipNoticeHeader
     public function getDocumentReference(): ?DocumentReference
     {
         return $this->documentReference;
-    }
-
-    public function addComment(string $comment, string $type = null, string $lang = null): self
-    {
-        if (null === $this->comments) {
-            $this->comments = [];
-        }
-
-        $this->comments[] = new Comment($comment, $type, $lang);
-
-        return $this;
-    }
-
-    public function getComments(): ?array
-    {
-        return $this->comments;
     }
 
     public function getShipmentId(): string

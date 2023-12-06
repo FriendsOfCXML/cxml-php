@@ -13,6 +13,7 @@ use CXml\Model\ShipmentIdentifier;
 use CXml\Model\ShipNoticePortion;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
+use CXml\Validation\DtdValidator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,6 +22,14 @@ use PHPUnit\Framework\TestCase;
  */
 class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
+
+	private DtdValidator $dtdValidator;
+
+	protected function setUp(): void
+	{
+		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+	}
+
     public function testMinimumExample(): void
     {
         $from = new Credential(
@@ -44,7 +53,7 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
                 new \DateTime('2000-10-14T08:30:19-08:00'),
                 new \DateTime('2000-10-18T09:00:00-08:00'),
             )
-                ->addComment('Got it all into one shipment.', null, 'en-CA')
+                ->addCommentAsString('Got it all into one shipment.', null, 'en-CA')
         )
             ->addShipControl(
                 ShipControl::create(CarrierIdentifier::fromScacCode('FDE'), new ShipmentIdentifier('8202 8261 1194'))
@@ -67,6 +76,8 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
 
         $xml = Serializer::create()->serialize($cxml);
         $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ShipNoticeRequest.xml', $xml);
+
+		$this->dtdValidator->validateAgainstDtd($xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

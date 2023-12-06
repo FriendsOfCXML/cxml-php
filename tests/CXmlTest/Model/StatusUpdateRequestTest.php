@@ -9,6 +9,7 @@ use CXml\Model\Request\StatusUpdateRequest;
 use CXml\Model\Status;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
+use CXml\Validation\DtdValidator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,6 +18,14 @@ use PHPUnit\Framework\TestCase;
  */
 class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
+
+	private DtdValidator $dtdValidator;
+
+	protected function setUp(): void
+	{
+		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+	}
+
     public function testMinimumExample(): void
     {
         $from = new Credential(
@@ -50,6 +59,8 @@ class StatusUpdateRequestTest extends TestCase implements PayloadIdentityFactory
 
         $xml = Serializer::create()->serialize($cxml);
         $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequest.xml', $xml);
+
+		$this->dtdValidator->validateAgainstDtd($xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

@@ -16,7 +16,7 @@ class MessageValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.053');
+        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050');
     }
 
     public function testValidateSuccess(): void

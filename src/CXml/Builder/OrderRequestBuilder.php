@@ -259,6 +259,9 @@ class OrderRequestBuilder
             ->setTax($this->tax)
         ;
 
+        foreach ($this->comments as $comment) {
+            $orh->addComment($comment);
+        }
         foreach ($this->extrinsics as $extrinsic) {
             $orh->addExtrinsic($extrinsic);
         }

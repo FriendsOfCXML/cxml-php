@@ -164,6 +164,8 @@ class Processor
 
         try {
             $this->getHandlerForPayload($payload)->handle($payload, $context);
+        } catch (CXmlException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             throw new CXmlProcessException($e);
         }
@@ -183,6 +185,8 @@ class Processor
 
         try {
             $this->getHandlerForPayload($payload)->handle($payload, $context);
+        } catch (CXmlException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             throw new CXmlProcessException($e);
         }
@@ -201,6 +205,8 @@ class Processor
 
         try {
             $this->headerProcessor->process($header, $context);
+        } catch (CXmlException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             throw new CXmlProcessException($e);
         }

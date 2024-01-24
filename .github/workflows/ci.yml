@@ -56,7 +56,7 @@ jobs:
         run: vendor/bin/parallel-lint src/
 
       - name: Run CodeStyle checks
-        run: PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix src --allow-risky=yes --diff --dry-run
+        run: PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --allow-risky=yes --diff
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze -clear-result-cache -c phpstan.neon src/ --no-progress

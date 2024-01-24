@@ -4,4 +4,6 @@ namespace CXml\Model\Request;
 
 use CXml\Model\PayloadInterface;
 
-interface RequestPayloadInterface extends PayloadInterface {}
+interface RequestPayloadInterface extends PayloadInterface
+{
+}

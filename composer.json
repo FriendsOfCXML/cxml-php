@@ -55,7 +55,8 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit --testdox tests",
-    "sniff-fix": "vendor/bin/php-cs-fixer fix",
+    "sniff": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --allow-risky=yes --diff",
+    "sniff-fix": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --allow-risky=yes --diff",
     "phpstan": "vendor/bin/phpstan analyze"
   }
 }

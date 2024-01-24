@@ -2,4 +2,6 @@
 
 namespace CXml\Model\Response;
 
-class StatusResponse implements ResponsePayloadInterface {}
+class StatusResponse implements ResponsePayloadInterface
+{
+}

@@ -22,13 +22,12 @@ use PHPUnit\Framework\TestCase;
  */
 class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
+    private DtdValidator $dtdValidator;
 
-	private DtdValidator $dtdValidator;
-
-	protected function setUp(): void
-	{
-		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
-	}
+    protected function setUp(): void
+    {
+        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+    }
 
     public function testMinimumExample(): void
     {
@@ -77,7 +76,7 @@ class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryIn
         $xml = Serializer::create()->serialize($cxml);
         $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ShipNoticeRequest.xml', $xml);
 
-		$this->dtdValidator->validateAgainstDtd($xml);
+        $this->dtdValidator->validateAgainstDtd($xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

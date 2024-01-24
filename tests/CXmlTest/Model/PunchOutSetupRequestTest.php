@@ -132,7 +132,7 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
         $this->dtdValidator->validateAgainstDtd($xml);
 
         $this->assertXmlStringEqualsXmlFile(__DIR__.'/../../metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
-	}
+    }
 
     public function newPayloadIdentity(): PayloadIdentity
     {

@@ -32,13 +32,12 @@ use PHPUnit\Framework\TestCase;
  */
 class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
+    private DtdValidator $dtdValidator;
 
-	private DtdValidator $dtdValidator;
-
-	protected function setUp(): void
-	{
-		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
-	}
+    protected function setUp(): void
+    {
+        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+    }
 
     public function testMinimumExample(): void
     {
@@ -101,8 +100,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                 8500
             )
         );
-		$orderRequestHeader->addComment(new Comment(null, null, null, 'delivery-note.pdf'));
-
+        $orderRequestHeader->addComment(new Comment(null, null, null, 'delivery-note.pdf'));
 
         $orderRequest = OrderRequest::create(
             $orderRequestHeader
@@ -159,7 +157,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
         $xml = Serializer::create()->serialize($cxml);
         $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
 
-		$this->dtdValidator->validateAgainstDtd($xml);
+        $this->dtdValidator->validateAgainstDtd($xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

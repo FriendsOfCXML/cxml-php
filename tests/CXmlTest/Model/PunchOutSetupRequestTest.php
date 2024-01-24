@@ -6,6 +6,7 @@ use CXml\Builder;
 use CXml\Model\Address;
 use CXml\Model\Classification;
 use CXml\Model\Country;
+use CXml\Model\CountryCode;
 use CXml\Model\Credential;
 use CXml\Model\Description;
 use CXml\Model\Extrinsic;
@@ -15,10 +16,12 @@ use CXml\Model\ItemOut;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
+use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
 use CXml\Model\Request\PunchOutSetupRequest;
 use CXml\Model\SelectedItem;
 use CXml\Model\ShipTo;
+use CXml\Model\TelephoneNumber;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
@@ -75,6 +78,17 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
                         'CA',
                         '90489',
                         'default'
+                    ),
+                    null,
+                    null,
+                    null,
+                    new Phone(
+                        new TelephoneNumber(
+                            new CountryCode('US', '1'),
+                            '800',
+                            '5551212'
+                        ),
+                        'personal'
                     )
                 )
             ),

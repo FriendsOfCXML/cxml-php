@@ -6,6 +6,7 @@ use CXml\Builder;
 use CXml\Model\Address;
 use CXml\Model\Contact;
 use CXml\Model\Country;
+use CXml\Model\CountryCode;
 use CXml\Model\Credential;
 use CXml\Model\Message\QuoteMessage;
 use CXml\Model\Message\QuoteMessageHeader;
@@ -13,8 +14,10 @@ use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\OrganizationId;
 use CXml\Model\PayloadIdentity;
+use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
 use CXml\Model\ShipTo;
+use CXml\Model\TelephoneNumber;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
@@ -83,6 +86,17 @@ class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterfa
                     null,
                     'CA',
                     '90489'
+                ),
+                null,
+                null,
+                null,
+                new Phone(
+                    new TelephoneNumber(
+                        new CountryCode('US', '1'),
+                        '800',
+                        '1234567'
+                    ),
+                    'company'
                 )
             )
         );

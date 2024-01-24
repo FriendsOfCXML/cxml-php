@@ -39,7 +39,7 @@ class Address
      * @Ser\SerializedName("Phone")
      * @Ser\XmlElement (cdata=false)
      */
-    private ?string $phone = null;
+    private ?Phone $phone = null;
 
     /**
      * @Ser\SerializedName("Fax")
@@ -53,7 +53,7 @@ class Address
      */
     private ?string $url = null;
 
-    public function __construct(MultilanguageString $name, PostalAddress $postalAddress = null, string $addressId = null, string $addressIdDomain = null, string $email = null, string $phone = null, string $fax = null, string $url = null)
+    public function __construct(MultilanguageString $name, PostalAddress $postalAddress = null, string $addressId = null, string $addressIdDomain = null, string $email = null, Phone $phone = null, string $fax = null, string $url = null)
     {
         $this->addressId = $addressId;
         $this->addressIdDomain = $addressIdDomain;
@@ -90,7 +90,7 @@ class Address
         return $this->email;
     }
 
-    public function getPhone(): ?string
+    public function getPhone(): ?Phone
     {
         return $this->phone;
     }

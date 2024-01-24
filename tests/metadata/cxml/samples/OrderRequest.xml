@@ -41,6 +41,13 @@
                              <PostalCode>90489</PostalCode>
                              <Country isoCountryCode="US">United States</Country>
                          </PostalAddress>
+                         <Phone name="personal">
+                             <TelephoneNumber>
+                                 <CountryCode isoCountryCode="US">1</CountryCode>
+                                 <AreaOrCityCode>800</AreaOrCityCode>
+                                 <Number>5551212</Number>
+                             </TelephoneNumber>
+                         </Phone>
                      </Address>
                  </ShipTo>
                  <BillTo>
@@ -52,6 +59,13 @@
                              <PostalCode>42699</PostalCode>
                              <Country isoCountryCode="DE">Deutschland</Country>
                          </PostalAddress>
+                         <Phone name="company">
+                             <TelephoneNumber>
+                                 <CountryCode isoCountryCode="DE">49</CountryCode>
+                                 <AreaOrCityCode>761</AreaOrCityCode>
+                                 <Number>1234567</Number>
+                             </TelephoneNumber>
+                         </Phone>
                      </Address>
                  </BillTo>
                  <Comments>

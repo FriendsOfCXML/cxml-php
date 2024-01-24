@@ -2,4 +2,6 @@
 
 namespace CXml\Model;
 
-interface PayloadInterface {}
+interface PayloadInterface
+{
+}

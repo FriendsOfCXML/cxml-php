@@ -29,9 +29,6 @@ class Endpoint
         $this->logger = $logger ?? new NullLogger();
     }
 
-    /**
-     * @throws Exception\CXmlException
-     */
     public function parseAndProcessStringAsCXml(string $xml, Context $context = null): ?CXml
     {
         $this->logger->info('Processing incoming CXml message', ['xml' => $xml]);

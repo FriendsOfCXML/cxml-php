@@ -7,11 +7,6 @@ use CXml\Model\Address;
 use CXml\Model\Contact;
 use CXml\Model\Country;
 use CXml\Model\Credential;
-use CXml\Model\Inventory;
-use CXml\Model\InventoryQuantity;
-use CXml\Model\ItemId;
-use CXml\Model\Message\ProductActivityDetail;
-use CXml\Model\Message\ProductActivityMessage;
 use CXml\Model\Message\QuoteMessage;
 use CXml\Model\Message\QuoteMessageHeader;
 use CXml\Model\MoneyWrapper;
@@ -23,7 +18,6 @@ use CXml\Model\ShipTo;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
-use PhpParser\Node\Expr\AssignOp\Mul;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,13 +26,12 @@ use PHPUnit\Framework\TestCase;
  */
 class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterface
 {
+    private DtdValidator $dtdValidator;
 
-	private DtdValidator $dtdValidator;
-
-	protected function setUp(): void
-	{
-		$this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
-	}
+    protected function setUp(): void
+    {
+        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+    }
 
     public function testMinimumExample(): void
     {
@@ -56,48 +49,50 @@ class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterfa
             'abracadabra'
         );
 
-		$organizationId = new OrganizationId(
-			new Credential(
-				'domain',
-				'identity'
-			)
-		);
-
-		$total = new MoneyWrapper('USD', 10000);
-
-        $quoteMessage = QuoteMessage::create(
-			$organizationId,
-			$total,
-			QuoteMessageHeader::TYPE_ACCEPT,
-			'quoteId',
-			new \DateTime('2021-01-08T23:00:06-08:00'),
-			'de'
+        $organizationId = new OrganizationId(
+            new Credential(
+                'domain',
+                'identity'
+            )
         );
 
-		$contact = Contact::create(new MultilanguageString('Joe Smith'))
-			->addEmail('joe.smith@siemens.com')
-			->addIdReference('GUID', '123456');
+        $total = new MoneyWrapper('USD', 10000);
 
-		$shipTo = new ShipTo(
-			new Address(
-				new MultilanguageString('Acme Inc.'),
-				new PostalAddress(
-					['Acme Inc.', 'Joe Smith'],
-					['123 Anystreet'],
-					'Sunnyvale',
-					new Country('US', 'United States'),
-					null,
-					'CA',
-					'90489'
-				)
-			)
-		);
+        $quoteMessage = QuoteMessage::create(
+            $organizationId,
+            $total,
+            QuoteMessageHeader::TYPE_ACCEPT,
+            'quoteId',
+            new \DateTime('2021-01-08T23:00:06-08:00'),
+            'de'
+        );
 
-		$quoteMessage->getQuoteMessageHeader()
-			->setContact($contact)
-			->setShipTo($shipTo)
-			->addExtrinsicAsKeyValue('expiry_date', '2023-01-08T23:00:06-08:00')
-			->addCommentAsString('This is a comment');
+        $contact = Contact::create(new MultilanguageString('Joe Smith'))
+            ->addEmail('joe.smith@siemens.com')
+            ->addIdReference('GUID', '123456')
+        ;
+
+        $shipTo = new ShipTo(
+            new Address(
+                new MultilanguageString('Acme Inc.'),
+                new PostalAddress(
+                    ['Acme Inc.', 'Joe Smith'],
+                    ['123 Anystreet'],
+                    'Sunnyvale',
+                    new Country('US', 'United States'),
+                    null,
+                    'CA',
+                    '90489'
+                )
+            )
+        );
+
+        $quoteMessage->getQuoteMessageHeader()
+            ->setContact($contact)
+            ->setShipTo($shipTo)
+            ->addExtrinsicAsKeyValue('expiry_date', '2023-01-08T23:00:06-08:00')
+            ->addCommentAsString('This is a comment')
+        ;
 
         $cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
             ->from($from)
@@ -112,7 +107,7 @@ class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterfa
         $xml = Serializer::create()->serialize($cxml);
         $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/QuoteMessage.xml', $xml);
 
-		$this->dtdValidator->validateAgainstDtd($xml);
+        $this->dtdValidator->validateAgainstDtd($xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

@@ -2,4 +2,6 @@
 
 namespace CXml\Exception;
 
-class CXmlExpectationFailedException extends CXmlException {}
+class CXmlExpectationFailedException extends CXmlException
+{
+}

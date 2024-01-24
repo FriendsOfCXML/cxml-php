@@ -377,8 +377,8 @@ class SerializerTest extends TestCase
 			</Request>
 			</cXML>';
 
-	    $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
-	}
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+    }
 
     public function testDeserializeOneRowXml(): void
     {

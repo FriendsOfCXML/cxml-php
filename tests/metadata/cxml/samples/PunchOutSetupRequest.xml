@@ -42,6 +42,13 @@
                         <PostalCode>90489</PostalCode>
                         <Country isoCountryCode="US">United States</Country>
                     </PostalAddress>
+                    <Phone name="personal">
+                        <TelephoneNumber>
+                            <CountryCode isoCountryCode="US">1</CountryCode>
+                            <AreaOrCityCode>800</AreaOrCityCode>
+                            <Number>5551212</Number>
+                        </TelephoneNumber>
+                    </Phone>
                 </Address>
             </ShipTo>
             <SelectedItem>

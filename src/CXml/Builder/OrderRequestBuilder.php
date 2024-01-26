@@ -15,6 +15,7 @@ use CXml\Model\ItemOut;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
+use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
 use CXml\Model\Request\OrderRequest;
 use CXml\Model\Request\OrderRequestHeader;
@@ -103,7 +104,7 @@ class OrderRequestBuilder
         string $addressId = null,
         string $addressIdDomain = null,
         string $email = null,
-        string $phone = null,
+        Phone $phone = null,
         string $fax = null,
         string $url = null
     ): self {

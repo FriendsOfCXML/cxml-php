@@ -15,7 +15,7 @@ class ItemIn
     /**
      * @Ser\SerializedName("ItemID")
      */
-    private ?ItemId $itemId = null; //might be used in a quote, therefore can be null
+    private ?ItemId $itemId = null; // might be used in a quote, therefore can be null
 
     /**
      * @Ser\SerializedName("ItemDetail")

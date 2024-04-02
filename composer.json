@@ -31,7 +31,7 @@
     "beberlei/assert": "@stable",
     "jms/serializer": "^3.28.0",
     "psr/log": "^1.0 || ^2.0 || ^3.0",
-    "doctrine/annotations": "^2.0"
+    "doctrine/annotations": "@stable"
   },
   "suggest": {
     "symfony/routing": "If you want to use SelfAwareProfileRequestHandler"

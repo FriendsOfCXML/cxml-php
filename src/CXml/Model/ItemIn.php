@@ -15,7 +15,7 @@ class ItemIn
     /**
      * @Ser\SerializedName("ItemID")
      */
-    private ItemId $itemId;
+    private ?ItemId $itemId = null; //might be used in a quote, therefore can be null
 
     /**
      * @Ser\SerializedName("ItemDetail")
@@ -57,7 +57,7 @@ class ItemIn
         return $this->quantity;
     }
 
-    public function getItemId(): ItemId
+    public function getItemId(): ?ItemId
     {
         return $this->itemId;
     }

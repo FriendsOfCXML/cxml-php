@@ -68,10 +68,12 @@ class QuoteMessageHeader
     private ShipTo $shipTo;
 
     /**
-     * @Ser\SerializedName("Contact")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private Contact $contact;
+	 * @Ser\XmlList(inline=true, entry="Contact")
+	 * @Ser\Type("array<CXml\Model\Contact>")
+	 *
+	 * @var Contact[]
+	 */
+    private array $contacts = [];
 
     public function __construct(OrganizationId $organizationId, MoneyWrapper $total, string $type, string $quoteId, \DateTime $quoteDate, string $currency, string $lang = 'en')
     {
@@ -99,10 +101,58 @@ class QuoteMessageHeader
         return $this;
     }
 
-    public function setContact(Contact $contact): self
+    public function addContact(Contact $contact): self
     {
-        $this->contact = $contact;
+        $this->contacts[] = $contact;
 
         return $this;
     }
+
+	public function getOrganizationId(): OrganizationId
+	{
+		return $this->organizationId;
+	}
+
+	/**
+	 * @return Contact[]
+	 */
+	public function getContacts(): array
+	{
+		return $this->contacts;
+	}
+
+	public function getCurrency(): string
+	{
+		return $this->currency;
+	}
+
+	public function getQuoteId(): string
+	{
+		return $this->quoteId;
+	}
+
+	public function getQuoteDate(): \DateTimeInterface
+	{
+		return $this->quoteDate;
+	}
+
+	public function getLang(): string
+	{
+		return $this->lang;
+	}
+
+	public function getTotal(): MoneyWrapper
+	{
+		return $this->total;
+	}
+
+	public function getType(): string
+	{
+		return $this->type;
+	}
+
+	public function getShipTo(): ShipTo
+	{
+		return $this->shipTo;
+	}
 }

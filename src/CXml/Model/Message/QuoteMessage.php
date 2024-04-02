@@ -2,6 +2,7 @@
 
 namespace CXml\Model\Message;
 
+use CXml\Model\ItemIn;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\OrganizationId;
 use JMS\Serializer\Annotation as Ser;
@@ -12,6 +13,14 @@ class QuoteMessage implements MessagePayloadInterface
      * @Ser\SerializedName("QuoteMessageHeader")
      */
     private QuoteMessageHeader $quoteMessageHeader;
+
+	/**
+	 * @Ser\XmlList(inline=true, entry="QuoteItemIn")
+	 * @Ser\Type("array<CXml\Model\ItemIn>")
+	 *
+	 * @var ItemIn[]
+	 */
+	private array $quoteMessageItems = [];
 
     private function __construct(QuoteMessageHeader $quoteMessageHeader)
     {
@@ -29,4 +38,9 @@ class QuoteMessage implements MessagePayloadInterface
     {
         return $this->quoteMessageHeader;
     }
+
+	public function getQuoteMessageItems(): array
+	{
+		return $this->quoteMessageItems;
+	}
 }

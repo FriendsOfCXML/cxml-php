@@ -102,7 +102,7 @@ class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterfa
         );
 
         $quoteMessage->getQuoteMessageHeader()
-            ->setContact($contact)
+            ->addContact($contact)
             ->setShipTo($shipTo)
             ->addExtrinsicAsKeyValue('expiry_date', '2023-01-08T23:00:06-08:00')
             ->addCommentAsString('This is a comment')

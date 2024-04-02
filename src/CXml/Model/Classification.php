@@ -21,4 +21,14 @@ class Classification
         $this->domain = $domain;
         $this->value = $value;
     }
+
+	public function getDomain(): string
+	{
+		return $this->domain;
+	}
+
+	public function getValue(): string
+	{
+		return $this->value;
+	}
 }

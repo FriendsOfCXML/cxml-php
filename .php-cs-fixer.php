@@ -20,6 +20,7 @@ return $config
             'scope' => 'namespaced',
             'strict' => false,
         ],
+		'nullable_type_declaration_for_default_null_value' => false,
         'void_return' => true,
         'random_api_migration' => true,
         'pow_to_exponentiation' => true,

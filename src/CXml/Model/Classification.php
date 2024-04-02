@@ -22,13 +22,13 @@ class Classification
         $this->value = $value;
     }
 
-	public function getDomain(): string
-	{
-		return $this->domain;
-	}
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
 
-	public function getValue(): string
-	{
-		return $this->value;
-	}
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 }

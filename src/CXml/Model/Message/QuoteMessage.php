@@ -14,13 +14,13 @@ class QuoteMessage implements MessagePayloadInterface
      */
     private QuoteMessageHeader $quoteMessageHeader;
 
-	/**
-	 * @Ser\XmlList(inline=true, entry="QuoteItemIn")
-	 * @Ser\Type("array<CXml\Model\ItemIn>")
-	 *
-	 * @var ItemIn[]
-	 */
-	private array $quoteMessageItems = [];
+    /**
+     * @Ser\XmlList(inline=true, entry="QuoteItemIn")
+     * @Ser\Type("array<CXml\Model\ItemIn>")
+     *
+     * @var ItemIn[]
+     */
+    private array $quoteMessageItems = [];
 
     private function __construct(QuoteMessageHeader $quoteMessageHeader)
     {
@@ -39,8 +39,8 @@ class QuoteMessage implements MessagePayloadInterface
         return $this->quoteMessageHeader;
     }
 
-	public function getQuoteMessageItems(): array
-	{
-		return $this->quoteMessageItems;
-	}
+    public function getQuoteMessageItems(): array
+    {
+        return $this->quoteMessageItems;
+    }
 }

@@ -64,38 +64,38 @@ class SerializerTest extends TestCase
         // XML copied from cXML Reference Guide
         $expectedXml =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
-			<Header>
-			<From>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>admin@acme.com</Identity>
-			</Credential>
-			</From>
-			<To>
-			<Credential domain="DUNS">
-			<Identity>012345678</Identity>
-			</Credential>
-			</To>
-			<Sender>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>sysadmin@buyer.com</Identity>
-			<SharedSecret>abracadabra</SharedSecret>
-			</Credential>
-			<UserAgent>Network Hub 1.1</UserAgent>
-			</Sender>
-			</Header>
-			<Request>
-			<PunchOutSetupRequest operation="create">
-			<BuyerCookie>nomnom</BuyerCookie>
-			<BrowserFormPost>
-			<URL>https://browserFormPost</URL>
-			</BrowserFormPost>
-			<SupplierSetup>
-			<URL>https://supplierSetup</URL>
-			</SupplierSetup>
-			</PunchOutSetupRequest>
-			</Request>
-			</cXML>';
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            <Header>
+            <From>
+            <Credential domain="AribaNetworkUserId">
+            <Identity>admin@acme.com</Identity>
+            </Credential>
+            </From>
+            <To>
+            <Credential domain="DUNS">
+            <Identity>012345678</Identity>
+            </Credential>
+            </To>
+            <Sender>
+            <Credential domain="AribaNetworkUserId">
+            <Identity>sysadmin@buyer.com</Identity>
+            <SharedSecret>abracadabra</SharedSecret>
+            </Credential>
+            <UserAgent>Network Hub 1.1</UserAgent>
+            </Sender>
+            </Header>
+            <Request>
+            <PunchOutSetupRequest operation="create">
+            <BuyerCookie>nomnom</BuyerCookie>
+            <BrowserFormPost>
+            <URL>https://browserFormPost</URL>
+            </BrowserFormPost>
+            <SupplierSetup>
+            <URL>https://supplierSetup</URL>
+            </SupplierSetup>
+            </PunchOutSetupRequest>
+            </Request>
+            </cXML>';
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
@@ -136,37 +136,37 @@ class SerializerTest extends TestCase
         // XML *NOT* copied from cXML Reference Guide
         $expectedXml =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
-			<Header>
-			<From>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>admin@acme.com</Identity>
-			</Credential>
-			</From>
-			<To>
-			<Credential domain="DUNS">
-			<Identity>012345678</Identity>
-			</Credential>
-			</To>
-			<Sender>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>sysadmin@buyer.com</Identity>
-			<SharedSecret>abracadabra</SharedSecret>
-			</Credential>
-			<UserAgent>Network Hub 1.1</UserAgent>
-			</Sender>
-			</Header>
-			<Message>
-			<PunchOutOrderMessage>
-			<BuyerCookie>34234234ADFSDF234234</BuyerCookie>
-			<PunchOutOrderMessageHeader operationAllowed="create">
-			<Total>
-			<Money currency="USD">763.20</Money>
-			</Total>
-			</PunchOutOrderMessageHeader>
-			</PunchOutOrderMessage>
-			</Message>
-			</cXML>';
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            <Header>
+            <From>
+            <Credential domain="AribaNetworkUserId">
+            <Identity>admin@acme.com</Identity>
+            </Credential>
+            </From>
+            <To>
+            <Credential domain="DUNS">
+            <Identity>012345678</Identity>
+            </Credential>
+            </To>
+            <Sender>
+            <Credential domain="AribaNetworkUserId">
+            <Identity>sysadmin@buyer.com</Identity>
+            <SharedSecret>abracadabra</SharedSecret>
+            </Credential>
+            <UserAgent>Network Hub 1.1</UserAgent>
+            </Sender>
+            </Header>
+            <Message>
+            <PunchOutOrderMessage>
+            <BuyerCookie>34234234ADFSDF234234</BuyerCookie>
+            <PunchOutOrderMessageHeader operationAllowed="create">
+            <Total>
+            <Money currency="USD">763.20</Money>
+            </Total>
+            </PunchOutOrderMessageHeader>
+            </PunchOutOrderMessage>
+            </Message>
+            </cXML>';
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
@@ -189,11 +189,11 @@ class SerializerTest extends TestCase
         // XML copied from cXML Reference Guide
         $expectedXml =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2001-01-08T10:47:01-08:00" payloadID="978979621537--4882920031100014936@206.251.25.169">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+            <cXML timestamp="2001-01-08T10:47:01-08:00" payloadID="978979621537--4882920031100014936@206.251.25.169">
+            <Response>
+            <Status code="200" text="OK">Ping Response CXml</Status>
+            </Response>
+            </cXML>';
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
@@ -202,11 +202,11 @@ class SerializerTest extends TestCase
     {
         $xml =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+            <cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
+            <Response>
+            <Status code="200" text="OK">Ping Response CXml</Status>
+            </Response>
+            </cXML>';
 
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xml);
@@ -224,11 +224,11 @@ class SerializerTest extends TestCase
     {
         $xmlIn =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2022-06-07T10:09:56.728+00:00" payloadID="x.y.z">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+            <cXML timestamp="2022-06-07T10:09:56.728+00:00" payloadID="x.y.z">
+            <Response>
+            <Status code="200" text="OK">Ping Response CXml</Status>
+            </Response>
+            </cXML>';
 
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xmlIn);
@@ -237,11 +237,11 @@ class SerializerTest extends TestCase
 
         $xmlOut =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+            <cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
+            <Response>
+            <Status code="200" text="OK">Ping Response CXml</Status>
+            </Response>
+            </cXML>';
         $this->assertXmlStringEqualsXmlString($xmlOut, $actual);
     }
 
@@ -249,21 +249,21 @@ class SerializerTest extends TestCase
     {
         $xmlIn =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
-			<cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
-			<Header>
-			</Header>
-			<Request deploymentMode="test">
-			  <OrderRequest>
-			    <ItemOut quantity="1" requestedDeliveryDate="2023-02-25T02:30:00-08:00" lineNumber="1">
-			    </ItemOut>
-			    <ItemOut quantity="2" requestedDeliveryDate="2023-02-26" lineNumber="2">
-			    </ItemOut>
-			    <ItemOut quantity="3" lineNumber="3">
-			    </ItemOut>
-   			  </OrderRequest>
-			</Request>
-			</cXML>';
+            <!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
+            <cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
+            <Header>
+            </Header>
+            <Request deploymentMode="test">
+              <OrderRequest>
+                <ItemOut quantity="1" requestedDeliveryDate="2023-02-25T02:30:00-08:00" lineNumber="1">
+                </ItemOut>
+                <ItemOut quantity="2" requestedDeliveryDate="2023-02-26" lineNumber="2">
+                </ItemOut>
+                <ItemOut quantity="3" lineNumber="3">
+                </ItemOut>
+                 </OrderRequest>
+            </Request>
+            </cXML>';
 
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xmlIn);
@@ -286,17 +286,17 @@ class SerializerTest extends TestCase
 
         $xmlIn =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
-			<cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
-			<Header>
-			</Header>
-			<Request deploymentMode="test">
-			  <OrderRequest>
-			    <ItemOut quantity="1" requestedDeliveryDate="invalid" lineNumber="1">
-			    </ItemOut>
-   			  </OrderRequest>
-			</Request>
-			</cXML>';
+            <!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
+            <cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
+            <Header>
+            </Header>
+            <Request deploymentMode="test">
+              <OrderRequest>
+                <ItemOut quantity="1" requestedDeliveryDate="invalid" lineNumber="1">
+                </ItemOut>
+                 </OrderRequest>
+            </Request>
+            </cXML>';
 
         $serializer = Serializer::create();
         $serializer->deserialize($xmlIn);
@@ -341,41 +341,41 @@ class SerializerTest extends TestCase
 
         $expectedXml =
             '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
-			<Header>
-			<From>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>admin@acme.com</Identity>
-			</Credential>
-			</From>
-			<To>
-			<Credential domain="DUNS">
-			<Identity>012345678</Identity>
-			</Credential>
-			</To>
-			<Sender>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>sysadmin@buyer.com</Identity>
-			<SharedSecret>abracadabra</SharedSecret>
-			</Credential>
-			<UserAgent>Network Hub 1.1</UserAgent>
-			</Sender>
-			</Header>
-			<Request>
-				<OrderRequest>
-				  <OrderRequestHeader orderDate="2000-01-01" orderID="order-id" type="new">
-					<Total>
-					  <Money currency="EUR">0.00</Money>
-					</Total>
-					<BillTo>
-					  <Address>
-						<Name xml:lang="en">name</Name>
-					  </Address>
-					</BillTo>
-				  </OrderRequestHeader>
-				</OrderRequest>
-			</Request>
-			</cXML>';
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            <Header>
+            <From>
+            <Credential domain="AribaNetworkUserId">
+            <Identity>admin@acme.com</Identity>
+            </Credential>
+            </From>
+            <To>
+            <Credential domain="DUNS">
+            <Identity>012345678</Identity>
+            </Credential>
+            </To>
+            <Sender>
+            <Credential domain="AribaNetworkUserId">
+            <Identity>sysadmin@buyer.com</Identity>
+            <SharedSecret>abracadabra</SharedSecret>
+            </Credential>
+            <UserAgent>Network Hub 1.1</UserAgent>
+            </Sender>
+            </Header>
+            <Request>
+                <OrderRequest>
+                  <OrderRequestHeader orderDate="2000-01-01" orderID="order-id" type="new">
+                    <Total>
+                      <Money currency="EUR">0.00</Money>
+                    </Total>
+                    <BillTo>
+                      <Address>
+                        <Name xml:lang="en">name</Name>
+                      </Address>
+                    </BillTo>
+                  </OrderRequestHeader>
+                </OrderRequest>
+            </Request>
+            </cXML>';
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }

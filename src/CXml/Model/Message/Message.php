@@ -2,6 +2,8 @@
 
 namespace CXml\Model\Message;
 
+use Assert\Assertion;
+use CXml\Model\CXml;
 use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
@@ -40,9 +42,13 @@ class Message
         MessagePayloadInterface $message,
         Status $status = null,
         string $id = null,
-        string $deploymentMode = null,
-        string $inReplyTo = null
+        string $inReplyTo = null,
+        string $deploymentMode = null
     ) {
+        if (null !== $deploymentMode) {
+            Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);
+        }
+
         $this->status = $status;
         $this->payload = $message;
         $this->deploymentMode = $deploymentMode;

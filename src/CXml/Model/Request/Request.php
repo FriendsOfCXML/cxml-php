@@ -3,13 +3,12 @@
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
+use CXml\Model\CXml;
 use CXml\Model\Status;
 use JMS\Serializer\Annotation as Ser;
 
 class Request
 {
-    public const DEPLOYMENT_TEST = 'test';
-    public const DEPLOYMENT_PROD = 'production';
 
     /**
      * @Ser\SerializedName("Status")
@@ -41,7 +40,7 @@ class Request
         string $deploymentMode = null
     ) {
         if (null !== $deploymentMode) {
-            Assertion::inArray($deploymentMode, [self::DEPLOYMENT_PROD, self::DEPLOYMENT_TEST]);
+            Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);
         }
 
         $this->status = $status;

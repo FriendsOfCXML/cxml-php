@@ -12,6 +12,10 @@ use JMS\Serializer\Annotation as Ser;
  */
 class CXml
 {
+
+    public const DEPLOYMENT_TEST = 'test';
+    public const DEPLOYMENT_PROD = 'production';
+
     /**
      * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
      */

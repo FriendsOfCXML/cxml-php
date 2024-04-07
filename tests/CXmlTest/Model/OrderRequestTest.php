@@ -10,6 +10,7 @@ use CXml\Model\Comment;
 use CXml\Model\Country;
 use CXml\Model\CountryCode;
 use CXml\Model\Credential;
+use CXml\Model\CXml;
 use CXml\Model\Description;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
@@ -21,7 +22,6 @@ use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
 use CXml\Model\Request\OrderRequest;
 use CXml\Model\Request\OrderRequestHeader;
-use CXml\Model\Request\Request;
 use CXml\Model\ShipTo;
 use CXml\Model\TelephoneNumber;
 use CXml\Payload\PayloadIdentityFactoryInterface;
@@ -174,7 +174,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
             ->to($to)
             ->sender($sender)
             ->payload($orderRequest)
-            ->build(Request::DEPLOYMENT_TEST)
+            ->build(CXml::DEPLOYMENT_TEST)
         ;
 
         $this->assertEquals('OrderRequest_1625586002.193314.7293@dev', (string) $cxml);

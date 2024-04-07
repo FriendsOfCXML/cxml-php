@@ -12,7 +12,6 @@ use JMS\Serializer\Annotation as Ser;
  */
 class CXml
 {
-
     public const DEPLOYMENT_TEST = 'test';
     public const DEPLOYMENT_PROD = 'production';
 

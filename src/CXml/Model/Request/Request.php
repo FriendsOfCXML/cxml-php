@@ -9,7 +9,6 @@ use JMS\Serializer\Annotation as Ser;
 
 class Request
 {
-
     /**
      * @Ser\SerializedName("Status")
      */

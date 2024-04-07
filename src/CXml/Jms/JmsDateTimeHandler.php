@@ -15,7 +15,7 @@ use JMS\Serializer\XmlSerializationVisitor;
  */
 class JmsDateTimeHandler
 {
-    public function serialize(XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context)
+    public function serialize(XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context): \DOMText
     {
         if ($date instanceof Date) {
             $format = 'Y-m-d';

@@ -160,20 +160,20 @@ class Processor
      */
     private function processMessage(Message $message, Context $context): void
     {
-		$header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
-		if (!$header) {
-			throw new CXmlException('Invalid CXml. Header is mandatory for message.');
-		}
+        $header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
+        if (!$header) {
+            throw new CXmlException('Invalid CXml. Header is mandatory for message.');
+        }
 
-		try {
-			$this->headerProcessor->process($header, $context);
-		} catch (CXmlException $e) {
-			throw $e;
-		} catch (\Throwable $e) {
-			throw new CXmlProcessException($e);
-		}
+        try {
+            $this->headerProcessor->process($header, $context);
+        } catch (CXmlException $e) {
+            throw $e;
+        } catch (\Throwable $e) {
+            throw new CXmlProcessException($e);
+        }
 
-		$payload = $message->getPayload();
+        $payload = $message->getPayload();
         try {
             $this->getHandlerForPayload($payload)->handle($payload, $context);
         } catch (CXmlException $e) {

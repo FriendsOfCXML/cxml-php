@@ -39,8 +39,15 @@ class QuoteMessage implements MessagePayloadInterface
         return $this->quoteMessageHeader;
     }
 
-    public function getQuoteMessageItems(): array
+    public function getItems(): array
     {
         return $this->quoteMessageItems;
+    }
+
+    public function addItem(ItemIn $quoteMessageItem): self
+    {
+        $this->quoteMessageItems[] = $quoteMessageItem;
+
+        return $this;
     }
 }

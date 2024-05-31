@@ -24,7 +24,7 @@ class OrderRequestHeader
     use IdReferencesTrait;
     use ExtrinsicsTrait;
 
-    public final const TYPE_NEW = 'new';
+    final public const TYPE_NEW = 'new';
 
     #[Serializer\XmlElement]
     #[Serializer\SerializedName('Shipping')]
@@ -33,13 +33,6 @@ class OrderRequestHeader
     #[Serializer\XmlElement]
     #[Serializer\SerializedName('Tax')]
     private ?Tax $tax = null;
-
-    /**
-     * @var Contact[]
-     */
-    #[Serializer\XmlList(entry: 'Contact', inline: true)]
-    #[Serializer\Type('array<CXml\Model\Contact>')]
-    private ?array $contacts = null;
 
     #[Serializer\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
@@ -62,13 +55,13 @@ class OrderRequestHeader
         private readonly MoneyWrapper $total,
         #[Serializer\XmlAttribute]
         private readonly string $type = self::TYPE_NEW,
-        array $contacts = null,
+        #[Serializer\Type('array<CXml\Model\Contact>')]
+        #[Serializer\XmlList(entry: 'Contact', inline: true)]
+        private ?array $contacts = null,
     ) {
         if (null !== $contacts && [] !== $contacts) {
             Assertion::allIsInstanceOf($contacts, Contact::class);
         }
-
-        $this->contacts = $contacts;
     }
 
     public static function create(

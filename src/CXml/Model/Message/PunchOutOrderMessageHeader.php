@@ -15,11 +15,11 @@ use JMS\Serializer\Annotation as Serializer;
 #[Serializer\AccessorOrder(order: 'custom', custom: ['sourcingStatus', 'total', 'shipTo', 'shipping', 'tax', 'supplierOrderInfo'])]
 class PunchOutOrderMessageHeader
 {
-    public final const OPERATION_CREATE = 'create';
+    final public const OPERATION_CREATE = 'create';
 
-    public final const OPERATION_EDIT = 'edit';
+    final public const OPERATION_EDIT = 'edit';
 
-    public final const OPERATION_INSPECT = 'inspect';
+    final public const OPERATION_INSPECT = 'inspect';
 
     #[Serializer\XmlAttribute]
     private readonly ?string $operationAllowed;

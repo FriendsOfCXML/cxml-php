@@ -12,7 +12,7 @@ class ItemDetail
 {
     use ExtrinsicsTrait;
 
-    public final const UNIT_OF_MEASURE_EACH = 'EA';
+    final public const UNIT_OF_MEASURE_EACH = 'EA';
 
     /**
      * @var Classification[]

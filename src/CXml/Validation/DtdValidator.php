@@ -9,16 +9,12 @@ use CXml\Validation\Exception\CXmlInvalidException;
 
 readonly class DtdValidator
 {
-    private string $pathToCxmlDtds;
-
-    public function __construct(string $pathToCxmlDtds)
+    public function __construct(private string $pathToCxmlDtds)
     {
         Assertion::directory($pathToCxmlDtds);
         Assertion::file($pathToCxmlDtds . '/cXML.dtd');
         Assertion::file($pathToCxmlDtds . '/Fulfill.dtd');
         Assertion::file($pathToCxmlDtds . '/Quote.dtd');
-
-        $this->pathToCxmlDtds = $pathToCxmlDtds;
     }
 
     /**

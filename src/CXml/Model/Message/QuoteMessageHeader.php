@@ -19,19 +19,15 @@ class QuoteMessageHeader
     use CommentsTrait;
     use ExtrinsicsTrait;
 
-    public final const TYPE_ACCEPT = 'accept';
+    final public const TYPE_ACCEPT = 'accept';
 
-    public final const TYPE_REJECT = 'reject';
+    final public const TYPE_REJECT = 'reject';
 
-    public final const TYPE_UPDATE = 'update';
+    final public const TYPE_UPDATE = 'update';
 
-    public final const TYPE_FINAL = 'final';
+    final public const TYPE_FINAL = 'final';
 
-    public final const TYPE_AWARD = 'award';
-
-    #[Serializer\SerializedName('type')]
-    #[Serializer\XmlAttribute]
-    private string $type;
+    final public const TYPE_AWARD = 'award';
 
     #[Serializer\SerializedName('ShipTo')]
     #[Serializer\XmlElement(cdata: false)]
@@ -51,7 +47,9 @@ class QuoteMessageHeader
         #[Serializer\SerializedName('Total')]
         #[Serializer\XmlElement(cdata: false)]
         private readonly MoneyWrapper $total,
-        string $type,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('type')]
+        private readonly string $type,
         #[Serializer\SerializedName('quoteID')]
         #[Serializer\XmlAttribute]
         private readonly string $quoteId,
@@ -69,7 +67,6 @@ class QuoteMessageHeader
             self::TYPE_FINAL,
             self::TYPE_AWARD,
         ]);
-        $this->type = $type;
     }
 
     public function setShipTo(ShipTo $shipTo): self

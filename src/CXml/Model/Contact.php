@@ -12,33 +12,33 @@ class Contact
     use ExtrinsicsTrait;
     use IdReferencesTrait;
 
-    public final const ROLE_ENDUSER = 'endUser';
+    final public const ROLE_ENDUSER = 'endUser';
 
-    public final const ROLE_ADMINISTRATOR = 'administrator';
+    final public const ROLE_ADMINISTRATOR = 'administrator';
 
-    public final const ROLE_PURCHASINGAGENT = 'purchasingAgent';
+    final public const ROLE_PURCHASINGAGENT = 'purchasingAgent';
 
-    public final const ROLE_TECHNICALSUPPORT = 'technicalSupport';
+    final public const ROLE_TECHNICALSUPPORT = 'technicalSupport';
 
-    public final const ROLE_CUSTOMERSERVICE = 'customerService';
+    final public const ROLE_CUSTOMERSERVICE = 'customerService';
 
-    public final const ROLE_SALES = 'sales';
+    final public const ROLE_SALES = 'sales';
 
-    public final const ROLE_SUPPLIERCORPORATE = 'supplierCorporate';
+    final public const ROLE_SUPPLIERCORPORATE = 'supplierCorporate';
 
-    public final const ROLE_SUPPLIERMASTERACCOUNT = 'supplierMasterAccount';
+    final public const ROLE_SUPPLIERMASTERACCOUNT = 'supplierMasterAccount';
 
-    public final const ROLE_SUPPLIERACCOUNT = 'supplierAccount';
+    final public const ROLE_SUPPLIERACCOUNT = 'supplierAccount';
 
-    public final const ROLE_BUYERCORPORATE = 'buyerCorporate';
+    final public const ROLE_BUYERCORPORATE = 'buyerCorporate';
 
-    public final const ROLE_BUYERMASTERACCOUNT = 'buyerMasterAccount';
+    final public const ROLE_BUYERMASTERACCOUNT = 'buyerMasterAccount';
 
-    public final const ROLE_BUYERACCOUNT = 'buyerAccount';
+    final public const ROLE_BUYERACCOUNT = 'buyerAccount';
 
-    public final const ROLE_BUYER = 'buyer';
+    final public const ROLE_BUYER = 'buyer';
 
-    public final const ROLE_SUBSEQUENTBUYER = 'subsequentBuyer';
+    final public const ROLE_SUBSEQUENTBUYER = 'subsequentBuyer';
 
     #[Serializer\SerializedName('Email')]
     #[Serializer\XmlElement(cdata: false)]

@@ -15,31 +15,29 @@ class ConfirmationHeader
     use ExtrinsicsTrait;
     use IdReferencesTrait;
 
-    public final const TYPE_ACCEPT = 'accept';
+    final public const TYPE_ACCEPT = 'accept';
 
-    public final const TYPE_ALLDETAIL = 'allDetail';
+    final public const TYPE_ALLDETAIL = 'allDetail';
 
-    public final const TYPE_DETAIL = 'detail';
+    final public const TYPE_DETAIL = 'detail';
 
-    public final const TYPE_BACKORDERED = 'backordered';
+    final public const TYPE_BACKORDERED = 'backordered';
 
-    public final const TYPE_EXCEPT = 'except';
+    final public const TYPE_EXCEPT = 'except';
 
-    public final const TYPE_REJECT = 'reject';
+    final public const TYPE_REJECT = 'reject';
 
-    public final const TYPE_REQUESTTOPAY = 'requestToPay';
+    final public const TYPE_REQUESTTOPAY = 'requestToPay';
 
-    public final const TYPE_REPLACE = 'replace';
+    final public const TYPE_REPLACE = 'replace';
 
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('type')]
-    private string $type;
-
-    #[Serializer\XmlAttribute]
-    private \DateTimeInterface $noticeDate;
-
-    public function __construct(string $type, \DateTimeInterface $noticeDate = null)
-    {
+    public function __construct(
+        #[Serializer\SerializedName('type')]
+        #[Serializer\XmlAttribute]
+        private readonly string $type,
+        #[Serializer\XmlAttribute]
+        private ?\DateTimeInterface $noticeDate = null,
+    ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,
             self::TYPE_ALLDETAIL,
@@ -51,7 +49,6 @@ class ConfirmationHeader
             self::TYPE_REPLACE,
         ]);
 
-        $this->type = $type;
         $this->noticeDate = $noticeDate ?? new \DateTime();
     }
 
@@ -68,7 +65,7 @@ class ConfirmationHeader
         return $this->type;
     }
 
-    public function getNoticeDate(): \DateTimeInterface
+    public function getNoticeDate(): ?\DateTimeInterface
     {
         return $this->noticeDate;
     }

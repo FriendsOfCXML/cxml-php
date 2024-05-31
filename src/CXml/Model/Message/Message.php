@@ -9,30 +9,26 @@ use CXml\Model\CXml;
 use CXml\Model\Status;
 use JMS\Serializer\Annotation as Serializer;
 
-class Message
+readonly class Message
 {
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('deploymentMode')]
-    private ?string $deploymentMode = null;
-
     public function __construct(
         #[Serializer\Exclude]
-        private readonly MessagePayloadInterface $payload,
+        private MessagePayloadInterface $payload,
         #[Serializer\SerializedName('Status')]
-        private readonly ?Status $status = null,
+        private ?Status $status = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('Id')]
-        private readonly ?string $id = null,
+        private ?string $id = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('inReplyTo')]
-        private readonly ?string $inReplyTo = null,
-        string $deploymentMode = null,
+        private ?string $inReplyTo = null,
+        #[Serializer\SerializedName('deploymentMode')]
+        #[Serializer\XmlAttribute]
+        private ?string $deploymentMode = null,
     ) {
         if (null !== $deploymentMode) {
             Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);
         }
-
-        $this->deploymentMode = $deploymentMode;
     }
 
     public function getStatus(): ?Status

@@ -13,9 +13,9 @@ use JMS\Serializer\Annotation as Serializer;
 #[Serializer\AccessorOrder(order: 'custom', custom: ['header', 'message', 'request', 'response'])]
 class CXml implements \Stringable
 {
-    public final const DEPLOYMENT_TEST = 'test';
+    final public const DEPLOYMENT_TEST = 'test';
 
-    public final const DEPLOYMENT_PROD = 'production';
+    final public const DEPLOYMENT_PROD = 'production';
 
     protected function __construct(
         #[Serializer\XmlAttribute]

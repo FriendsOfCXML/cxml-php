@@ -47,21 +47,21 @@ class OrderRequestHeader
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderID')]
-        private string $orderId,
+        private readonly string $orderId,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderDate')]
-        private \DateTimeInterface $orderDate,
+        private readonly \DateTimeInterface $orderDate,
         #[Serializer\XmlElement]
         #[Serializer\SerializedName('ShipTo')]
-        private ?ShipTo $shipTo,
+        private readonly ?ShipTo $shipTo,
         #[Serializer\XmlElement]
         #[Serializer\SerializedName('BillTo')]
-        private BillTo $billTo,
+        private readonly BillTo $billTo,
         #[Serializer\XmlElement]
         #[Serializer\SerializedName('Total')]
-        private MoneyWrapper $total,
+        private readonly MoneyWrapper $total,
         #[Serializer\XmlAttribute]
-        private string $type = self::TYPE_NEW,
+        private readonly string $type = self::TYPE_NEW,
         array $contacts = null,
     ) {
         if (null !== $contacts && [] !== $contacts) {

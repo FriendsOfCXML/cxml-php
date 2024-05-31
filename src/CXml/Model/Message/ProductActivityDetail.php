@@ -18,14 +18,14 @@ class ProductActivityDetail
 
     private function __construct(
         #[Serializer\SerializedName('ItemID')]
-        private ItemId $itemId,
+        private readonly ItemId $itemId,
         #[Serializer\SerializedName('Inventory')]
-        private ?Inventory $inventory = null,
+        private readonly ?Inventory $inventory = null,
         #[Serializer\SerializedName('Contact')]
-        private ?Contact $contact = null,
+        private readonly ?Contact $contact = null,
         #[Serializer\SerializedName('Description')]
         #[Serializer\XmlElement(cdata: false)]
-        private ?MultilanguageString $description = null,
+        private readonly ?MultilanguageString $description = null,
     ) {
     }
 

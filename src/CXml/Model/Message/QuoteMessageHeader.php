@@ -47,20 +47,20 @@ class QuoteMessageHeader
     public function __construct(
         #[Serializer\SerializedName('OrganizationID')]
         #[Serializer\XmlElement(cdata: false)]
-        private OrganizationId $organizationId,
+        private readonly OrganizationId $organizationId,
         #[Serializer\SerializedName('Total')]
         #[Serializer\XmlElement(cdata: false)]
-        private MoneyWrapper $total,
+        private readonly MoneyWrapper $total,
         string $type,
         #[Serializer\SerializedName('quoteID')]
         #[Serializer\XmlAttribute]
-        private string $quoteId,
+        private readonly string $quoteId,
         #[Serializer\XmlAttribute]
-        private \DateTimeInterface $quoteDate,
+        private readonly \DateTimeInterface $quoteDate,
         #[Serializer\XmlAttribute]
-        private string $currency,
+        private readonly string $currency,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private string $lang = 'en',
+        private readonly string $lang = 'en',
     ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,

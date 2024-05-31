@@ -8,9 +8,9 @@ use CXml\Context;
 use CXml\Exception\CXmlAuthenticationInvalidException;
 use CXml\Model\Header;
 
-class SimpleSharedSecretAuthenticator implements AuthenticatorInterface
+readonly class SimpleSharedSecretAuthenticator implements AuthenticatorInterface
 {
-    public function __construct(private readonly string $sharedSecret)
+    public function __construct(private string $sharedSecret)
     {
     }
 

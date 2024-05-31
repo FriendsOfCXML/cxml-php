@@ -13,9 +13,9 @@ use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Transaction;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SelfAwareProfileRequestHandler implements HandlerInterface
+readonly class SelfAwareProfileRequestHandler implements HandlerInterface
 {
-    public function __construct(private readonly HandlerRegistry $handlerRegistry, private readonly UrlGeneratorInterface $urlGenerator, private readonly string $defaultRoute = 'post_cxml')
+    public function __construct(private HandlerRegistry $handlerRegistry, private UrlGeneratorInterface $urlGenerator, private string $defaultRoute = 'post_cxml')
     {
     }
 

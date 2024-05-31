@@ -12,11 +12,11 @@ use CXml\Model\Message\ProductActivityDetail;
 use CXml\Model\Message\ProductActivityMessage;
 use CXml\Model\MultilanguageString;
 
-class ProductActivityMessageBuilder
+readonly class ProductActivityMessageBuilder
 {
-    private readonly ProductActivityMessage $productActivityMessage;
+    private ProductActivityMessage $productActivityMessage;
 
-    private function __construct(string $messageId, private readonly string $warehouseCodeDomain)
+    private function __construct(string $messageId, private string $warehouseCodeDomain)
     {
         $this->productActivityMessage = ProductActivityMessage::create(
             $messageId,

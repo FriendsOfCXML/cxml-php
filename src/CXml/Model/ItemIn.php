@@ -7,16 +7,16 @@ namespace CXml\Model;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail'])]
-class ItemIn
+readonly class ItemIn
 {
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('quantity')]
-        private readonly int $quantity,
+        private int $quantity,
         #[Serializer\SerializedName('ItemID')]
-        private readonly ?ItemId $itemId,
+        private ?ItemId $itemId,
         #[Serializer\SerializedName('ItemDetail')]
-        private readonly ItemDetail $itemDetail,
+        private ItemDetail $itemDetail,
     ) {
     }
 

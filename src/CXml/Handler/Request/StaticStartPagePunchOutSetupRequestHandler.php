@@ -11,9 +11,9 @@ use CXml\Model\Response\PunchOutSetupResponse;
 use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Url;
 
-class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
+readonly class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
 {
-    public function __construct(private readonly string $startPageUrl)
+    public function __construct(private string $startPageUrl)
     {
     }
 

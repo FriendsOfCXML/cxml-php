@@ -59,9 +59,15 @@ class OrderRequestHeader
         #[Serializer\XmlList(entry: 'Contact', inline: true)]
         private ?array $contacts = null,
     ) {
-        if (null !== $contacts && [] !== $contacts) {
-            Assertion::allIsInstanceOf($contacts, Contact::class);
+        if (null === $contacts) {
+            return;
         }
+
+        if ([] === $contacts) {
+            return;
+        }
+
+        Assertion::allIsInstanceOf($contacts, Contact::class);
     }
 
     public static function create(

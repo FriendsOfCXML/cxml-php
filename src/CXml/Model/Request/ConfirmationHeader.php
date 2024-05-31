@@ -36,7 +36,7 @@ class ConfirmationHeader
         #[Serializer\XmlAttribute]
         private readonly string $type,
         #[Serializer\XmlAttribute]
-        private ?\DateTimeInterface $noticeDate = null,
+        private readonly \DateTimeInterface $noticeDate = new \DateTime(),
     ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,
@@ -48,11 +48,9 @@ class ConfirmationHeader
             self::TYPE_REQUESTTOPAY,
             self::TYPE_REPLACE,
         ]);
-
-        $this->noticeDate = $noticeDate ?? new \DateTime();
     }
 
-    public static function create(string $type, \DateTimeInterface $noticeDate = null): self
+    public static function create(string $type, \DateTimeInterface $noticeDate = new \DateTime()): self
     {
         return new self(
             $type,
@@ -65,7 +63,7 @@ class ConfirmationHeader
         return $this->type;
     }
 
-    public function getNoticeDate(): ?\DateTimeInterface
+    public function getNoticeDate(): \DateTimeInterface
     {
         return $this->noticeDate;
     }

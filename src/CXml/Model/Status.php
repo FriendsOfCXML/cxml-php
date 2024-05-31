@@ -32,4 +32,9 @@ readonly class Status
     {
         return $this->message;
     }
+
+    public function getLang(): ?string
+    {
+        return $this->lang;
+    }
 }

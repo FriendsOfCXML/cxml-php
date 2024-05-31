@@ -17,6 +17,7 @@ return RectorConfig::configure()
         SetList::TYPE_DECLARATION,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
+        SetList::DEAD_CODE,
     ])
     ->withPhpSets()
 ;

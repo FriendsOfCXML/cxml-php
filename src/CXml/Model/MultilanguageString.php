@@ -6,19 +6,13 @@ use JMS\Serializer\Annotation as Ser;
 
 class MultilanguageString
 {
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
+    #[Ser\XmlValue(cdata: false)]
     private ?string $value = null;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?string $type = null;
 
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
+    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private ?string $lang = null;
 
     public function __construct(?string $value, string $type = null, string $lang = 'en')

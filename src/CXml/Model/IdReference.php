@@ -6,14 +6,10 @@ use JMS\Serializer\Annotation as Ser;
 
 class IdReference
 {
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $domain;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $identifier;
 
     public function __construct(string $domain, string $identifier)

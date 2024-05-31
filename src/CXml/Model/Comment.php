@@ -6,24 +6,16 @@ use JMS\Serializer\Annotation as Ser;
 
 class Comment
 {
-    /**
-     * @Ser\SerializedName("Attachment")
-     */
+    #[Ser\SerializedName('Attachment')]
     private ?Url $attachment = null;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
+    #[Ser\XmlValue(cdata: false)]
     private ?string $value = null;
 
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
+    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private ?string $lang = null;
 
-    /**
-     * @Ser\XmlAttribute()
-     */
+    #[Ser\XmlAttribute]
     private ?string $type = null;
 
     public function __construct(string $value = null, string $type = null, string $lang = null, string $attachment = null)

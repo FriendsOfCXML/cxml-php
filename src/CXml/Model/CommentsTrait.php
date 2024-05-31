@@ -7,11 +7,10 @@ use JMS\Serializer\Annotation as Ser;
 trait CommentsTrait
 {
     /**
-     * @Ser\XmlList(inline=true, entry="Comments")
-     * @Ser\Type("array<CXml\Model\Comment>")
-     *
      * @var Comment[]
      */
+    #[Ser\XmlList(inline: true, entry: 'Comments')]
+    #[Ser\Type('array<CXml\Model\Comment>')]
     private ?array $comments = null;
 
     public function addCommentAsString(string $comment, string $type = null, string $lang = null): self

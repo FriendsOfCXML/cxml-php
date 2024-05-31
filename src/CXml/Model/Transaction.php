@@ -6,23 +6,19 @@ use JMS\Serializer\Annotation as Ser;
 
 class Transaction
 {
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $requestName;
 
-    /**
-     * @Ser\SerializedName("URL")
-     * @Ser\XmlElement(cdata=false)
-     */
+    #[Ser\SerializedName('URL')]
+    #[Ser\XmlElement(cdata: false)]
     private string $url;
 
     /**
-     * @Ser\XmlList(inline=true, entry="Option")
-     * @Ser\Type("array<CXml\Model\Option>")
      *
      * @var Option[]
      */
+    #[Ser\XmlList(inline: true, entry: 'Option')]
+    #[Ser\Type('array<CXml\Model\Option>')]
     private array $options = [];
 
     public function __construct(string $requestName, string $url)

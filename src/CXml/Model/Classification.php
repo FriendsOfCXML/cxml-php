@@ -6,14 +6,10 @@ use JMS\Serializer\Annotation as Ser;
 
 class Classification
 {
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $domain;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
+    #[Ser\XmlValue(cdata: false)]
     private string $value;
 
     public function __construct(string $domain, string $value)

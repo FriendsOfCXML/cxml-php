@@ -6,9 +6,7 @@ use JMS\Serializer\Annotation as Ser;
 
 class OrganizationId
 {
-    /**
-     * @Ser\SerializedName("Credential")
-     */
+    #[Ser\SerializedName('Credential')]
     private Credential $credential;
 
     public function __construct(Credential $credential)

@@ -6,16 +6,12 @@ use JMS\Serializer\Annotation as Ser;
 
 class Phone
 {
-    /**
-     * @Ser\SerializedName("TelephoneNumber")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('TelephoneNumber')]
+    #[Ser\XmlElement(cdata: false)]
     private TelephoneNumber $telephoneNumber;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("name")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('name')]
     private ?string $name = null;
 
     public function __construct(TelephoneNumber $telephoneNumber, string $name = null)

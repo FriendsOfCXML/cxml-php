@@ -8,30 +8,26 @@ use JMS\Serializer\Annotation as Ser;
 
 class ProfileResponse implements ResponsePayloadInterface
 {
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private \DateTimeInterface $effectiveDate;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?\DateTimeInterface $lastRefresh = null;
 
     /**
-     * @Ser\XmlList(inline=true, entry="Option")
-     * @Ser\Type("array<CXml\Model\Option>")
      *
      * @var Option[]
      */
+    #[Ser\XmlList(inline: true, entry: 'Option')]
+    #[Ser\Type('array<CXml\Model\Option>')]
     private array $options = [];
 
     /**
-     * @Ser\XmlList(inline=true, entry="Transaction")
-     * @Ser\Type("array<CXml\Model\Transaction>")
      *
      * @var Transaction[]
      */
+    #[Ser\XmlList(inline: true, entry: 'Transaction')]
+    #[Ser\Type('array<CXml\Model\Transaction>')]
     private array $transactions = [];
 
     public function __construct(\DateTimeInterface $effectiveDate = null, \DateTimeInterface $lastRefresh = null)

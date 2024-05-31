@@ -9,17 +9,15 @@ use JMS\Serializer\Annotation as Ser;
 
 class QuoteMessage implements MessagePayloadInterface
 {
-    /**
-     * @Ser\SerializedName("QuoteMessageHeader")
-     */
+    #[Ser\SerializedName('QuoteMessageHeader')]
     private QuoteMessageHeader $quoteMessageHeader;
 
     /**
-     * @Ser\XmlList(inline=true, entry="QuoteItemIn")
-     * @Ser\Type("array<CXml\Model\ItemIn>")
      *
      * @var ItemIn[]
      */
+    #[Ser\XmlList(inline: true, entry: 'QuoteItemIn')]
+    #[Ser\Type('array<CXml\Model\ItemIn>')]
     private array $quoteMessageItems = [];
 
     private function __construct(QuoteMessageHeader $quoteMessageHeader)

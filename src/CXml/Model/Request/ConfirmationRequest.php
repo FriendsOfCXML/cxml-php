@@ -7,14 +7,10 @@ use JMS\Serializer\Annotation as Ser;
 
 class ConfirmationRequest implements RequestPayloadInterface
 {
-    /**
-     * @Ser\SerializedName("ConfirmationHeader")
-     */
+    #[Ser\SerializedName('ConfirmationHeader')]
     private ConfirmationHeader $confirmationHeader;
 
-    /**
-     * @Ser\SerializedName("OrderReference")
-     */
+    #[Ser\SerializedName('OrderReference')]
     private OrderReference $orderReference;
 
     public function __construct(ConfirmationHeader $confirmationHeader, OrderReference $orderReference)

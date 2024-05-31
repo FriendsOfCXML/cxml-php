@@ -6,22 +6,16 @@ use JMS\Serializer\Annotation as Ser;
 
 class TelephoneNumber
 {
-    /**
-     * @Ser\SerializedName("CountryCode")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('CountryCode')]
+    #[Ser\XmlElement(cdata: false)]
     private CountryCode $countryCode;
 
-    /**
-     * @Ser\SerializedName("AreaOrCityCode")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('AreaOrCityCode')]
+    #[Ser\XmlElement(cdata: false)]
     private ?string $areaOrCityCode = null;
 
-    /**
-     * @Ser\SerializedName("Number")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('Number')]
+    #[Ser\XmlElement(cdata: false)]
     private ?string $number = null;
 
     public function __construct(CountryCode $countryCode, string $areaOrCityCode = null, string $number = null)

@@ -6,20 +6,14 @@ use JMS\Serializer\Annotation as Ser;
 
 class OrderReference
 {
-    /**
-     * @Ser\SerializedName("DocumentReference")
-     */
+    #[Ser\SerializedName('DocumentReference')]
     private ?DocumentReference $documentReference = null;
 
-    /**
-     * @Ser\SerializedName("orderID")
-     * @Ser\XmlAttribute
-     */
+    #[Ser\SerializedName('orderID')]
+    #[Ser\XmlAttribute]
     private ?string $orderId = null;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?\DateTimeInterface $orderDate = null;
 
     public function __construct(DocumentReference $documentReference, string $orderId = null, \DateTimeInterface $orderDate = null)

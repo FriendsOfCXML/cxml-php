@@ -11,14 +11,10 @@ class StatusUpdateRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
 
-    /**
-     * @Ser\SerializedName("DocumentReference")
-     */
+    #[Ser\SerializedName('DocumentReference')]
     private ?DocumentReference $documentReference = null;
 
-    /**
-     * @Ser\SerializedName("Status")
-     */
+    #[Ser\SerializedName('Status')]
     private Status $status;
 
     public function __construct(Status $status, string $documentReference = null)

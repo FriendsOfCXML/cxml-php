@@ -7,17 +7,15 @@ use JMS\Serializer\Annotation as Ser;
 
 class OrderRequest implements RequestPayloadInterface
 {
-    /**
-     * @Ser\SerializedName("OrderRequestHeader")
-     */
+    #[Ser\SerializedName('OrderRequestHeader')]
     private OrderRequestHeader $orderRequestHeader;
 
     /**
-     * @Ser\XmlList(inline=true, entry="ItemOut")
-     * @Ser\Type("array<CXml\Model\ItemOut>")
      *
      * @var ItemOut[]
      */
+    #[Ser\XmlList(inline: true, entry: 'ItemOut')]
+    #[Ser\Type('array<CXml\Model\ItemOut>')]
     private array $itemOut = [];
 
     protected function __construct(OrderRequestHeader $orderRequestHeader)

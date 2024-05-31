@@ -22,57 +22,41 @@ class QuoteMessageHeader
     public const TYPE_FINAL = 'final';
     public const TYPE_AWARD = 'award';
 
-    /**
-     * @Ser\SerializedName("type")
-     * @Ser\XmlAttribute
-     */
+    #[Ser\SerializedName('type')]
+    #[Ser\XmlAttribute]
     private string $type;
 
-    /**
-     * @Ser\SerializedName("quoteID")
-     * @Ser\XmlAttribute
-     */
+    #[Ser\SerializedName('quoteID')]
+    #[Ser\XmlAttribute]
     private string $quoteId;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private \DateTimeInterface $quoteDate;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $currency;
 
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
+    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private string $lang;
 
-    /**
-     * @Ser\SerializedName("OrganizationID")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('OrganizationID')]
+    #[Ser\XmlElement(cdata: false)]
     private OrganizationId $organizationId;
 
-    /**
-     * @Ser\SerializedName("Total")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('Total')]
+    #[Ser\XmlElement(cdata: false)]
     private MoneyWrapper $total;
 
-    /**
-     * @Ser\SerializedName("ShipTo")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('ShipTo')]
+    #[Ser\XmlElement(cdata: false)]
     private ShipTo $shipTo;
 
     /**
-     * @Ser\XmlList(inline=true, entry="Contact")
-     * @Ser\Type("array<CXml\Model\Contact>")
      *
      * @var Contact[]
      */
+    #[Ser\XmlList(inline: true, entry: 'Contact')]
+    #[Ser\Type('array<CXml\Model\Contact>')]
     private array $contacts = [];
 
     public function __construct(OrganizationId $organizationId, MoneyWrapper $total, string $type, string $quoteId, \DateTime $quoteDate, string $currency, string $lang = 'en')

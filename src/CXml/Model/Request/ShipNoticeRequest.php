@@ -8,25 +8,23 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShipNoticeRequest implements RequestPayloadInterface
 {
-    /**
-     * @Ser\SerializedName("ShipNoticeHeader")
-     */
+    #[Ser\SerializedName('ShipNoticeHeader')]
     private ShipNoticeHeader $shipNoticeHeader;
 
     /**
-     * @Ser\XmlList(inline=true, entry="ShipControl")
-     * @Ser\Type("array<CXml\Model\ShipControl>")
      *
      * @var ShipControl[]
      */
+    #[Ser\XmlList(inline: true, entry: 'ShipControl')]
+    #[Ser\Type('array<CXml\Model\ShipControl>')]
     private array $shipControls = [];
 
     /**
-     * @Ser\XmlList(inline=true, entry="ShipNoticePortion")
-     * @Ser\Type("array<CXml\Model\ShipNoticePortion>")
      *
      * @var ShipNoticePortion[]
      */
+    #[Ser\XmlList(inline: true, entry: 'ShipNoticePortion')]
+    #[Ser\Type('array<CXml\Model\ShipNoticePortion>')]
     private array $shipNoticePortions = [];
 
     public function __construct(ShipNoticeHeader $shipNoticeHeader)

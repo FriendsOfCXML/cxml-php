@@ -6,19 +6,13 @@ use JMS\Serializer\Annotation as Ser;
 
 class Header
 {
-    /**
-     * @Ser\SerializedName("From")
-     */
+    #[Ser\SerializedName('From')]
     private Party $from;
 
-    /**
-     * @Ser\SerializedName("To")
-     */
+    #[Ser\SerializedName('To')]
     private Party $to;
 
-    /**
-     * @Ser\SerializedName("Sender")
-     */
+    #[Ser\SerializedName('Sender')]
     private Party $sender;
 
     public function __construct(Party $from, Party $to, Party $sender)

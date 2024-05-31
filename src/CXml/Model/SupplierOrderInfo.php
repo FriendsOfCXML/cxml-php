@@ -6,15 +6,11 @@ use JMS\Serializer\Annotation as Ser;
 
 class SupplierOrderInfo
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("orderID")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('orderID')]
     private string $orderId;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?\DateTimeInterface $orderDate;
 
     public function __construct(string $orderId, \DateTimeInterface $orderDate = null)

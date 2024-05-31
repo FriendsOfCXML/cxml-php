@@ -6,15 +6,11 @@ use JMS\Serializer\Annotation as Ser;
 
 class Tax
 {
-    /**
-     * @Ser\SerializedName("Money")
-     */
+    #[Ser\SerializedName('Money')]
     private Money $money;
 
-    /**
-     * @Ser\SerializedName("Description")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('Description')]
+    #[Ser\XmlElement(cdata: false)]
     private MultilanguageString $description;
 
     public function __construct(string $currency, int $value, MultilanguageString $description)

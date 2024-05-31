@@ -7,19 +7,19 @@ use JMS\Serializer\Annotation as Ser;
 class ShipControl
 {
     /**
-     * @Ser\XmlList(inline=true, entry="CarrierIdentifier")
-     * @Ser\Type("array<CXml\Model\CarrierIdentifier>")
      *
      * @var CarrierIdentifier[]
      */
+    #[Ser\XmlList(inline: true, entry: 'CarrierIdentifier')]
+    #[Ser\Type('array<CXml\Model\CarrierIdentifier>')]
     private array $carrierIdentifiers = [];
 
     /**
-     * @Ser\XmlList(inline=true, entry="ShipmentIdentifier")
-     * @Ser\Type("array<CXml\Model\ShipmentIdentifier>")
      *
      * @var ShipmentIdentifier[]
      */
+    #[Ser\XmlList(inline: true, entry: 'ShipmentIdentifier')]
+    #[Ser\Type('array<CXml\Model\ShipmentIdentifier>')]
     private array $shipmentIdentifiers = [];
 
     public function __construct(CarrierIdentifier $carrierIdentifier, ShipmentIdentifier $shipmentIdentifier)

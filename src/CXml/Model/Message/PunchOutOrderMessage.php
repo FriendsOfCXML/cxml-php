@@ -7,23 +7,19 @@ use JMS\Serializer\Annotation as Ser;
 
 class PunchOutOrderMessage implements MessagePayloadInterface
 {
-    /**
-     * @Ser\SerializedName("BuyerCookie")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('BuyerCookie')]
+    #[Ser\XmlElement(cdata: false)]
     private string $buyerCookie;
 
-    /**
-     * @Ser\SerializedName("PunchOutOrderMessageHeader")
-     */
+    #[Ser\SerializedName('PunchOutOrderMessageHeader')]
     private PunchOutOrderMessageHeader $punchOutOrderMessageHeader;
 
     /**
-     * @Ser\XmlList(inline=true, entry="ItemIn")
-     * @Ser\Type("array<CXml\Model\ItemIn>")
      *
      * @var ItemIn[]
      */
+    #[Ser\XmlList(inline: true, entry: 'ItemIn')]
+    #[Ser\Type('array<CXml\Model\ItemIn>')]
     private array $punchoutOrderMessageItems = [];
 
     private function __construct(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader)

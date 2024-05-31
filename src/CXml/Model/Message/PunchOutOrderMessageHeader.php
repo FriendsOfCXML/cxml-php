@@ -16,34 +16,22 @@ class PunchOutOrderMessageHeader
     public const OPERATION_EDIT = 'edit';
     public const OPERATION_INSPECT = 'inspect';
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?string $operationAllowed = null;
 
-    /**
-     * @Ser\SerializedName("Total")
-     */
+    #[Ser\SerializedName('Total')]
     private MoneyWrapper $total;
 
-    /**
-     * @Ser\SerializedName("ShipTo")
-     */
+    #[Ser\SerializedName('ShipTo')]
     private ?ShipTo $shipTo = null;
 
-    /**
-     * @Ser\SerializedName("Shipping")
-     */
+    #[Ser\SerializedName('Shipping')]
     private ?Shipping $shipping = null;
 
-    /**
-     * @Ser\SerializedName("Tax")
-     */
+    #[Ser\SerializedName('Tax')]
     private ?Tax $tax = null;
 
-    /**
-     * @Ser\SerializedName("SupplierOrderInfo")
-     */
+    #[Ser\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
 
     public function __construct(MoneyWrapper $total, Shipping $shipping = null, Tax $tax = null, string $operationAllowed = null)

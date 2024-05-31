@@ -9,17 +9,15 @@ class ProductActivityMessage implements MessagePayloadInterface
 {
     use ExtrinsicsTrait;
 
-    /**
-     * @Ser\SerializedName("ProductActivityHeader")
-     */
+    #[Ser\SerializedName('ProductActivityHeader')]
     private ProductActivityHeader $productActivityHeader;
 
     /**
-     * @Ser\XmlList(inline=true, entry="ProductActivityDetails")
-     * @Ser\Type("array<CXml\Model\Message\ProductActivityDetail>")
      *
      * @var ProductActivityDetail[]
      */
+    #[Ser\XmlList(inline: true, entry: 'ProductActivityDetails')]
+    #[Ser\Type('array<CXml\Model\Message\ProductActivityDetail>')]
     private array $productActivityDetails = [];
 
     private function __construct(string $messageId, string $processType = null, \DateTimeInterface $creationDate = null)

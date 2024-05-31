@@ -9,27 +9,18 @@ use JMS\Serializer\Annotation as Ser;
 
 class Request
 {
-    /**
-     * @Ser\SerializedName("Status")
-     */
+    #[Ser\SerializedName('Status')]
     private ?Status $status = null;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("deploymentMode")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('deploymentMode')]
     private ?string $deploymentMode = null;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("Id")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('Id')]
     private ?string $id = null;
 
-    /**
-     * @Ser\Exclude
-     * see CXmlWrappingNodeJmsEventSubscriber
-     */
+    #[Ser\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
     private RequestPayloadInterface $payload;
 
     public function __construct(

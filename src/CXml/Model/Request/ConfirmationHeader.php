@@ -20,15 +20,11 @@ class ConfirmationHeader
     public const TYPE_REQUESTTOPAY = 'requestToPay';
     public const TYPE_REPLACE = 'replace';
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("type")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('type')]
     private string $type;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private \DateTimeInterface $noticeDate;
 
     public function __construct(string $type, \DateTimeInterface $noticeDate = null)

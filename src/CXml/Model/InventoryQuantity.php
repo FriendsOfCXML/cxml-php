@@ -6,14 +6,10 @@ use JMS\Serializer\Annotation as Ser;
 
 class InventoryQuantity
 {
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private int $quantity;
 
-    /**
-     * @Ser\SerializedName("UnitOfMeasure")
-     */
+    #[Ser\SerializedName('UnitOfMeasure')]
     private UnitOfMeasure $unitOfMeasure;
 
     public function __construct(int $quantity, string $unitOfMeasure)

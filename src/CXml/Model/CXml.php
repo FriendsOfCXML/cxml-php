@@ -7,48 +7,32 @@ use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
 use JMS\Serializer\Annotation as Ser;
 
-/**
- * @Ser\XmlRoot("cXML")
- */
+#[Ser\XmlRoot('cXML')]
 class CXml
 {
     public const DEPLOYMENT_TEST = 'test';
     public const DEPLOYMENT_PROD = 'production';
 
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
+    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private ?string $lang = null;
 
-    /**
-     * @Ser\XmlAttribute()
-     * @Ser\SerializedName("payloadID")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('payloadID')]
     private string $payloadId;
 
-    /**
-     * @Ser\XmlAttribute()
-     */
+    #[Ser\XmlAttribute]
     private \DateTimeInterface $timestamp;
 
-    /**
-     * @Ser\SerializedName("Header")
-     */
+    #[Ser\SerializedName('Header')]
     private ?Header $header = null;
 
-    /**
-     * @Ser\SerializedName("Request")
-     */
+    #[Ser\SerializedName('Request')]
     private ?Request $request = null;
 
-    /**
-     * @Ser\SerializedName("Response")
-     */
+    #[Ser\SerializedName('Response')]
     private ?Response $response = null;
 
-    /**
-     * @Ser\SerializedName("Message")
-     */
+    #[Ser\SerializedName('Message')]
     private ?Message $message = null;
 
     protected function __construct(

@@ -6,10 +6,8 @@ use JMS\Serializer\Annotation as Ser;
 
 class DocumentReference
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("payloadID")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('payloadID')]
     private string $payloadId;
 
     public function __construct(string $payloadId)

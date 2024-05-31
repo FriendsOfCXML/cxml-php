@@ -14,30 +14,20 @@ class ShipNoticeHeader
     use IdReferencesTrait;
     use CommentsTrait;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("shipmentID")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('shipmentID')]
     private string $shipmentId;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private \DateTimeInterface $noticeDate;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?\DateTimeInterface $shipmentDate = null;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?\DateTimeInterface $deliveryDate = null;
 
-    /**
-     * @Ser\SerializedName("DocumentReference")
-     */
+    #[Ser\SerializedName('DocumentReference')]
     private ?DocumentReference $documentReference = null;
 
     public function __construct(string $shipmentId, \DateTimeInterface $noticeDate = null, \DateTimeInterface $shipmentDate = null, \DateTimeInterface $deliveryDate = null, string $documentReference = null)

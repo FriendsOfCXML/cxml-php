@@ -6,9 +6,7 @@ use JMS\Serializer\Annotation as Ser;
 
 class MoneyWrapper
 {
-    /**
-     * @Ser\SerializedName("Money")
-     */
+    #[Ser\SerializedName('Money')]
     private Money $money;
 
     public function __construct(string $currency, int $value)

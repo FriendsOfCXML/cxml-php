@@ -6,27 +6,16 @@ use JMS\Serializer\Annotation as Ser;
 
 class Credential
 {
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $domain;
 
-    /**
-     * @Ser\SerializedName("Identity")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('Identity')]
+    #[Ser\XmlElement(cdata: false)]
     private string $identity;
 
-    /**
-     * @Ser\SerializedName("CredentialMac")
-     * @Ser\XmlElement (cdata=false)
-     */
     // private CredentialMac $credentialMac; TODO
-
-    /**
-     * @Ser\SerializedName("SharedSecret")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('SharedSecret')]
+    #[Ser\XmlElement(cdata: false)]
     private ?string $sharedSecret = null;
 
     public function __construct(string $domain, string $identity, string $sharedSecret = null)

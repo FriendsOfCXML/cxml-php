@@ -6,9 +6,7 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShipNoticePortion
 {
-    /**
-     * @Ser\SerializedName("OrderReference")
-     */
+    #[Ser\SerializedName('OrderReference')]
     private OrderReference $orderReference;
 
     public function __construct(string $documentReference, string $orderId = null, \DateTimeInterface $orderDate = null)

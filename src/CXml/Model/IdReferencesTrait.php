@@ -7,11 +7,11 @@ use JMS\Serializer\Annotation as Ser;
 trait IdReferencesTrait
 {
     /**
-     * @Ser\XmlList(inline=true, entry="IdReference")
-     * @Ser\Type("array<CXml\Model\IdReference>")
      *
      * @var IdReference[]
      */
+    #[Ser\XmlList(inline: true, entry: 'IdReference')]
+    #[Ser\Type('array<CXml\Model\IdReference>')]
     protected array $idReferences = [];
 
     public function addIdReference(string $domain, string $identifier): self

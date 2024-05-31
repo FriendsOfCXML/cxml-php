@@ -6,38 +6,26 @@ use JMS\Serializer\Annotation as Ser;
 
 class ItemOut
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("lineNumber")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('lineNumber')]
     private int $lineNumber;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("quantity")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('quantity')]
     private int $quantity;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("requestedDeliveryDate")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('requestedDeliveryDate')]
     private ?\DateTimeInterface $requestedDeliveryDate = null;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("parentLineNumber")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('parentLineNumber')]
     private ?int $parentLineNumber = null;
 
-    /**
-     * @Ser\SerializedName("ItemID")
-     */
+    #[Ser\SerializedName('ItemID')]
     private ItemId $itemId;
 
-    /**
-     * @Ser\SerializedName("ItemDetail")
-     */
+    #[Ser\SerializedName('ItemDetail')]
     private ItemDetail $itemDetail;
 
     private function __construct(

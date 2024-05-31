@@ -9,33 +9,22 @@ use JMS\Serializer\Annotation as Ser;
 
 class Message
 {
-    /**
-     * @Ser\SerializedName("Status")
-     */
+    #[Ser\SerializedName('Status')]
     private ?Status $status = null;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("deploymentMode")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('deploymentMode')]
     private ?string $deploymentMode = null;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("inReplyTo")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('inReplyTo')]
     private ?string $inReplyTo = null;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("Id")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('Id')]
     private ?string $id = null;
 
-    /**
-     * @Ser\Exclude
-     * see CXmlWrappingNodeJmsEventSubscriber
-     */
+    #[Ser\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
     private MessagePayloadInterface $payload;
 
     public function __construct(

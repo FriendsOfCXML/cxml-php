@@ -8,22 +8,16 @@ class ItemId
 {
     use IdReferencesTrait;
 
-    /**
-     * @Ser\SerializedName("SupplierPartID")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('SupplierPartID')]
+    #[Ser\XmlElement(cdata: false)]
     private string $supplierPartId;
 
-    /**
-     * @Ser\SerializedName("SupplierPartAuxiliaryID")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('SupplierPartAuxiliaryID')]
+    #[Ser\XmlElement(cdata: false)]
     private ?string $supplierPartAuxiliaryId = null;
 
-    /**
-     * @Ser\SerializedName("BuyerPartID")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('BuyerPartID')]
+    #[Ser\XmlElement(cdata: false)]
     private ?string $buyerPartId = null;
 
     public function __construct(string $supplierPartId, string $supplierPartAuxiliaryId = null, string $buyerPartId = null)

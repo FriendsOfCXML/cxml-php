@@ -7,21 +7,14 @@ use JMS\Serializer\Annotation as Ser;
 
 class Response
 {
-    /**
-     * @Ser\SerializedName("Status")
-     */
+    #[Ser\SerializedName('Status')]
     private Status $status;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("Id")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('Id')]
     private ?string $id = null;
 
-    /**
-     * @Ser\Exclude
-     * see CXmlWrappingNodeJmsEventSubscriber
-     */
+    #[Ser\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
     private ?ResponsePayloadInterface $payload = null;
 
     public function __construct(

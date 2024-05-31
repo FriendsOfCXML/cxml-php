@@ -6,14 +6,10 @@ use JMS\Serializer\Annotation as Ser;
 
 class Inventory
 {
-    /**
-     * @Ser\SerializedName("StockOnHandQuantity")
-     */
+    #[Ser\SerializedName('StockOnHandQuantity')]
     private ?InventoryQuantity $stockOnHandQuantity = null;
 
-    /**
-     * @Ser\SerializedName("IncrementQuantity")
-     */
+    #[Ser\SerializedName('IncrementQuantity')]
     private ?InventoryQuantity $incrementQuantity = null;
 
     public static function create(): self

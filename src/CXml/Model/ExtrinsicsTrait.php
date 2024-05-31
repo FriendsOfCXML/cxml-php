@@ -7,11 +7,11 @@ use JMS\Serializer\Annotation as Ser;
 trait ExtrinsicsTrait
 {
     /**
-     * @Ser\XmlList(inline=true, entry="Extrinsic")
-     * @Ser\Type("array<CXml\Model\Extrinsic>")
      *
      * @var Extrinsic[]
      */
+    #[Ser\XmlList(inline: true, entry: 'Extrinsic')]
+    #[Ser\Type('array<CXml\Model\Extrinsic>')]
     protected array $extrinsics = [];
 
     public function addExtrinsic(Extrinsic $extrinsic): self

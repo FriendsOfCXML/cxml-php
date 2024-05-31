@@ -6,19 +6,13 @@ use JMS\Serializer\Annotation as Ser;
 
 class Money
 {
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $currency;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
+    #[Ser\XmlValue(cdata: false)]
     private string $value;
 
-    /**
-     * @Ser\Exclude()
-     */
+    #[Ser\Exclude]
     private int $valueCent;
 
     public function __construct(string $currency, int $valueCent)

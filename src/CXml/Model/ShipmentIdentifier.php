@@ -6,24 +6,16 @@ use JMS\Serializer\Annotation as Ser;
 
 class ShipmentIdentifier
 {
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?string $domain = null;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?string $trackingNumberDate = null;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?string $trackingURL = null;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
+    #[Ser\XmlValue(cdata: false)]
     private string $value;
 
     public function __construct(string $value, string $domain = null, string $trackingNumberDate = null, string $trackingURL = null)

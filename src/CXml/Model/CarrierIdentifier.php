@@ -11,14 +11,10 @@ class CarrierIdentifier
     public const DOMAIN_SKU = 'sku';
     public const DOMAIN_CARRIER_METHOD = 'carrierMethod';
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $domain;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
+    #[Ser\XmlValue(cdata: false)]
     private string $value;
 
     public function __construct(string $domain, string $value)

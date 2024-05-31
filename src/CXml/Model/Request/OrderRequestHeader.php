@@ -23,64 +23,46 @@ class OrderRequestHeader
 
     public const TYPE_NEW = 'new';
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("orderID")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('orderID')]
     private string $orderId;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("orderDate")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('orderDate')]
     private \DateTimeInterface $orderDate;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $type = self::TYPE_NEW;
 
-    /**
-     * @Ser\XmlElement
-     * @Ser\SerializedName("Total")
-     */
+    #[Ser\XmlElement]
+    #[Ser\SerializedName('Total')]
     private MoneyWrapper $total;
 
-    /**
-     * @Ser\XmlElement
-     * @Ser\SerializedName("ShipTo")
-     */
+    #[Ser\XmlElement]
+    #[Ser\SerializedName('ShipTo')]
     private ?ShipTo $shipTo = null;
 
-    /**
-     * @Ser\XmlElement
-     * @Ser\SerializedName("BillTo")
-     */
+    #[Ser\XmlElement]
+    #[Ser\SerializedName('BillTo')]
     private BillTo $billTo;
 
-    /**
-     * @Ser\XmlElement
-     * @Ser\SerializedName("Shipping")
-     */
+    #[Ser\XmlElement]
+    #[Ser\SerializedName('Shipping')]
     private ?Shipping $shipping = null;
 
-    /**
-     * @Ser\XmlElement
-     * @Ser\SerializedName("Tax")
-     */
+    #[Ser\XmlElement]
+    #[Ser\SerializedName('Tax')]
     private ?Tax $tax = null;
 
     /**
-     * @Ser\XmlList(inline=true, entry="Contact")
-     * @Ser\Type("array<CXml\Model\Contact>")
      *
      * @var Contact[]
      */
+    #[Ser\XmlList(inline: true, entry: 'Contact')]
+    #[Ser\Type('array<CXml\Model\Contact>')]
     private ?array $contacts = null;
 
-    /**
-     * @Ser\SerializedName("SupplierOrderInfo")
-     */
+    #[Ser\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
 
     public function __construct(

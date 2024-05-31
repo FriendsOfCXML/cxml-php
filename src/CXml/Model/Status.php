@@ -6,24 +6,16 @@ use JMS\Serializer\Annotation as Ser;
 
 class Status
 {
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
+    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private ?string $lang = null;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private int $code;
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private string $text;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
+    #[Ser\XmlValue(cdata: false)]
     private ?string $message = null;
 
     public function __construct(int $code = 200, string $text = 'OK', string $message = null, string $lang = null)

@@ -8,9 +8,7 @@ class BillTo
 {
     use IdReferencesTrait;
 
-    /**
-     * @Ser\SerializedName("Address")
-     */
+    #[Ser\SerializedName('Address')]
     private Address $address;
 
     public function __construct(Address $address)

@@ -24,21 +24,15 @@ class Contact
     public const ROLE_BUYER = 'buyer';
     public const ROLE_SUBSEQUENTBUYER = 'subsequentBuyer';
 
-    /**
-     * @Ser\XmlAttribute
-     */
+    #[Ser\XmlAttribute]
     private ?string $role = null;
 
-    /**
-     * @Ser\SerializedName("Name")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('Name')]
+    #[Ser\XmlElement(cdata: false)]
     private MultilanguageString $name;
 
-    /**
-     * @Ser\SerializedName("Email")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Ser\SerializedName('Email')]
+    #[Ser\XmlElement(cdata: false)]
     private ?string $email = null;
 
     public function __construct(MultilanguageString $name, string $role = null)

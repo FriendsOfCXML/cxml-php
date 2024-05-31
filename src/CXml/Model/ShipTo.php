@@ -8,22 +8,18 @@ class ShipTo
 {
     use IdReferencesTrait;
 
-    /**
-     * @Ser\SerializedName("Address")
-     */
+    #[Ser\SerializedName('Address')]
     private Address $address;
 
     /**
-     * @Ser\XmlList(inline=true, entry="CarrierIdentifier")
-     * @Ser\Type("array<CXml\Model\CarrierIdentifier>")
      *
      * @var CarrierIdentifier[]
      */
+    #[Ser\XmlList(inline: true, entry: 'CarrierIdentifier')]
+    #[Ser\Type('array<CXml\Model\CarrierIdentifier>')]
     private array $carrierIdentifiers = [];
 
-    /**
-     * @Ser\SerializedName("TransportInformation")
-     */
+    #[Ser\SerializedName('TransportInformation')]
     private ?TransportInformation $transportInformation = null;
 
     public function __construct(Address $address, TransportInformation $transportInformation = null)

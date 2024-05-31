@@ -6,20 +6,13 @@ use JMS\Serializer\Annotation as Ser;
 
 class ItemIn
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("quantity")
-     */
+    #[Ser\XmlAttribute]
+    #[Ser\SerializedName('quantity')]
     private int $quantity;
 
-    /**
-     * @Ser\SerializedName("ItemID")
-     */
+    #[Ser\SerializedName('ItemID')]
     private ?ItemId $itemId = null; // might be used in a quote, therefore can be null
-
-    /**
-     * @Ser\SerializedName("ItemDetail")
-     */
+    #[Ser\SerializedName('ItemDetail')]
     private ItemDetail $itemDetail;
 
     protected function __construct(

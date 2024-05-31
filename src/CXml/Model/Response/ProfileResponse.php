@@ -4,30 +4,30 @@ namespace CXml\Model\Response;
 
 use CXml\Model\Option;
 use CXml\Model\Transaction;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ProfileResponse implements ResponsePayloadInterface
 {
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private \DateTimeInterface $effectiveDate;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?\DateTimeInterface $lastRefresh = null;
 
     /**
      *
      * @var Option[]
      */
-    #[Ser\XmlList(inline: true, entry: 'Option')]
-    #[Ser\Type('array<CXml\Model\Option>')]
+    #[Serializer\XmlList(inline: true, entry: 'Option')]
+    #[Serializer\Type('array<CXml\Model\Option>')]
     private array $options = [];
 
     /**
      *
      * @var Transaction[]
      */
-    #[Ser\XmlList(inline: true, entry: 'Transaction')]
-    #[Ser\Type('array<CXml\Model\Transaction>')]
+    #[Serializer\XmlList(inline: true, entry: 'Transaction')]
+    #[Serializer\Type('array<CXml\Model\Transaction>')]
     private array $transactions = [];
 
     public function __construct(\DateTimeInterface $effectiveDate = null, \DateTimeInterface $lastRefresh = null)

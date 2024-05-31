@@ -2,14 +2,14 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class IdReference
 {
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private string $domain;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private string $identifier;
 
     public function __construct(string $domain, string $identifier)

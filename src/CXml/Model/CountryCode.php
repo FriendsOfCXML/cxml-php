@@ -2,15 +2,15 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class CountryCode
 {
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('isoCountryCode')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('isoCountryCode')]
     private string $isoCountryCode;
 
-    #[Ser\XmlValue(cdata: false)]
+    #[Serializer\XmlValue(cdata: false)]
     private ?string $name = null;
 
     public function __construct(string $isoCountryCode, string $name = null)

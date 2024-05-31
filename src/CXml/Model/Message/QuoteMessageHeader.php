@@ -9,7 +9,7 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\OrganizationId;
 use CXml\Model\ShipTo;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class QuoteMessageHeader
 {
@@ -22,41 +22,41 @@ class QuoteMessageHeader
     public const TYPE_FINAL = 'final';
     public const TYPE_AWARD = 'award';
 
-    #[Ser\SerializedName('type')]
-    #[Ser\XmlAttribute]
+    #[Serializer\SerializedName('type')]
+    #[Serializer\XmlAttribute]
     private string $type;
 
-    #[Ser\SerializedName('quoteID')]
-    #[Ser\XmlAttribute]
+    #[Serializer\SerializedName('quoteID')]
+    #[Serializer\XmlAttribute]
     private string $quoteId;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private \DateTimeInterface $quoteDate;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private string $currency;
 
-    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+    #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private string $lang;
 
-    #[Ser\SerializedName('OrganizationID')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('OrganizationID')]
+    #[Serializer\XmlElement(cdata: false)]
     private OrganizationId $organizationId;
 
-    #[Ser\SerializedName('Total')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('Total')]
+    #[Serializer\XmlElement(cdata: false)]
     private MoneyWrapper $total;
 
-    #[Ser\SerializedName('ShipTo')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('ShipTo')]
+    #[Serializer\XmlElement(cdata: false)]
     private ShipTo $shipTo;
 
     /**
      *
      * @var Contact[]
      */
-    #[Ser\XmlList(inline: true, entry: 'Contact')]
-    #[Ser\Type('array<CXml\Model\Contact>')]
+    #[Serializer\XmlList(inline: true, entry: 'Contact')]
+    #[Serializer\Type('array<CXml\Model\Contact>')]
     private array $contacts = [];
 
     public function __construct(OrganizationId $organizationId, MoneyWrapper $total, string $type, string $quoteId, \DateTime $quoteDate, string $currency, string $lang = 'en')

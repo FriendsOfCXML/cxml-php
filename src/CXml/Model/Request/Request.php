@@ -5,22 +5,22 @@ namespace CXml\Model\Request;
 use Assert\Assertion;
 use CXml\Model\CXml;
 use CXml\Model\Status;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Request
 {
-    #[Ser\SerializedName('Status')]
+    #[Serializer\SerializedName('Status')]
     private ?Status $status = null;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('deploymentMode')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('deploymentMode')]
     private ?string $deploymentMode = null;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('Id')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('Id')]
     private ?string $id = null;
 
-    #[Ser\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
+    #[Serializer\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
     private RequestPayloadInterface $payload;
 
     public function __construct(

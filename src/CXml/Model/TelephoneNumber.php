@@ -2,20 +2,20 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class TelephoneNumber
 {
-    #[Ser\SerializedName('CountryCode')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('CountryCode')]
+    #[Serializer\XmlElement(cdata: false)]
     private CountryCode $countryCode;
 
-    #[Ser\SerializedName('AreaOrCityCode')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('AreaOrCityCode')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $areaOrCityCode = null;
 
-    #[Ser\SerializedName('Number')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('Number')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $number = null;
 
     public function __construct(CountryCode $countryCode, string $areaOrCityCode = null, string $number = null)

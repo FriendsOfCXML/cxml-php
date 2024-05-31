@@ -2,24 +2,24 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ShipTo
 {
     use IdReferencesTrait;
 
-    #[Ser\SerializedName('Address')]
+    #[Serializer\SerializedName('Address')]
     private Address $address;
 
     /**
      *
      * @var CarrierIdentifier[]
      */
-    #[Ser\XmlList(inline: true, entry: 'CarrierIdentifier')]
-    #[Ser\Type('array<CXml\Model\CarrierIdentifier>')]
+    #[Serializer\XmlList(inline: true, entry: 'CarrierIdentifier')]
+    #[Serializer\Type('array<CXml\Model\CarrierIdentifier>')]
     private array $carrierIdentifiers = [];
 
-    #[Ser\SerializedName('TransportInformation')]
+    #[Serializer\SerializedName('TransportInformation')]
     private ?TransportInformation $transportInformation = null;
 
     public function __construct(Address $address, TransportInformation $transportInformation = null)

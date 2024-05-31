@@ -2,21 +2,21 @@
 
 namespace CXml\Model\Message;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ProductActivityHeader
 {
     public const PROCESSTYPE_SUPPLIER_MANAGED_INVENTORY = 'SMI';
     public const PROCESSTYPE_THIRD_PARTY_LOGISTICS = '3PL';
 
-    #[Ser\SerializedName('messageID')]
-    #[Ser\XmlAttribute]
+    #[Serializer\SerializedName('messageID')]
+    #[Serializer\XmlAttribute]
     private string $messageId;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?string $processType = null;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?\DateTimeInterface $creationDate = null;
 
     public function __construct(string $messageId, string $processType = null, \DateTimeInterface $creationDate = null)

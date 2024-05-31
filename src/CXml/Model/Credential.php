@@ -2,20 +2,20 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Credential
 {
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private string $domain;
 
-    #[Ser\SerializedName('Identity')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('Identity')]
+    #[Serializer\XmlElement(cdata: false)]
     private string $identity;
 
     // private CredentialMac $credentialMac; TODO
-    #[Ser\SerializedName('SharedSecret')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('SharedSecret')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $sharedSecret = null;
 
     public function __construct(string $domain, string $identity, string $sharedSecret = null)

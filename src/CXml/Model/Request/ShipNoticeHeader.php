@@ -6,7 +6,7 @@ use CXml\Model\CommentsTrait;
 use CXml\Model\DocumentReference;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ShipNoticeHeader
 {
@@ -14,20 +14,20 @@ class ShipNoticeHeader
     use IdReferencesTrait;
     use CommentsTrait;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('shipmentID')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('shipmentID')]
     private string $shipmentId;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private \DateTimeInterface $noticeDate;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?\DateTimeInterface $shipmentDate = null;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?\DateTimeInterface $deliveryDate = null;
 
-    #[Ser\SerializedName('DocumentReference')]
+    #[Serializer\SerializedName('DocumentReference')]
     private ?DocumentReference $documentReference = null;
 
     public function __construct(string $shipmentId, \DateTimeInterface $noticeDate = null, \DateTimeInterface $shipmentDate = null, \DateTimeInterface $deliveryDate = null, string $documentReference = null)

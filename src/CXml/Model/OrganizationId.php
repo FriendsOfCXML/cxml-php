@@ -2,11 +2,11 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class OrganizationId
 {
-    #[Ser\SerializedName('Credential')]
+    #[Serializer\SerializedName('Credential')]
     private Credential $credential;
 
     public function __construct(Credential $credential)

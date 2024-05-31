@@ -7,23 +7,23 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\Inventory;
 use CXml\Model\ItemId;
 use CXml\Model\MultilanguageString;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ProductActivityDetail
 {
     use ExtrinsicsTrait;
 
-    #[Ser\SerializedName('ItemID')]
+    #[Serializer\SerializedName('ItemID')]
     private ItemId $itemId;
 
-    #[Ser\SerializedName('Description')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('Description')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?MultilanguageString $description = null;
 
-    #[Ser\SerializedName('Contact')] // todo: more contact should be allowed
+    #[Serializer\SerializedName('Contact')] // todo: more contact should be allowed
     private ?Contact $contact = null;
 
-    #[Ser\SerializedName('Inventory')]
+    #[Serializer\SerializedName('Inventory')]
     private ?Inventory $inventory = null;
 
     private function __construct(ItemId $itemId, Inventory $inventory = null, Contact $contact = null, MultilanguageString $description = null)

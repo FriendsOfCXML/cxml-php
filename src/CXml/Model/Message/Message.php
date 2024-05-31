@@ -5,26 +5,26 @@ namespace CXml\Model\Message;
 use Assert\Assertion;
 use CXml\Model\CXml;
 use CXml\Model\Status;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Message
 {
-    #[Ser\SerializedName('Status')]
+    #[Serializer\SerializedName('Status')]
     private ?Status $status = null;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('deploymentMode')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('deploymentMode')]
     private ?string $deploymentMode = null;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('inReplyTo')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('inReplyTo')]
     private ?string $inReplyTo = null;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('Id')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('Id')]
     private ?string $id = null;
 
-    #[Ser\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
+    #[Serializer\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
     private MessagePayloadInterface $payload;
 
     public function __construct(

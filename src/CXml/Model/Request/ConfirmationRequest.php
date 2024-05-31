@@ -3,14 +3,14 @@
 namespace CXml\Model\Request;
 
 use CXml\Model\OrderReference;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ConfirmationRequest implements RequestPayloadInterface
 {
-    #[Ser\SerializedName('ConfirmationHeader')]
+    #[Serializer\SerializedName('ConfirmationHeader')]
     private ConfirmationHeader $confirmationHeader;
 
-    #[Ser\SerializedName('OrderReference')]
+    #[Serializer\SerializedName('OrderReference')]
     private OrderReference $orderReference;
 
     public function __construct(ConfirmationHeader $confirmationHeader, OrderReference $orderReference)

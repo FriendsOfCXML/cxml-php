@@ -2,30 +2,30 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ItemOut
 {
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('lineNumber')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('lineNumber')]
     private int $lineNumber;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('quantity')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('quantity')]
     private int $quantity;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('requestedDeliveryDate')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('requestedDeliveryDate')]
     private ?\DateTimeInterface $requestedDeliveryDate = null;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('parentLineNumber')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('parentLineNumber')]
     private ?int $parentLineNumber = null;
 
-    #[Ser\SerializedName('ItemID')]
+    #[Serializer\SerializedName('ItemID')]
     private ItemId $itemId;
 
-    #[Ser\SerializedName('ItemDetail')]
+    #[Serializer\SerializedName('ItemDetail')]
     private ItemDetail $itemDetail;
 
     private function __construct(

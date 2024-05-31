@@ -5,7 +5,7 @@ namespace CXml\Model\Request;
 use Assert\Assertion;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ConfirmationHeader
 {
@@ -20,11 +20,11 @@ class ConfirmationHeader
     public const TYPE_REQUESTTOPAY = 'requestToPay';
     public const TYPE_REPLACE = 'replace';
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('type')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('type')]
     private string $type;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private \DateTimeInterface $noticeDate;
 
     public function __construct(string $type, \DateTimeInterface $noticeDate = null)

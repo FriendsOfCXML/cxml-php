@@ -2,12 +2,12 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Url
 {
-    #[Ser\SerializedName('URL')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('URL')]
+    #[Serializer\XmlElement(cdata: false)]
     private string $url;
 
     public function __construct(string $url)

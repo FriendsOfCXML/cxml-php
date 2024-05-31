@@ -13,7 +13,7 @@ use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class OrderRequestHeader
 {
@@ -23,46 +23,46 @@ class OrderRequestHeader
 
     public const TYPE_NEW = 'new';
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('orderID')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('orderID')]
     private string $orderId;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('orderDate')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('orderDate')]
     private \DateTimeInterface $orderDate;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private string $type = self::TYPE_NEW;
 
-    #[Ser\XmlElement]
-    #[Ser\SerializedName('Total')]
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('Total')]
     private MoneyWrapper $total;
 
-    #[Ser\XmlElement]
-    #[Ser\SerializedName('ShipTo')]
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('ShipTo')]
     private ?ShipTo $shipTo = null;
 
-    #[Ser\XmlElement]
-    #[Ser\SerializedName('BillTo')]
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('BillTo')]
     private BillTo $billTo;
 
-    #[Ser\XmlElement]
-    #[Ser\SerializedName('Shipping')]
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('Shipping')]
     private ?Shipping $shipping = null;
 
-    #[Ser\XmlElement]
-    #[Ser\SerializedName('Tax')]
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('Tax')]
     private ?Tax $tax = null;
 
     /**
      *
      * @var Contact[]
      */
-    #[Ser\XmlList(inline: true, entry: 'Contact')]
-    #[Ser\Type('array<CXml\Model\Contact>')]
+    #[Serializer\XmlList(inline: true, entry: 'Contact')]
+    #[Serializer\Type('array<CXml\Model\Contact>')]
     private ?array $contacts = null;
 
-    #[Ser\SerializedName('SupplierOrderInfo')]
+    #[Serializer\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
 
     public function __construct(

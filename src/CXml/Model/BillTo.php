@@ -2,13 +2,13 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class BillTo
 {
     use IdReferencesTrait;
 
-    #[Ser\SerializedName('Address')]
+    #[Serializer\SerializedName('Address')]
     private Address $address;
 
     public function __construct(Address $address)

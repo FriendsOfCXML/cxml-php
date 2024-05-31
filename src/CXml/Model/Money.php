@@ -2,17 +2,17 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Money
 {
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private string $currency;
 
-    #[Ser\XmlValue(cdata: false)]
+    #[Serializer\XmlValue(cdata: false)]
     private string $value;
 
-    #[Ser\Exclude]
+    #[Serializer\Exclude]
     private int $valueCent;
 
     public function __construct(string $currency, int $valueCent)

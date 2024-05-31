@@ -3,18 +3,18 @@
 namespace CXml\Model\Response;
 
 use CXml\Model\Status;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Response
 {
-    #[Ser\SerializedName('Status')]
+    #[Serializer\SerializedName('Status')]
     private Status $status;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('Id')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('Id')]
     private ?string $id = null;
 
-    #[Ser\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
+    #[Serializer\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
     private ?ResponsePayloadInterface $payload = null;
 
     public function __construct(

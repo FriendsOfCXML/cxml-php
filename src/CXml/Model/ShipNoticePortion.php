@@ -2,11 +2,11 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ShipNoticePortion
 {
-    #[Ser\SerializedName('OrderReference')]
+    #[Serializer\SerializedName('OrderReference')]
     private OrderReference $orderReference;
 
     public function __construct(string $documentReference, string $orderId = null, \DateTimeInterface $orderDate = null)

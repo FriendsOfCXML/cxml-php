@@ -3,23 +3,23 @@
 namespace CXml\Model\Message;
 
 use CXml\Model\ItemIn;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class PunchOutOrderMessage implements MessagePayloadInterface
 {
-    #[Ser\SerializedName('BuyerCookie')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('BuyerCookie')]
+    #[Serializer\XmlElement(cdata: false)]
     private string $buyerCookie;
 
-    #[Ser\SerializedName('PunchOutOrderMessageHeader')]
+    #[Serializer\SerializedName('PunchOutOrderMessageHeader')]
     private PunchOutOrderMessageHeader $punchOutOrderMessageHeader;
 
     /**
      *
      * @var ItemIn[]
      */
-    #[Ser\XmlList(inline: true, entry: 'ItemIn')]
-    #[Ser\Type('array<CXml\Model\ItemIn>')]
+    #[Serializer\XmlList(inline: true, entry: 'ItemIn')]
+    #[Serializer\Type('array<CXml\Model\ItemIn>')]
     private array $punchoutOrderMessageItems = [];
 
     private function __construct(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader)

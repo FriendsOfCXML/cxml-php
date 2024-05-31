@@ -2,20 +2,20 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Status
 {
-    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+    #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private ?string $lang = null;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private int $code;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private string $text;
 
-    #[Ser\XmlValue(cdata: false)]
+    #[Serializer\XmlValue(cdata: false)]
     private ?string $message = null;
 
     public function __construct(int $code = 200, string $text = 'OK', string $message = null, string $lang = null)

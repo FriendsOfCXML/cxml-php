@@ -5,34 +5,34 @@ namespace CXml\Model;
 use CXml\Model\Message\Message;
 use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-#[Ser\XmlRoot('cXML')]
+#[Serializer\XmlRoot('cXML')]
 class CXml
 {
     public const DEPLOYMENT_TEST = 'test';
     public const DEPLOYMENT_PROD = 'production';
 
-    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+    #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private ?string $lang = null;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('payloadID')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('payloadID')]
     private string $payloadId;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private \DateTimeInterface $timestamp;
 
-    #[Ser\SerializedName('Header')]
+    #[Serializer\SerializedName('Header')]
     private ?Header $header = null;
 
-    #[Ser\SerializedName('Request')]
+    #[Serializer\SerializedName('Request')]
     private ?Request $request = null;
 
-    #[Ser\SerializedName('Response')]
+    #[Serializer\SerializedName('Response')]
     private ?Response $response = null;
 
-    #[Ser\SerializedName('Message')]
+    #[Serializer\SerializedName('Message')]
     private ?Message $message = null;
 
     protected function __construct(

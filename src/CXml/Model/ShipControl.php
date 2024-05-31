@@ -2,7 +2,7 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ShipControl
 {
@@ -10,16 +10,16 @@ class ShipControl
      *
      * @var CarrierIdentifier[]
      */
-    #[Ser\XmlList(inline: true, entry: 'CarrierIdentifier')]
-    #[Ser\Type('array<CXml\Model\CarrierIdentifier>')]
+    #[Serializer\XmlList(inline: true, entry: 'CarrierIdentifier')]
+    #[Serializer\Type('array<CXml\Model\CarrierIdentifier>')]
     private array $carrierIdentifiers = [];
 
     /**
      *
      * @var ShipmentIdentifier[]
      */
-    #[Ser\XmlList(inline: true, entry: 'ShipmentIdentifier')]
-    #[Ser\Type('array<CXml\Model\ShipmentIdentifier>')]
+    #[Serializer\XmlList(inline: true, entry: 'ShipmentIdentifier')]
+    #[Serializer\Type('array<CXml\Model\ShipmentIdentifier>')]
     private array $shipmentIdentifiers = [];
 
     public function __construct(CarrierIdentifier $carrierIdentifier, ShipmentIdentifier $shipmentIdentifier)

@@ -2,11 +2,11 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class SelectedItem
 {
-    #[Ser\SerializedName('ItemID')]
+    #[Serializer\SerializedName('ItemID')]
     private ItemId $itemId;
 
     public function __construct(ItemId $itemId)

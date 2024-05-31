@@ -2,15 +2,15 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Party
 {
-    #[Ser\SerializedName('Credential')]
+    #[Serializer\SerializedName('Credential')]
     private Credential $credential;
 
-    #[Ser\SerializedName('UserAgent')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('UserAgent')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $userAgent = null;
 
     public function __construct(Credential $credential, string $userAgent = null)

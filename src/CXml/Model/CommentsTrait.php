@@ -2,15 +2,15 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 trait CommentsTrait
 {
     /**
      * @var Comment[]
      */
-    #[Ser\XmlList(inline: true, entry: 'Comments')]
-    #[Ser\Type('array<CXml\Model\Comment>')]
+    #[Serializer\XmlList(inline: true, entry: 'Comments')]
+    #[Serializer\Type('array<CXml\Model\Comment>')]
     private ?array $comments = null;
 
     public function addCommentAsString(string $comment, string $type = null, string $lang = null): self

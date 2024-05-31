@@ -2,22 +2,22 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ItemId
 {
     use IdReferencesTrait;
 
-    #[Ser\SerializedName('SupplierPartID')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('SupplierPartID')]
+    #[Serializer\XmlElement(cdata: false)]
     private string $supplierPartId;
 
-    #[Ser\SerializedName('SupplierPartAuxiliaryID')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('SupplierPartAuxiliaryID')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $supplierPartAuxiliaryId = null;
 
-    #[Ser\SerializedName('BuyerPartID')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('BuyerPartID')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $buyerPartId = null;
 
     public function __construct(string $supplierPartId, string $supplierPartAuxiliaryId = null, string $buyerPartId = null)

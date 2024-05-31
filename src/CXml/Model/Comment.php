@@ -2,20 +2,20 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Comment
 {
-    #[Ser\SerializedName('Attachment')]
+    #[Serializer\SerializedName('Attachment')]
     private ?Url $attachment = null;
 
-    #[Ser\XmlValue(cdata: false)]
+    #[Serializer\XmlValue(cdata: false)]
     private ?string $value = null;
 
-    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+    #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private ?string $lang = null;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?string $type = null;
 
     public function __construct(string $value = null, string $type = null, string $lang = null, string $attachment = null)

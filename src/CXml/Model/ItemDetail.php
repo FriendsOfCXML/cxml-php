@@ -3,46 +3,46 @@
 namespace CXml\Model;
 
 use Assert\Assertion;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ItemDetail
 {
     use ExtrinsicsTrait;
     public const UNIT_OF_MEASURE_EACH = 'EA';
 
-    #[Ser\SerializedName('UnitPrice')]
+    #[Serializer\SerializedName('UnitPrice')]
     private MoneyWrapper $unitPrice;
 
-    #[Ser\SerializedName('Description')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('Description')]
+    #[Serializer\XmlElement(cdata: false)]
     private Description $description;
 
-    #[Ser\SerializedName('UnitOfMeasure')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('UnitOfMeasure')]
+    #[Serializer\XmlElement(cdata: false)]
     private string $unitOfMeasure;
 
     /**
      *
      * @var Classification[]
      */
-    #[Ser\XmlList(inline: true, entry: 'Classification')]
-    #[Ser\Type('array<CXml\Model\Classification>')]
+    #[Serializer\XmlList(inline: true, entry: 'Classification')]
+    #[Serializer\Type('array<CXml\Model\Classification>')]
     private array $classifications = [];
 
-    #[Ser\SerializedName('ManufacturerPartID')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('ManufacturerPartID')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $manufacturerPartId = null;
 
-    #[Ser\SerializedName('ManufacturerName')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('ManufacturerName')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $manufacturerName = null;
 
-    #[Ser\SerializedName('URL')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('URL')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $url = null;
 
-    #[Ser\SerializedName('LeadTime')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('LeadTime')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?int $leadtime = null;
 
     protected function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice)

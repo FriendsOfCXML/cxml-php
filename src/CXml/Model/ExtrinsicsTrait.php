@@ -2,7 +2,7 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 trait ExtrinsicsTrait
 {
@@ -10,8 +10,8 @@ trait ExtrinsicsTrait
      *
      * @var Extrinsic[]
      */
-    #[Ser\XmlList(inline: true, entry: 'Extrinsic')]
-    #[Ser\Type('array<CXml\Model\Extrinsic>')]
+    #[Serializer\XmlList(inline: true, entry: 'Extrinsic')]
+    #[Serializer\Type('array<CXml\Model\Extrinsic>')]
     protected array $extrinsics = [];
 
     public function addExtrinsic(Extrinsic $extrinsic): self

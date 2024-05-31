@@ -2,7 +2,7 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 trait IdReferencesTrait
 {
@@ -10,8 +10,8 @@ trait IdReferencesTrait
      *
      * @var IdReference[]
      */
-    #[Ser\XmlList(inline: true, entry: 'IdReference')]
-    #[Ser\Type('array<CXml\Model\IdReference>')]
+    #[Serializer\XmlList(inline: true, entry: 'IdReference')]
+    #[Serializer\Type('array<CXml\Model\IdReference>')]
     protected array $idReferences = [];
 
     public function addIdReference(string $domain, string $identifier): self

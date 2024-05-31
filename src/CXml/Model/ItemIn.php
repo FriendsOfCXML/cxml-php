@@ -2,17 +2,17 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ItemIn
 {
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('quantity')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('quantity')]
     private int $quantity;
 
-    #[Ser\SerializedName('ItemID')]
+    #[Serializer\SerializedName('ItemID')]
     private ?ItemId $itemId = null; // might be used in a quote, therefore can be null
-    #[Ser\SerializedName('ItemDetail')]
+    #[Serializer\SerializedName('ItemDetail')]
     private ItemDetail $itemDetail;
 
     protected function __construct(

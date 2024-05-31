@@ -2,17 +2,17 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class MultilanguageString
 {
-    #[Ser\XmlValue(cdata: false)]
+    #[Serializer\XmlValue(cdata: false)]
     private ?string $value = null;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?string $type = null;
 
-    #[Ser\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+    #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
     private ?string $lang = null;
 
     public function __construct(?string $value, string $type = null, string $lang = 'en')

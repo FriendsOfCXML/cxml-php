@@ -8,44 +8,44 @@ use CXml\Model\ItemOut;
 use CXml\Model\SelectedItem;
 use CXml\Model\ShipTo;
 use CXml\Model\Url;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class PunchOutSetupRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?string $operation = null;
 
-    #[Ser\SerializedName('BuyerCookie')]
+    #[Serializer\SerializedName('BuyerCookie')]
     private string $buyerCookie;
 
     /**
      *
      * @var Extrinsic[]
      */
-    #[Ser\XmlList(inline: true, entry: 'Extrinsic')]
-    #[Ser\Type('array<CXml\Model\Extrinsic>')]
+    #[Serializer\XmlList(inline: true, entry: 'Extrinsic')]
+    #[Serializer\Type('array<CXml\Model\Extrinsic>')]
     protected array $extrinsics = [];
 
-    #[Ser\SerializedName('BrowserFormPost')]
+    #[Serializer\SerializedName('BrowserFormPost')]
     private Url $browserFormPost;
 
-    #[Ser\SerializedName('SupplierSetup')]
+    #[Serializer\SerializedName('SupplierSetup')]
     private Url $supplierSetup;
 
-    #[Ser\SerializedName('ShipTo')]
+    #[Serializer\SerializedName('ShipTo')]
     private ?ShipTo $shipTo = null;
 
-    #[Ser\SerializedName('SelectedItem')]
+    #[Serializer\SerializedName('SelectedItem')]
     private ?SelectedItem $selectedItem = null;
 
     /**
      *
      * @var ItemOut[]
      */
-    #[Ser\XmlList(inline: true, entry: 'ItemOut')]
-    #[Ser\Type('array<CXml\Model\ItemOut>')]
+    #[Serializer\XmlList(inline: true, entry: 'ItemOut')]
+    #[Serializer\Type('array<CXml\Model\ItemOut>')]
     private array $itemOut = [];
 
     public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ShipTo $shipTo = null, SelectedItem $selectedItem = null, string $operation = 'create')

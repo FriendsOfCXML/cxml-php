@@ -2,20 +2,20 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ShipmentIdentifier
 {
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?string $domain = null;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?string $trackingNumberDate = null;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?string $trackingURL = null;
 
-    #[Ser\XmlValue(cdata: false)]
+    #[Serializer\XmlValue(cdata: false)]
     private string $value;
 
     public function __construct(string $value, string $domain = null, string $trackingNumberDate = null, string $trackingURL = null)

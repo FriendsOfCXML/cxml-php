@@ -2,11 +2,11 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class TransportInformation
 {
-    #[Ser\SerializedName('ShippingContractNumber')]
+    #[Serializer\SerializedName('ShippingContractNumber')]
     private ?ShippingContractNumber $shippingContractNumber = null;
 
     public function __construct(?ShippingContractNumber $shippingContractNumber)

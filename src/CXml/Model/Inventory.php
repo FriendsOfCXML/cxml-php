@@ -2,14 +2,14 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Inventory
 {
-    #[Ser\SerializedName('StockOnHandQuantity')]
+    #[Serializer\SerializedName('StockOnHandQuantity')]
     private ?InventoryQuantity $stockOnHandQuantity = null;
 
-    #[Ser\SerializedName('IncrementQuantity')]
+    #[Serializer\SerializedName('IncrementQuantity')]
     private ?InventoryQuantity $incrementQuantity = null;
 
     public static function create(): self

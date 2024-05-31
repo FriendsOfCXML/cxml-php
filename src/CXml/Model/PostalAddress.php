@@ -2,44 +2,44 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class PostalAddress
 {
     use ExtrinsicsTrait;
 
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('name')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('name')]
     private ?string $name = null;
 
-    #[Ser\XmlList(inline: true, entry: 'DeliverTo')]
-    #[Ser\Type('array<string>')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\XmlList(inline: true, entry: 'DeliverTo')]
+    #[Serializer\Type('array<string>')]
+    #[Serializer\XmlElement(cdata: false)]
     private array $deliverTo;
 
-    #[Ser\XmlList(inline: true, entry: 'Street')]
-    #[Ser\Type('array<string>')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\XmlList(inline: true, entry: 'Street')]
+    #[Serializer\Type('array<string>')]
+    #[Serializer\XmlElement(cdata: false)]
     private array $street;
 
-    #[Ser\SerializedName('City')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('City')]
+    #[Serializer\XmlElement(cdata: false)]
     private string $city;
 
-    #[Ser\SerializedName('Municipality')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('Municipality')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $municipality = null;
 
-    #[Ser\SerializedName('State')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('State')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $state = null;
 
-    #[Ser\SerializedName('PostalCode')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('PostalCode')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $postalCode = null;
 
-    #[Ser\SerializedName('Country')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('Country')]
+    #[Serializer\XmlElement(cdata: false)]
     private Country $country;
 
     public function __construct(array $deliverTo, array $street, string $city, Country $country, string $municipality = null, string $state = null, string $postalCode = null, string $name = null)

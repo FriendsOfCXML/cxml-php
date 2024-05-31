@@ -5,16 +5,16 @@ namespace CXml\Model\Request;
 use CXml\Model\DocumentReference;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\Status;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class StatusUpdateRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
 
-    #[Ser\SerializedName('DocumentReference')]
+    #[Serializer\SerializedName('DocumentReference')]
     private ?DocumentReference $documentReference = null;
 
-    #[Ser\SerializedName('Status')]
+    #[Serializer\SerializedName('Status')]
     private Status $status;
 
     public function __construct(Status $status, string $documentReference = null)

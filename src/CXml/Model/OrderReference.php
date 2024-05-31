@@ -2,18 +2,18 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class OrderReference
 {
-    #[Ser\SerializedName('DocumentReference')]
+    #[Serializer\SerializedName('DocumentReference')]
     private ?DocumentReference $documentReference = null;
 
-    #[Ser\SerializedName('orderID')]
-    #[Ser\XmlAttribute]
+    #[Serializer\SerializedName('orderID')]
+    #[Serializer\XmlAttribute]
     private ?string $orderId = null;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?\DateTimeInterface $orderDate = null;
 
     public function __construct(DocumentReference $documentReference, string $orderId = null, \DateTimeInterface $orderDate = null)

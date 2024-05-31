@@ -3,21 +3,21 @@
 namespace CXml\Model\Message;
 
 use CXml\Model\ExtrinsicsTrait;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class ProductActivityMessage implements MessagePayloadInterface
 {
     use ExtrinsicsTrait;
 
-    #[Ser\SerializedName('ProductActivityHeader')]
+    #[Serializer\SerializedName('ProductActivityHeader')]
     private ProductActivityHeader $productActivityHeader;
 
     /**
      *
      * @var ProductActivityDetail[]
      */
-    #[Ser\XmlList(inline: true, entry: 'ProductActivityDetails')]
-    #[Ser\Type('array<CXml\Model\Message\ProductActivityDetail>')]
+    #[Serializer\XmlList(inline: true, entry: 'ProductActivityDetails')]
+    #[Serializer\Type('array<CXml\Model\Message\ProductActivityDetail>')]
     private array $productActivityDetails = [];
 
     private function __construct(string $messageId, string $processType = null, \DateTimeInterface $creationDate = null)

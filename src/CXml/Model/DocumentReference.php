@@ -2,12 +2,12 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class DocumentReference
 {
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('payloadID')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('payloadID')]
     private string $payloadId;
 
     public function __construct(string $payloadId)

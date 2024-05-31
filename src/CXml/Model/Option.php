@@ -2,14 +2,14 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Option
 {
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private string $name;
 
-    #[Ser\XmlValue(cdata: false)]
+    #[Serializer\XmlValue(cdata: false)]
     private string $value;
 
     public function __construct(string $name, string $value)

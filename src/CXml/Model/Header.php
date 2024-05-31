@@ -2,17 +2,17 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Header
 {
-    #[Ser\SerializedName('From')]
+    #[Serializer\SerializedName('From')]
     private Party $from;
 
-    #[Ser\SerializedName('To')]
+    #[Serializer\SerializedName('To')]
     private Party $to;
 
-    #[Ser\SerializedName('Sender')]
+    #[Serializer\SerializedName('Sender')]
     private Party $sender;
 
     public function __construct(Party $from, Party $to, Party $sender)

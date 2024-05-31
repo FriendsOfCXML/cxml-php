@@ -2,15 +2,15 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class SupplierOrderInfo
 {
-    #[Ser\XmlAttribute]
-    #[Ser\SerializedName('orderID')]
+    #[Serializer\XmlAttribute]
+    #[Serializer\SerializedName('orderID')]
     private string $orderId;
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?\DateTimeInterface $orderDate;
 
     public function __construct(string $orderId, \DateTimeInterface $orderDate = null)

@@ -2,15 +2,15 @@
 
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class Tax
 {
-    #[Ser\SerializedName('Money')]
+    #[Serializer\SerializedName('Money')]
     private Money $money;
 
-    #[Ser\SerializedName('Description')]
-    #[Ser\XmlElement(cdata: false)]
+    #[Serializer\SerializedName('Description')]
+    #[Serializer\XmlElement(cdata: false)]
     private MultilanguageString $description;
 
     public function __construct(string $currency, int $value, MultilanguageString $description)

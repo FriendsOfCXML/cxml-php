@@ -8,7 +8,7 @@ use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class PunchOutOrderMessageHeader
 {
@@ -16,22 +16,22 @@ class PunchOutOrderMessageHeader
     public const OPERATION_EDIT = 'edit';
     public const OPERATION_INSPECT = 'inspect';
 
-    #[Ser\XmlAttribute]
+    #[Serializer\XmlAttribute]
     private ?string $operationAllowed = null;
 
-    #[Ser\SerializedName('Total')]
+    #[Serializer\SerializedName('Total')]
     private MoneyWrapper $total;
 
-    #[Ser\SerializedName('ShipTo')]
+    #[Serializer\SerializedName('ShipTo')]
     private ?ShipTo $shipTo = null;
 
-    #[Ser\SerializedName('Shipping')]
+    #[Serializer\SerializedName('Shipping')]
     private ?Shipping $shipping = null;
 
-    #[Ser\SerializedName('Tax')]
+    #[Serializer\SerializedName('Tax')]
     private ?Tax $tax = null;
 
-    #[Ser\SerializedName('SupplierOrderInfo')]
+    #[Serializer\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
 
     public function __construct(MoneyWrapper $total, Shipping $shipping = null, Tax $tax = null, string $operationAllowed = null)

@@ -1,4 +1,4 @@
-name: CI
+name: CI / Static
 
 on:
   push:
@@ -17,9 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [
-          '7.4',
-          '8.0',
-          '8.1',
           '8.2',
           '8.3',
         ]
@@ -31,7 +28,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: none
+          coverage: pcov
           extensions: dom, libxml, simplexml
           tools: composer:v2
 
@@ -58,13 +55,16 @@ jobs:
         run: vendor/bin/parallel-lint src/
 
       - name: Run CodeStyle checks
-        run: PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --allow-risky=yes --diff
+        run: composer run cs-check
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyze -clear-result-cache -c phpstan.neon src/ --no-progress
+        run: composer run phpstan
+
+      - name: Run Rector
+        run: composer run rector-check
 
       - name: Run Tests
-        run: vendor/bin/phpunit --testdox tests
+        run: composer run test
 
       - name: Run Security check
-        run: vendor/bin/security-checker security:check composer.lock
+        run: composer run security-check

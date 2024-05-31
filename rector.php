@@ -23,5 +23,4 @@ return RectorConfig::configure()
         SetList::INSTANCEOF,
         SetList::STRICT_BOOLEANS,
     ])
-    ->withPhpSets()
-;
+    ->withPhpSets();

@@ -64,7 +64,9 @@
     "cs-check": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --diff",
     "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --diff",
     "phpstan": "vendor/bin/phpstan analyze",
-    "rector": "vendor/bin/rector process"
+    "rector-check": "vendor/bin/rector process --dry-run",
+    "rector": "vendor/bin/rector process",
+    "security-check": "vendor/bin/security-checker security:check composer.lock"
   },
   "config": {
     "allow-plugins": {

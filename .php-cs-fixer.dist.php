@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
-use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
-use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
 use PhpCsFixer\Runner\Parallel\ParallelConfig;
 
 $finder = Finder::create()
-    ->in(__DIR__.'/src')
-    ->in(__DIR__.'/tests')
+    ->in(__DIR__ . '/src')
+    ->in(__DIR__ . '/tests')
 ;
 
 $config = new Config();
@@ -26,7 +24,7 @@ return $config
         '@Symfony' => true,
         '@Symfony:risky' => false,
         'native_function_invocation' => [
-            'include' => [NativeFunctionInvocationFixer::SET_INTERNAL],
+            'include' => ['@internal'],
             'scope' => 'namespaced',
             'strict' => false,
         ],

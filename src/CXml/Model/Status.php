@@ -14,8 +14,8 @@ readonly class Status
         #[Serializer\XmlValue(cdata: false)]
         private ?string $message = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private ?string $lang = null)
-    {
+        private ?string $lang = null
+    ) {
     }
 
     public function getCode(): int

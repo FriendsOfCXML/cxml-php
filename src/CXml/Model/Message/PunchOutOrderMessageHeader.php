@@ -20,7 +20,7 @@ class PunchOutOrderMessageHeader
     public const OPERATION_INSPECT = 'inspect';
 
     #[Serializer\XmlAttribute]
-    private ?string $operationAllowed;
+    private readonly ?string $operationAllowed;
 
     #[Serializer\SerializedName('ShipTo')]
     private ?ShipTo $shipTo = null;

@@ -8,7 +8,7 @@ use CXml\Model\Status;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['buyerCookie', 'extrinsics', 'browserFormPost', 'supplierSetup', 'shipTo', 'selectedItem', 'itemOut'])]
-class Request
+readonly class Request
 {
     #[Serializer\XmlAttribute]
     #[Serializer\SerializedName('deploymentMode')]
@@ -16,17 +16,18 @@ class Request
 
     public function __construct(
         #[Serializer\Exclude]
-        private readonly RequestPayloadInterface $payload,
+        private RequestPayloadInterface $payload,
         #[Serializer\SerializedName('Status')]
-        private readonly ?Status $status = null,
+        private ?Status $status = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('Id')]
-        private readonly ?string $id = null,
+        private ?string $id = null,
         string $deploymentMode = null
     ) {
         if (null !== $deploymentMode) {
             Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);
         }
+
         $this->deploymentMode = $deploymentMode;
     }
 

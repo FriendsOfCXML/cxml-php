@@ -29,6 +29,7 @@ class Message
         if (null !== $deploymentMode) {
             Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);
         }
+
         $this->deploymentMode = $deploymentMode;
     }
 

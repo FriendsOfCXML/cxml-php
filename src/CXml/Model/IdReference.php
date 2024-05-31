@@ -10,8 +10,8 @@ readonly class IdReference
         #[Serializer\XmlAttribute]
         private string $domain,
         #[Serializer\XmlAttribute]
-        private string $identifier)
-    {
+        private string $identifier
+    ) {
     }
 
     public function getDomain(): string

@@ -65,6 +65,7 @@ class OrderRequestHeader
         if ($contacts) {
             Assertion::allIsInstanceOf($contacts, Contact::class);
         }
+
         $this->contacts = $contacts;
     }
 

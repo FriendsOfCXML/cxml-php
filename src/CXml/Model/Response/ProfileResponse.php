@@ -11,6 +11,7 @@ class ProfileResponse implements ResponsePayloadInterface
 {
     #[Serializer\XmlAttribute]
     private readonly \DateTimeInterface $effectiveDate;
+
     /**
      * @var Option[]
      */

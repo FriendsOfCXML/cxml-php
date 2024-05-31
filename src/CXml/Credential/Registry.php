@@ -27,9 +27,13 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface
     public function getCredentialByDomainAndId(string $domain, string $identity): Credential
     {
         foreach ($this->registeredCredentials as $registeredCredential) {
-            if ($registeredCredential->getDomain() === $domain && $registeredCredential->getIdentity() === $identity) {
-                return $registeredCredential;
+            if ($registeredCredential->getDomain() !== $domain) {
+                continue;
             }
+            if ($registeredCredential->getIdentity() !== $identity) {
+                continue;
+            }
+            return $registeredCredential;
         }
 
         throw new CXmlCredentialInvalidException(\sprintf("Could not find credentials for '%s@%s'.", $identity, $domain));

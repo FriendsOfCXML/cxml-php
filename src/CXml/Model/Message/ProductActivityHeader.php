@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 class ProductActivityHeader
 {
     public const PROCESSTYPE_SUPPLIER_MANAGED_INVENTORY = 'SMI';
+
     public const PROCESSTYPE_THIRD_PARTY_LOGISTICS = '3PL';
 
     #[Serializer\SerializedName('messageID')]

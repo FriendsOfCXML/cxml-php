@@ -14,7 +14,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class SelfAwareProfileRequestHandler implements HandlerInterface
 {
     private HandlerRegistry $handlerRegistry;
+
     private UrlGeneratorInterface $urlGenerator;
+
     private string $defaultRoute;
 
     public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator, string $defaultRoute = 'post_cxml')
@@ -28,7 +30,7 @@ class SelfAwareProfileRequestHandler implements HandlerInterface
     {
         $profileResponse = new ProfileResponse();
 
-        foreach ($this->handlerRegistry->all() as $requestName => $handler) {
+        foreach (\array_keys($this->handlerRegistry->all()) as $requestName) {
             $transaction = new Transaction($requestName, $this->getEndpointUrl());
 
             $profileResponse->addTransaction($transaction);

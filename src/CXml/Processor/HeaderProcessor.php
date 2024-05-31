@@ -13,6 +13,7 @@ use CXml\Model\Header;
 class HeaderProcessor
 {
     private CredentialRepositoryInterface $credentialRepository;
+
     private AuthenticatorInterface $authenticator;
 
     public function __construct(CredentialRepositoryInterface $credentialRepository, AuthenticatorInterface $authenticator)

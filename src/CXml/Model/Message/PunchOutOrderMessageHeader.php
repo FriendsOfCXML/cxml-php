@@ -13,7 +13,9 @@ use JMS\Serializer\Annotation as Serializer;
 class PunchOutOrderMessageHeader
 {
     public const OPERATION_CREATE = 'create';
+
     public const OPERATION_EDIT = 'edit';
+
     public const OPERATION_INSPECT = 'inspect';
 
     #[Serializer\XmlAttribute]

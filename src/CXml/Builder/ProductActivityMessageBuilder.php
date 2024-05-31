@@ -13,6 +13,7 @@ use CXml\Model\MultilanguageString;
 class ProductActivityMessageBuilder
 {
     private ProductActivityMessage $productActivityMessage;
+
     private string $warehouseCodeDomain;
 
     private function __construct(string $messageId, string $warehouseCodeDomain)
@@ -55,7 +56,7 @@ class ProductActivityMessageBuilder
 
     public function build(): ProductActivityMessage
     {
-        if (empty($this->productActivityMessage->getProductActivityDetails())) {
+        if ([] === $this->productActivityMessage->getProductActivityDetails()) {
             throw new \RuntimeException('Cannot build ProductActivityMessage without any ProductActivityDetail');
         }
 

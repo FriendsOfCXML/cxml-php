@@ -7,8 +7,11 @@ use JMS\Serializer\Annotation as Serializer;
 class CarrierIdentifier
 {
     public const DOMAIN_SCAC = 'SCAC';
+
     public const DOMAIN_COMPANYNAME = 'companyName';
+
     public const DOMAIN_SKU = 'sku';
+
     public const DOMAIN_CARRIER_METHOD = 'carrierMethod';
 
     #[Serializer\XmlAttribute]

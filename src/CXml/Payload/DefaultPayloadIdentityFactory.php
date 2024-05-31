@@ -13,12 +13,12 @@ class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
 
     public function __construct(callable $timeCallable = null)
     {
-        $this->timeCallable = $timeCallable ?? function (): \DateTime {
+        $this->timeCallable = $timeCallable ?? static function (): \DateTime {
             return new \DateTime();
         };
     }
 
-    private static function generateNewPayloadId(\DateTimeInterface $timestamp): string
+    private function generateNewPayloadId(\DateTimeInterface $timestamp): string
     {
         // The recommended implementation is:
         // datetime.process id.random number@hostname
@@ -35,7 +35,7 @@ class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
     {
         /** @var \DateTimeInterface $timestamp */
         $timestamp = \call_user_func($this->timeCallable);
-        $payloadId = self::generateNewPayloadId($timestamp);
+        $payloadId = $this->generateNewPayloadId($timestamp);
 
         return new PayloadIdentity(
             $payloadId,

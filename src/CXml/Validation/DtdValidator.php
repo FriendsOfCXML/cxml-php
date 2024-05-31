@@ -24,7 +24,7 @@ class DtdValidator
      */
     public function validateAgainstDtd(string $xml): void
     {
-        if (empty($xml)) {
+        if ('' === $xml || '0' === $xml) {
             throw new CXmlInvalidException('XML was empty', $xml);
         }
 
@@ -52,8 +52,8 @@ class DtdValidator
         try {
             $doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
             $new = $creator->createDocument('', '', $doctype);
-        } catch (\DOMException $e) {
-            throw new CXmlInvalidException($e->getMessage(), (string) $originalDomDocument->saveXML(), $e);
+        } catch (\DOMException $domException) {
+            throw new CXmlInvalidException($domException->getMessage(), (string) $originalDomDocument->saveXML(), $domException);
         }
 
         $new->encoding = 'utf-8';

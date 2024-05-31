@@ -23,11 +23,17 @@ class Builder
     private PayloadIdentityFactoryInterface $payloadIdentityFactory;
 
     private ?PayloadInterface $payload = null;
+
     private Credential $from;
+
     private Credential $to;
+
     private Credential $sender;
+
     private ?string $senderUserAgent;
+
     private ?Status $status = null;
+
     private ?string $locale;
 
     private function __construct(string $senderUserAgent, string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
@@ -89,9 +95,11 @@ class Builder
         if (!isset($this->from)) {
             throw new \LogicException("No 'from' has been set. Necessary for building a header.");
         }
+
         if (!isset($this->to)) {
             throw new \LogicException("No 'to' has been set. Necessary for building a header.");
         }
+
         if (!isset($this->sender)) {
             throw new \LogicException("No 'sender' has been set. Necessary for building a header.");
         }
@@ -133,7 +141,7 @@ class Builder
                 $status = $this->status;
 
                 // response requires a status
-                if (null === $status) {
+                if (!$status instanceof Status) {
                     $status = new Status(); // 200 OK
                 }
 
@@ -147,7 +155,7 @@ class Builder
 
             default:
                 // simple status ping-pong response
-                if ($this->status) {
+                if ($this->status instanceof Status) {
                     $cXml = CXml::forResponse(
                         $this->payloadIdentityFactory->newPayloadIdentity(),
                         new Response($this->status),

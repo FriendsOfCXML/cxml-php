@@ -32,7 +32,7 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface
             }
         }
 
-        throw new CXmlCredentialInvalidException("Could not find credentials for '{$identity}@{$domain}'.");
+        throw new CXmlCredentialInvalidException(\sprintf('Could not find credentials for \'%s@%s\'.', $identity, $domain));
     }
 
     /**

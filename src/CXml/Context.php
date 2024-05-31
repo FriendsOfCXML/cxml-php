@@ -7,6 +7,7 @@ use CXml\Model\CXml;
 class Context
 {
     private ?CXml $cxml = null;
+
     private array $options;
 
     private function __construct(array $options = [])
@@ -56,12 +57,12 @@ class Context
     public function getSenderUserAgent(): ?string
     {
         $cxml = $this->getCxml();
-        if (!$cxml) {
+        if (!$cxml instanceof CXml) {
             return null;
         }
 
         $header = $cxml->getHeader();
-        if (!$header) {
+        if (!$header instanceof Model\Header) {
             return null;
         }
 
@@ -71,7 +72,7 @@ class Context
     public function getPayloadId(): ?string
     {
         $cxml = $this->getCxml();
-        if (!$cxml) {
+        if (!$cxml instanceof CXml) {
             return null;
         }
 

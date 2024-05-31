@@ -12,12 +12,19 @@ class ConfirmationHeader
     use ExtrinsicsTrait;
     use IdReferencesTrait;
     public const TYPE_ACCEPT = 'accept';
+
     public const TYPE_ALLDETAIL = 'allDetail';
+
     public const TYPE_DETAIL = 'detail';
+
     public const TYPE_BACKORDERED = 'backordered';
+
     public const TYPE_EXCEPT = 'except';
+
     public const TYPE_REJECT = 'reject';
+
     public const TYPE_REQUESTTOPAY = 'requestToPay';
+
     public const TYPE_REPLACE = 'replace';
 
     #[Serializer\XmlAttribute]

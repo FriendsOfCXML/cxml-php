@@ -17,9 +17,13 @@ class QuoteMessageHeader
     use ExtrinsicsTrait;
 
     public const TYPE_ACCEPT = 'accept';
+
     public const TYPE_REJECT = 'reject';
+
     public const TYPE_UPDATE = 'update';
+
     public const TYPE_FINAL = 'final';
+
     public const TYPE_AWARD = 'award';
 
     #[Serializer\SerializedName('type')]

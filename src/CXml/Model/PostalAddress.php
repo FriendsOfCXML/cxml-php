@@ -100,12 +100,12 @@ class PostalAddress
     public function isEmpty(): bool
     {
         return
-            empty($this->name)
-            && empty(\array_filter($this->deliverTo))
-            && empty(\array_filter($this->street))
-            && empty($this->city)
-            && empty($this->municipality)
-            && empty($this->state)
-            && empty($this->postalCode);
+            (null === $this->name || '' === $this->name || '0' === $this->name)
+            && [] === \array_filter($this->deliverTo)
+            && [] === \array_filter($this->street)
+            && ('' === $this->city || '0' === $this->city)
+            && (null === $this->municipality || '' === $this->municipality || '0' === $this->municipality)
+            && (null === $this->state || '' === $this->state || '0' === $this->state)
+            && (null === $this->postalCode || '' === $this->postalCode || '0' === $this->postalCode);
     }
 }

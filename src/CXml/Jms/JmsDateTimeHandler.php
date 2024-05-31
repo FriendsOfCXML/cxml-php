@@ -17,11 +17,7 @@ class JmsDateTimeHandler
 {
     public function serialize(XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context): \DOMText
     {
-        if ($date instanceof Date) {
-            $format = 'Y-m-d';
-        } else {
-            $format = $this->getFormat($type);
-        }
+        $format = $date instanceof Date ? 'Y-m-d' : $this->getFormat($type);
 
         return $visitor->visitSimpleString($date->format($format), $type);
     }

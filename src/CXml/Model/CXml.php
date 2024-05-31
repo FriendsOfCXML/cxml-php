@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
 class CXml
 {
     public const DEPLOYMENT_TEST = 'test';
+
     public const DEPLOYMENT_PROD = 'production';
 
     #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
@@ -103,10 +104,10 @@ class CXml
         $wrapper = $this->message ?? $this->request ?? $this->response;
 
         $shortName = 'undefined';
-        if ($wrapper) {
+        if (null !== $wrapper) {
             $payload = $wrapper->getPayload();
 
-            if ($payload) {
+            if (null !== $payload) {
                 $shortName = (new \ReflectionClass($payload))->getShortName();
             } else {
                 $shortName = (new \ReflectionClass($wrapper))->getShortName();
@@ -118,13 +119,15 @@ class CXml
 
     public function getStatus(): ?Status
     {
-        if ($this->request) {
+        if ($this->request instanceof Request) {
             return $this->request->getStatus();
         }
-        if ($this->message) {
+
+        if ($this->message instanceof Message) {
             return $this->message->getStatus();
         }
-        if ($this->response) {
+
+        if ($this->response instanceof Response) {
             return $this->response->getStatus();
         }
 

@@ -63,7 +63,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-    private static function findPayloadNode(\SimpleXMLElement $cXmlNode): ?\SimpleXMLElement
+    private function findPayloadNode(\SimpleXMLElement $cXmlNode): ?\SimpleXMLElement
     {
         foreach ($cXmlNode->children() as $child) {
             if ('Status' === $child->getName()) {
@@ -111,8 +111,8 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
         /** @var \SimpleXMLElement $data */
         $data = $event->getData();
-        $payloadNode = self::findPayloadNode($data);
-        if (null === $payloadNode) {
+        $payloadNode = $this->findPayloadNode($data);
+        if (!$payloadNode instanceof \SimpleXMLElement) {
             return;
         }
 

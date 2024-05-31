@@ -79,7 +79,7 @@ class Processor
         415 => 'Unsupported Media Type',
         416 => 'Range Not Satisfiable',
         417 => 'Expectation Failed',
-        418 => 'I\'m a teapot',                                               // RFC2324
+        418 => "I'm a teapot",                                               // RFC2324
         421 => 'Misdirected Request',                                         // RFC7540
         422 => 'Unprocessable Entity',                                        // RFC4918
         423 => 'Locked',                                                      // RFC4918
@@ -104,7 +104,9 @@ class Processor
     ];
 
     private HeaderProcessor $headerProcessor;
+
     private HandlerRegistryInterface $handlerRegistry;
+
     private Builder $builder;
 
     public function __construct(
@@ -126,19 +128,19 @@ class Processor
         $context->setCXml($cxml);
 
         $request = $cxml->getRequest();
-        if ($request) {
+        if ($request instanceof Request) {
             return $this->processRequest($request, $context);
         }
 
         $response = $cxml->getResponse();
-        if ($response) {
+        if ($response instanceof Response) {
             $this->processResponse($response, $context);
 
             return null;
         }
 
         $message = $cxml->getMessage();
-        if ($message) {
+        if ($message instanceof Message) {
             $this->processMessage($message, $context);
 
             return null;
@@ -160,8 +162,8 @@ class Processor
      */
     private function processMessage(Message $message, Context $context): void
     {
-        $header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
-        if (!$header) {
+        $header = $context->getCXml() instanceof CXml ? $context->getCXml()->getHeader() : null;
+        if (!$header instanceof \CXml\Model\Header) {
             throw new CXmlException('Invalid CXml. Header is mandatory for message.');
         }
 
@@ -210,8 +212,8 @@ class Processor
      */
     private function processRequest(Request $request, Context $context): CXml
     {
-        $header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
-        if (!$header) {
+        $header = $context->getCXml() instanceof CXml ? $context->getCXml()->getHeader() : null;
+        if (!$header instanceof \CXml\Model\Header) {
             throw new CXmlException('Invalid CXml. Header is mandatory for request.');
         }
 
@@ -229,7 +231,7 @@ class Processor
         $response = $handler->handle($payload, $context);
 
         // if no response was returned, set an implicit 200/OK
-        if (!$response) {
+        if (!$response instanceof ResponsePayloadInterface) {
             $this->builder->status(new Status(
                 200,
                 'OK'

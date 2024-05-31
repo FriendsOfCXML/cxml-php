@@ -48,6 +48,6 @@ trait CommentsTrait
             }
         }
 
-        return empty($commentStrings) ? null : \implode("\n", $commentStrings);
+        return [] === $commentStrings ? null : \implode("\n", $commentStrings);
     }
 }

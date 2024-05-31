@@ -27,17 +27,29 @@ use CXml\Model\TransportInformation;
 class OrderRequestBuilder
 {
     private array $items = [];
+
     private string $orderId;
+
     private \DateTimeInterface $orderDate;
+
     private int $total = 0;
+
     private string $currency;
+
     private array $comments = [];
+
     private array $contacts = [];
+
     private ?ShipTo $shipTo = null;
+
     private BillTo $billTo;
+
     private string $language;
+
     private ?Shipping $shipping = null;
+
     private ?Tax $tax = null;
+
     private array $extrinsics = [];
 
     private function __construct(string $orderId, \DateTimeInterface $orderDate, string $currency, string $language = 'en')
@@ -60,16 +72,18 @@ class OrderRequestBuilder
         \DateTimeInterface $orderDate = null,
         string $language = 'en'
     ): self {
-        if ($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) {
+        if (($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) instanceof \CXml\Model\SupplierOrderInfo) {
             $orderId ??= $supplierOrderInfo->getOrderId();
             $orderDate ??= $supplierOrderInfo->getOrderDate();
         }
+
         $currency ??= $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getTotal()->getMoney()->getCurrency();
 
         if (null === $orderId) {
             throw new \LogicException('orderId should either be given or present in the PunchOutOrderMessage');
         }
-        if (null === $orderDate) {
+
+        if (!$orderDate instanceof \DateTimeInterface) {
             throw new \LogicException('orderDate should either be given or present in the PunchOutOrderMessage');
         }
 
@@ -204,7 +218,7 @@ class OrderRequestBuilder
                 $classifications
             ),
             $requestDeliveryDate,
-            $parent ? $parent->getLineNumber() : null
+            $parent instanceof ItemOut ? $parent->getLineNumber() : null
         );
 
         $this->items[] = $item;
@@ -263,6 +277,7 @@ class OrderRequestBuilder
         foreach ($this->comments as $comment) {
             $orh->addComment($comment);
         }
+
         foreach ($this->extrinsics as $extrinsic) {
             $orh->addExtrinsic($extrinsic);
         }

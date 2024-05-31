@@ -11,7 +11,8 @@ class ItemIn
     private int $quantity;
 
     #[Serializer\SerializedName('ItemID')]
-    private ?ItemId $itemId = null; // might be used in a quote, therefore can be null
+    private ?ItemId $itemId = null;
+    // might be used in a quote, therefore can be null
     #[Serializer\SerializedName('ItemDetail')]
     private ItemDetail $itemDetail;
 

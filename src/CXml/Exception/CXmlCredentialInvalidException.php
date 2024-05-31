@@ -10,7 +10,7 @@ class CXmlCredentialInvalidException extends CXmlExpectationFailedException
 
     public function __construct(string $message, Credential $credential = null, \Throwable $previous = null)
     {
-        parent::__construct($message.($credential ? "\nCredential was:".$credential : ''), $previous);
+        parent::__construct($message.($credential instanceof Credential ? "\nCredential was:".$credential : ''), $previous);
 
         $this->credential = $credential;
     }

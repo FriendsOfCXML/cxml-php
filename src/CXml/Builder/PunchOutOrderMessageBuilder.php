@@ -20,19 +20,28 @@ use CXml\Model\TransportInformation;
 class PunchOutOrderMessageBuilder
 {
     private string $buyerCookie;
+
     private string $currency;
+
     private ?string $operationAllowed;
+
     private string $language;
 
     /**
      * @var ItemIn[]
      */
     private array $punchoutOrderMessageItems = [];
+
     private int $total = 0;
+
     private ?Shipping $shipping = null;
+
     private ?Tax $tax = null;
+
     private string $orderId;
+
     private ?\DateTimeInterface $orderDate;
+
     private ?ShipTo $shipTo = null;
 
     private function __construct(string $language, string $buyerCookie, string $currency, string $operationAllowed = null)
@@ -162,7 +171,7 @@ class PunchOutOrderMessageBuilder
 
     public function build(): PunchOutOrderMessage
     {
-        if (empty($this->punchoutOrderMessageItems)) {
+        if ([] === $this->punchoutOrderMessageItems) {
             throw new \RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
         }
 
@@ -173,7 +182,7 @@ class PunchOutOrderMessageBuilder
             $this->operationAllowed
         );
 
-        if (isset($this->shipTo)) {
+        if ($this->shipTo instanceof ShipTo) {
             $punchoutOrderMessageHeader->setShipTo($this->shipTo);
         }
 

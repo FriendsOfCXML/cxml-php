@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Jms;
 
 use CXml\Model\Exception\CXmlModelNotFoundException;
@@ -86,7 +88,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         $visitor = $event->getVisitor();
 
         // this is the actual payload object of type MessagePayloadInterface
-        /* @phpstan-ignore-next-line */
+        /** @phpstan-ignore-next-line */
         $payload = $event->getObject()->getPayload();
 
         if ($payload) {
@@ -95,7 +97,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
             // tell jms to add the payload value in a wrapped node
             $visitor->visitProperty(
                 new StaticPropertyMetadata($event->getType()['name'], $cls, null),
-                $payload
+                $payload,
             );
         }
     }
@@ -119,7 +121,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         $serializedName = $payloadNode->getName();
         $targetNamespace = (new \ReflectionClass($event->getType()['name']))->getNamespaceName();
 
-        $cls = $targetNamespace.'\\'.$serializedName;
+        $cls = $targetNamespace . '\\' . $serializedName;
         if (!\class_exists($cls)) {
             throw new CXmlModelNotFoundException($serializedName);
         }
@@ -128,7 +130,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
         $propertyMetadata = new PropertyMetadata(
             $event->getType()['name'],
-            'payload'
+            'payload',
         );
 
         $propertyMetadata->serializedName = $serializedName;

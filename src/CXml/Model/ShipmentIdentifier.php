@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -15,7 +17,7 @@ readonly class ShipmentIdentifier
         #[Serializer\XmlAttribute]
         private ?string $trackingNumberDate = null,
         #[Serializer\XmlAttribute]
-        private ?string $trackingURL = null
+        private ?string $trackingURL = null,
     ) {
     }
 

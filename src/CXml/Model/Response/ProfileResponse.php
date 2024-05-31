@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Response;
 
 use CXml\Model\Option;
@@ -29,7 +31,7 @@ class ProfileResponse implements ResponsePayloadInterface
     public function __construct(
         \DateTimeInterface $effectiveDate = null,
         #[Serializer\XmlAttribute]
-        private readonly ?\DateTimeInterface $lastRefresh = null
+        private readonly ?\DateTimeInterface $lastRefresh = null,
     ) {
         $this->effectiveDate = $effectiveDate ?? new \DateTime();
     }

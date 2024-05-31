@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -9,7 +11,7 @@ readonly class OrganizationId
 {
     public function __construct(
         #[Serializer\SerializedName('Credential')]
-        private Credential $credential
+        private Credential $credential,
     ) {
     }
 

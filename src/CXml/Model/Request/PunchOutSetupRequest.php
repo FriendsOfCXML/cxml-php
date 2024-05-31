@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use CXml\Model\Extrinsic;
@@ -45,7 +47,7 @@ class PunchOutSetupRequest implements RequestPayloadInterface
         #[Serializer\SerializedName('SelectedItem')]
         private readonly ?SelectedItem $selectedItem = null,
         #[Serializer\XmlAttribute]
-        private readonly ?string $operation = 'create'
+        private readonly ?string $operation = 'create',
     ) {
         $this->browserFormPost = new Url($browserFormPost);
         $this->supplierSetup = new Url($supplierSetup);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXmlTest\Model;
 
 use CXml\Builder;
@@ -27,36 +29,36 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterface
+final class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private DtdValidator $dtdValidator;
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
     }
 
     public function testMinimumExample(): void
     {
         $from = new Credential(
             'NetworkId',
-            'AN00000123'
+            'AN00000123',
         );
         $to = new Credential(
             'NetworkId',
-            'AN00000456'
+            'AN00000456',
         );
         $sender = new Credential(
             'NetworkId',
             'AN00000123',
-            'abracadabra'
+            'abracadabra',
         );
 
         $organizationId = new OrganizationId(
             new Credential(
                 'domain',
-                'identity'
-            )
+                'identity',
+            ),
         );
 
         $total = new MoneyWrapper('USD', 10000);
@@ -67,13 +69,12 @@ class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterfa
             QuoteMessageHeader::TYPE_ACCEPT,
             'quoteId',
             new \DateTime('2021-01-08T23:00:06-08:00'),
-            'de'
+            'de',
         );
 
         $contact = Contact::create(new MultilanguageString('Joe Smith'))
             ->addEmail('joe.smith@siemens.com')
-            ->addIdReference('GUID', '123456')
-        ;
+            ->addIdReference('GUID', '123456');
 
         $shipTo = new ShipTo(
             new Address(
@@ -85,7 +86,7 @@ class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterfa
                     new Country('US', 'United States'),
                     null,
                     'CA',
-                    '90489'
+                    '90489',
                 ),
                 null,
                 null,
@@ -94,32 +95,30 @@ class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterfa
                     new TelephoneNumber(
                         new CountryCode('US', '1'),
                         '800',
-                        '1234567'
+                        '1234567',
                     ),
-                    'company'
-                )
-            )
+                    'company',
+                ),
+            ),
         );
 
         $quoteMessage->getQuoteMessageHeader()
             ->addContact($contact)
             ->setShipTo($shipTo)
             ->addExtrinsicAsKeyValue('expiry_date', '2023-01-08T23:00:06-08:00')
-            ->addCommentAsString('This is a comment')
-        ;
+            ->addCommentAsString('This is a comment');
 
         $cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
             ->from($from)
             ->to($to)
             ->sender($sender)
             ->payload($quoteMessage)
-            ->build()
-        ;
+            ->build();
 
-        $this->assertEquals('QuoteMessage_0c30050@supplierorg.com', (string) $cxml);
+        self::assertSame('QuoteMessage_0c30050@supplierorg.com', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/QuoteMessage.xml', $xml);
+        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/QuoteMessage.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }
@@ -128,7 +127,7 @@ class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryInterfa
     {
         return new PayloadIdentity(
             '0c30050@supplierorg.com',
-            new \DateTime('2021-01-08T23:00:06-08:00')
+            new \DateTime('2021-01-08T23:00:06-08:00'),
         );
     }
 }

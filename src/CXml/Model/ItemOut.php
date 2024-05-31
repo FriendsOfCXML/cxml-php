@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -23,7 +25,7 @@ readonly class ItemOut
         private ?\DateTimeInterface $requestedDeliveryDate = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('parentLineNumber')]
-        private ?int $parentLineNumber = null
+        private ?int $parentLineNumber = null,
     ) {
     }
 
@@ -33,7 +35,7 @@ readonly class ItemOut
         ItemId $itemId,
         ItemDetail $itemDetail,
         \DateTimeInterface $requestedDeliveryDate = null,
-        int $parentLineNumber = null
+        int $parentLineNumber = null,
     ): self {
         return new self(
             $lineNumber,
@@ -41,7 +43,7 @@ readonly class ItemOut
             $itemId,
             $itemDetail,
             $requestedDeliveryDate,
-            $parentLineNumber
+            $parentLineNumber,
         );
     }
 

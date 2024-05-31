@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Handler\Request;
 
 use CXml\Context;
@@ -19,8 +21,8 @@ class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
     {
         return new PunchOutSetupResponse(
             new Url(
-                $this->startPageUrl
-            )
+                $this->startPageUrl,
+            ),
         );
     }
 

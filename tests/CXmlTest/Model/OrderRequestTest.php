@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXmlTest\Model;
 
 use CXml\Builder;
@@ -33,29 +35,29 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterface
+final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private DtdValidator $dtdValidator;
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
     }
 
     public function testMinimumExample(): void
     {
         $from = new Credential(
             'NetworkId',
-            'inbound@prominate-platform.com'
+            'inbound@prominate-platform.com',
         );
         $to = new Credential(
             'NetworkId',
-            'supplier@supplier.com'
+            'supplier@supplier.com',
         );
         $sender = new Credential(
             'NetworkId',
             'inbound@prominate-platform.com',
-            'coyote'
+            'coyote',
         );
 
         $orderRequestHeader = OrderRequestHeader::create(
@@ -77,7 +79,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                         null,
                         'CA',
                         '90489',
-                        'default'
+                        'default',
                     ),
                     null,
                     null,
@@ -86,11 +88,11 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                         new TelephoneNumber(
                             new CountryCode('US', '1'),
                             '800',
-                            '5551212'
+                            '5551212',
                         ),
-                        'personal'
-                    )
-                )
+                        'personal',
+                    ),
+                ),
             ),
             new BillTo(
                 new Address(
@@ -105,7 +107,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                         null,
                         null,
                         '42699',
-                        'default'
+                        'default',
                     ),
                     null,
                     null,
@@ -114,21 +116,21 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                         new TelephoneNumber(
                             new CountryCode('DE', '49'),
                             '761',
-                            '1234567'
+                            '1234567',
                         ),
-                        'company'
-                    )
-                )
+                        'company',
+                    ),
+                ),
             ),
             new MoneyWrapper(
                 'EUR',
-                8500
-            )
+                8500,
+            ),
         );
         $orderRequestHeader->addComment(new Comment(null, null, null, 'delivery-note.pdf'));
 
         $orderRequest = OrderRequest::create(
-            $orderRequestHeader
+            $orderRequestHeader,
         );
 
         $item = ItemOut::create(
@@ -140,13 +142,13 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                 'EA',
                 new MoneyWrapper(
                     'EUR',
-                    210
+                    210,
                 ),
                 [
-                    new Classification('custom', 0),
-                ]
+                    new Classification('custom', '0'),
+                ],
             ),
-            new \DateTime('2020-02-28')
+            new \DateTime('2020-02-28'),
         );
         $orderRequest->addItem($item);
 
@@ -159,13 +161,13 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
                 'EA',
                 new MoneyWrapper(
                     'EUR',
-                    320
+                    320,
                 ),
                 [
-                    new Classification('custom', 0),
-                ]
+                    new Classification('custom', '0'),
+                ],
             ),
-            new \DateTime('2020-02-28')
+            new \DateTime('2020-02-28'),
         );
         $orderRequest->addItem($item);
 
@@ -174,13 +176,12 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
             ->to($to)
             ->sender($sender)
             ->payload($orderRequest)
-            ->build(CXml::DEPLOYMENT_TEST)
-        ;
+            ->build(CXml::DEPLOYMENT_TEST);
 
-        $this->assertEquals('OrderRequest_1625586002.193314.7293@dev', (string) $cxml);
+        self::assertSame('OrderRequest_1625586002.193314.7293@dev', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
+        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }
@@ -189,7 +190,7 @@ class OrderRequestTest extends TestCase implements PayloadIdentityFactoryInterfa
     {
         return new PayloadIdentity(
             '1625586002.193314.7293@dev',
-            new \DateTime('2000-10-12T18:39:09-08:00')
+            new \DateTime('2000-10-12T18:39:09-08:00'),
         );
     }
 }

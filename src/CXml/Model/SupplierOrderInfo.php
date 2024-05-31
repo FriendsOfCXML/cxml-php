@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -11,7 +13,7 @@ readonly class SupplierOrderInfo
         #[Serializer\SerializedName('orderID')]
         private string $orderId,
         #[Serializer\XmlAttribute]
-        private ?\DateTimeInterface $orderDate = null
+        private ?\DateTimeInterface $orderDate = null,
     ) {
     }
 

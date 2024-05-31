@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use CXml\Model\DocumentReference;
@@ -18,16 +20,16 @@ class StatusUpdateRequest implements RequestPayloadInterface
     public function __construct(
         #[Serializer\SerializedName('Status')]
         private readonly Status $status,
-        string $documentReference = null
+        string $documentReference = null,
     ) {
-        $this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
+        $this->documentReference = null !== $documentReference && '' !== $documentReference && '0' !== $documentReference ? new DocumentReference($documentReference) : null;
     }
 
     public static function create(Status $status, string $documentReference = null): self
     {
         return new self(
             $status,
-            $documentReference
+            $documentReference,
         );
     }
 

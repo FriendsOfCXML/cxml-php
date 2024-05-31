@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -11,7 +13,7 @@ class BillTo
 
     public function __construct(
         #[Serializer\SerializedName('Address')]
-        private readonly Address $address
+        private readonly Address $address,
     ) {
     }
 

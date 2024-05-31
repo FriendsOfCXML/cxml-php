@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml;
 
 use CXml\Exception\CXmlException;
@@ -101,7 +103,7 @@ class Builder
         return new Header(
             new Party($this->from),
             new Party($this->to),
-            new Party($this->sender, $this->senderUserAgent)
+            new Party($this->sender, $this->senderUserAgent),
         );
     }
 
@@ -117,7 +119,7 @@ class Builder
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Request($this->payload, $this->status, null, $deploymentMode),
                     $this->buildHeader(),
-                    $this->locale
+                    $this->locale,
                 );
                 break;
 
@@ -127,7 +129,7 @@ class Builder
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Message($this->payload, $this->status),
                     $this->buildHeader(),
-                    $this->locale
+                    $this->locale,
                 );
                 break;
 
@@ -143,7 +145,7 @@ class Builder
                 $cXml = CXml::forResponse(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Response($status, $this->payload),
-                    $this->locale
+                    $this->locale,
                 );
                 break;
 
@@ -153,7 +155,7 @@ class Builder
                     $cXml = CXml::forResponse(
                         $this->payloadIdentityFactory->newPayloadIdentity(),
                         new Response($this->status),
-                        $this->locale
+                        $this->locale,
                     );
 
                     break;

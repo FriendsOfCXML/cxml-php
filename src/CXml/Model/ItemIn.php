@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -14,14 +16,14 @@ class ItemIn
         #[Serializer\SerializedName('ItemID')]
         private readonly ?ItemId $itemId,
         #[Serializer\SerializedName('ItemDetail')]
-        private readonly ItemDetail $itemDetail
+        private readonly ItemDetail $itemDetail,
     ) {
     }
 
     public static function create(
         int $quantity,
         ItemId $itemId,
-        ItemDetail $itemDetail
+        ItemDetail $itemDetail,
     ): self {
         return new self(
             $quantity,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 /**
@@ -11,7 +13,7 @@ class Date extends \DateTime
     public static function createFromFormat($format, $datetime, \DateTimeZone $timezone = null): \DateTime|false|Date
     {
         $dateTime = parent::createFromFormat($format, $datetime, $timezone);
-        if (!$dateTime) {
+        if (false === $dateTime) {
             return false;
         }
 

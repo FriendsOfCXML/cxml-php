@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use Assert\Assertion;
@@ -43,7 +45,7 @@ class ItemDetail
         #[Serializer\XmlElement(cdata: false)]
         private readonly string $unitOfMeasure,
         #[Serializer\SerializedName('UnitPrice')]
-        private readonly MoneyWrapper $unitPrice
+        private readonly MoneyWrapper $unitPrice,
     ) {
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -16,7 +18,7 @@ readonly class TelephoneNumber
         private ?string $areaOrCityCode = null,
         #[Serializer\SerializedName('Number')]
         #[Serializer\XmlElement(cdata: false)]
-        private ?string $number = null
+        private ?string $number = null,
     ) {
     }
 

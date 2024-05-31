@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -19,7 +21,7 @@ class CarrierIdentifier
         #[Serializer\XmlAttribute]
         private readonly string $domain,
         #[Serializer\XmlValue(cdata: false)]
-        private readonly string $value
+        private readonly string $value,
     ) {
     }
 

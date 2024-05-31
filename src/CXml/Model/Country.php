@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -12,7 +14,7 @@ readonly class Country
         #[Serializer\SerializedName('isoCountryCode')]
         private string $isoCountryCode,
         #[Serializer\XmlValue(cdata: false)]
-        private ?string $name = null
+        private ?string $name = null,
     ) {
     }
 

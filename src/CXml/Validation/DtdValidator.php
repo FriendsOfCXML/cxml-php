@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Validation;
 
 use Assert\Assertion;
@@ -12,9 +14,9 @@ readonly class DtdValidator
     public function __construct(string $pathToCxmlDtds)
     {
         Assertion::directory($pathToCxmlDtds);
-        Assertion::file($pathToCxmlDtds.'/cXML.dtd');
-        Assertion::file($pathToCxmlDtds.'/Fulfill.dtd');
-        Assertion::file($pathToCxmlDtds.'/Quote.dtd');
+        Assertion::file($pathToCxmlDtds . '/cXML.dtd');
+        Assertion::file($pathToCxmlDtds . '/Fulfill.dtd');
+        Assertion::file($pathToCxmlDtds . '/Quote.dtd');
 
         $this->pathToCxmlDtds = $pathToCxmlDtds;
     }
@@ -50,17 +52,17 @@ readonly class DtdValidator
         $creator = new \DOMImplementation();
 
         try {
-            $doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
+            $doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds . '/' . $dtdFilename);
             $new = $creator->createDocument('', '', $doctype);
         } catch (\DOMException $domException) {
-            throw new CXmlInvalidException($domException->getMessage(), (string) $originalDomDocument->saveXML(), $domException);
+            throw new CXmlInvalidException($domException->getMessage(), (string)$originalDomDocument->saveXML(), $domException);
         }
 
         $new->encoding = 'utf-8';
 
         $oldNode = $originalDomDocument->getElementsByTagName('cXML')->item(0);
-        if (!$oldNode) {
-            throw new CXmlInvalidException('Missing cXML root node', (string) $originalDomDocument->saveXML());
+        if (null === $oldNode) {
+            throw new CXmlInvalidException('Missing cXML root node', (string)$originalDomDocument->saveXML());
         }
 
         $newNode = $new->importNode($oldNode, true);
@@ -82,6 +84,6 @@ readonly class DtdValidator
             }
         }
 
-        throw CXmlInvalidException::fromLibXmlError(\libxml_get_last_error(), (string) $old->saveXML());
+        throw CXmlInvalidException::fromLibXmlError(\libxml_get_last_error(), (string)$old->saveXML());
     }
 }

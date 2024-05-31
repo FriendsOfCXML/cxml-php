@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
+use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
+use PhpCsFixer\Runner\Parallel\ParallelConfig;
 
 $finder = Finder::create()
     ->in(__DIR__.'/src')
@@ -14,11 +16,13 @@ $finder = Finder::create()
 $config = new Config();
 
 return $config
+    ->setParallelConfig((new ParallelConfig()))
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
         '@PSR1' => true,
         '@PhpCsFixer' => true,
+        '@PhpCsFixer:risky' => true,
         '@Symfony' => true,
         '@Symfony:risky' => false,
         'native_function_invocation' => [
@@ -32,10 +36,18 @@ return $config
         'pow_to_exponentiation' => true,
         'combine_nested_dirname' => true,
         'phpdoc_separation' => false,
+        'phpdoc_align' => ['align' => 'left'],
         '@PHP82Migration' => true,
-        'global_namespace_import' => [
-            'import_classes' => false,
-        ],
+        'global_namespace_import' => ['import_classes' => false],
+        'modernize_strpos' => true,
+        'function_declaration' => ['closure_function_spacing' => 'one', 'closure_fn_spacing' => 'one'],
+        'phpdoc_to_comment' => ['ignored_tags' => ['todo', 'var', 'property']],
+        'general_phpdoc_annotation_remove' => ['annotations' => ['expectedDeprecation']],
+        'array_syntax' => ['syntax' => 'short'],
+        'cast_spaces' => ['space' => 'none'],
+        'concat_space' => ['spacing' => 'one'],
+        'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
+        'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => ['arguments', 'arrays', 'match', 'parameters']],
     ])
     ->setFinder($finder)
 ;

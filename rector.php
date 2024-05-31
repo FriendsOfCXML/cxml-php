@@ -21,6 +21,7 @@ return RectorConfig::configure()
         SetList::PRIVATIZATION,
         SetList::EARLY_RETURN,
         SetList::INSTANCEOF,
+        SetList::STRICT_BOOLEANS,
     ])
     ->withPhpSets()
 ;

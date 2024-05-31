@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -14,7 +16,7 @@ readonly class Status
         #[Serializer\XmlValue(cdata: false)]
         private ?string $message = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private ?string $lang = null
+        private ?string $lang = null,
     ) {
     }
 

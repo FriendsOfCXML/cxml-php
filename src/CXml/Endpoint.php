@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml;
 
 use CXml\Exception\CXmlException;
@@ -18,7 +20,7 @@ readonly class Endpoint
         private Serializer $serializer,
         private DtdValidator $dtdValidator,
         private Processor $processor,
-        LoggerInterface $logger = null
+        LoggerInterface $logger = null,
     ) {
         $this->logger = $logger ?? new NullLogger();
     }
@@ -44,16 +46,16 @@ readonly class Endpoint
         try {
             $cxml = $this->serializer->deserialize($xml);
         } catch (\RuntimeException $runtimeException) {
-            $this->logger->error('Error while deserializing xml to CXml: '.$runtimeException->getMessage(), ['xml' => $xml]);
+            $this->logger->error('Error while deserializing xml to CXml: ' . $runtimeException->getMessage(), ['xml' => $xml]);
 
-            throw new CXmlInvalidException('Error while deserializing xml: '.$runtimeException->getMessage(), $xml, $runtimeException);
+            throw new CXmlInvalidException('Error while deserializing xml: ' . $runtimeException->getMessage(), $xml, $runtimeException);
         }
 
         // process
         try {
             $result = $this->processor->process($cxml, $context);
         } catch (CXmlException $cXmlException) {
-            $this->logger->error('Error while processing valid CXml: '.$cXmlException->getMessage(), ['xml' => $xml]);
+            $this->logger->error('Error while processing valid CXml: ' . $cXmlException->getMessage(), ['xml' => $xml]);
 
             throw $cXmlException;
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -17,7 +19,7 @@ readonly class ProductActivityHeader
         #[Serializer\XmlAttribute]
         private ?string $processType = null,
         #[Serializer\XmlAttribute]
-        private ?\DateTimeInterface $creationDate = null
+        private ?\DateTimeInterface $creationDate = null,
     ) {
     }
 

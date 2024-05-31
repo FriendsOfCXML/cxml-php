@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -35,7 +37,7 @@ class PostalAddress
         private readonly ?string $postalCode = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('name')]
-        private readonly ?string $name = null
+        private readonly ?string $name = null,
     ) {
     }
 

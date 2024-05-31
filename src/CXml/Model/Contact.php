@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -47,7 +49,7 @@ class Contact
         #[Serializer\XmlElement(cdata: false)]
         private readonly MultilanguageString $name,
         #[Serializer\XmlAttribute]
-        private readonly ?string $role = null
+        private readonly ?string $role = null,
     ) {
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -19,7 +21,7 @@ class Transaction
         private readonly string $requestName,
         #[Serializer\SerializedName('URL')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly string $url
+        private readonly string $url,
     ) {
     }
 

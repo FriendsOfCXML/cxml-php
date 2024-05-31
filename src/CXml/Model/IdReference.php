@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -10,7 +12,7 @@ readonly class IdReference
         #[Serializer\XmlAttribute]
         private string $domain,
         #[Serializer\XmlAttribute]
-        private string $identifier
+        private string $identifier,
     ) {
     }
 

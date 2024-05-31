@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXmlTest\Model;
 
 use CXml\Builder\OrderRequestBuilder;
@@ -25,38 +27,38 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class SerializerTest extends TestCase
+final class SerializerTest extends TestCase
 {
     public function testSerializeSimpleRequest(): void
     {
         $from = new Party(
-            new Credential('AribaNetworkUserId', 'admin@acme.com')
+            new Credential('AribaNetworkUserId', 'admin@acme.com'),
         );
         $to = new Party(
-            new Credential('DUNS', '012345678')
+            new Credential('DUNS', '012345678'),
         );
         $sender = new Party(
             new Credential('AribaNetworkUserId', 'sysadmin@buyer.com', 'abracadabra'),
-            'Network Hub 1.1'
+            'Network Hub 1.1',
         );
         $request = new Request(
             new PunchOutSetupRequest(
                 'nomnom',
                 'https://browserFormPost',
-                'https://supplierSetup'
-            )
+                'https://supplierSetup',
+            ),
         );
 
         $header = new Header(
             $from,
             $to,
-            $sender
+            $sender,
         );
 
         $msg = CXml::forRequest(
             new PayloadIdentity('payload-id', new \DateTime('2000-01-01')),
             $request,
-            $header
+            $header,
         );
 
         $actualXml = Serializer::create()->serialize($msg);
@@ -97,38 +99,38 @@ class SerializerTest extends TestCase
 			</Request>
 			</cXML>';
 
-        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        self::assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testSerializeSimpleMessage(): void
     {
         $from = new Party(
-            new Credential('AribaNetworkUserId', 'admin@acme.com')
+            new Credential('AribaNetworkUserId', 'admin@acme.com'),
         );
         $to = new Party(
-            new Credential('DUNS', '012345678')
+            new Credential('DUNS', '012345678'),
         );
         $sender = new Party(
             new Credential('AribaNetworkUserId', 'sysadmin@buyer.com', 'abracadabra'),
-            'Network Hub 1.1'
+            'Network Hub 1.1',
         );
         $message = new Message(
             PunchOutOrderMessage::create(
                 '34234234ADFSDF234234',
-                new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320))
-            )
+                new PunchOutOrderMessageHeader(new MoneyWrapper('USD', 76320)),
+            ),
         );
 
         $header = new Header(
             $from,
             $to,
-            $sender
+            $sender,
         );
 
         $msg = CXml::forMessage(
             new PayloadIdentity('payload-id', new \DateTime('2000-01-01')),
             $message,
-            $header
+            $header,
         );
 
         $actualXml = Serializer::create()->serialize($msg);
@@ -168,7 +170,7 @@ class SerializerTest extends TestCase
 			</Message>
 			</cXML>';
 
-        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        self::assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testSerializeSimpleResponse(): void
@@ -176,12 +178,12 @@ class SerializerTest extends TestCase
         $msg = CXml::forResponse(
             new PayloadIdentity(
                 '978979621537--4882920031100014936@206.251.25.169',
-                new \DateTime('2001-01-08T10:47:01-08:00')
+                new \DateTime('2001-01-08T10:47:01-08:00'),
             ),
             new Response(
                 new Status(200, 'OK', 'Ping Response CXml'),
-                null
-            )
+                null,
+            ),
         );
 
         $actualXml = Serializer::create()->serialize($msg);
@@ -195,7 +197,7 @@ class SerializerTest extends TestCase
 			</Response>
 			</cXML>';
 
-        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        self::assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testDeserialize(): void
@@ -213,7 +215,7 @@ class SerializerTest extends TestCase
 
         $resultingXml = $serializer->serialize($cXml);
 
-        $this->assertXmlStringEqualsXmlString($xml, $resultingXml);
+        self::assertXmlStringEqualsXmlString($xml, $resultingXml);
     }
 
     /**
@@ -242,7 +244,7 @@ class SerializerTest extends TestCase
 			<Status code="200" text="OK">Ping Response CXml</Status>
 			</Response>
 			</cXML>';
-        $this->assertXmlStringEqualsXmlString($xmlOut, $actual);
+        self::assertXmlStringEqualsXmlString($xmlOut, $actual);
     }
 
     public function testDeserializeWithDateTimeForDate(): void
@@ -271,13 +273,13 @@ class SerializerTest extends TestCase
         /** @var OrderRequest $orderRequest */
         $orderRequest = $cXml->getRequest()->getPayload();
 
-        $this->assertEquals('2023-02-25 02:30:00', $orderRequest->getItems()[0]->getRequestedDeliveryDate()->format('Y-m-d H:i:s'));
-        $this->assertInstanceOf(\DateTime::class, $orderRequest->getItems()[0]->getRequestedDeliveryDate());
+        self::assertSame('2023-02-25 02:30:00', $orderRequest->getItems()[0]->getRequestedDeliveryDate()->format('Y-m-d H:i:s'));
+        self::assertInstanceOf(\DateTime::class, $orderRequest->getItems()[0]->getRequestedDeliveryDate());
 
-        $this->assertEquals('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
-        $this->assertInstanceOf(Date::class, $orderRequest->getItems()[1]->getRequestedDeliveryDate());
+        self::assertSame('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
+        self::assertInstanceOf(Date::class, $orderRequest->getItems()[1]->getRequestedDeliveryDate());
 
-        $this->assertNull($orderRequest->getItems()[2]->getRequestedDeliveryDate());
+        self::assertNull($orderRequest->getItems()[2]->getRequestedDeliveryDate());
     }
 
     public function testDeserializeInvalidDate(): void
@@ -305,14 +307,14 @@ class SerializerTest extends TestCase
     public function testSerializeDateOnly(): void
     {
         $from = new Party(
-            new Credential('AribaNetworkUserId', 'admin@acme.com')
+            new Credential('AribaNetworkUserId', 'admin@acme.com'),
         );
         $to = new Party(
-            new Credential('DUNS', '012345678')
+            new Credential('DUNS', '012345678'),
         );
         $sender = new Party(
             new Credential('AribaNetworkUserId', 'sysadmin@buyer.com', 'abracadabra'),
-            'Network Hub 1.1'
+            'Network Hub 1.1',
         );
 
         $orderDate = new Date('2000-01-01');
@@ -320,21 +322,20 @@ class SerializerTest extends TestCase
         $orderRequest =
             OrderRequestBuilder::create('order-id', $orderDate, 'EUR')
                 ->billTo('name')
-                ->build()
-        ;
+                ->build();
 
         $header = new Header(
             $from,
             $to,
-            $sender
+            $sender,
         );
 
         $msg = CXml::forRequest(
             new PayloadIdentity('payload-id', new \DateTime('2000-01-01')),
             new Request(
-                $orderRequest
+                $orderRequest,
             ),
-            $header
+            $header,
         );
 
         $actualXml = Serializer::create()->serialize($msg);
@@ -377,7 +378,7 @@ class SerializerTest extends TestCase
 			</Request>
 			</cXML>';
 
-        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        self::assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testDeserializeOneRowXml(): void
@@ -389,6 +390,6 @@ class SerializerTest extends TestCase
 
         $resultingXml = $serializer->serialize($cXml);
 
-        $this->assertXmlStringEqualsXmlString($xml, $resultingXml);
+        self::assertXmlStringEqualsXmlString($xml, $resultingXml);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Builder;
 
 use CXml\Model\Address;
@@ -58,7 +60,7 @@ class OrderRequestBuilder
         string $currency = null,
         string $orderId = null,
         \DateTimeInterface $orderDate = null,
-        string $language = 'en'
+        string $language = 'en',
     ): self {
         if (($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) instanceof \CXml\Model\SupplierOrderInfo) {
             $orderId ??= $supplierOrderInfo->getOrderId();
@@ -79,7 +81,7 @@ class OrderRequestBuilder
             $orderId,
             $orderDate,
             $currency,
-            $language
+            $language,
         );
 
         $orb->setShipTo($punchOutOrderMessage->getPunchOutOrderMessageHeader()->getShipTo());
@@ -93,7 +95,7 @@ class OrderRequestBuilder
                 $item->getItemDetail()->getUnitPrice()->getMoney()->getValueCent(),
                 [
                     new Classification('custom', '0'), // TODO make this configurable
-                ]
+                ],
             );
         }
 
@@ -108,7 +110,7 @@ class OrderRequestBuilder
         string $email = null,
         Phone $phone = null,
         string $fax = null,
-        string $url = null
+        string $url = null,
     ): self {
         $this->billTo = new BillTo(
             new Address(
@@ -119,8 +121,8 @@ class OrderRequestBuilder
                 $email,
                 $phone,
                 $fax,
-                $url
-            )
+                $url,
+            ),
         );
 
         return $this;
@@ -130,14 +132,14 @@ class OrderRequestBuilder
         string $name,
         PostalAddress $postalAddress,
         array $carrierIdentifiers = [],
-        string $carrierAccountNo = null
+        string $carrierAccountNo = null,
     ): self {
         $this->shipTo = new ShipTo(
             new Address(
                 new MultilanguageString($name, null, $this->language),
-                $postalAddress
+                $postalAddress,
             ),
-            $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null
+            null !== $carrierAccountNo && '' !== $carrierAccountNo && '0' !== $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null,
         );
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
@@ -184,7 +186,7 @@ class OrderRequestBuilder
         int $unitPrice,
         array $classifications,
         \DateTimeInterface $requestDeliveryDate = null,
-        ItemOut $parent = null
+        ItemOut $parent = null,
     ): self {
         $lineNumber = \count($this->items) + 1;
 
@@ -196,17 +198,17 @@ class OrderRequestBuilder
                 new Description(
                     $description,
                     null,
-                    $this->language
+                    $this->language,
                 ),
                 $unitOfMeasure,
                 new MoneyWrapper(
                     $this->currency,
-                    $unitPrice
+                    $unitPrice,
                 ),
-                $classifications
+                $classifications,
             ),
             $requestDeliveryDate,
-            $parent instanceof ItemOut ? $parent->getLineNumber() : null
+            $parent instanceof ItemOut ? $parent->getLineNumber() : null,
         );
 
         $this->items[] = $item;
@@ -221,7 +223,7 @@ class OrderRequestBuilder
             $value,
             $type,
             $lang,
-            $attachmentUrl
+            $attachmentUrl,
         );
 
         return $this;
@@ -231,7 +233,7 @@ class OrderRequestBuilder
     {
         $contact = new Contact(
             new MultilanguageString($name, null, $this->language),
-            $role
+            $role,
         );
         $contact->addEmail($email);
 
@@ -256,11 +258,10 @@ class OrderRequestBuilder
             $this->billTo,
             new MoneyWrapper($this->currency, $this->total),
             OrderRequestHeader::TYPE_NEW,
-            $this->contacts
+            $this->contacts,
         )
             ->setShipping($this->shipping)
-            ->setTax($this->tax)
-        ;
+            ->setTax($this->tax);
 
         foreach ($this->comments as $comment) {
             $orh->addComment($comment);
@@ -280,7 +281,7 @@ class OrderRequestBuilder
         }
 
         return OrderRequest::create(
-            $this->buildOrderRequestHeader()
+            $this->buildOrderRequestHeader(),
         )->addItems($this->items);
     }
 

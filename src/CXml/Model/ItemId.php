@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -18,7 +20,7 @@ class ItemId
         private readonly ?string $supplierPartAuxiliaryId = null,
         #[Serializer\SerializedName('BuyerPartID')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly ?string $buyerPartId = null
+        private readonly ?string $buyerPartId = null,
     ) {
     }
 

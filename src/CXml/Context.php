@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml;
 
 use CXml\Model\CXml;
@@ -17,7 +19,7 @@ class Context
         return new self($options);
     }
 
-    public function getOption(string $key)/* : mixed */
+    public function getOption(string $key): mixed
     {
         return $this->options[$key] ?? null;
     }
@@ -53,7 +55,7 @@ class Context
 
     public function getSenderUserAgent(): ?string
     {
-        $cxml = $this->getCxml();
+        $cxml = $this->getCXml();
         if (!$cxml instanceof CXml) {
             return null;
         }
@@ -68,7 +70,7 @@ class Context
 
     public function getPayloadId(): ?string
     {
-        $cxml = $this->getCxml();
+        $cxml = $this->getCXml();
         if (!$cxml instanceof CXml) {
             return null;
         }

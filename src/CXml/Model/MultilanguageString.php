@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -12,7 +14,7 @@ class MultilanguageString
         #[Serializer\XmlAttribute]
         private readonly ?string $type = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private readonly ?string $lang = 'en'
+        private readonly ?string $lang = 'en',
     ) {
     }
 

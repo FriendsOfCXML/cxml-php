@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml;
 
 use CXml\Jms\CXmlWrappingNodeJmsEventSubscriber;
@@ -38,10 +40,9 @@ readonly class Serializer
                 $registry->registerHandler(GraphNavigatorInterface::DIRECTION_DESERIALIZATION, \DateTime::class, 'xml', $callable);
             })
             ->setPropertyNamingStrategy(
-                new IdenticalPropertyNamingStrategy()
+                new IdenticalPropertyNamingStrategy(),
             )
-            ->build()
-        ;
+            ->build();
 
         return new self($jmsSerializer);
     }
@@ -51,7 +52,7 @@ readonly class Serializer
         // remove doctype (if exists), as it would throw a JMS\Serializer\Exception\InvalidArgumentException
         $xml = \preg_replace('/<!doctype[^>]+?>/i', '', $xml);
 
-        if (empty($xml)) {
+        if (null === $xml || '' === \trim($xml)) {
             throw new \RuntimeException('Cannot deserialize empty string');
         }
 
@@ -63,10 +64,10 @@ readonly class Serializer
     {
         $xml = $this->jmsSerializer->serialize($cxml, 'xml');
 
-        $docType = '<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/'.$docTypeVersion.'/cXML.dtd">';
+        $docType = '<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/' . $docTypeVersion . '/cXML.dtd">';
         $xmlPrefix = '<?xml version="1.0" encoding="UTF-8"?>';
 
         // add doctype, as it is mandatory in cXML
-        return \str_replace($xmlPrefix, $xmlPrefix.$docType, $xml);
+        return \str_replace($xmlPrefix, $xmlPrefix . $docType, $xml);
     }
 }

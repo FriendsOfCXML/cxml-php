@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Response;
 
 use CXml\Model\Url;
@@ -10,7 +12,7 @@ readonly class PunchOutSetupResponse implements ResponsePayloadInterface
 {
     public function __construct(
         #[Serializer\SerializedName('StartPage')]
-        private Url $startPage
+        private Url $startPage,
     ) {
     }
 }

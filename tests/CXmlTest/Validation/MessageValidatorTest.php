@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXmlTest\Validation;
 
 use CXml\Validation\DtdValidator;
@@ -10,13 +12,13 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class MessageValidatorTest extends TestCase
+final class MessageValidatorTest extends TestCase
 {
     private DtdValidator $dtdValidator;
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050');
+        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050');
     }
 
     public function testValidateSuccess(): void

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
@@ -22,7 +24,7 @@ readonly class Request
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('Id')]
         private ?string $id = null,
-        string $deploymentMode = null
+        string $deploymentMode = null,
     ) {
         if (null !== $deploymentMode) {
             Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);

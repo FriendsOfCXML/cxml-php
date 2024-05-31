@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
 use Assert\Assertion;
@@ -24,7 +26,7 @@ class Message
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('inReplyTo')]
         private readonly ?string $inReplyTo = null,
-        string $deploymentMode = null
+        string $deploymentMode = null,
     ) {
         if (null !== $deploymentMode) {
             Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);

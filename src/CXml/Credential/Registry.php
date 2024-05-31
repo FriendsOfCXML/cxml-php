@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Credential;
 
 use CXml\Authentication\AuthenticatorInterface;

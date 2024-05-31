@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -12,7 +14,7 @@ readonly class Party
         private Credential $credential,
         #[Serializer\SerializedName('UserAgent')]
         #[Serializer\XmlElement(cdata: false)]
-        private ?string $userAgent = null
+        private ?string $userAgent = null,
     ) {
     }
 

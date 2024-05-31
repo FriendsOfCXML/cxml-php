@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -14,14 +16,14 @@ readonly class OrderReference
         #[Serializer\XmlAttribute]
         private ?string $orderId = null,
         #[Serializer\XmlAttribute]
-        private ?\DateTimeInterface $orderDate = null
+        private ?\DateTimeInterface $orderDate = null,
     ) {
     }
 
     public static function create(string $documentReference): self
     {
         return new self(
-            new DocumentReference($documentReference)
+            new DocumentReference($documentReference),
         );
     }
 

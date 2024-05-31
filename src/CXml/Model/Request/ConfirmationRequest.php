@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use CXml\Model\OrderReference;
@@ -12,7 +14,7 @@ readonly class ConfirmationRequest implements RequestPayloadInterface
         #[Serializer\SerializedName('ConfirmationHeader')]
         private ConfirmationHeader $confirmationHeader,
         #[Serializer\SerializedName('OrderReference')]
-        private OrderReference $orderReference
+        private OrderReference $orderReference,
     ) {
     }
 

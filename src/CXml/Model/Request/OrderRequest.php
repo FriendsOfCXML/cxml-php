@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use CXml\Model\ItemOut;
@@ -23,7 +25,7 @@ class OrderRequest implements RequestPayloadInterface
     public static function create(OrderRequestHeader $orderRequestHeader): self
     {
         return new self(
-            $orderRequestHeader
+            $orderRequestHeader,
         );
     }
 

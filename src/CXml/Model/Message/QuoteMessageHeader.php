@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
 use Assert\Assertion;
@@ -58,7 +60,7 @@ class QuoteMessageHeader
         #[Serializer\XmlAttribute]
         private string $currency,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private string $lang = 'en'
+        private string $lang = 'en',
     ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,

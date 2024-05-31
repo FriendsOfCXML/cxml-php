@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Jms;
 
 use CXml\Model\Date;
@@ -31,28 +33,28 @@ class JmsDateTimeHandler
     {
         // explicit date-format was defined in property annotation
         if (isset($type['params'][0])) {
-            return \DateTime::createFromFormat($type['params'][0], $dateAsString);
+            return \DateTime::createFromFormat($type['params'][0], $dateAsString->__toString());
         }
 
         // else try ISO-8601
-        $dateTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $dateAsString);
-        if ($dateTime) {
+        $dateTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $dateAsString->__toString());
+        if ($dateTime instanceof \DateTimeInterface) {
             return $dateTime;
         }
 
         // else try milliseconds-format
-        $dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString);
-        if ($dateTime) {
+        $dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString->__toString());
+        if ($dateTime instanceof \DateTimeInterface) {
             return $dateTime;
         }
 
         // else try simple date-format
-        $dateTime = Date::createFromFormat('Y-m-d', $dateAsString);
-        if ($dateTime) {
+        $dateTime = Date::createFromFormat('Y-m-d', $dateAsString->__toString());
+        if ($dateTime instanceof \DateTimeInterface) {
             return $dateTime;
         }
 
         // last resort: throw exception
-        throw new \RuntimeException('Could not parse date: '.$dateAsString);
+        throw new \RuntimeException('Could not parse date: ' . $dateAsString->__toString());
     }
 }

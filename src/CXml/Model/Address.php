@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -30,7 +32,7 @@ readonly class Address
         private ?string $fax = null,
         #[Serializer\SerializedName('URL')]
         #[Serializer\XmlElement(cdata: false)]
-        private ?string $url = null
+        private ?string $url = null,
     ) {
     }
 

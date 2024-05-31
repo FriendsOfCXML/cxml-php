@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Handler;
 
 use Assert\Assertion;
@@ -14,7 +16,7 @@ class HandlerRegistry implements HandlerRegistryInterface
 
     public function register(HandlerInterface $handler, string $handlerId = null): void
     {
-        if (!$handlerId) {
+        if (null === $handlerId || '' === $handlerId || '0' === $handlerId) {
             $handlerId = $handler::getRequestName();
         }
 

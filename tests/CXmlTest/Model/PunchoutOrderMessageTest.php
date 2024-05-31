@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXmlTest\Model;
 
 use CXml\Builder;
@@ -22,13 +24,13 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactoryInterface
+final class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private DtdValidator $dtdValidator;
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
     }
 
     public function testMinimumExample(): void
@@ -59,9 +61,9 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
                     new MoneyWrapper('USD', 76320),
                     [
                         new Classification('UNSPSC', 'ean1234'),
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         )->addPunchoutOrderMessageItem(
             ItemIn::create(
                 5,
@@ -72,9 +74,9 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
                     new MoneyWrapper('USD', 76320),
                     [
                         new Classification('UNSPSC', 'ean1234'),
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
 
         $cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)
@@ -82,22 +84,21 @@ class PunchoutOrderMessageTest extends TestCase implements PayloadIdentityFactor
             ->to($to)
             ->sender($sender)
             ->payload($punchoutOrderMessage)
-            ->build()
-        ;
+            ->build();
 
-        $this->assertEquals('PunchOutOrderMessage_933695160894', (string) $cxml);
+        self::assertSame('PunchOutOrderMessage_933695160894', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
         $this->dtdValidator->validateAgainstDtd($xml);
 
-        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchoutOrderMessage.xml', $xml);
+        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchoutOrderMessage.xml', $xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity
     {
         return new PayloadIdentity(
             '933695160894',
-            new \DateTime('2021-01-08T23:00:06-08:00')
+            new \DateTime('2021-01-08T23:00:06-08:00'),
         );
     }
 }

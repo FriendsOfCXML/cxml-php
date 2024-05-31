@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -12,7 +14,7 @@ readonly class InventoryQuantity
     public function __construct(
         #[Serializer\XmlAttribute]
         private int $quantity,
-        string $unitOfMeasure
+        string $unitOfMeasure,
     ) {
         $this->unitOfMeasure = new UnitOfMeasure($unitOfMeasure);
     }

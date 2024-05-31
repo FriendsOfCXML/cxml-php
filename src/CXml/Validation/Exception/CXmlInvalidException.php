@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Validation\Exception;
 
 use CXml\Exception\CXmlNotAcceptableException;
@@ -27,7 +29,7 @@ class CXmlInvalidException extends CXmlNotAcceptableException
 
         return new self(
             $message,
-            $xml
+            $xml,
         );
     }
 }

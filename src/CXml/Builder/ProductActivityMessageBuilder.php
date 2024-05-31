@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Builder;
 
 use CXml\Model\Contact;
@@ -29,17 +31,16 @@ class ProductActivityMessageBuilder
     public function addProductActivityDetail(string $sku, string $warehouseCode, int $stockLevel, array $extrinsics = null): self
     {
         $inventory = Inventory::create()
-            ->setStockOnHandQuantity(new InventoryQuantity($stockLevel, 'EA'))
-        ;
+            ->setStockOnHandQuantity(new InventoryQuantity($stockLevel, 'EA'));
 
         $activityDetail = ProductActivityDetail::create(
             new ItemId($sku, null, $sku),
             $inventory,
             Contact::create(new MultilanguageString($warehouseCode, null, 'en'), 'locationFrom')
-                ->addIdReference($this->warehouseCodeDomain, $warehouseCode)
+                ->addIdReference($this->warehouseCodeDomain, $warehouseCode),
         );
 
-        if ($extrinsics) {
+        if (null !== $extrinsics && [] !== $extrinsics) {
             foreach ($extrinsics as $k => $v) {
                 $activityDetail->addExtrinsicAsKeyValue($k, $v);
             }

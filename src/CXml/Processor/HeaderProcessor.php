@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Processor;
 
 use CXml\Authentication\AuthenticatorInterface;
@@ -47,7 +49,7 @@ readonly class HeaderProcessor
         // provoke an exception if credential was not found
         $this->credentialRepository->getCredentialByDomainAndId(
             $testCredential->getDomain(),
-            $testCredential->getIdentity()
+            $testCredential->getIdentity(),
         );
     }
 }

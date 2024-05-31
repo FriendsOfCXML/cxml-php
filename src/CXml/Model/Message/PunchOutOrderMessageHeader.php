@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
 use Assert\Assertion;
@@ -35,7 +37,7 @@ class PunchOutOrderMessageHeader
         private readonly ?Shipping $shipping = null,
         #[Serializer\SerializedName('Tax')]
         private readonly ?Tax $tax = null,
-        string $operationAllowed = null
+        string $operationAllowed = null,
     ) {
         Assertion::inArray($operationAllowed, [self::OPERATION_CREATE, self::OPERATION_EDIT, self::OPERATION_INSPECT, null]);
         $this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;

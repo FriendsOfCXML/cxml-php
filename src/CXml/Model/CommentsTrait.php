@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -42,7 +44,8 @@ trait CommentsTrait
     {
         $commentStrings = [];
 
-        if ($comments = $this->getComments()) {
+        $comments = $this->getComments();
+        if (\is_array($comments)) {
             foreach ($comments as $comment) {
                 $commentStrings[] = $comment->getValue();
             }

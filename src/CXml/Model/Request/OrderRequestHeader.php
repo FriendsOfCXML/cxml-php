@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
@@ -60,9 +62,9 @@ class OrderRequestHeader
         private MoneyWrapper $total,
         #[Serializer\XmlAttribute]
         private string $type = self::TYPE_NEW,
-        array $contacts = null
+        array $contacts = null,
     ) {
-        if ($contacts) {
+        if (null !== $contacts && [] !== $contacts) {
             Assertion::allIsInstanceOf($contacts, Contact::class);
         }
 
@@ -76,7 +78,7 @@ class OrderRequestHeader
         BillTo $billTo,
         MoneyWrapper $total,
         string $type = self::TYPE_NEW,
-        array $contacts = null
+        array $contacts = null,
     ): self {
         return new self($orderId, $orderDate, $shipTo, $billTo, $total, $type, $contacts);
     }

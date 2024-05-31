@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Response;
 
 use CXml\Model\Status;
@@ -15,7 +17,7 @@ readonly class Response
         private ?ResponsePayloadInterface $payload = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('Id')]
-        private ?string $id = null
+        private ?string $id = null,
     ) {
     }
 

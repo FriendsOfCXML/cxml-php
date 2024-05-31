@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use CXml\Model\Message\Message;
@@ -30,7 +32,7 @@ class CXml implements \Stringable
         #[Serializer\SerializedName('Header')]
         private readonly ?Header $header = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private readonly ?string $lang = null
+        private readonly ?string $lang = null,
     ) {
     }
 
@@ -94,7 +96,7 @@ class CXml implements \Stringable
             }
         }
 
-        return $shortName.'_'.$this->payloadId;
+        return $shortName . '_' . $this->payloadId;
     }
 
     public function getStatus(): ?Status

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use CXml\Model\CommentsTrait;
@@ -30,10 +32,10 @@ class ShipNoticeHeader
         private readonly ?\DateTimeInterface $shipmentDate = null,
         #[Serializer\XmlAttribute]
         private readonly ?\DateTimeInterface $deliveryDate = null,
-        string $documentReference = null
+        string $documentReference = null,
     ) {
         $this->noticeDate = $noticeDate ?? new \DateTime();
-        $this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
+        $this->documentReference = null !== $documentReference && '' !== $documentReference && '0' !== $documentReference ? new DocumentReference($documentReference) : null;
     }
 
     public static function create(string $shipmentId, \DateTimeInterface $noticeDate = null, \DateTimeInterface $shipmentDate = null, \DateTimeInterface $deliveryDate = null, string $documentReference = null): self

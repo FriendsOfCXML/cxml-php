@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Payload;
 
 use CXml\Model\PayloadIdentity;
@@ -25,7 +27,7 @@ class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
             $timestamp->format('U.v'), // include milliseconds
             \getmypid(),
             \mt_rand(1000, 9999),
-            \gethostname()
+            \gethostname(),
         );
     }
 
@@ -37,7 +39,7 @@ class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
 
         return new PayloadIdentity(
             $payloadId,
-            $timestamp
+            $timestamp,
         );
     }
 }

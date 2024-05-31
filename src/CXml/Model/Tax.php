@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -15,7 +17,7 @@ readonly class Tax
         int $value,
         #[Serializer\SerializedName('Description')]
         #[Serializer\XmlElement(cdata: false)]
-        private MultilanguageString $description
+        private MultilanguageString $description,
     ) {
         $this->money = new Money($currency, $value);
     }

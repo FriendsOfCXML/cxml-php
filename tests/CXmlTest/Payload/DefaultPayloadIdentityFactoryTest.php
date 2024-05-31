@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXmlTest\Payload;
 
 use CXml\Payload\DefaultPayloadIdentityFactory;
@@ -9,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class DefaultPayloadIdentityFactoryTest extends TestCase
+final class DefaultPayloadIdentityFactoryTest extends TestCase
 {
     public function testGenerateNewPayloadId(): void
     {
@@ -18,6 +20,6 @@ class DefaultPayloadIdentityFactoryTest extends TestCase
             \DateTime::createFromFormat('U.v', '1650614400.400'));
         $actualIdentity = $pif->newPayloadIdentity();
 
-        $this->assertStringStartsWith('1650614400.400', $actualIdentity->getPayloadId());
+        self::assertStringStartsWith('1650614400.400', $actualIdentity->getPayloadId());
     }
 }

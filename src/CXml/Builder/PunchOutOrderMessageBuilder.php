@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Builder;
 
 use CXml\Model\Address;
@@ -57,14 +59,14 @@ class PunchOutOrderMessageBuilder
         string $name,
         PostalAddress $postalAddress,
         array $carrierIdentifiers = [],
-        string $carrierAccountNo = null
+        string $carrierAccountNo = null,
     ): self {
         $this->shipTo = new ShipTo(
             new Address(
                 new MultilanguageString($name, null, $this->language),
-                $postalAddress
+                $postalAddress,
             ),
-            $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null
+            null !== $carrierAccountNo && '' !== $carrierAccountNo && '0' !== $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null,
         );
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
@@ -82,8 +84,8 @@ class PunchOutOrderMessageBuilder
             new Description(
                 $taxDescription,
                 null,
-                $this->language
-            )
+                $this->language,
+            ),
         );
 
         return $this;
@@ -97,8 +99,8 @@ class PunchOutOrderMessageBuilder
             new Description(
                 $taxDescription,
                 null,
-                $this->language
-            )
+                $this->language,
+            ),
         );
 
         return $this;
@@ -114,27 +116,26 @@ class PunchOutOrderMessageBuilder
         string $manufacturerPartId = null,
         string $manufacturerName = null,
         int $leadTime = null,
-        array $extrinsics = null
+        array $extrinsics = null,
     ): self {
         $itemDetail = ItemDetail::create(
             new Description(
                 $description,
                 null,
-                $this->language
+                $this->language,
             ),
             $unitOfMeasure,
             new MoneyWrapper(
                 $this->currency,
-                $unitPrice
+                $unitPrice,
             ),
-            $classifications
+            $classifications,
         )
             ->setManufacturerPartId($manufacturerPartId)
             ->setManufacturerName($manufacturerName)
-            ->setLeadtime($leadTime)
-        ;
+            ->setLeadtime($leadTime);
 
-        if ($extrinsics) {
+        if (null !== $extrinsics && [] !== $extrinsics) {
             foreach ($extrinsics as $k => $v) {
                 $itemDetail->addExtrinsicAsKeyValue($k, $v);
             }
@@ -143,7 +144,7 @@ class PunchOutOrderMessageBuilder
         $punchoutOrderMessageItem = ItemIn::create(
             $quantity,
             $itemId,
-            $itemDetail
+            $itemDetail,
         );
 
         return $this->addItem($punchoutOrderMessageItem);
@@ -167,7 +168,7 @@ class PunchOutOrderMessageBuilder
             new MoneyWrapper($this->currency, $this->total),
             $this->shipping,
             $this->tax,
-            $this->operationAllowed
+            $this->operationAllowed,
         );
 
         if ($this->shipTo instanceof ShipTo) {
@@ -180,7 +181,7 @@ class PunchOutOrderMessageBuilder
 
         $punchOutOrderMessage = PunchOutOrderMessage::create(
             $this->buyerCookie,
-            $punchoutOrderMessageHeader
+            $punchoutOrderMessageHeader,
         );
 
         foreach ($this->punchoutOrderMessageItems as $punchoutOrderMessageItem) {

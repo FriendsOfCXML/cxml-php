@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -13,7 +15,7 @@ readonly class Header
         #[Serializer\SerializedName('To')]
         private Party $to,
         #[Serializer\SerializedName('Sender')]
-        private Party $sender
+        private Party $sender,
     ) {
     }
 

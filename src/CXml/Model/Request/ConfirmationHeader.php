@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
@@ -57,7 +59,7 @@ class ConfirmationHeader
     {
         return new self(
             $type,
-            $noticeDate
+            $noticeDate,
         );
     }
 

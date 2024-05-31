@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Handler\Exception;
 
 use CXml\Exception\CXmlNotImplementedException;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -11,7 +13,7 @@ readonly class Classification
         #[Serializer\XmlAttribute]
         private string $domain,
         #[Serializer\XmlValue(cdata: false)]
-        private string $value
+        private string $value,
     ) {
     }
 

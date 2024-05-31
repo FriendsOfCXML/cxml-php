@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -15,7 +17,7 @@ class Credential implements \Stringable
         private readonly string $identity,
         #[Serializer\SerializedName('SharedSecret')]
         #[Serializer\XmlElement(cdata: false)]
-        private ?string $sharedSecret = null
+        private ?string $sharedSecret = null,
     ) {
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Processor;
 
 use CXml\Builder;
@@ -222,14 +224,13 @@ class Processor
         if (!$response instanceof ResponsePayloadInterface) {
             $this->builder->status(new Status(
                 200,
-                'OK'
+                'OK',
             ));
         }
 
         return $this->builder
             ->payload($response)
-            ->build()
-        ;
+            ->build();
     }
 
     public function buildResponseForException(CXmlException $exception): CXml
@@ -240,7 +241,6 @@ class Processor
 
         return $this->builder
             ->status($status)
-            ->build()
-        ;
+            ->build();
     }
 }

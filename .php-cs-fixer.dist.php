@@ -8,8 +8,7 @@ use PhpCsFixer\Runner\Parallel\ParallelConfig;
 
 $finder = Finder::create()
     ->in(__DIR__ . '/src')
-    ->in(__DIR__ . '/tests')
-;
+    ->in(__DIR__ . '/tests');
 
 $config = new Config();
 
@@ -47,5 +46,4 @@ return $config
         'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
         'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => ['arguments', 'arrays', 'match', 'parameters']],
     ])
-    ->setFinder($finder)
-;
+    ->setFinder($finder);

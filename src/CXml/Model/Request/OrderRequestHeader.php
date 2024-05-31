@@ -24,7 +24,7 @@ class OrderRequestHeader
     use IdReferencesTrait;
     use ExtrinsicsTrait;
 
-    public const TYPE_NEW = 'new';
+    public final const TYPE_NEW = 'new';
 
     #[Serializer\XmlElement]
     #[Serializer\SerializedName('Shipping')]

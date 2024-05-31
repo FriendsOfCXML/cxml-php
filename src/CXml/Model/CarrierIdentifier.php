@@ -9,13 +9,13 @@ use JMS\Serializer\Annotation as Serializer;
 #[Serializer\AccessorOrder(order: 'custom', custom: ['value'])]
 class CarrierIdentifier
 {
-    public const DOMAIN_SCAC = 'SCAC';
+    public final const DOMAIN_SCAC = 'SCAC';
 
-    public const DOMAIN_COMPANYNAME = 'companyName';
+    public final const DOMAIN_COMPANYNAME = 'companyName';
 
-    public const DOMAIN_SKU = 'sku';
+    public final const DOMAIN_SKU = 'sku';
 
-    public const DOMAIN_CARRIER_METHOD = 'carrierMethod';
+    public final const DOMAIN_CARRIER_METHOD = 'carrierMethod';
 
     public function __construct(
         #[Serializer\XmlAttribute]

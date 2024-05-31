@@ -15,21 +15,21 @@ class ConfirmationHeader
     use ExtrinsicsTrait;
     use IdReferencesTrait;
 
-    public const TYPE_ACCEPT = 'accept';
+    public final const TYPE_ACCEPT = 'accept';
 
-    public const TYPE_ALLDETAIL = 'allDetail';
+    public final const TYPE_ALLDETAIL = 'allDetail';
 
-    public const TYPE_DETAIL = 'detail';
+    public final const TYPE_DETAIL = 'detail';
 
-    public const TYPE_BACKORDERED = 'backordered';
+    public final const TYPE_BACKORDERED = 'backordered';
 
-    public const TYPE_EXCEPT = 'except';
+    public final const TYPE_EXCEPT = 'except';
 
-    public const TYPE_REJECT = 'reject';
+    public final const TYPE_REJECT = 'reject';
 
-    public const TYPE_REQUESTTOPAY = 'requestToPay';
+    public final const TYPE_REQUESTTOPAY = 'requestToPay';
 
-    public const TYPE_REPLACE = 'replace';
+    public final const TYPE_REPLACE = 'replace';
 
     #[Serializer\XmlAttribute]
     #[Serializer\SerializedName('type')]

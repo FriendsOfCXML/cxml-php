@@ -19,15 +19,15 @@ class QuoteMessageHeader
     use CommentsTrait;
     use ExtrinsicsTrait;
 
-    public const TYPE_ACCEPT = 'accept';
+    public final const TYPE_ACCEPT = 'accept';
 
-    public const TYPE_REJECT = 'reject';
+    public final const TYPE_REJECT = 'reject';
 
-    public const TYPE_UPDATE = 'update';
+    public final const TYPE_UPDATE = 'update';
 
-    public const TYPE_FINAL = 'final';
+    public final const TYPE_FINAL = 'final';
 
-    public const TYPE_AWARD = 'award';
+    public final const TYPE_AWARD = 'award';
 
     #[Serializer\SerializedName('type')]
     #[Serializer\XmlAttribute]

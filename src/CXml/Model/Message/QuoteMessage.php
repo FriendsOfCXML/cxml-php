@@ -7,21 +7,19 @@ use CXml\Model\MoneyWrapper;
 use CXml\Model\OrganizationId;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['quoteMessageHeader', 'quoteMessageItems'])]
 class QuoteMessage implements MessagePayloadInterface
 {
-    #[Serializer\SerializedName('QuoteMessageHeader')]
-    private QuoteMessageHeader $quoteMessageHeader;
-
     /**
      * @var ItemIn[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'QuoteItemIn')]
+    #[Serializer\XmlList(entry: 'QuoteItemIn', inline: true)]
     #[Serializer\Type('array<CXml\Model\ItemIn>')]
     private array $quoteMessageItems = [];
 
-    private function __construct(QuoteMessageHeader $quoteMessageHeader)
+    private function __construct(#[Serializer\SerializedName('QuoteMessageHeader')]
+        private readonly QuoteMessageHeader $quoteMessageHeader)
     {
-        $this->quoteMessageHeader = $quoteMessageHeader;
     }
 
     public static function create(OrganizationId $organizationId, MoneyWrapper $total, string $type, string $quoteId, \DateTime $quoteDate, string $lang = 'en'): self

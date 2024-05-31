@@ -9,7 +9,7 @@ trait ExtrinsicsTrait
     /**
      * @var Extrinsic[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'Extrinsic')]
+    #[Serializer\XmlList(entry: 'Extrinsic', inline: true)]
     #[Serializer\Type('array<CXml\Model\Extrinsic>')]
     protected array $extrinsics = [];
 

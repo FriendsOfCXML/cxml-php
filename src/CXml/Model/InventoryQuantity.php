@@ -4,17 +4,16 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class InventoryQuantity
+readonly class InventoryQuantity
 {
-    #[Serializer\XmlAttribute]
-    private int $quantity;
-
     #[Serializer\SerializedName('UnitOfMeasure')]
     private UnitOfMeasure $unitOfMeasure;
 
-    public function __construct(int $quantity, string $unitOfMeasure)
-    {
-        $this->quantity = $quantity;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private int $quantity,
+        string $unitOfMeasure
+    ) {
         $this->unitOfMeasure = new UnitOfMeasure($unitOfMeasure);
     }
 

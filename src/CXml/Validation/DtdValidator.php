@@ -5,7 +5,7 @@ namespace CXml\Validation;
 use Assert\Assertion;
 use CXml\Validation\Exception\CXmlInvalidException;
 
-class DtdValidator
+readonly class DtdValidator
 {
     private string $pathToCxmlDtds;
 

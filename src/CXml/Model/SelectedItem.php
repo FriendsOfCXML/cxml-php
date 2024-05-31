@@ -4,14 +4,13 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class SelectedItem
+#[Serializer\AccessorOrder(order: 'custom', custom: ['ItemID'])]
+readonly class SelectedItem
 {
-    #[Serializer\SerializedName('ItemID')]
-    private ItemId $itemId;
-
-    public function __construct(ItemId $itemId)
-    {
-        $this->itemId = $itemId;
+    public function __construct(
+        #[Serializer\SerializedName('ItemID')]
+        private ItemId $itemId
+    ) {
     }
 
     public function getItemId(): ItemId

@@ -10,20 +10,15 @@ use CXml\Model\ShipTo;
 use CXml\Model\Url;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['buyerCookie', 'extrinsics', 'browserFormPost', 'supplierSetup', 'shipTo', 'selectedItem', 'itemOut'])]
 class PunchOutSetupRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
 
-    #[Serializer\XmlAttribute]
-    private ?string $operation = null;
-
-    #[Serializer\SerializedName('BuyerCookie')]
-    private string $buyerCookie;
-
     /**
      * @var Extrinsic[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'Extrinsic')]
+    #[Serializer\XmlList(entry: 'Extrinsic', inline: true)]
     #[Serializer\Type('array<CXml\Model\Extrinsic>')]
     protected array $extrinsics = [];
 
@@ -33,27 +28,27 @@ class PunchOutSetupRequest implements RequestPayloadInterface
     #[Serializer\SerializedName('SupplierSetup')]
     private Url $supplierSetup;
 
-    #[Serializer\SerializedName('ShipTo')]
-    private ?ShipTo $shipTo = null;
-
-    #[Serializer\SerializedName('SelectedItem')]
-    private ?SelectedItem $selectedItem = null;
-
     /**
      * @var ItemOut[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'ItemOut')]
+    #[Serializer\XmlList(entry: 'ItemOut', inline: true)]
     #[Serializer\Type('array<CXml\Model\ItemOut>')]
     private array $itemOut = [];
 
-    public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ShipTo $shipTo = null, SelectedItem $selectedItem = null, string $operation = 'create')
-    {
-        $this->operation = $operation;
-        $this->buyerCookie = $buyerCookie;
+    public function __construct(
+        #[Serializer\SerializedName('BuyerCookie')]
+        private readonly string $buyerCookie,
+        string $browserFormPost,
+        string $supplierSetup,
+        #[Serializer\SerializedName('ShipTo')]
+        private readonly ?ShipTo $shipTo = null,
+        #[Serializer\SerializedName('SelectedItem')]
+        private readonly ?SelectedItem $selectedItem = null,
+        #[Serializer\XmlAttribute]
+        private readonly ?string $operation = 'create'
+    ) {
         $this->browserFormPost = new Url($browserFormPost);
         $this->supplierSetup = new Url($supplierSetup);
-        $this->shipTo = $shipTo;
-        $this->selectedItem = $selectedItem;
     }
 
     public function getOperation(): ?string

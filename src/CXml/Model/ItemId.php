@@ -4,27 +4,22 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['supplierPartId', 'supplierPartAuxiliaryId', 'buyerPartId', 'idReferences'])]
 class ItemId
 {
     use IdReferencesTrait;
 
-    #[Serializer\SerializedName('SupplierPartID')]
-    #[Serializer\XmlElement(cdata: false)]
-    private string $supplierPartId;
-
-    #[Serializer\SerializedName('SupplierPartAuxiliaryID')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?string $supplierPartAuxiliaryId = null;
-
-    #[Serializer\SerializedName('BuyerPartID')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?string $buyerPartId = null;
-
-    public function __construct(string $supplierPartId, string $supplierPartAuxiliaryId = null, string $buyerPartId = null)
-    {
-        $this->supplierPartId = $supplierPartId;
-        $this->supplierPartAuxiliaryId = $supplierPartAuxiliaryId;
-        $this->buyerPartId = $buyerPartId;
+    public function __construct(
+        #[Serializer\SerializedName('SupplierPartID')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $supplierPartId,
+        #[Serializer\SerializedName('SupplierPartAuxiliaryID')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?string $supplierPartAuxiliaryId = null,
+        #[Serializer\SerializedName('BuyerPartID')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?string $buyerPartId = null
+    ) {
     }
 
     public function getSupplierPartId(): string

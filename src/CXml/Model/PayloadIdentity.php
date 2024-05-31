@@ -2,15 +2,12 @@
 
 namespace CXml\Model;
 
-class PayloadIdentity
+readonly class PayloadIdentity
 {
-    private string $payloadId;
-
     private \DateTimeInterface $timestamp;
 
-    public function __construct(string $payloadId, \DateTimeInterface $timestamp = null)
+    public function __construct(private string $payloadId, \DateTimeInterface $timestamp = null)
     {
-        $this->payloadId = $payloadId;
         $this->timestamp = $timestamp ?? new \DateTime();
     }
 

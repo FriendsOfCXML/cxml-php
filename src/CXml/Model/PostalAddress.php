@@ -4,54 +4,39 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['deliverTo', 'street', 'city', 'municipality', 'state', 'postalCode', 'country', 'extrinsics'])]
 class PostalAddress
 {
     use ExtrinsicsTrait;
 
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('name')]
-    private ?string $name = null;
-
-    #[Serializer\XmlList(inline: true, entry: 'DeliverTo')]
-    #[Serializer\Type('array<string>')]
-    #[Serializer\XmlElement(cdata: false)]
-    private array $deliverTo;
-
-    #[Serializer\XmlList(inline: true, entry: 'Street')]
-    #[Serializer\Type('array<string>')]
-    #[Serializer\XmlElement(cdata: false)]
-    private array $street;
-
-    #[Serializer\SerializedName('City')]
-    #[Serializer\XmlElement(cdata: false)]
-    private string $city;
-
-    #[Serializer\SerializedName('Municipality')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?string $municipality = null;
-
-    #[Serializer\SerializedName('State')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?string $state = null;
-
-    #[Serializer\SerializedName('PostalCode')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?string $postalCode = null;
-
-    #[Serializer\SerializedName('Country')]
-    #[Serializer\XmlElement(cdata: false)]
-    private Country $country;
-
-    public function __construct(array $deliverTo, array $street, string $city, Country $country, string $municipality = null, string $state = null, string $postalCode = null, string $name = null)
-    {
-        $this->name = $name;
-        $this->deliverTo = $deliverTo;
-        $this->street = $street;
-        $this->city = $city;
-        $this->municipality = $municipality;
-        $this->state = $state;
-        $this->postalCode = $postalCode;
-        $this->country = $country;
+    public function __construct(
+        #[Serializer\XmlList(entry: 'DeliverTo', inline: true)]
+        #[Serializer\Type('array<string>')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly array $deliverTo,
+        #[Serializer\XmlList(entry: 'Street', inline: true)]
+        #[Serializer\Type('array<string>')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly array $street,
+        #[Serializer\SerializedName('City')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $city,
+        #[Serializer\SerializedName('Country')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly Country $country,
+        #[Serializer\SerializedName('Municipality')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?string $municipality = null,
+        #[Serializer\SerializedName('State')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?string $state = null,
+        #[Serializer\SerializedName('PostalCode')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?string $postalCode = null,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('name')]
+        private readonly ?string $name = null
+    ) {
     }
 
     public function getName(): ?string

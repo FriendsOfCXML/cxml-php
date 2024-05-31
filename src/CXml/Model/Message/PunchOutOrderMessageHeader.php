@@ -10,6 +10,7 @@ use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['sourcingStatus', 'total', 'shipTo', 'shipping', 'tax', 'supplierOrderInfo'])]
 class PunchOutOrderMessageHeader
 {
     public const OPERATION_CREATE = 'create';
@@ -19,30 +20,24 @@ class PunchOutOrderMessageHeader
     public const OPERATION_INSPECT = 'inspect';
 
     #[Serializer\XmlAttribute]
-    private ?string $operationAllowed = null;
-
-    #[Serializer\SerializedName('Total')]
-    private MoneyWrapper $total;
+    private ?string $operationAllowed;
 
     #[Serializer\SerializedName('ShipTo')]
     private ?ShipTo $shipTo = null;
 
-    #[Serializer\SerializedName('Shipping')]
-    private ?Shipping $shipping = null;
-
-    #[Serializer\SerializedName('Tax')]
-    private ?Tax $tax = null;
-
     #[Serializer\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
 
-    public function __construct(MoneyWrapper $total, Shipping $shipping = null, Tax $tax = null, string $operationAllowed = null)
-    {
+    public function __construct(
+        #[Serializer\SerializedName('Total')]
+        private readonly MoneyWrapper $total,
+        #[Serializer\SerializedName('Shipping')]
+        private readonly ?Shipping $shipping = null,
+        #[Serializer\SerializedName('Tax')]
+        private readonly ?Tax $tax = null,
+        string $operationAllowed = null
+    ) {
         Assertion::inArray($operationAllowed, [self::OPERATION_CREATE, self::OPERATION_EDIT, self::OPERATION_INSPECT, null]);
-
-        $this->total = $total;
-        $this->shipping = $shipping;
-        $this->tax = $tax;
         $this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
     }
 

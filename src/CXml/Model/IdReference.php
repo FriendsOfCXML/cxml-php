@@ -4,18 +4,14 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class IdReference
+readonly class IdReference
 {
-    #[Serializer\XmlAttribute]
-    private string $domain;
-
-    #[Serializer\XmlAttribute]
-    private string $identifier;
-
-    public function __construct(string $domain, string $identifier)
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private string $domain,
+        #[Serializer\XmlAttribute]
+        private string $identifier)
     {
-        $this->domain = $domain;
-        $this->identifier = $identifier;
     }
 
     public function getDomain(): string

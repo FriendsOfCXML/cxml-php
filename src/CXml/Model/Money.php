@@ -4,22 +4,18 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class Money
+readonly class Money
 {
-    #[Serializer\XmlAttribute]
-    private string $currency;
-
     #[Serializer\XmlValue(cdata: false)]
     private string $value;
 
-    #[Serializer\Exclude]
-    private int $valueCent;
-
-    public function __construct(string $currency, int $valueCent)
-    {
-        $this->currency = $currency;
-        $this->valueCent = $valueCent;
-        $this->value = \number_format($valueCent / 100, 2, '.', '');
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private string $currency,
+        #[Serializer\Exclude]
+        private int $valueCent
+    ) {
+        $this->value = \number_format($this->valueCent / 100, 2, '.', '');
     }
 
     public function getCurrency(): string

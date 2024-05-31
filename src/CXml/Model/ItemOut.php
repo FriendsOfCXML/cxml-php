@@ -4,44 +4,27 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ItemOut
+#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail'])]
+readonly class ItemOut
 {
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('lineNumber')]
-    private int $lineNumber;
-
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('quantity')]
-    private int $quantity;
-
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('requestedDeliveryDate')]
-    private ?\DateTimeInterface $requestedDeliveryDate = null;
-
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('parentLineNumber')]
-    private ?int $parentLineNumber = null;
-
-    #[Serializer\SerializedName('ItemID')]
-    private ItemId $itemId;
-
-    #[Serializer\SerializedName('ItemDetail')]
-    private ItemDetail $itemDetail;
-
     private function __construct(
-        int $lineNumber,
-        int $quantity,
-        ItemId $itemId,
-        ItemDetail $itemDetail,
-        \DateTimeInterface $requestedDeliveryDate = null,
-        int $parentLineNumber = null
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('lineNumber')]
+        private int $lineNumber,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('quantity')]
+        private int $quantity,
+        #[Serializer\SerializedName('ItemID')]
+        private ItemId $itemId,
+        #[Serializer\SerializedName('ItemDetail')]
+        private ItemDetail $itemDetail,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('requestedDeliveryDate')]
+        private ?\DateTimeInterface $requestedDeliveryDate = null,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('parentLineNumber')]
+        private ?int $parentLineNumber = null
     ) {
-        $this->lineNumber = $lineNumber;
-        $this->quantity = $quantity;
-        $this->itemId = $itemId;
-        $this->itemDetail = $itemDetail;
-        $this->requestedDeliveryDate = $requestedDeliveryDate;
-        $this->parentLineNumber = $parentLineNumber;
     }
 
     public static function create(

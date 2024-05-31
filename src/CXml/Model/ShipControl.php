@@ -4,19 +4,20 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['carrierIdentifiers', 'shipmentIdentifiers'])]
 class ShipControl
 {
     /**
      * @var CarrierIdentifier[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'CarrierIdentifier')]
+    #[Serializer\XmlList(entry: 'CarrierIdentifier', inline: true)]
     #[Serializer\Type('array<CXml\Model\CarrierIdentifier>')]
     private array $carrierIdentifiers = [];
 
     /**
      * @var ShipmentIdentifier[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'ShipmentIdentifier')]
+    #[Serializer\XmlList(entry: 'ShipmentIdentifier', inline: true)]
     #[Serializer\Type('array<CXml\Model\ShipmentIdentifier>')]
     private array $shipmentIdentifiers = [];
 

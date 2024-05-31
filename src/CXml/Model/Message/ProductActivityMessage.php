@@ -5,6 +5,7 @@ namespace CXml\Model\Message;
 use CXml\Model\ExtrinsicsTrait;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['productActivityHeader', 'productActivityDetails', 'extrinsics'])]
 class ProductActivityMessage implements MessagePayloadInterface
 {
     use ExtrinsicsTrait;
@@ -15,7 +16,7 @@ class ProductActivityMessage implements MessagePayloadInterface
     /**
      * @var ProductActivityDetail[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'ProductActivityDetails')]
+    #[Serializer\XmlList(entry: 'ProductActivityDetails', inline: true)]
     #[Serializer\Type('array<CXml\Model\Message\ProductActivityDetail>')]
     private array $productActivityDetails = [];
 

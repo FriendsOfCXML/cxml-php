@@ -5,26 +5,21 @@ namespace CXml\Model\Message;
 use CXml\Model\ItemIn;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['buyerCookie', 'punchOutOrderMessageHeader', 'punchoutOrderMessageItems'])]
 class PunchOutOrderMessage implements MessagePayloadInterface
 {
-    #[Serializer\SerializedName('BuyerCookie')]
-    #[Serializer\XmlElement(cdata: false)]
-    private string $buyerCookie;
-
-    #[Serializer\SerializedName('PunchOutOrderMessageHeader')]
-    private PunchOutOrderMessageHeader $punchOutOrderMessageHeader;
-
     /**
      * @var ItemIn[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'ItemIn')]
+    #[Serializer\XmlList(entry: 'ItemIn', inline: true)]
     #[Serializer\Type('array<CXml\Model\ItemIn>')]
     private array $punchoutOrderMessageItems = [];
 
-    private function __construct(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader)
+    private function __construct(#[Serializer\SerializedName('BuyerCookie')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $buyerCookie, #[Serializer\SerializedName('PunchOutOrderMessageHeader')]
+        private readonly PunchOutOrderMessageHeader $punchOutOrderMessageHeader)
     {
-        $this->buyerCookie = $buyerCookie;
-        $this->punchOutOrderMessageHeader = $punchOutOrderMessageHeader;
     }
 
     public static function create(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader): self

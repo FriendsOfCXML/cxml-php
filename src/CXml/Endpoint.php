@@ -10,25 +10,16 @@ use CXml\Validation\Exception\CXmlInvalidException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Endpoint
+readonly class Endpoint
 {
-    private Serializer $serializer;
-
-    private DtdValidator $dtdValidator;
-
-    private Processor $processor;
-
     private LoggerInterface $logger;
 
     public function __construct(
-        Serializer $serializer,
-        DtdValidator $messageValidator,
-        Processor $processor,
+        private Serializer $serializer,
+        private DtdValidator $dtdValidator,
+        private Processor $processor,
         LoggerInterface $logger = null
     ) {
-        $this->serializer = $serializer;
-        $this->dtdValidator = $messageValidator;
-        $this->processor = $processor;
         $this->logger = $logger ?? new NullLogger();
     }
 

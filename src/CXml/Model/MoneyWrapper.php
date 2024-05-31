@@ -4,7 +4,7 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class MoneyWrapper
+readonly class MoneyWrapper
 {
     #[Serializer\SerializedName('Money')]
     private Money $money;

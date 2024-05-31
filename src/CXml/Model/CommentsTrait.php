@@ -9,7 +9,7 @@ trait CommentsTrait
     /**
      * @var Comment[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'Comments')]
+    #[Serializer\XmlList(entry: 'Comments', inline: true)]
     #[Serializer\Type('array<CXml\Model\Comment>')]
     private ?array $comments = null;
 

@@ -4,25 +4,19 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class Credential
+#[Serializer\AccessorOrder(order: 'custom', custom: ['identity', 'sharedSecret'])]
+class Credential implements \Stringable
 {
-    #[Serializer\XmlAttribute]
-    private string $domain;
-
-    #[Serializer\SerializedName('Identity')]
-    #[Serializer\XmlElement(cdata: false)]
-    private string $identity;
-
-    // private CredentialMac $credentialMac; TODO
-    #[Serializer\SerializedName('SharedSecret')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?string $sharedSecret = null;
-
-    public function __construct(string $domain, string $identity, string $sharedSecret = null)
-    {
-        $this->domain = $domain;
-        $this->identity = $identity;
-        $this->sharedSecret = $sharedSecret;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private readonly string $domain,
+        #[Serializer\SerializedName('Identity')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $identity,
+        #[Serializer\SerializedName('SharedSecret')]
+        #[Serializer\XmlElement(cdata: false)]
+        private ?string $sharedSecret = null
+    ) {
     }
 
     public function getDomain(): string

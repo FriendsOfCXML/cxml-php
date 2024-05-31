@@ -4,27 +4,22 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['address', 'carrierIdentifiers', 'transportInformation', 'idReferences'])]
 class ShipTo
 {
     use IdReferencesTrait;
 
-    #[Serializer\SerializedName('Address')]
-    private Address $address;
-
     /**
      * @var CarrierIdentifier[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'CarrierIdentifier')]
+    #[Serializer\XmlList(entry: 'CarrierIdentifier', inline: true)]
     #[Serializer\Type('array<CXml\Model\CarrierIdentifier>')]
     private array $carrierIdentifiers = [];
 
-    #[Serializer\SerializedName('TransportInformation')]
-    private ?TransportInformation $transportInformation = null;
-
-    public function __construct(Address $address, TransportInformation $transportInformation = null)
+    public function __construct(#[Serializer\SerializedName('Address')]
+        private readonly Address $address, #[Serializer\SerializedName('TransportInformation')]
+        private readonly ?TransportInformation $transportInformation = null)
     {
-        $this->address = $address;
-        $this->transportInformation = $transportInformation;
     }
 
     public function addCarrierIdentifier(string $domain, string $identifier): self

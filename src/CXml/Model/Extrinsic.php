@@ -4,18 +4,14 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class Extrinsic
+readonly class Extrinsic
 {
-    #[Serializer\XmlAttribute]
-    private string $name;
-
-    #[Serializer\XmlValue(cdata: false)]
-    private string $value;
-
-    public function __construct(string $name, string $value)
-    {
-        $this->name = $name;
-        $this->value = $value;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private string $name,
+        #[Serializer\XmlValue(cdata: false)]
+        private string $value
+    ) {
     }
 
     public function getName(): string

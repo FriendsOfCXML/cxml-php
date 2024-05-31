@@ -15,6 +15,7 @@ use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['total', 'shipTo', 'billTo', 'shipping', 'tax', 'contacts', 'comments', 'supplierOrderInfo', 'idReferences', 'extrinsics'])]
 class OrderRequestHeader
 {
     use CommentsTrait;
@@ -22,29 +23,6 @@ class OrderRequestHeader
     use ExtrinsicsTrait;
 
     public const TYPE_NEW = 'new';
-
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('orderID')]
-    private string $orderId;
-
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('orderDate')]
-    private \DateTimeInterface $orderDate;
-
-    #[Serializer\XmlAttribute]
-    private string $type = self::TYPE_NEW;
-
-    #[Serializer\XmlElement]
-    #[Serializer\SerializedName('Total')]
-    private MoneyWrapper $total;
-
-    #[Serializer\XmlElement]
-    #[Serializer\SerializedName('ShipTo')]
-    private ?ShipTo $shipTo = null;
-
-    #[Serializer\XmlElement]
-    #[Serializer\SerializedName('BillTo')]
-    private BillTo $billTo;
 
     #[Serializer\XmlElement]
     #[Serializer\SerializedName('Shipping')]
@@ -57,32 +35,36 @@ class OrderRequestHeader
     /**
      * @var Contact[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'Contact')]
+    #[Serializer\XmlList(entry: 'Contact', inline: true)]
     #[Serializer\Type('array<CXml\Model\Contact>')]
     private ?array $contacts = null;
 
     #[Serializer\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
 
-    public function __construct(
-        string $orderId,
-        \DateTimeInterface $orderDate,
-        ?ShipTo $shipTo,
-        BillTo $billTo,
-        MoneyWrapper $total,
-        string $type = self::TYPE_NEW,
+    protected function __construct(
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('orderID')]
+        private string $orderId,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('orderDate')]
+        private \DateTimeInterface $orderDate,
+        #[Serializer\XmlElement]
+        #[Serializer\SerializedName('ShipTo')]
+        private ?ShipTo $shipTo,
+        #[Serializer\XmlElement]
+        #[Serializer\SerializedName('BillTo')]
+        private BillTo $billTo,
+        #[Serializer\XmlElement]
+        #[Serializer\SerializedName('Total')]
+        private MoneyWrapper $total,
+        #[Serializer\XmlAttribute]
+        private string $type = self::TYPE_NEW,
         array $contacts = null
     ) {
         if ($contacts) {
             Assertion::allIsInstanceOf($contacts, Contact::class);
         }
-
-        $this->orderId = $orderId;
-        $this->orderDate = $orderDate;
-        $this->type = $type;
-        $this->total = $total;
-        $this->shipTo = $shipTo;
-        $this->billTo = $billTo;
         $this->contacts = $contacts;
     }
 
@@ -150,11 +132,6 @@ class OrderRequestHeader
     public function getBillTo(): BillTo
     {
         return $this->billTo;
-    }
-
-    public function getComments(): ?array
-    {
-        return $this->comments;
     }
 
     public function addContact(Contact $contact): self

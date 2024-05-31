@@ -15,13 +15,10 @@ use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\XmlDeserializationVisitor;
 use JMS\Serializer\XmlSerializationVisitor;
 
-class Serializer
+readonly class Serializer
 {
-    private SerializerInterface $jmsSerializer;
-
-    private function __construct(SerializerInterface $jmsSerializer)
+    private function __construct(private SerializerInterface $jmsSerializer)
     {
-        $this->jmsSerializer = $jmsSerializer;
     }
 
     public static function create(): self
@@ -32,14 +29,11 @@ class Serializer
             })
             ->configureHandlers(static function (HandlerRegistry $registry): void {
                 $handler = new JmsDateTimeHandler();
-                $callable = static function (XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context) use ($handler): \DOMText {
-                    return $handler->serialize($visitor, $date, $type, $context);
-                };
+                $callable = static fn (XmlSerializationVisitor $visitor, \DateTimeInterface $date, array $type, Context $context): \DOMText => $handler->serialize($visitor, $date, $type, $context);
                 $registry->registerHandler(GraphNavigatorInterface::DIRECTION_SERIALIZATION, \DateTimeInterface::class, 'xml', $callable);
                 $registry->registerHandler(GraphNavigatorInterface::DIRECTION_SERIALIZATION, \DateTime::class, 'xml', $callable);
-                $callable = static function (XmlDeserializationVisitor $visitor, \SimpleXMLElement $dateAsString, array $type, Context $context) use ($handler): \DateTime|false {
-                    return $handler->deserialize($visitor, $dateAsString, $type, $context);
-                };
+
+                $callable = static fn (XmlDeserializationVisitor $visitor, \SimpleXMLElement $dateAsString, array $type, Context $context): \DateTime|false => $handler->deserialize($visitor, $dateAsString, $type, $context);
                 $registry->registerHandler(GraphNavigatorInterface::DIRECTION_DESERIALIZATION, \DateTimeInterface::class, 'xml', $callable);
                 $registry->registerHandler(GraphNavigatorInterface::DIRECTION_DESERIALIZATION, \DateTime::class, 'xml', $callable);
             })

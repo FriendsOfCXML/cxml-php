@@ -6,13 +6,9 @@ use CXml\Exception\CXmlNotAcceptableException;
 
 class CXmlInvalidException extends CXmlNotAcceptableException
 {
-    private string $xml;
-
-    public function __construct(string $message, string $xml, \Throwable $previous = null)
+    public function __construct(string $message, private readonly string $xml, \Throwable $previous = null)
     {
         parent::__construct($message, $previous);
-
-        $this->xml = $xml;
     }
 
     public function getXml(): string

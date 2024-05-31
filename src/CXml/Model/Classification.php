@@ -4,18 +4,15 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class Classification
+#[Serializer\AccessorOrder(order: 'custom', custom: ['value'])]
+readonly class Classification
 {
-    #[Serializer\XmlAttribute]
-    private string $domain;
-
-    #[Serializer\XmlValue(cdata: false)]
-    private string $value;
-
-    public function __construct(string $domain, string $value)
-    {
-        $this->domain = $domain;
-        $this->value = $value;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private string $domain,
+        #[Serializer\XmlValue(cdata: false)]
+        private string $value
+    ) {
     }
 
     public function getDomain(): string

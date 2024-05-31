@@ -13,9 +13,7 @@ class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
 
     public function __construct(callable $timeCallable = null)
     {
-        $this->timeCallable = $timeCallable ?? static function (): \DateTime {
-            return new \DateTime();
-        };
+        $this->timeCallable = $timeCallable ?? static fn (): \DateTime => new \DateTime();
     }
 
     private function generateNewPayloadId(\DateTimeInterface $timestamp): string

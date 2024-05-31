@@ -4,22 +4,17 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class Header
+#[Serializer\AccessorOrder(order: 'custom', custom: ['from', 'to', 'sender'])]
+readonly class Header
 {
-    #[Serializer\SerializedName('From')]
-    private Party $from;
-
-    #[Serializer\SerializedName('To')]
-    private Party $to;
-
-    #[Serializer\SerializedName('Sender')]
-    private Party $sender;
-
-    public function __construct(Party $from, Party $to, Party $sender)
-    {
-        $this->from = $from;
-        $this->to = $to;
-        $this->sender = $sender;
+    public function __construct(
+        #[Serializer\SerializedName('From')]
+        private Party $from,
+        #[Serializer\SerializedName('To')]
+        private Party $to,
+        #[Serializer\SerializedName('Sender')]
+        private Party $sender
+    ) {
     }
 
     public function getFrom(): Party

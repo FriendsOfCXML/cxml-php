@@ -4,26 +4,18 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class Status
+readonly class Status
 {
-    #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-    private ?string $lang = null;
-
-    #[Serializer\XmlAttribute]
-    private int $code;
-
-    #[Serializer\XmlAttribute]
-    private string $text;
-
-    #[Serializer\XmlValue(cdata: false)]
-    private ?string $message = null;
-
-    public function __construct(int $code = 200, string $text = 'OK', string $message = null, string $lang = null)
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private int $code = 200,
+        #[Serializer\XmlAttribute]
+        private string $text = 'OK',
+        #[Serializer\XmlValue(cdata: false)]
+        private ?string $message = null,
+        #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+        private ?string $lang = null)
     {
-        $this->code = $code;
-        $this->text = $text;
-        $this->message = $message;
-        $this->lang = $lang;
     }
 
     public function getCode(): int

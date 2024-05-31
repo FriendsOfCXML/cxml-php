@@ -9,7 +9,7 @@ trait IdReferencesTrait
     /**
      * @var IdReference[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'IdReference')]
+    #[Serializer\XmlList(entry: 'IdReference', inline: true)]
     #[Serializer\Type('array<CXml\Model\IdReference>')]
     protected array $idReferences = [];
 

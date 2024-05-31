@@ -4,6 +4,7 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['name', 'postalAddress', 'email', 'phone', 'fax', 'url', 'extrinsics', 'idReferences'])]
 class Contact
 {
     use ExtrinsicsTrait;
@@ -37,21 +38,17 @@ class Contact
 
     public const ROLE_SUBSEQUENTBUYER = 'subsequentBuyer';
 
-    #[Serializer\XmlAttribute]
-    private ?string $role = null;
-
-    #[Serializer\SerializedName('Name')]
-    #[Serializer\XmlElement(cdata: false)]
-    private MultilanguageString $name;
-
     #[Serializer\SerializedName('Email')]
     #[Serializer\XmlElement(cdata: false)]
     private ?string $email = null;
 
-    public function __construct(MultilanguageString $name, string $role = null)
-    {
-        $this->role = $role;
-        $this->name = $name;
+    public function __construct(
+        #[Serializer\SerializedName('Name')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly MultilanguageString $name,
+        #[Serializer\XmlAttribute]
+        private readonly ?string $role = null
+    ) {
     }
 
     public static function create(MultilanguageString $name, string $role = null): self

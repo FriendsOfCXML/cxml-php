@@ -4,6 +4,7 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['value', 'shortName'])]
 class Description extends MultilanguageString
 {
     #[Serializer\SerializedName('ShortName')]

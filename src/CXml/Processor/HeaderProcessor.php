@@ -10,16 +10,10 @@ use CXml\Exception\CXmlCredentialInvalidException;
 use CXml\Model\Credential;
 use CXml\Model\Header;
 
-class HeaderProcessor
+readonly class HeaderProcessor
 {
-    private CredentialRepositoryInterface $credentialRepository;
-
-    private AuthenticatorInterface $authenticator;
-
-    public function __construct(CredentialRepositoryInterface $credentialRepository, AuthenticatorInterface $authenticator)
+    public function __construct(private CredentialRepositoryInterface $credentialRepository, private AuthenticatorInterface $authenticator)
     {
-        $this->credentialRepository = $credentialRepository;
-        $this->authenticator = $authenticator;
     }
 
     /**

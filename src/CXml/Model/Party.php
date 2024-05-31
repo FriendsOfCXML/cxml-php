@@ -4,19 +4,16 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class Party
+#[Serializer\AccessorOrder(order: 'custom', custom: ['credential', 'userAgent'])]
+readonly class Party
 {
-    #[Serializer\SerializedName('Credential')]
-    private Credential $credential;
-
-    #[Serializer\SerializedName('UserAgent')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?string $userAgent = null;
-
-    public function __construct(Credential $credential, string $userAgent = null)
-    {
-        $this->credential = $credential;
-        $this->userAgent = $userAgent;
+    public function __construct(
+        #[Serializer\SerializedName('Credential')]
+        private Credential $credential,
+        #[Serializer\SerializedName('UserAgent')]
+        #[Serializer\XmlElement(cdata: false)]
+        private ?string $userAgent = null
+    ) {
     }
 
     public function getCredential(): Credential

@@ -5,26 +5,18 @@ namespace CXml\Model\Response;
 use CXml\Model\Status;
 use JMS\Serializer\Annotation as Serializer;
 
-class Response
+#[Serializer\AccessorOrder(order: 'custom', custom: ['status'])]
+readonly class Response
 {
-    #[Serializer\SerializedName('Status')]
-    private Status $status;
-
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('Id')]
-    private ?string $id = null;
-
-    #[Serializer\Exclude] // see CXmlWrappingNodeJmsEventSubscriber
-    private ?ResponsePayloadInterface $payload = null;
-
     public function __construct(
-        Status $status,
-        ResponsePayloadInterface $payload = null,
-        string $id = null
+        #[Serializer\SerializedName('Status')]
+        private Status $status,
+        #[Serializer\Exclude]
+        private ?ResponsePayloadInterface $payload = null,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('Id')]
+        private ?string $id = null
     ) {
-        $this->status = $status;
-        $this->id = $id;
-        $this->payload = $payload;
     }
 
     public function getStatus(): Status
@@ -39,6 +31,6 @@ class Response
 
     public function getPayload(): ?ResponsePayloadInterface
     {
-        return $this->payload;
+        return $this->payload ?? null;
     }
 }

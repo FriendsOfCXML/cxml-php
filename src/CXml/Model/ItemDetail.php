@@ -5,26 +5,17 @@ namespace CXml\Model;
 use Assert\Assertion;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'description', 'unitOfMeasure', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime'])]
 class ItemDetail
 {
     use ExtrinsicsTrait;
+
     public const UNIT_OF_MEASURE_EACH = 'EA';
-
-    #[Serializer\SerializedName('UnitPrice')]
-    private MoneyWrapper $unitPrice;
-
-    #[Serializer\SerializedName('Description')]
-    #[Serializer\XmlElement(cdata: false)]
-    private Description $description;
-
-    #[Serializer\SerializedName('UnitOfMeasure')]
-    #[Serializer\XmlElement(cdata: false)]
-    private string $unitOfMeasure;
 
     /**
      * @var Classification[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'Classification')]
+    #[Serializer\XmlList(entry: 'Classification', inline: true)]
     #[Serializer\Type('array<CXml\Model\Classification>')]
     private array $classifications = [];
 
@@ -44,11 +35,16 @@ class ItemDetail
     #[Serializer\XmlElement(cdata: false)]
     private ?int $leadtime = null;
 
-    protected function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice)
-    {
-        $this->description = $description;
-        $this->unitOfMeasure = $unitOfMeasure;
-        $this->unitPrice = $unitPrice;
+    protected function __construct(
+        #[Serializer\SerializedName('Description')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly Description $description,
+        #[Serializer\SerializedName('UnitOfMeasure')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $unitOfMeasure,
+        #[Serializer\SerializedName('UnitPrice')]
+        private readonly MoneyWrapper $unitPrice
+    ) {
     }
 
     public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications): self

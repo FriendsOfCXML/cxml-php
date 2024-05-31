@@ -20,7 +20,7 @@ use CXml\Payload\PayloadIdentityFactoryInterface;
 
 class Builder
 {
-    private PayloadIdentityFactoryInterface $payloadIdentityFactory;
+    private readonly PayloadIdentityFactoryInterface $payloadIdentityFactory;
 
     private ?PayloadInterface $payload = null;
 
@@ -30,17 +30,11 @@ class Builder
 
     private Credential $sender;
 
-    private ?string $senderUserAgent;
-
     private ?Status $status = null;
 
-    private ?string $locale;
-
-    private function __construct(string $senderUserAgent, string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+    private function __construct(private ?string $senderUserAgent, private readonly ?string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
     {
-        $this->locale = $locale;
         $this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
-        $this->senderUserAgent = $senderUserAgent;
     }
 
     public static function create(string $senderUserAgent = 'cxml-php UserAgent', string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self

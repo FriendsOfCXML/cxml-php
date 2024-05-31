@@ -7,10 +7,12 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['idReferences', 'extrinsics'])]
 class ConfirmationHeader
 {
     use ExtrinsicsTrait;
     use IdReferencesTrait;
+
     public const TYPE_ACCEPT = 'accept';
 
     public const TYPE_ALLDETAIL = 'allDetail';

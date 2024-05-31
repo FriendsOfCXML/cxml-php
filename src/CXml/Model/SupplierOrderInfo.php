@@ -4,19 +4,15 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class SupplierOrderInfo
+readonly class SupplierOrderInfo
 {
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('orderID')]
-    private string $orderId;
-
-    #[Serializer\XmlAttribute]
-    private ?\DateTimeInterface $orderDate;
-
-    public function __construct(string $orderId, \DateTimeInterface $orderDate = null)
-    {
-        $this->orderId = $orderId;
-        $this->orderDate = $orderDate;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('orderID')]
+        private string $orderId,
+        #[Serializer\XmlAttribute]
+        private ?\DateTimeInterface $orderDate = null
+    ) {
     }
 
     public function getOrderId(): string

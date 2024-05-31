@@ -4,25 +4,21 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['value', 'attachment'])]
 class Comment
 {
     #[Serializer\SerializedName('Attachment')]
-    private ?Url $attachment = null;
+    private ?Url $attachment;
 
-    #[Serializer\XmlValue(cdata: false)]
-    private ?string $value = null;
-
-    #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-    private ?string $lang = null;
-
-    #[Serializer\XmlAttribute]
-    private ?string $type = null;
-
-    public function __construct(string $value = null, string $type = null, string $lang = null, string $attachment = null)
-    {
-        $this->value = $value;
-        $this->type = $type;
-        $this->lang = $lang;
+    public function __construct(
+        #[Serializer\XmlValue(cdata: false)]
+        private readonly ?string $value = null,
+        #[Serializer\XmlAttribute]
+        private readonly ?string $type = null,
+        #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+        private readonly ?string $lang = null,
+        string $attachment = null
+    ) {
         $this->attachment = $attachment ? new Url($attachment) : null;
     }
 

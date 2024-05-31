@@ -7,19 +7,19 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\Status;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference', 'extrinsics'])]
 class StatusUpdateRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
 
     #[Serializer\SerializedName('DocumentReference')]
-    private ?DocumentReference $documentReference = null;
+    private ?DocumentReference $documentReference;
 
-    #[Serializer\SerializedName('Status')]
-    private Status $status;
-
-    public function __construct(Status $status, string $documentReference = null)
-    {
-        $this->status = $status;
+    public function __construct(
+        #[Serializer\SerializedName('Status')]
+        private readonly Status $status,
+        string $documentReference = null
+    ) {
         $this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
     }
 

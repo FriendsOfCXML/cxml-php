@@ -28,13 +28,7 @@ class OrderRequestBuilder
 {
     private array $items = [];
 
-    private string $orderId;
-
-    private \DateTimeInterface $orderDate;
-
     private int $total = 0;
-
-    private string $currency;
 
     private array $comments = [];
 
@@ -44,20 +38,14 @@ class OrderRequestBuilder
 
     private BillTo $billTo;
 
-    private string $language;
-
     private ?Shipping $shipping = null;
 
     private ?Tax $tax = null;
 
     private array $extrinsics = [];
 
-    private function __construct(string $orderId, \DateTimeInterface $orderDate, string $currency, string $language = 'en')
+    private function __construct(private readonly string $orderId, private readonly \DateTimeInterface $orderDate, private readonly string $currency, private readonly string $language = 'en')
     {
-        $this->orderId = $orderId;
-        $this->orderDate = $orderDate;
-        $this->currency = $currency;
-        $this->language = $language;
     }
 
     public static function create(string $orderId, \DateTimeInterface $orderDate, string $currency, string $language = 'en'): self

@@ -4,13 +4,11 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ShippingContractNumber
+readonly class ShippingContractNumber
 {
-    #[Serializer\XmlValue(cdata: false)]
-    private string $value;
-
-    public function __construct(string $value)
-    {
-        $this->value = $value;
+    public function __construct(
+        #[Serializer\XmlValue(cdata: false)]
+        private string $value
+    ) {
     }
 }

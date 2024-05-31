@@ -8,6 +8,7 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference', 'comments', 'extrinsics', 'idReferences'])]
 class ShipNoticeHeader
 {
     use ExtrinsicsTrait;
@@ -15,27 +16,23 @@ class ShipNoticeHeader
     use CommentsTrait;
 
     #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('shipmentID')]
-    private string $shipmentId;
-
-    #[Serializer\XmlAttribute]
     private \DateTimeInterface $noticeDate;
 
-    #[Serializer\XmlAttribute]
-    private ?\DateTimeInterface $shipmentDate = null;
-
-    #[Serializer\XmlAttribute]
-    private ?\DateTimeInterface $deliveryDate = null;
-
     #[Serializer\SerializedName('DocumentReference')]
-    private ?DocumentReference $documentReference = null;
+    private ?DocumentReference $documentReference;
 
-    public function __construct(string $shipmentId, \DateTimeInterface $noticeDate = null, \DateTimeInterface $shipmentDate = null, \DateTimeInterface $deliveryDate = null, string $documentReference = null)
-    {
-        $this->shipmentId = $shipmentId;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('shipmentID')]
+        private readonly string $shipmentId,
+        \DateTimeInterface $noticeDate = null,
+        #[Serializer\XmlAttribute]
+        private readonly ?\DateTimeInterface $shipmentDate = null,
+        #[Serializer\XmlAttribute]
+        private readonly ?\DateTimeInterface $deliveryDate = null,
+        string $documentReference = null
+    ) {
         $this->noticeDate = $noticeDate ?? new \DateTime();
-        $this->shipmentDate = $shipmentDate;
-        $this->deliveryDate = $deliveryDate;
         $this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
     }
 

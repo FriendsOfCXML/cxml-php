@@ -18,4 +18,5 @@ return RectorConfig::configure()
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
     ])
+    ->withPhpSets()
 ;

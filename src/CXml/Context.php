@@ -8,11 +8,8 @@ class Context
 {
     private ?CXml $cxml = null;
 
-    private array $options;
-
-    private function __construct(array $options = [])
+    private function __construct(private array $options = [])
     {
-        $this->options = $options;
     }
 
     public static function create(array $options = []): self

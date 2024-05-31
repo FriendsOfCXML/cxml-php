@@ -9,29 +9,22 @@ use CXml\Model\ItemId;
 use CXml\Model\MultilanguageString;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'description', 'contact', 'inventory'])]
 class ProductActivityDetail
 {
     use ExtrinsicsTrait;
 
-    #[Serializer\SerializedName('ItemID')]
-    private ItemId $itemId;
-
-    #[Serializer\SerializedName('Description')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?MultilanguageString $description = null;
-
-    #[Serializer\SerializedName('Contact')] // todo: more contact should be allowed
-    private ?Contact $contact = null;
-
-    #[Serializer\SerializedName('Inventory')]
-    private ?Inventory $inventory = null;
-
-    private function __construct(ItemId $itemId, Inventory $inventory = null, Contact $contact = null, MultilanguageString $description = null)
-    {
-        $this->contact = $contact;
-        $this->description = $description;
-        $this->itemId = $itemId;
-        $this->inventory = $inventory;
+    private function __construct(
+        #[Serializer\SerializedName('ItemID')]
+        private ItemId $itemId,
+        #[Serializer\SerializedName('Inventory')]
+        private ?Inventory $inventory = null,
+        #[Serializer\SerializedName('Contact')]
+        private ?Contact $contact = null,
+        #[Serializer\SerializedName('Description')]
+        #[Serializer\XmlElement(cdata: false)]
+        private ?MultilanguageString $description = null
+    ) {
     }
 
     public static function create(ItemId $itemId, Inventory $inventory = null, Contact $contact = null, MultilanguageString $description = null): self

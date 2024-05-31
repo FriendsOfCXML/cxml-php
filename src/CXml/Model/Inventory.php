@@ -4,6 +4,7 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['incrementQuantity', 'stockOnHandQuantity'])]
 class Inventory
 {
     #[Serializer\SerializedName('StockOnHandQuantity')]

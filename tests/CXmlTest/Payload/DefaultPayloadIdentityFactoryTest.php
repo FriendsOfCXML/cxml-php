@@ -13,10 +13,9 @@ class DefaultPayloadIdentityFactoryTest extends TestCase
 {
     public function testGenerateNewPayloadId(): void
     {
-        $pif = new DefaultPayloadIdentityFactory(static function (): \DateTime|false {
+        $pif = new DefaultPayloadIdentityFactory(static fn (): \DateTime|false =>
             // 2022-04-22 08:00:00.400000 +00:00
-            return \DateTime::createFromFormat('U.v', '1650614400.400');
-        });
+            \DateTime::createFromFormat('U.v', '1650614400.400'));
         $actualIdentity = $pif->newPayloadIdentity();
 
         $this->assertStringStartsWith('1650614400.400', $actualIdentity->getPayloadId());

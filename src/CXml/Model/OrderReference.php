@@ -4,23 +4,18 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class OrderReference
+#[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference'])]
+readonly class OrderReference
 {
-    #[Serializer\SerializedName('DocumentReference')]
-    private ?DocumentReference $documentReference = null;
-
-    #[Serializer\SerializedName('orderID')]
-    #[Serializer\XmlAttribute]
-    private ?string $orderId = null;
-
-    #[Serializer\XmlAttribute]
-    private ?\DateTimeInterface $orderDate = null;
-
-    public function __construct(DocumentReference $documentReference, string $orderId = null, \DateTimeInterface $orderDate = null)
-    {
-        $this->documentReference = $documentReference;
-        $this->orderId = $orderId;
-        $this->orderDate = $orderDate;
+    public function __construct(
+        #[Serializer\SerializedName('DocumentReference')]
+        private ?DocumentReference $documentReference,
+        #[Serializer\SerializedName('orderID')]
+        #[Serializer\XmlAttribute]
+        private ?string $orderId = null,
+        #[Serializer\XmlAttribute]
+        private ?\DateTimeInterface $orderDate = null
+    ) {
     }
 
     public static function create(string $documentReference): self

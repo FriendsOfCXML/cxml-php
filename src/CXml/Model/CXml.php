@@ -8,50 +8,30 @@ use CXml\Model\Response\Response;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\XmlRoot('cXML')]
-class CXml
+#[Serializer\AccessorOrder(order: 'custom', custom: ['header', 'message', 'request', 'response'])]
+class CXml implements \Stringable
 {
     public const DEPLOYMENT_TEST = 'test';
 
     public const DEPLOYMENT_PROD = 'production';
 
-    #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-    private ?string $lang = null;
-
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('payloadID')]
-    private string $payloadId;
-
-    #[Serializer\XmlAttribute]
-    private \DateTimeInterface $timestamp;
-
-    #[Serializer\SerializedName('Header')]
-    private ?Header $header = null;
-
-    #[Serializer\SerializedName('Request')]
-    private ?Request $request = null;
-
-    #[Serializer\SerializedName('Response')]
-    private ?Response $response = null;
-
-    #[Serializer\SerializedName('Message')]
-    private ?Message $message = null;
-
     protected function __construct(
-        string $payloadId,
-        \DateTimeInterface $timestamp,
-        ?Request $request,
-        Response $response = null,
-        Message $message = null,
-        Header $header = null,
-        string $lang = null
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('payloadID')]
+        private readonly string $payloadId,
+        #[Serializer\XmlAttribute]
+        private readonly \DateTimeInterface $timestamp,
+        #[Serializer\SerializedName('Request')]
+        private readonly ?Request $request,
+        #[Serializer\SerializedName('Response')]
+        private readonly ?Response $response = null,
+        #[Serializer\SerializedName('Message')]
+        private readonly ?Message $message = null,
+        #[Serializer\SerializedName('Header')]
+        private readonly ?Header $header = null,
+        #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+        private readonly ?string $lang = null
     ) {
-        $this->request = $request;
-        $this->response = $response;
-        $this->header = $header;
-        $this->payloadId = $payloadId;
-        $this->timestamp = $timestamp;
-        $this->message = $message;
-        $this->lang = $lang;
     }
 
     public static function forMessage(PayloadIdentity $payloadIdentity, Message $message, Header $header, string $lang = null): self

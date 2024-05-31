@@ -13,17 +13,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SelfAwareProfileRequestHandler implements HandlerInterface
 {
-    private HandlerRegistry $handlerRegistry;
-
-    private UrlGeneratorInterface $urlGenerator;
-
-    private string $defaultRoute;
-
-    public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator, string $defaultRoute = 'post_cxml')
+    public function __construct(private readonly HandlerRegistry $handlerRegistry, private readonly UrlGeneratorInterface $urlGenerator, private readonly string $defaultRoute = 'post_cxml')
     {
-        $this->handlerRegistry = $handlerRegistry;
-        $this->urlGenerator = $urlGenerator;
-        $this->defaultRoute = $defaultRoute;
     }
 
     public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface

@@ -6,28 +6,26 @@ use CXml\Model\ShipControl;
 use CXml\Model\ShipNoticePortion;
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['shipNoticeHeader', 'shipControls', 'shipNoticePortions'])]
 class ShipNoticeRequest implements RequestPayloadInterface
 {
-    #[Serializer\SerializedName('ShipNoticeHeader')]
-    private ShipNoticeHeader $shipNoticeHeader;
-
     /**
      * @var ShipControl[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'ShipControl')]
+    #[Serializer\XmlList(entry: 'ShipControl', inline: true)]
     #[Serializer\Type('array<CXml\Model\ShipControl>')]
     private array $shipControls = [];
 
     /**
      * @var ShipNoticePortion[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'ShipNoticePortion')]
+    #[Serializer\XmlList(entry: 'ShipNoticePortion', inline: true)]
     #[Serializer\Type('array<CXml\Model\ShipNoticePortion>')]
     private array $shipNoticePortions = [];
 
-    public function __construct(ShipNoticeHeader $shipNoticeHeader)
+    public function __construct(#[Serializer\SerializedName('ShipNoticeHeader')]
+        private readonly ShipNoticeHeader $shipNoticeHeader)
     {
-        $this->shipNoticeHeader = $shipNoticeHeader;
     }
 
     public static function create(ShipNoticeHeader $shipNoticeHeader): self

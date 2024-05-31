@@ -103,20 +103,8 @@ class Processor
         511 => 'Network Authentication Required',                             // RFC6585
     ];
 
-    private HeaderProcessor $headerProcessor;
-
-    private HandlerRegistryInterface $handlerRegistry;
-
-    private Builder $builder;
-
-    public function __construct(
-        HeaderProcessor $requestProcessor,
-        HandlerRegistryInterface $handlerRepository,
-        Builder $builder
-    ) {
-        $this->headerProcessor = $requestProcessor;
-        $this->handlerRegistry = $handlerRepository;
-        $this->builder = $builder;
+    public function __construct(private readonly HeaderProcessor $headerProcessor, private readonly HandlerRegistryInterface $handlerRegistry, private readonly Builder $builder)
+    {
     }
 
     /**
@@ -246,7 +234,7 @@ class Processor
 
     public function buildResponseForException(CXmlException $exception): CXml
     {
-        $statusCode = self::$exceptionMapping[\get_class($exception)] ?? 500;
+        $statusCode = self::$exceptionMapping[$exception::class] ?? 500;
         $statusText = self::$exceptionCodeMapping[$statusCode] ?? 'Unknown status';
         $status = new Status($statusCode, $statusText, $exception->getMessage());
 

@@ -6,7 +6,7 @@ use CXml\Model\Credential;
 
 class CXmlCredentialInvalidException extends CXmlExpectationFailedException
 {
-    private ?Credential $credential;
+    private readonly ?Credential $credential;
 
     public function __construct(string $message, Credential $credential = null, \Throwable $previous = null)
     {

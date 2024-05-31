@@ -4,26 +4,18 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail'])]
 class ItemIn
 {
-    #[Serializer\XmlAttribute]
-    #[Serializer\SerializedName('quantity')]
-    private int $quantity;
-
-    #[Serializer\SerializedName('ItemID')]
-    private ?ItemId $itemId = null;
-    // might be used in a quote, therefore can be null
-    #[Serializer\SerializedName('ItemDetail')]
-    private ItemDetail $itemDetail;
-
     protected function __construct(
-        int $quantity,
-        ItemId $itemId,
-        ItemDetail $itemDetail
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('quantity')]
+        private readonly int $quantity,
+        #[Serializer\SerializedName('ItemID')]
+        private readonly ?ItemId $itemId,
+        #[Serializer\SerializedName('ItemDetail')]
+        private readonly ItemDetail $itemDetail
     ) {
-        $this->quantity = $quantity;
-        $this->itemId = $itemId;
-        $this->itemDetail = $itemDetail;
     }
 
     public static function create(

@@ -4,7 +4,8 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ShipNoticePortion
+#[Serializer\AccessorOrder(order: 'custom', custom: ['orderReference'])]
+readonly class ShipNoticePortion
 {
     #[Serializer\SerializedName('OrderReference')]
     private OrderReference $orderReference;

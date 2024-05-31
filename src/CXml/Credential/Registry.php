@@ -30,9 +30,11 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface
             if ($registeredCredential->getDomain() !== $domain) {
                 continue;
             }
+
             if ($registeredCredential->getIdentity() !== $identity) {
                 continue;
             }
+
             return $registeredCredential;
         }
 

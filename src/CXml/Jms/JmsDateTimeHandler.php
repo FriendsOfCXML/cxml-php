@@ -31,7 +31,7 @@ class JmsDateTimeHandler
         return $type['params'][0] ?? \DateTimeInterface::ATOM;
     }
 
-    public function deserialize(XmlDeserializationVisitor $visitor, $dateAsString, array $type, Context $context)
+    public function deserialize(XmlDeserializationVisitor $visitor, \SimpleXMLElement $dateAsString, array $type, Context $context): \DateTime|false
     {
         // explicit date-format was defined in property annotation
         if (isset($type['params'][0])) {

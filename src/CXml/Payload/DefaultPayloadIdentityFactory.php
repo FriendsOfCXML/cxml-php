@@ -13,7 +13,7 @@ class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
 
     public function __construct(callable $timeCallable = null)
     {
-        $this->timeCallable = $timeCallable ?? function () {
+        $this->timeCallable = $timeCallable ?? function (): \DateTime {
             return new \DateTime();
         };
     }

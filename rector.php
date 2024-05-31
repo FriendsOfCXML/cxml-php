@@ -11,7 +11,6 @@ return RectorConfig::configure()
         __DIR__.'/src',
         __DIR__.'/tests',
     ])
-    // uncomment to reach your current PHP version
     ->withSets([
         JMSSetList::ANNOTATIONS_TO_ATTRIBUTES,
         SetList::TYPE_DECLARATION,

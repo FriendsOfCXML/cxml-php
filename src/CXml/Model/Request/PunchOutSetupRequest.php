@@ -21,7 +21,6 @@ class PunchOutSetupRequest implements RequestPayloadInterface
     private string $buyerCookie;
 
     /**
-     *
      * @var Extrinsic[]
      */
     #[Serializer\XmlList(inline: true, entry: 'Extrinsic')]
@@ -41,7 +40,6 @@ class PunchOutSetupRequest implements RequestPayloadInterface
     private ?SelectedItem $selectedItem = null;
 
     /**
-     *
      * @var ItemOut[]
      */
     #[Serializer\XmlList(inline: true, entry: 'ItemOut')]

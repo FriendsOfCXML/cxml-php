@@ -55,7 +55,6 @@ class OrderRequestHeader
     private ?Tax $tax = null;
 
     /**
-     *
      * @var Contact[]
      */
     #[Serializer\XmlList(inline: true, entry: 'Contact')]

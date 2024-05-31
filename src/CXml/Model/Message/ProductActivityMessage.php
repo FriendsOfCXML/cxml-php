@@ -13,7 +13,6 @@ class ProductActivityMessage implements MessagePayloadInterface
     private ProductActivityHeader $productActivityHeader;
 
     /**
-     *
      * @var ProductActivityDetail[]
      */
     #[Serializer\XmlList(inline: true, entry: 'ProductActivityDetails')]

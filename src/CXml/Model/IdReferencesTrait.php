@@ -7,7 +7,6 @@ use JMS\Serializer\Annotation as Serializer;
 trait IdReferencesTrait
 {
     /**
-     *
      * @var IdReference[]
      */
     #[Serializer\XmlList(inline: true, entry: 'IdReference')]

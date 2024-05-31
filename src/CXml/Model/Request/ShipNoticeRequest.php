@@ -12,7 +12,6 @@ class ShipNoticeRequest implements RequestPayloadInterface
     private ShipNoticeHeader $shipNoticeHeader;
 
     /**
-     *
      * @var ShipControl[]
      */
     #[Serializer\XmlList(inline: true, entry: 'ShipControl')]
@@ -20,7 +19,6 @@ class ShipNoticeRequest implements RequestPayloadInterface
     private array $shipControls = [];
 
     /**
-     *
      * @var ShipNoticePortion[]
      */
     #[Serializer\XmlList(inline: true, entry: 'ShipNoticePortion')]

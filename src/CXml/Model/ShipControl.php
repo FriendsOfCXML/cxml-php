@@ -7,7 +7,6 @@ use JMS\Serializer\Annotation as Serializer;
 class ShipControl
 {
     /**
-     *
      * @var CarrierIdentifier[]
      */
     #[Serializer\XmlList(inline: true, entry: 'CarrierIdentifier')]
@@ -15,7 +14,6 @@ class ShipControl
     private array $carrierIdentifiers = [];
 
     /**
-     *
      * @var ShipmentIdentifier[]
      */
     #[Serializer\XmlList(inline: true, entry: 'ShipmentIdentifier')]

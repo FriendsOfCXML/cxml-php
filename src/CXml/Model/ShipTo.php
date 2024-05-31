@@ -12,7 +12,6 @@ class ShipTo
     private Address $address;
 
     /**
-     *
      * @var CarrierIdentifier[]
      */
     #[Serializer\XmlList(inline: true, entry: 'CarrierIdentifier')]

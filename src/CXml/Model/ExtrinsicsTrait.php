@@ -7,7 +7,6 @@ use JMS\Serializer\Annotation as Serializer;
 trait ExtrinsicsTrait
 {
     /**
-     *
      * @var Extrinsic[]
      */
     #[Serializer\XmlList(inline: true, entry: 'Extrinsic')]

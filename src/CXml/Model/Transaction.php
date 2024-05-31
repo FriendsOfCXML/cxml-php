@@ -14,7 +14,6 @@ class Transaction
     private string $url;
 
     /**
-     *
      * @var Option[]
      */
     #[Serializer\XmlList(inline: true, entry: 'Option')]

@@ -15,7 +15,6 @@ class ProfileResponse implements ResponsePayloadInterface
     private ?\DateTimeInterface $lastRefresh = null;
 
     /**
-     *
      * @var Option[]
      */
     #[Serializer\XmlList(inline: true, entry: 'Option')]
@@ -23,7 +22,6 @@ class ProfileResponse implements ResponsePayloadInterface
     private array $options = [];
 
     /**
-     *
      * @var Transaction[]
      */
     #[Serializer\XmlList(inline: true, entry: 'Transaction')]

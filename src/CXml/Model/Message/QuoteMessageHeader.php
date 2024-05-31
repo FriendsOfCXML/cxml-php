@@ -52,7 +52,6 @@ class QuoteMessageHeader
     private ShipTo $shipTo;
 
     /**
-     *
      * @var Contact[]
      */
     #[Serializer\XmlList(inline: true, entry: 'Contact')]

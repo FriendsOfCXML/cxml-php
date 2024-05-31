@@ -1,11 +1,17 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+declare(strict_types=1);
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
+
+$finder = Finder::create()
     ->in(__DIR__.'/src')
     ->in(__DIR__.'/tests')
 ;
 
-$config = new PhpCsFixer\Config();
+$config = new Config();
 
 return $config
     ->setRiskyAllowed(true)
@@ -16,7 +22,7 @@ return $config
         '@Symfony' => true,
         '@Symfony:risky' => false,
         'native_function_invocation' => [
-            'include' => [\PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer::SET_INTERNAL],
+            'include' => [NativeFunctionInvocationFixer::SET_INTERNAL],
             'scope' => 'namespaced',
             'strict' => false,
         ],
@@ -26,7 +32,7 @@ return $config
         'pow_to_exponentiation' => true,
         'combine_nested_dirname' => true,
         'phpdoc_separation' => false,
-        '@PHP74Migration' => true,
+        '@PHP82Migration' => true,
         'global_namespace_import' => [
             'import_classes' => false,
         ],

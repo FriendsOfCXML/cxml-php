@@ -13,7 +13,6 @@ class QuoteMessage implements MessagePayloadInterface
     private QuoteMessageHeader $quoteMessageHeader;
 
     /**
-     *
      * @var ItemIn[]
      */
     #[Serializer\XmlList(inline: true, entry: 'QuoteItemIn')]

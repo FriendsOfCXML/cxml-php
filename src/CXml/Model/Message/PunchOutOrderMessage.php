@@ -15,7 +15,6 @@ class PunchOutOrderMessage implements MessagePayloadInterface
     private PunchOutOrderMessageHeader $punchOutOrderMessageHeader;
 
     /**
-     *
      * @var ItemIn[]
      */
     #[Serializer\XmlList(inline: true, entry: 'ItemIn')]

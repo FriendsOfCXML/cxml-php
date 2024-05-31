@@ -11,7 +11,6 @@ class OrderRequest implements RequestPayloadInterface
     private OrderRequestHeader $orderRequestHeader;
 
     /**
-     *
      * @var ItemOut[]
      */
     #[Serializer\XmlList(inline: true, entry: 'ItemOut')]

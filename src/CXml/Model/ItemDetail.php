@@ -22,7 +22,6 @@ class ItemDetail
     private string $unitOfMeasure;
 
     /**
-     *
      * @var Classification[]
      */
     #[Serializer\XmlList(inline: true, entry: 'Classification')]

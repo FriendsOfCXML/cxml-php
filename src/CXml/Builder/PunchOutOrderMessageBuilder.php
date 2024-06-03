@@ -156,10 +156,18 @@ class PunchOutOrderMessageBuilder
     public function addItem(ItemIn $itemIn): self
     {
         $this->punchoutOrderMessageItems[] = $itemIn;
-        if ($itemIn->getItemDetail()->getPriceBasisQuantity() instanceof PriceBasisQuantity && $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity() > 0) {
-            $this->total += $itemIn->getQuantity() * ($itemIn->getItemDetail()->getPriceBasisQuantity()->getConversionFactor() / $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity()) * $itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent();
+
+        $moneyValueCent = $itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent();
+        $itemQty = $itemIn->getQuantity();
+
+        if (
+            $itemIn->getItemDetail()->getPriceBasisQuantity() instanceof PriceBasisQuantity
+            && $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity() > 0
+        ) {
+            $priceBasisQuantity = $itemIn->getItemDetail()->getPriceBasisQuantity();
+            $this->total += (int) \round($itemQty * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $moneyValueCent);
         } else {
-            $this->total += $itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent() * $itemIn->getQuantity();
+            $this->total += $moneyValueCent * $itemQty;
         }
 
         return $this;

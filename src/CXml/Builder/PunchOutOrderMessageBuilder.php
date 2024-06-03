@@ -12,6 +12,7 @@ use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\PostalAddress;
+use CXml\Model\PriceBasisQuantity;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\Tax;
@@ -155,7 +156,11 @@ class PunchOutOrderMessageBuilder
     public function addItem(ItemIn $itemIn): self
     {
         $this->punchoutOrderMessageItems[] = $itemIn;
-        $this->total += ($itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent() * $itemIn->getQuantity());
+        if ($itemIn->getItemDetail()->getPriceBasisQuantity() instanceof PriceBasisQuantity && $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity() > 0) {
+            $this->total += $itemIn->getQuantity() * ($itemIn->getItemDetail()->getPriceBasisQuantity()->getConversionFactor() / $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity()) * $itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent();
+        } else {
+            $this->total += $itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent() * $itemIn->getQuantity();
+        }
 
         return $this;
     }

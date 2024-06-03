@@ -28,6 +28,12 @@ class ItemDetail
     private string $unitOfMeasure;
 
     /**
+     * @Ser\SerializedName("PriceBasisQuantity")
+     * @Ser\XmlElement (cdata=false)
+     */
+    private ?PriceBasisQuantity $priceBasisQuantity;
+
+    /**
      * @Ser\XmlList(inline=true, entry="Classification")
      * @Ser\Type("array<CXml\Model\Classification>")
      *
@@ -59,19 +65,20 @@ class ItemDetail
      */
     private ?int $leadtime = null;
 
-    protected function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice)
+    protected function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, ?PriceBasisQuantity $priceBasisQuantity = null)
     {
         $this->description = $description;
         $this->unitOfMeasure = $unitOfMeasure;
         $this->unitPrice = $unitPrice;
+        $this->priceBasisQuantity = $priceBasisQuantity;
     }
 
-    public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications): self
+    public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications, ?PriceBasisQuantity $priceBasisQuantity = null): self
     {
         Assertion::allIsInstanceOf($classifications, Classification::class);
         Assertion::notEmpty($classifications); // at least one classification is necessary (via DTD)
 
-        $itemDetail = new self($description, $unitOfMeasure, $unitPrice);
+        $itemDetail = new self($description, $unitOfMeasure, $unitPrice, $priceBasisQuantity);
 
         foreach ($classifications as $classification) {
             $itemDetail->addClassification($classification);
@@ -128,6 +135,11 @@ class ItemDetail
     public function getUnitOfMeasure(): string
     {
         return $this->unitOfMeasure;
+    }
+
+    public function getPriceBasisQuantity(): ?PriceBasisQuantity
+    {
+        return $this->priceBasisQuantity;
     }
 
     public function getClassifications(): array

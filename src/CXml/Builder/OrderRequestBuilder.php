@@ -217,7 +217,7 @@ class OrderRequestBuilder
         $this->items[] = $item;
 
         if ($priceBasisQuantity instanceof PriceBasisQuantity && $priceBasisQuantity->getQuantity() > 0) {
-            $this->total += (int) \round($quantity * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $unitPrice);
+            $this->total += (int)\round($quantity * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $unitPrice);
         } else {
             $this->total += ($quantity * $unitPrice);
         }

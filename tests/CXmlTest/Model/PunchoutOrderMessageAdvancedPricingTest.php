@@ -23,13 +23,13 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements PayloadIdentityFactoryInterface
+final class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private DtdValidator $dtdValidator;
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
     }
 
     public function testMinimumExample(): void
@@ -61,9 +61,9 @@ class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements Payloa
                     [
                         new Classification('UNSPSC', 'ean1234'),
                     ],
-                    new PriceBasisQuantity(2, 0.5, 'BOX', Description::createWithShortName('1 Box is 2 EA and the unit price is for 2', null, 'en'))
-                )
-            )
+                    new PriceBasisQuantity(2, 0.5, 'BOX', Description::createWithShortName('1 Box is 2 EA and the unit price is for 2', null, 'en')),
+                ),
+            ),
         );
 
         $cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)
@@ -71,22 +71,21 @@ class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements Payloa
             ->to($to)
             ->sender($sender)
             ->payload($punchoutOrderMessage)
-            ->build()
-        ;
+            ->build();
 
-        $this->assertEquals('PunchOutOrderMessage_933695160894', (string) $cxml);
+        self::assertSame('PunchOutOrderMessage_933695160894', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
         $this->dtdValidator->validateAgainstDtd($xml);
 
-        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchoutOrderMessageAdvancedPricing.xml', $xml);
+        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchoutOrderMessageAdvancedPricing.xml', $xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity
     {
         return new PayloadIdentity(
             '933695160894',
-            new \DateTime('2021-01-08T23:00:06-08:00')
+            new \DateTime('2021-01-08T23:00:06-08:00'),
         );
     }
 }

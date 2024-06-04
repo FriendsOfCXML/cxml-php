@@ -163,7 +163,7 @@ class PunchOutOrderMessageBuilder
             && $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity() > 0
         ) {
             $priceBasisQuantity = $itemIn->getItemDetail()->getPriceBasisQuantity();
-            $this->total += (int) \round($itemQty * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $moneyValueCent);
+            $this->total += (int)\round($itemQty * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $moneyValueCent);
         } else {
             $this->total += $moneyValueCent * $itemQty;
         }

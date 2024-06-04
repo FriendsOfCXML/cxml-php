@@ -1,41 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class PriceBasisQuantity
+readonly class PriceBasisQuantity
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("quantity")
-     */
-    private int $quantity;
-
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("conversionFactor")
-     */
-    private float $conversionFactor;
-
-    /**
-     * @Ser\SerializedName("UnitOfMeasure")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private string $unitOfMeasure;
-
-    /**
-     * @Ser\SerializedName("Description")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private Description $description;
-
-    public function __construct(int $quantity, float $conversionFactor, string $unitOfMeasure, Description $description)
-    {
-        $this->quantity = $quantity;
-        $this->conversionFactor = $conversionFactor;
-        $this->unitOfMeasure = $unitOfMeasure;
-        $this->description = $description;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('quantity')]
+        private int $quantity,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('conversionFactor')]
+        private float $conversionFactor,
+        #[Serializer\SerializedName('UnitOfMeasure')]
+        #[Serializer\XmlElement(cdata: false)]
+        private string $unitOfMeasure,
+        #[Serializer\SerializedName('Description')]
+        #[Serializer\XmlElement(cdata: false)]
+        private Description $description,
+    ) {
     }
 
     public function getQuantity(): int

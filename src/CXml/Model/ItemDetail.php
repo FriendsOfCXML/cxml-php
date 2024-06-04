@@ -7,7 +7,7 @@ namespace CXml\Model;
 use Assert\Assertion;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'description', 'unitOfMeasure', 'priceBaseQuantity', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'description', 'unitOfMeasure', 'priceBasisQuantity', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime'])]
 class ItemDetail
 {
     use ExtrinsicsTrait;
@@ -47,7 +47,6 @@ class ItemDetail
         #[Serializer\SerializedName('UnitPrice')]
         private readonly MoneyWrapper $unitPrice,
         #[Serializer\SerializedName('PriceBasisQuantity')]
-        #[Serializer\SkipWhenEmpty]
         #[Serializer\XmlElement(cdata: false)]
         private readonly ?PriceBasisQuantity $priceBasisQuantity,
     ) {

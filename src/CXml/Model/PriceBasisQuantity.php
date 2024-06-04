@@ -28,9 +28,9 @@ class PriceBasisQuantity
      * @Ser\SerializedName("Description")
      * @Ser\XmlElement (cdata=false)
      */
-    private Description $description;
+    private MultilanguageString $description;
 
-    public function __construct(int $quantity, float $conversionFactor, string $unitOfMeasure, Description $description)
+    public function __construct(int $quantity, float $conversionFactor, string $unitOfMeasure, MultilanguageString $description)
     {
         $this->quantity = $quantity;
         $this->conversionFactor = $conversionFactor;
@@ -53,7 +53,7 @@ class PriceBasisQuantity
         return $this->unitOfMeasure;
     }
 
-    public function getDescription(): Description
+    public function getDescription(): MultilanguageString
     {
         return $this->description;
     }

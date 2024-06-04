@@ -42,9 +42,7 @@
                     <UnitOfMeasure>EA</UnitOfMeasure>
                     <PriceBasisQuantity quantity="2" conversionFactor="0.5">
                         <UnitOfMeasure>BOX</UnitOfMeasure>
-                        <Description xml:lang="en">
-                            <ShortName>1 Box is 2 EA and the unit price is for 2</ShortName>
-                        </Description>
+                        <Description xml:lang="en">1 Box is 2 EA and the unit price is for 2</Description>
                     </PriceBasisQuantity>
                     <Classification domain="UNSPSC">ean1234</Classification>
                 </ItemDetail>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cXML.org/schemas/cXML/1.2.050/cXML.dtd">
+<cXML xml:lang="en-US" payloadID="933695160894" timestamp="2021-01-08T23:00:06-08:00">
+    <Header>
+        <From>
+            <Credential domain="DUNS">
+                <Identity>83528721</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="DUNS">
+                <Identity>65652314</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="workchairs.com">
+                <Identity>website 1</Identity>
+            </Credential>
+            <UserAgent>Workchairs cXML Application</UserAgent>
+        </Sender>
+    </Header>
+    <Message>
+        <PunchOutOrderMessage>
+            <BuyerCookie>1CX3L4843PPZO</BuyerCookie>
+            <PunchOutOrderMessageHeader operationAllowed="create">
+                <Total>
+                    <Money currency="USD">104.99</Money>
+                </Total>
+            </PunchOutOrderMessageHeader>
+            <ItemIn quantity="2">
+                <ItemID>
+                    <SupplierPartID>5555</SupplierPartID>
+                    <BuyerPartID>KD5555</BuyerPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="USD">104.99</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">
+                        <ShortName><![CDATA[Excelsior Desk Chair]]></ShortName>
+                    </Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <PriceBasisQuantity quantity="2" conversionFactor="0.5">
+                        <UnitOfMeasure>BOX</UnitOfMeasure>
+                        <Description xml:lang="en">
+                            <ShortName>1 Box is 2 EA and the unit price is for 2</ShortName>
+                        </Description>
+                    </PriceBasisQuantity>
+                    <Classification domain="UNSPSC">ean1234</Classification>
+                </ItemDetail>
+            </ItemIn>
+        </PunchOutOrderMessage>
+    </Message>
+</cXML>

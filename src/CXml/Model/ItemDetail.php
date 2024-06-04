@@ -7,7 +7,7 @@ namespace CXml\Model;
 use Assert\Assertion;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'description', 'unitOfMeasure', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'description', 'unitOfMeasure', 'priceBaseQuantity', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime'])]
 class ItemDetail
 {
     use ExtrinsicsTrait;
@@ -46,15 +46,19 @@ class ItemDetail
         private readonly string $unitOfMeasure,
         #[Serializer\SerializedName('UnitPrice')]
         private readonly MoneyWrapper $unitPrice,
+        #[Serializer\SerializedName('PriceBasisQuantity')]
+        #[Serializer\SkipWhenEmpty]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?PriceBasisQuantity $priceBasisQuantity,
     ) {
     }
 
-    public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications): self
+    public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications, ?PriceBasisQuantity $priceBasisQuantity = null): self
     {
         Assertion::allIsInstanceOf($classifications, Classification::class);
         Assertion::notEmpty($classifications); // at least one classification is necessary (via DTD)
 
-        $itemDetail = new self($description, $unitOfMeasure, $unitPrice);
+        $itemDetail = new self($description, $unitOfMeasure, $unitPrice, $priceBasisQuantity);
 
         foreach ($classifications as $classification) {
             $itemDetail->addClassification($classification);
@@ -111,6 +115,11 @@ class ItemDetail
     public function getUnitOfMeasure(): string
     {
         return $this->unitOfMeasure;
+    }
+
+    public function getPriceBasisQuantity(): ?PriceBasisQuantity
+    {
+        return $this->priceBasisQuantity;
     }
 
     public function getClassifications(): array

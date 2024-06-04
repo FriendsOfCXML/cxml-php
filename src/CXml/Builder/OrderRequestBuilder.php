@@ -19,6 +19,7 @@ use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
+use CXml\Model\PriceBasisQuantity;
 use CXml\Model\Request\OrderRequest;
 use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Shipping;
@@ -187,6 +188,7 @@ class OrderRequestBuilder
         array $classifications,
         \DateTimeInterface $requestDeliveryDate = null,
         ItemOut $parent = null,
+        PriceBasisQuantity $priceBasisQuantity = null,
     ): self {
         $lineNumber = \count($this->items) + 1;
 
@@ -206,13 +208,19 @@ class OrderRequestBuilder
                     $unitPrice,
                 ),
                 $classifications,
+                $priceBasisQuantity,
             ),
             $requestDeliveryDate,
             $parent instanceof ItemOut ? $parent->getLineNumber() : null,
         );
 
         $this->items[] = $item;
-        $this->total += ($quantity * $unitPrice);
+
+        if ($priceBasisQuantity instanceof PriceBasisQuantity && $priceBasisQuantity->getQuantity() > 0) {
+            $this->total += (int) \round($quantity * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $unitPrice);
+        } else {
+            $this->total += ($quantity * $unitPrice);
+        }
 
         return $this;
     }

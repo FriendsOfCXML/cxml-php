@@ -12,6 +12,7 @@ use CXml\Model\ItemIn;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
+use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
 use CXml\Model\PriceBasisQuantity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
@@ -32,7 +33,7 @@ class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements Payloa
         $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
     }
 
-    public function testMinimumExample(): void
+    public function testMinimumExampleAdvPricing(): void
     {
         $from = new Credential(
             'DUNS',
@@ -61,7 +62,7 @@ class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements Payloa
                     [
                         new Classification('UNSPSC', 'ean1234'),
                     ],
-                    new PriceBasisQuantity(2, 0.5, 'BOX', Description::createWithShortName('1 Box is 2 EA and the unit price is for 2', null, 'en'))
+                    new PriceBasisQuantity(2, 0.5, 'BOX', new MultilanguageString('1 Box is 2 EA and the unit price is for 2', null, 'en'))
                 )
             )
         );

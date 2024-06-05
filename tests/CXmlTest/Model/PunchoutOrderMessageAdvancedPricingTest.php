@@ -62,9 +62,9 @@ final class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements 
                     [
                         new Classification('UNSPSC', 'ean1234'),
                     ],
-                    new PriceBasisQuantity(2, 0.5, 'BOX', new MultilanguageString('1 Box is 2 EA and the unit price is for 2', null, 'en'))
-                )
-            )
+                    new PriceBasisQuantity(2, 0.5, 'BOX', new MultilanguageString('1 Box is 2 EA and the unit price is for 2', null, 'en')),
+                ),
+            ),
         );
 
         $cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)

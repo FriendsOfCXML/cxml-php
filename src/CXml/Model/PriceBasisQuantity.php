@@ -20,7 +20,7 @@ readonly class PriceBasisQuantity
         private string $unitOfMeasure,
         #[Serializer\SerializedName('Description')]
         #[Serializer\XmlElement(cdata: false)]
-        private Description $description,
+        private MultilanguageString $description,
     ) {
     }
 
@@ -39,7 +39,7 @@ readonly class PriceBasisQuantity
         return $this->unitOfMeasure;
     }
 
-    public function getDescription(): Description
+    public function getDescription(): MultilanguageString
     {
         return $this->description;
     }

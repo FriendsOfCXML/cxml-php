@@ -37,7 +37,7 @@
     "symfony/routing": "If you want to use SelfAwareProfileRequestHandler"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.6.13",
+    "phpunit/phpunit": "^10.5.20",
     "phpstan/phpstan": "^1.10.41",
     "friendsofphp/php-cs-fixer": "*",
     "php-parallel-lint/php-parallel-lint": "*",

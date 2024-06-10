@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference'])]
@@ -16,7 +17,7 @@ readonly class OrderReference
         #[Serializer\XmlAttribute]
         private ?string $orderId = null,
         #[Serializer\XmlAttribute]
-        private ?\DateTimeInterface $orderDate = null,
+        private ?DateTimeInterface $orderDate = null,
     ) {
     }
 
@@ -37,7 +38,7 @@ readonly class OrderReference
         return $this->orderId;
     }
 
-    public function getOrderDate(): ?\DateTimeInterface
+    public function getOrderDate(): ?DateTimeInterface
     {
         return $this->orderDate;
     }

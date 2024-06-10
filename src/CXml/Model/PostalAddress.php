@@ -6,6 +6,8 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use function array_filter;
+
 #[Serializer\AccessorOrder(order: 'custom', custom: ['deliverTo', 'street', 'city', 'municipality', 'state', 'postalCode', 'country', 'extrinsics'])]
 class PostalAddress
 {
@@ -88,8 +90,8 @@ class PostalAddress
     {
         return
             (null === $this->name || '' === $this->name || '0' === $this->name)
-            && [] === \array_filter($this->deliverTo)
-            && [] === \array_filter($this->street)
+            && [] === array_filter($this->deliverTo)
+            && [] === array_filter($this->street)
             && ('' === $this->city || '0' === $this->city)
             && (null === $this->municipality || '' === $this->municipality || '0' === $this->municipality)
             && (null === $this->state || '' === $this->state || '0' === $this->state)

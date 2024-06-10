@@ -17,6 +17,7 @@ use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -51,7 +52,7 @@ final class ProductActivityMessageTest extends TestCase implements PayloadIdenti
         $productActivityMessage = ProductActivityMessage::create(
             'CP12465192-1552965424130',
             'SMI',
-            new \DateTime('2019-02-20T14:39:48-08:00'),
+            new DateTime('2019-02-20T14:39:48-08:00'),
         )->addProductActivityDetail(
             ProductActivityDetail::create(
                 new ItemId('SII99825', null, 'II99825'),
@@ -80,7 +81,7 @@ final class ProductActivityMessageTest extends TestCase implements PayloadIdenti
     {
         return new PayloadIdentity(
             '0c30050@supplierorg.com',
-            new \DateTime('2021-01-08T23:00:06-08:00'),
+            new DateTime('2021-01-08T23:00:06-08:00'),
         );
     }
 }

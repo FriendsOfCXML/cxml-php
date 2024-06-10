@@ -15,6 +15,7 @@ use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['total', 'shipTo', 'billTo', 'shipping', 'tax', 'contacts', 'comments', 'supplierOrderInfo', 'idReferences', 'extrinsics'])]
@@ -43,7 +44,7 @@ class OrderRequestHeader
         private readonly string $orderId,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderDate')]
-        private readonly \DateTimeInterface $orderDate,
+        private readonly DateTimeInterface $orderDate,
         #[Serializer\XmlElement]
         #[Serializer\SerializedName('ShipTo')]
         private readonly ?ShipTo $shipTo,
@@ -72,7 +73,7 @@ class OrderRequestHeader
 
     public static function create(
         string $orderId,
-        \DateTimeInterface $orderDate,
+        DateTimeInterface $orderDate,
         ?ShipTo $shipTo,
         BillTo $billTo,
         MoneyWrapper $total,
@@ -111,7 +112,7 @@ class OrderRequestHeader
         return $this->orderId;
     }
 
-    public function getOrderDate(): \DateTimeInterface
+    public function getOrderDate(): DateTimeInterface
     {
         return $this->orderDate;
     }

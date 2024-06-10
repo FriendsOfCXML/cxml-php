@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 readonly class SupplierOrderInfo
@@ -13,7 +14,7 @@ readonly class SupplierOrderInfo
         #[Serializer\SerializedName('orderID')]
         private string $orderId,
         #[Serializer\XmlAttribute]
-        private ?\DateTimeInterface $orderDate = null,
+        private ?DateTimeInterface $orderDate = null,
     ) {
     }
 
@@ -22,7 +23,7 @@ readonly class SupplierOrderInfo
         return $this->orderId;
     }
 
-    public function getOrderDate(): ?\DateTimeInterface
+    public function getOrderDate(): ?DateTimeInterface
     {
         return $this->orderDate;
     }

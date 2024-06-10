@@ -16,6 +16,7 @@ use CXml\Model\ShipNoticePortion;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -50,9 +51,9 @@ final class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFac
         $statusUpdateRequest = ShipNoticeRequest::create(
             ShipNoticeHeader::create(
                 'S2-123',
-                new \DateTime('2000-10-14T18:39:09-08:00'),
-                new \DateTime('2000-10-14T08:30:19-08:00'),
-                new \DateTime('2000-10-18T09:00:00-08:00'),
+                new DateTime('2000-10-14T18:39:09-08:00'),
+                new DateTime('2000-10-14T08:30:19-08:00'),
+                new DateTime('2000-10-18T09:00:00-08:00'),
             )
                 ->addCommentAsString('Got it all into one shipment.', null, 'en-CA'),
         )
@@ -83,7 +84,7 @@ final class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFac
     {
         return new PayloadIdentity(
             '0c30050@supplierorg.com',
-            new \DateTime('2021-01-08T23:00:06-08:00'),
+            new DateTime('2021-01-08T23:00:06-08:00'),
         );
     }
 }

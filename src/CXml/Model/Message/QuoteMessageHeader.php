@@ -11,6 +11,7 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\OrganizationId;
 use CXml\Model\ShipTo;
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['organizationId', 'total', 'shipTo', 'contacts', 'comments', 'extrinsics'])]
@@ -54,7 +55,7 @@ class QuoteMessageHeader
         #[Serializer\XmlAttribute]
         private readonly string $quoteId,
         #[Serializer\XmlAttribute]
-        private readonly \DateTimeInterface $quoteDate,
+        private readonly DateTimeInterface $quoteDate,
         #[Serializer\XmlAttribute]
         private readonly string $currency,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
@@ -106,7 +107,7 @@ class QuoteMessageHeader
         return $this->quoteId;
     }
 
-    public function getQuoteDate(): \DateTimeInterface
+    public function getQuoteDate(): DateTimeInterface
     {
         return $this->quoteDate;
     }

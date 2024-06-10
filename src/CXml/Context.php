@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CXml;
 
 use CXml\Model\CXml;
+use CXml\Model\Header;
 
 class Context
 {
@@ -61,7 +62,7 @@ class Context
         }
 
         $header = $cxml->getHeader();
-        if (!$header instanceof Model\Header) {
+        if (!$header instanceof Header) {
             return null;
         }
 

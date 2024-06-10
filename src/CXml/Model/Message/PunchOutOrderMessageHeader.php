@@ -10,6 +10,7 @@ use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['sourcingStatus', 'total', 'shipTo', 'shipping', 'tax', 'supplierOrderInfo'])]
@@ -55,7 +56,7 @@ class PunchOutOrderMessageHeader
         return $this->shipTo;
     }
 
-    public function setSupplierOrderInfo(string $orderId, \DateTimeInterface $orderDate = null): self
+    public function setSupplierOrderInfo(string $orderId, DateTimeInterface $orderDate = null): self
     {
         $this->supplierOrderInfo = new SupplierOrderInfo($orderId, $orderDate);
 

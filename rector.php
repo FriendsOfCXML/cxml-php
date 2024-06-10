@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
 use Rector\Symfony\Set\JMSSetList;
@@ -23,4 +24,16 @@ return RectorConfig::configure()
         SetList::INSTANCEOF,
         SetList::STRICT_BOOLEANS,
     ])
-    ->withPhpSets();
+    ->withFileExtensions(['php'])
+    ->withCache(
+        cacheDirectory: '/tmp/rector',
+        cacheClass: FileCacheStorage::class,
+    )
+    ->withParallel(
+        maxNumberOfProcess: 4,
+        jobSize: 16,
+    )
+    ->withImportNames(
+        importDocBlockNames: false,
+        removeUnusedImports: true,
+    );

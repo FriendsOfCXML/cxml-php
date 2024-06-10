@@ -24,8 +24,14 @@ use CXml\Model\Request\OrderRequest;
 use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
+use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
 use CXml\Model\TransportInformation;
+use DateTimeInterface;
+use LogicException;
+
+use function count;
+use function round;
 
 class OrderRequestBuilder
 {
@@ -47,11 +53,11 @@ class OrderRequestBuilder
 
     private array $extrinsics = [];
 
-    private function __construct(private readonly string $orderId, private readonly \DateTimeInterface $orderDate, private readonly string $currency, private readonly string $language = 'en')
+    private function __construct(private readonly string $orderId, private readonly DateTimeInterface $orderDate, private readonly string $currency, private readonly string $language = 'en')
     {
     }
 
-    public static function create(string $orderId, \DateTimeInterface $orderDate, string $currency, string $language = 'en'): self
+    public static function create(string $orderId, DateTimeInterface $orderDate, string $currency, string $language = 'en'): self
     {
         return new self($orderId, $orderDate, $currency, $language);
     }
@@ -60,10 +66,10 @@ class OrderRequestBuilder
         PunchOutOrderMessage $punchOutOrderMessage,
         string $currency = null,
         string $orderId = null,
-        \DateTimeInterface $orderDate = null,
+        DateTimeInterface $orderDate = null,
         string $language = 'en',
     ): self {
-        if (($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) instanceof \CXml\Model\SupplierOrderInfo) {
+        if (($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) instanceof SupplierOrderInfo) {
             $orderId ??= $supplierOrderInfo->getOrderId();
             $orderDate ??= $supplierOrderInfo->getOrderDate();
         }
@@ -71,11 +77,11 @@ class OrderRequestBuilder
         $currency ??= $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getTotal()->getMoney()->getCurrency();
 
         if (null === $orderId) {
-            throw new \LogicException('orderId should either be given or present in the PunchOutOrderMessage');
+            throw new LogicException('orderId should either be given or present in the PunchOutOrderMessage');
         }
 
-        if (!$orderDate instanceof \DateTimeInterface) {
-            throw new \LogicException('orderDate should either be given or present in the PunchOutOrderMessage');
+        if (!$orderDate instanceof DateTimeInterface) {
+            throw new LogicException('orderDate should either be given or present in the PunchOutOrderMessage');
         }
 
         $orb = new self(
@@ -186,11 +192,11 @@ class OrderRequestBuilder
         string $unitOfMeasure,
         int $unitPrice,
         array $classifications,
-        \DateTimeInterface $requestDeliveryDate = null,
+        DateTimeInterface $requestDeliveryDate = null,
         ItemOut $parent = null,
         PriceBasisQuantity $priceBasisQuantity = null,
     ): self {
-        $lineNumber = \count($this->items) + 1;
+        $lineNumber = count($this->items) + 1;
 
         $item = ItemOut::create(
             $lineNumber,
@@ -217,7 +223,7 @@ class OrderRequestBuilder
         $this->items[] = $item;
 
         if ($priceBasisQuantity instanceof PriceBasisQuantity && $priceBasisQuantity->getQuantity() > 0) {
-            $this->total += (int)\round($quantity * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $unitPrice);
+            $this->total += (int)round($quantity * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $unitPrice);
         } else {
             $this->total += ($quantity * $unitPrice);
         }
@@ -285,7 +291,7 @@ class OrderRequestBuilder
     public function build(): OrderRequest
     {
         if (!isset($this->billTo)) {
-            throw new \LogicException('BillTo is required');
+            throw new LogicException('BillTo is required');
         }
 
         return OrderRequest::create(

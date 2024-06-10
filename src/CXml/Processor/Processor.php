@@ -16,6 +16,7 @@ use CXml\Exception\CXmlPreconditionFailedException;
 use CXml\Handler\HandlerInterface;
 use CXml\Handler\HandlerRegistryInterface;
 use CXml\Model\CXml;
+use CXml\Model\Header;
 use CXml\Model\Message\Message;
 use CXml\Model\PayloadInterface;
 use CXml\Model\Request\Request;
@@ -23,6 +24,8 @@ use CXml\Model\Response\Response;
 use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
 use CXml\Processor\Exception\CXmlProcessException;
+use ReflectionClass;
+use Throwable;
 
 class Processor
 {
@@ -142,7 +145,7 @@ class Processor
 
     private function getHandlerForPayload(PayloadInterface $payload): HandlerInterface
     {
-        $handlerId = (new \ReflectionClass($payload))->getShortName();
+        $handlerId = (new ReflectionClass($payload))->getShortName();
 
         return $this->handlerRegistry->get($handlerId);
     }
@@ -154,7 +157,7 @@ class Processor
     private function processMessage(Message $message, Context $context): void
     {
         $header = $context->getCXml() instanceof CXml ? $context->getCXml()->getHeader() : null;
-        if (!$header instanceof \CXml\Model\Header) {
+        if (!$header instanceof Header) {
             throw new CXmlException('Invalid CXml. Header is mandatory for message.');
         }
 
@@ -162,7 +165,7 @@ class Processor
             $this->headerProcessor->process($header, $context);
         } catch (CXmlException $e) {
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CXmlProcessException($e);
         }
 
@@ -171,7 +174,7 @@ class Processor
             $this->getHandlerForPayload($payload)->handle($payload, $context);
         } catch (CXmlException $e) {
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CXmlProcessException($e);
         }
     }
@@ -192,7 +195,7 @@ class Processor
             $this->getHandlerForPayload($payload)->handle($payload, $context);
         } catch (CXmlException $e) {
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CXmlProcessException($e);
         }
     }
@@ -204,7 +207,7 @@ class Processor
     private function processRequest(Request $request, Context $context): CXml
     {
         $header = $context->getCXml() instanceof CXml ? $context->getCXml()->getHeader() : null;
-        if (!$header instanceof \CXml\Model\Header) {
+        if (!$header instanceof Header) {
             throw new CXmlException('Invalid CXml. Header is mandatory for request.');
         }
 
@@ -212,7 +215,7 @@ class Processor
             $this->headerProcessor->process($header, $context);
         } catch (CXmlException $e) {
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CXmlProcessException($e);
         }
 

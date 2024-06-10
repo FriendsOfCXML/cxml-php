@@ -8,6 +8,8 @@ use CXml\Validation\DtdValidator;
 use CXml\Validation\Exception\CXmlInvalidException;
 use PHPUnit\Framework\TestCase;
 
+use function file_get_contents;
+
 /**
  * @internal
  * @coversNothing
@@ -25,7 +27,7 @@ final class MessageValidatorTest extends TestCase
     {
         $this->expectNotToPerformAssertions();
 
-        $xml = \file_get_contents('tests/metadata/cxml/samples/simple-profile-request.xml');
+        $xml = file_get_contents('tests/metadata/cxml/samples/simple-profile-request.xml');
         $this->dtdValidator->validateAgainstDtd($xml);
     }
 

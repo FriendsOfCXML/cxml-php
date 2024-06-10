@@ -13,6 +13,8 @@ use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Transaction;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+use function array_keys;
+
 readonly class SelfAwareProfileRequestHandler implements HandlerInterface
 {
     public function __construct(private HandlerRegistry $handlerRegistry, private UrlGeneratorInterface $urlGenerator, private string $defaultRoute = 'post_cxml')
@@ -23,7 +25,7 @@ readonly class SelfAwareProfileRequestHandler implements HandlerInterface
     {
         $profileResponse = new ProfileResponse();
 
-        foreach (\array_keys($this->handlerRegistry->all()) as $requestName) {
+        foreach (array_keys($this->handlerRegistry->all()) as $requestName) {
             $transaction = new Transaction($requestName, $this->getEndpointUrl());
 
             $profileResponse->addTransaction($transaction);

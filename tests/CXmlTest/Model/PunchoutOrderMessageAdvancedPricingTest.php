@@ -18,6 +18,7 @@ use CXml\Model\PriceBasisQuantity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -86,7 +87,7 @@ final class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements 
     {
         return new PayloadIdentity(
             '933695160894',
-            new \DateTime('2021-01-08T23:00:06-08:00'),
+            new DateTime('2021-01-08T23:00:06-08:00'),
         );
     }
 }

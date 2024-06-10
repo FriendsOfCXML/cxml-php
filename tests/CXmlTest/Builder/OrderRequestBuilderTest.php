@@ -10,7 +10,10 @@ use CXml\Model\Credential;
 use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
+use DateTime;
 use PHPUnit\Framework\TestCase;
+
+use function file_get_contents;
 
 /**
  * @internal
@@ -21,7 +24,7 @@ final class OrderRequestBuilderTest extends TestCase implements PayloadIdentityF
     public function testFromPunchOutOrderMessage(): void
     {
         $serializer = Serializer::create();
-        $poomXml = \file_get_contents(__DIR__ . '/fixtures/poom.xml');
+        $poomXml = file_get_contents(__DIR__ . '/fixtures/poom.xml');
         $poom = $serializer->deserialize($poomXml);
 
         $orb = OrderRequestBuilder::fromPunchOutOrderMessage($poom->getMessage()->getPayload());
@@ -37,7 +40,7 @@ final class OrderRequestBuilderTest extends TestCase implements PayloadIdentityF
             ->build();
         $actualOrderRequest = $serializer->serialize($actualOrderRequest);
 
-        $expectedOrderRequest = \file_get_contents(__DIR__ . '/fixtures/order_request.xml');
+        $expectedOrderRequest = file_get_contents(__DIR__ . '/fixtures/order_request.xml');
 
         self::assertXmlStringEqualsXmlString($expectedOrderRequest, $actualOrderRequest);
     }
@@ -46,7 +49,7 @@ final class OrderRequestBuilderTest extends TestCase implements PayloadIdentityF
     {
         return new PayloadIdentity(
             '933695160894',
-            new \DateTime('2021-01-08T23:00:06-08:00'),
+            new DateTime('2021-01-08T23:00:06-08:00'),
         );
     }
 }

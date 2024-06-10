@@ -6,13 +6,15 @@ namespace CXml\Model\Response;
 
 use CXml\Model\Option;
 use CXml\Model\Transaction;
+use DateTime;
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['options', 'transactions'])]
 class ProfileResponse implements ResponsePayloadInterface
 {
     #[Serializer\XmlAttribute]
-    private readonly \DateTimeInterface $effectiveDate;
+    private readonly DateTimeInterface $effectiveDate;
 
     /**
      * @var Option[]
@@ -29,11 +31,11 @@ class ProfileResponse implements ResponsePayloadInterface
     private array $transactions = [];
 
     public function __construct(
-        \DateTimeInterface $effectiveDate = null,
+        DateTimeInterface $effectiveDate = null,
         #[Serializer\XmlAttribute]
-        private readonly ?\DateTimeInterface $lastRefresh = null,
+        private readonly ?DateTimeInterface $lastRefresh = null,
     ) {
-        $this->effectiveDate = $effectiveDate ?? new \DateTime();
+        $this->effectiveDate = $effectiveDate ?? new DateTime();
     }
 
     public function addTransaction(Transaction $transaction): void

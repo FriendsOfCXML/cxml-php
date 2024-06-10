@@ -11,6 +11,8 @@ use CXml\Exception\CXmlCredentialInvalidException;
 use CXml\Model\Credential;
 use CXml\Model\Header;
 
+use function sprintf;
+
 class Registry implements CredentialRepositoryInterface, AuthenticatorInterface
 {
     /**
@@ -40,7 +42,7 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface
             return $registeredCredential;
         }
 
-        throw new CXmlCredentialInvalidException(\sprintf("Could not find credentials for '%s@%s'.", $identity, $domain));
+        throw new CXmlCredentialInvalidException(sprintf("Could not find credentials for '%s@%s'.", $identity, $domain));
     }
 
     /**

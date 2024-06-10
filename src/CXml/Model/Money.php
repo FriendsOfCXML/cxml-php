@@ -6,6 +6,8 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use function number_format;
+
 readonly class Money
 {
     #[Serializer\XmlValue(cdata: false)]
@@ -17,7 +19,7 @@ readonly class Money
         #[Serializer\Exclude]
         private int $valueCent,
     ) {
-        $this->value = \number_format($this->valueCent / 100, 2, '.', '');
+        $this->value = number_format($this->valueCent / 100, 2, '.', '');
     }
 
     public function getCurrency(): string

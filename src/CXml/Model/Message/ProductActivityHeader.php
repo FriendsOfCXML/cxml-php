@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model\Message;
 
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 readonly class ProductActivityHeader
@@ -19,7 +20,7 @@ readonly class ProductActivityHeader
         #[Serializer\XmlAttribute]
         private ?string $processType = null,
         #[Serializer\XmlAttribute]
-        private ?\DateTimeInterface $creationDate = null,
+        private ?DateTimeInterface $creationDate = null,
     ) {
     }
 
@@ -33,7 +34,7 @@ readonly class ProductActivityHeader
         return $this->processType;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?DateTimeInterface
     {
         return $this->creationDate;
     }

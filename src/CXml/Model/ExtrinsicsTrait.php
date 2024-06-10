@@ -6,6 +6,8 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use function trim;
+
 trait ExtrinsicsTrait
 {
     /**
@@ -57,7 +59,7 @@ trait ExtrinsicsTrait
         $extrinsics = [];
 
         foreach ($this->getExtrinsics() as $extrinsic) {
-            $extrinsics[\trim($extrinsic->getName())] = \trim($extrinsic->getValue());
+            $extrinsics[trim($extrinsic->getName())] = trim($extrinsic->getValue());
         }
 
         return $extrinsics;

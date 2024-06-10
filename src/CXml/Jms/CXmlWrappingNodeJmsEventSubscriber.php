@@ -16,6 +16,11 @@ use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\XmlSerializationVisitor;
 use Metadata\ClassMetadata;
+use ReflectionClass;
+use ReflectionException;
+use SimpleXMLElement;
+
+use function class_exists;
 
 /**
  * Certain CXml-nodes have "wrappers"-nodes which this subscriber automatically handles.
@@ -65,7 +70,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-    private function findPayloadNode(\SimpleXMLElement $cXmlNode): ?\SimpleXMLElement
+    private function findPayloadNode(SimpleXMLElement $cXmlNode): ?SimpleXMLElement
     {
         foreach ($cXmlNode->children() as $child) {
             if ('Status' === $child->getName()) {
@@ -80,7 +85,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function onPostSerializePayload(ObjectEvent $event): void
     {
@@ -92,7 +97,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         $payload = $event->getObject()->getPayload();
 
         if ($payload) {
-            $cls = (new \ReflectionClass($payload))->getShortName();
+            $cls = (new ReflectionClass($payload))->getShortName();
 
             // tell jms to add the payload value in a wrapped node
             $visitor->visitProperty(
@@ -104,25 +109,25 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
     /**
      * @throws CXmlModelNotFoundException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function onPreDeserializePayload(PreDeserializeEvent $event): void
     {
         /** @var ClassMetadata $metadata */
         $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);
 
-        /** @var \SimpleXMLElement $data */
+        /** @var SimpleXMLElement $data */
         $data = $event->getData();
         $payloadNode = $this->findPayloadNode($data);
-        if (!$payloadNode instanceof \SimpleXMLElement) {
+        if (!$payloadNode instanceof SimpleXMLElement) {
             return;
         }
 
         $serializedName = $payloadNode->getName();
-        $targetNamespace = (new \ReflectionClass($event->getType()['name']))->getNamespaceName();
+        $targetNamespace = (new ReflectionClass($event->getType()['name']))->getNamespaceName();
 
         $cls = $targetNamespace . '\\' . $serializedName;
-        if (!\class_exists($cls)) {
+        if (!class_exists($cls)) {
             throw new CXmlModelNotFoundException($serializedName);
         }
 

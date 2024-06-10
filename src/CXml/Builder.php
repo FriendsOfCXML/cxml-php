@@ -19,6 +19,7 @@ use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
 use CXml\Payload\DefaultPayloadIdentityFactory;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use LogicException;
 
 class Builder
 {
@@ -89,15 +90,15 @@ class Builder
     private function buildHeader(): Header
     {
         if (!isset($this->from)) {
-            throw new \LogicException("No 'from' has been set. Necessary for building a header.");
+            throw new LogicException("No 'from' has been set. Necessary for building a header.");
         }
 
         if (!isset($this->to)) {
-            throw new \LogicException("No 'to' has been set. Necessary for building a header.");
+            throw new LogicException("No 'to' has been set. Necessary for building a header.");
         }
 
         if (!isset($this->sender)) {
-            throw new \LogicException("No 'sender' has been set. Necessary for building a header.");
+            throw new LogicException("No 'sender' has been set. Necessary for building a header.");
         }
 
         return new Header(

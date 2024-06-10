@@ -21,7 +21,9 @@ use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
 use CXml\Model\Status;
 use CXml\Serializer;
+use DateTime;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * @internal
@@ -56,7 +58,7 @@ final class SerializerTest extends TestCase
         );
 
         $msg = CXml::forRequest(
-            new PayloadIdentity('payload-id', new \DateTime('2000-01-01')),
+            new PayloadIdentity('payload-id', new DateTime('2000-01-01')),
             $request,
             $header,
         );
@@ -128,7 +130,7 @@ final class SerializerTest extends TestCase
         );
 
         $msg = CXml::forMessage(
-            new PayloadIdentity('payload-id', new \DateTime('2000-01-01')),
+            new PayloadIdentity('payload-id', new DateTime('2000-01-01')),
             $message,
             $header,
         );
@@ -178,7 +180,7 @@ final class SerializerTest extends TestCase
         $msg = CXml::forResponse(
             new PayloadIdentity(
                 '978979621537--4882920031100014936@206.251.25.169',
-                new \DateTime('2001-01-08T10:47:01-08:00'),
+                new DateTime('2001-01-08T10:47:01-08:00'),
             ),
             new Response(
                 new Status(200, 'OK', 'Ping Response CXml'),
@@ -274,7 +276,7 @@ final class SerializerTest extends TestCase
         $orderRequest = $cXml->getRequest()->getPayload();
 
         self::assertSame('2023-02-25 02:30:00', $orderRequest->getItems()[0]->getRequestedDeliveryDate()->format('Y-m-d H:i:s'));
-        self::assertInstanceOf(\DateTime::class, $orderRequest->getItems()[0]->getRequestedDeliveryDate());
+        self::assertInstanceOf(DateTime::class, $orderRequest->getItems()[0]->getRequestedDeliveryDate());
 
         self::assertSame('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
         self::assertInstanceOf(Date::class, $orderRequest->getItems()[1]->getRequestedDeliveryDate());
@@ -284,7 +286,7 @@ final class SerializerTest extends TestCase
 
     public function testDeserializeInvalidDate(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $xmlIn =
             '<?xml version="1.0" encoding="UTF-8"?>
@@ -331,7 +333,7 @@ final class SerializerTest extends TestCase
         );
 
         $msg = CXml::forRequest(
-            new PayloadIdentity('payload-id', new \DateTime('2000-01-01')),
+            new PayloadIdentity('payload-id', new DateTime('2000-01-01')),
             new Request(
                 $orderRequest,
             ),

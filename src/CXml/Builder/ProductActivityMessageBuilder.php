@@ -11,6 +11,7 @@ use CXml\Model\ItemId;
 use CXml\Model\Message\ProductActivityDetail;
 use CXml\Model\Message\ProductActivityMessage;
 use CXml\Model\MultilanguageString;
+use RuntimeException;
 
 readonly class ProductActivityMessageBuilder
 {
@@ -54,7 +55,7 @@ readonly class ProductActivityMessageBuilder
     public function build(): ProductActivityMessage
     {
         if ([] === $this->productActivityMessage->getProductActivityDetails()) {
-            throw new \RuntimeException('Cannot build ProductActivityMessage without any ProductActivityDetail');
+            throw new RuntimeException('Cannot build ProductActivityMessage without any ProductActivityDetail');
         }
 
         return $this->productActivityMessage;

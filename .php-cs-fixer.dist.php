@@ -35,7 +35,7 @@ return $config
         'phpdoc_separation' => false,
         'phpdoc_align' => ['align' => 'left'],
         '@PHP82Migration' => true,
-        'global_namespace_import' => ['import_classes' => false],
+        'global_namespace_import' => ['import_classes' => true, 'import_constants' => true, 'import_functions' => true],
         'modernize_strpos' => true,
         'function_declaration' => ['closure_function_spacing' => 'one', 'closure_fn_spacing' => 'one'],
         'phpdoc_to_comment' => ['ignored_tags' => ['todo', 'var', 'property']],

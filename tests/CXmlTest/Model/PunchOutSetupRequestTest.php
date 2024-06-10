@@ -27,6 +27,7 @@ use CXml\Model\TelephoneNumber;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -110,7 +111,7 @@ final class PunchOutSetupRequestTest extends TestCase implements PayloadIdentity
                         new Classification('UNSPSC', 'ean1234'),
                     ],
                 ),
-                new \DateTime('2023-01-23T16:00:06-01:00'),
+                new DateTime('2023-01-23T16:00:06-01:00'),
             ),
         )->addItem(
             ItemOut::create(
@@ -125,7 +126,7 @@ final class PunchOutSetupRequestTest extends TestCase implements PayloadIdentity
                         new Classification('UNSPSC', 'ean1230'),
                     ],
                 ),
-                new \DateTime('2023-01-23T16:00:06-01:00'),
+                new DateTime('2023-01-23T16:00:06-01:00'),
             ),
         );
 
@@ -153,7 +154,7 @@ final class PunchOutSetupRequestTest extends TestCase implements PayloadIdentity
     {
         return new PayloadIdentity(
             '933695160890',
-            new \DateTime('2023-01-23T16:00:06-01:00'),
+            new DateTime('2023-01-23T16:00:06-01:00'),
         );
     }
 }

@@ -29,6 +29,7 @@ use CXml\Model\TelephoneNumber;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -62,7 +63,7 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
 
         $orderRequestHeader = OrderRequestHeader::create(
             'DO1234',
-            new \DateTime('2000-10-12T18:41:29-08:00'),
+            new DateTime('2000-10-12T18:41:29-08:00'),
             new ShipTo(
                 new Address(
                     new MultilanguageString('Acme'),
@@ -148,7 +149,7 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
                     new Classification('custom', '0'),
                 ],
             ),
-            new \DateTime('2020-02-28'),
+            new DateTime('2020-02-28'),
         );
         $orderRequest->addItem($item);
 
@@ -167,7 +168,7 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
                     new Classification('custom', '0'),
                 ],
             ),
-            new \DateTime('2020-02-28'),
+            new DateTime('2020-02-28'),
         );
         $orderRequest->addItem($item);
 
@@ -190,7 +191,7 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
     {
         return new PayloadIdentity(
             '1625586002.193314.7293@dev',
-            new \DateTime('2000-10-12T18:39:09-08:00'),
+            new DateTime('2000-10-12T18:39:09-08:00'),
         );
     }
 }

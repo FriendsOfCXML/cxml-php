@@ -6,6 +6,9 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use function implode;
+use function is_array;
+
 trait CommentsTrait
 {
     /**
@@ -45,12 +48,12 @@ trait CommentsTrait
         $commentStrings = [];
 
         $comments = $this->getComments();
-        if (\is_array($comments)) {
+        if (is_array($comments)) {
             foreach ($comments as $comment) {
                 $commentStrings[] = $comment->getValue();
             }
         }
 
-        return [] === $commentStrings ? null : \implode("\n", $commentStrings);
+        return [] === $commentStrings ? null : implode("\n", $commentStrings);
     }
 }

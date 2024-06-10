@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail'])]
@@ -22,7 +23,7 @@ readonly class ItemOut
         private ItemDetail $itemDetail,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('requestedDeliveryDate')]
-        private ?\DateTimeInterface $requestedDeliveryDate = null,
+        private ?DateTimeInterface $requestedDeliveryDate = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('parentLineNumber')]
         private ?int $parentLineNumber = null,
@@ -34,7 +35,7 @@ readonly class ItemOut
         int $quantity,
         ItemId $itemId,
         ItemDetail $itemDetail,
-        \DateTimeInterface $requestedDeliveryDate = null,
+        DateTimeInterface $requestedDeliveryDate = null,
         int $parentLineNumber = null,
     ): self {
         return new self(
@@ -65,7 +66,7 @@ readonly class ItemOut
         return $this->quantity;
     }
 
-    public function getRequestedDeliveryDate(): ?\DateTimeInterface
+    public function getRequestedDeliveryDate(): ?DateTimeInterface
     {
         return $this->requestedDeliveryDate;
     }

@@ -11,6 +11,7 @@ use CXml\Validation\DtdValidator;
 use CXml\Validation\Exception\CXmlInvalidException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use RuntimeException;
 
 readonly class Endpoint
 {
@@ -45,7 +46,7 @@ readonly class Endpoint
         // deserialize
         try {
             $cxml = $this->serializer->deserialize($xml);
-        } catch (\RuntimeException $runtimeException) {
+        } catch (RuntimeException $runtimeException) {
             $this->logger->error('Error while deserializing xml to CXml: ' . $runtimeException->getMessage(), ['xml' => $xml]);
 
             throw new CXmlInvalidException('Error while deserializing xml: ' . $runtimeException->getMessage(), $xml, $runtimeException);

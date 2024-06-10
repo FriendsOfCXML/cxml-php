@@ -7,6 +7,8 @@ namespace CXml\Handler;
 use Assert\Assertion;
 use CXml\Handler\Exception\CXmlHandlerNotFoundException;
 
+use function sprintf;
+
 class HandlerRegistry implements HandlerRegistryInterface
 {
     /**
@@ -20,7 +22,7 @@ class HandlerRegistry implements HandlerRegistryInterface
             $handlerId = $handler::getRequestName();
         }
 
-        Assertion::keyNotExists($this->registry, $handlerId, \sprintf("Handler for '%s' already registered.", $handlerId));
+        Assertion::keyNotExists($this->registry, $handlerId, sprintf("Handler for '%s' already registered.", $handlerId));
 
         $this->registry[$handlerId] = $handler;
     }

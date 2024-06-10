@@ -19,6 +19,10 @@ use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\Tax;
 use CXml\Model\TransportInformation;
+use DateTimeInterface;
+use RuntimeException;
+
+use function round;
 
 class PunchOutOrderMessageBuilder
 {
@@ -35,7 +39,7 @@ class PunchOutOrderMessageBuilder
 
     private string $orderId;
 
-    private ?\DateTimeInterface $orderDate = null;
+    private ?DateTimeInterface $orderDate = null;
 
     private ?ShipTo $shipTo = null;
 
@@ -48,7 +52,7 @@ class PunchOutOrderMessageBuilder
         return new self($language, $buyerCookie, $currency, $operationAllowed);
     }
 
-    public function orderReference(string $orderId, \DateTimeInterface $orderDate = null): self
+    public function orderReference(string $orderId, DateTimeInterface $orderDate = null): self
     {
         $this->orderId = $orderId;
         $this->orderDate = $orderDate;
@@ -163,7 +167,7 @@ class PunchOutOrderMessageBuilder
             && $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity() > 0
         ) {
             $priceBasisQuantity = $itemIn->getItemDetail()->getPriceBasisQuantity();
-            $this->total += (int)\round($itemQty * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $moneyValueCent);
+            $this->total += (int)round($itemQty * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $moneyValueCent);
         } else {
             $this->total += $moneyValueCent * $itemQty;
         }
@@ -174,7 +178,7 @@ class PunchOutOrderMessageBuilder
     public function build(): PunchOutOrderMessage
     {
         if ([] === $this->punchoutOrderMessageItems) {
-            throw new \RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
+            throw new RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
         }
 
         $punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(

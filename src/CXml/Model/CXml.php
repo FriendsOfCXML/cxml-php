@@ -7,11 +7,14 @@ namespace CXml\Model;
 use CXml\Model\Message\Message;
 use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
+use ReflectionClass;
+use Stringable;
 
 #[Serializer\XmlRoot('cXML')]
 #[Serializer\AccessorOrder(order: 'custom', custom: ['header', 'message', 'request', 'response'])]
-class CXml implements \Stringable
+class CXml implements Stringable
 {
     final public const DEPLOYMENT_TEST = 'test';
 
@@ -22,7 +25,7 @@ class CXml implements \Stringable
         #[Serializer\SerializedName('payloadID')]
         private readonly string $payloadId,
         #[Serializer\XmlAttribute]
-        private readonly \DateTimeInterface $timestamp,
+        private readonly DateTimeInterface $timestamp,
         #[Serializer\SerializedName('Request')]
         private readonly ?Request $request = null,
         #[Serializer\SerializedName('Response')]
@@ -56,7 +59,7 @@ class CXml implements \Stringable
         return $this->payloadId;
     }
 
-    public function getTimestamp(): \DateTimeInterface
+    public function getTimestamp(): DateTimeInterface
     {
         return $this->timestamp;
     }
@@ -90,9 +93,9 @@ class CXml implements \Stringable
             $payload = $wrapper->getPayload();
 
             if (null !== $payload) {
-                $shortName = (new \ReflectionClass($payload))->getShortName();
+                $shortName = (new ReflectionClass($payload))->getShortName();
             } else {
-                $shortName = (new \ReflectionClass($wrapper))->getShortName();
+                $shortName = (new ReflectionClass($wrapper))->getShortName();
             }
         }
 

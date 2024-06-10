@@ -8,6 +8,8 @@ use CXml\Model\CommentsTrait;
 use CXml\Model\DocumentReference;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
+use DateTime;
+use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference', 'comments', 'extrinsics', 'idReferences'])]
@@ -18,7 +20,7 @@ class ShipNoticeHeader
     use CommentsTrait;
 
     #[Serializer\XmlAttribute]
-    private \DateTimeInterface $noticeDate;
+    private DateTimeInterface $noticeDate;
 
     #[Serializer\SerializedName('DocumentReference')]
     private ?DocumentReference $documentReference;
@@ -27,18 +29,18 @@ class ShipNoticeHeader
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('shipmentID')]
         private readonly string $shipmentId,
-        \DateTimeInterface $noticeDate = null,
+        DateTimeInterface $noticeDate = null,
         #[Serializer\XmlAttribute]
-        private readonly ?\DateTimeInterface $shipmentDate = null,
+        private readonly ?DateTimeInterface $shipmentDate = null,
         #[Serializer\XmlAttribute]
-        private readonly ?\DateTimeInterface $deliveryDate = null,
+        private readonly ?DateTimeInterface $deliveryDate = null,
         string $documentReference = null,
     ) {
-        $this->noticeDate = $noticeDate ?? new \DateTime();
+        $this->noticeDate = $noticeDate ?? new DateTime();
         $this->documentReference = null !== $documentReference && '' !== $documentReference && '0' !== $documentReference ? new DocumentReference($documentReference) : null;
     }
 
-    public static function create(string $shipmentId, \DateTimeInterface $noticeDate = null, \DateTimeInterface $shipmentDate = null, \DateTimeInterface $deliveryDate = null, string $documentReference = null): self
+    public static function create(string $shipmentId, DateTimeInterface $noticeDate = null, DateTimeInterface $shipmentDate = null, DateTimeInterface $deliveryDate = null, string $documentReference = null): self
     {
         return new self($shipmentId, $noticeDate, $shipmentDate, $deliveryDate, $documentReference);
     }
@@ -53,17 +55,17 @@ class ShipNoticeHeader
         return $this->shipmentId;
     }
 
-    public function getNoticeDate(): \DateTimeInterface
+    public function getNoticeDate(): DateTimeInterface
     {
         return $this->noticeDate;
     }
 
-    public function getShipmentDate(): ?\DateTimeInterface
+    public function getShipmentDate(): ?DateTimeInterface
     {
         return $this->shipmentDate;
     }
 
-    public function getDeliveryDate(): ?\DateTimeInterface
+    public function getDeliveryDate(): ?DateTimeInterface
     {
         return $this->deliveryDate;
     }

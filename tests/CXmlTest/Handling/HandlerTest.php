@@ -19,6 +19,8 @@ use CXml\Validation\DtdValidator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+use function file_get_contents;
+
 /**
  * @internal
  * @coversNothing
@@ -37,7 +39,7 @@ final class HandlerTest extends TestCase
 
     private static function loadFixture(string $filename): ?string
     {
-        return \file_get_contents(__DIR__ . '/fixtures/' . $filename);
+        return file_get_contents(__DIR__ . '/fixtures/' . $filename);
     }
 
     #[DataProvider('getEndpointData')]

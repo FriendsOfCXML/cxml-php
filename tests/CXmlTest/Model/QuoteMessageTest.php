@@ -23,6 +23,7 @@ use CXml\Model\TelephoneNumber;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -68,7 +69,7 @@ final class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryI
             $total,
             QuoteMessageHeader::TYPE_ACCEPT,
             'quoteId',
-            new \DateTime('2021-01-08T23:00:06-08:00'),
+            new DateTime('2021-01-08T23:00:06-08:00'),
             'de',
         );
 
@@ -127,7 +128,7 @@ final class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryI
     {
         return new PayloadIdentity(
             '0c30050@supplierorg.com',
-            new \DateTime('2021-01-08T23:00:06-08:00'),
+            new DateTime('2021-01-08T23:00:06-08:00'),
         );
     }
 }

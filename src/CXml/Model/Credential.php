@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
+use Stringable;
+
+use function sprintf;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['identity', 'sharedSecret'])]
-class Credential implements \Stringable
+class Credential implements Stringable
 {
     public function __construct(
         #[Serializer\XmlAttribute]
@@ -43,6 +46,6 @@ class Credential implements \Stringable
 
     public function __toString(): string
     {
-        return \sprintf('%s@%s', $this->identity, $this->domain);
+        return sprintf('%s@%s', $this->identity, $this->domain);
     }
 }

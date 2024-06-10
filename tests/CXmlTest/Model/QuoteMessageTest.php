@@ -117,10 +117,10 @@ final class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryI
             ->payload($quoteMessage)
             ->build();
 
-        self::assertSame('QuoteMessage_0c30050@supplierorg.com', (string)$cxml);
+        $this->assertSame('QuoteMessage_0c30050@supplierorg.com', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/QuoteMessage.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/QuoteMessage.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }

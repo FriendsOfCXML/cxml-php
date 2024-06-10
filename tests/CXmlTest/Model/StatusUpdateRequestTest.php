@@ -57,10 +57,10 @@ final class StatusUpdateRequestTest extends TestCase implements PayloadIdentityF
             ->payload($statusUpdateRequest)
             ->build();
 
-        self::assertSame('StatusUpdateRequest_0c30050@supplierorg.com', (string)$cxml);
+        $this->assertSame('StatusUpdateRequest_0c30050@supplierorg.com', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequest.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/StatusUpdateRequest.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }

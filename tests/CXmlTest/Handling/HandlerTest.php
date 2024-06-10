@@ -109,6 +109,6 @@ final class HandlerTest extends TestCase
 
         $endpoint->parseAndProcessStringAsCXml($requestCxml);
 
-        self::assertSame($expectedHandlerCalled, $actualHandlerCalled);
+        $this->assertSame($expectedHandlerCalled, $actualHandlerCalled);
     }
 }

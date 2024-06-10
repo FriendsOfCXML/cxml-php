@@ -70,10 +70,10 @@ final class ProductActivityMessageTest extends TestCase implements PayloadIdenti
             ->payload($productActivityMessage)
             ->build();
 
-        self::assertSame('ProductActivityMessage_0c30050@supplierorg.com', (string)$cxml);
+        $this->assertSame('ProductActivityMessage_0c30050@supplierorg.com', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessage.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ProductActivityMessage.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }

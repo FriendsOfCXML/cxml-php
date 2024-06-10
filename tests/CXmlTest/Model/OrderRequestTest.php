@@ -180,10 +180,10 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
             ->payload($orderRequest)
             ->build(CXml::DEPLOYMENT_TEST);
 
-        self::assertSame('OrderRequest_1625586002.193314.7293@dev', (string)$cxml);
+        $this->assertSame('OrderRequest_1625586002.193314.7293@dev', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }

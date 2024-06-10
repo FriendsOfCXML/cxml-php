@@ -76,12 +76,12 @@ final class PunchoutOrderMessageAdvancedPricingTest extends TestCase implements 
             ->payload($punchoutOrderMessage)
             ->build();
 
-        self::assertSame('PunchOutOrderMessage_933695160894', (string)$cxml);
+        $this->assertSame('PunchOutOrderMessage_933695160894', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
         $this->dtdValidator->validateAgainstDtd($xml);
 
-        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchoutOrderMessageAdvancedPricing.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/PunchoutOrderMessageAdvancedPricing.xml', $xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

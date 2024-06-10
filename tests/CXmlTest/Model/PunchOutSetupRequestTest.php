@@ -141,13 +141,13 @@ final class PunchOutSetupRequestTest extends TestCase implements PayloadIdentity
             ->payload($punchoutSetupRequest)
             ->build('test');
 
-        self::assertSame('PunchOutSetupRequest_933695160890', (string)$cxml);
+        $this->assertSame('PunchOutSetupRequest_933695160890', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
 
-        self::assertXmlStringEqualsXmlFile(__DIR__ . '/../../metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

@@ -73,10 +73,10 @@ final class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFac
             ->payload($statusUpdateRequest)
             ->build();
 
-        self::assertSame('ShipNoticeRequest_0c30050@supplierorg.com', (string)$cxml);
+        $this->assertSame('ShipNoticeRequest_0c30050@supplierorg.com', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        self::assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ShipNoticeRequest.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/ShipNoticeRequest.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }

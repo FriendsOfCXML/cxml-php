@@ -19,7 +19,7 @@ return $config
         '@PSR2' => true,
         '@PSR1' => true,
         '@PhpCsFixer' => true,
-        '@PhpCsFixer:risky' => true,
+        '@PhpCsFixer:risky' => false,
         '@Symfony' => true,
         '@Symfony:risky' => false,
         'nullable_type_declaration_for_default_null_value' => false,

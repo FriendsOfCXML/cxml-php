@@ -43,7 +43,7 @@ final class OrderRequestBuilderTest extends TestCase implements PayloadIdentityF
 
         $expectedOrderRequest = file_get_contents(__DIR__ . '/fixtures/order_request.xml');
 
-        self::assertXmlStringEqualsXmlString($expectedOrderRequest, $actualOrderRequest);
+        $this->assertXmlStringEqualsXmlString($expectedOrderRequest, $actualOrderRequest);
     }
 
     public function newPayloadIdentity(): PayloadIdentity

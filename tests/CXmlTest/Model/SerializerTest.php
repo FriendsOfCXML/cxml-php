@@ -102,7 +102,7 @@ final class SerializerTest extends TestCase
 			</Request>
 			</cXML>';
 
-        self::assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testSerializeSimpleMessage(): void
@@ -173,7 +173,7 @@ final class SerializerTest extends TestCase
 			</Message>
 			</cXML>';
 
-        self::assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testSerializeSimpleResponse(): void
@@ -200,7 +200,7 @@ final class SerializerTest extends TestCase
 			</Response>
 			</cXML>';
 
-        self::assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testDeserialize(): void
@@ -218,7 +218,7 @@ final class SerializerTest extends TestCase
 
         $resultingXml = $serializer->serialize($cXml);
 
-        self::assertXmlStringEqualsXmlString($xml, $resultingXml);
+        $this->assertXmlStringEqualsXmlString($xml, $resultingXml);
     }
 
     /**
@@ -247,7 +247,7 @@ final class SerializerTest extends TestCase
 			<Status code="200" text="OK">Ping Response CXml</Status>
 			</Response>
 			</cXML>';
-        self::assertXmlStringEqualsXmlString($xmlOut, $actual);
+        $this->assertXmlStringEqualsXmlString($xmlOut, $actual);
     }
 
     public function testDeserializeWithDateTimeForDate(): void
@@ -276,13 +276,13 @@ final class SerializerTest extends TestCase
         /** @var OrderRequest $orderRequest */
         $orderRequest = $cXml->getRequest()->getPayload();
 
-        self::assertSame('2023-02-25 02:30:00', $orderRequest->getItems()[0]->getRequestedDeliveryDate()->format('Y-m-d H:i:s'));
-        self::assertInstanceOf(DateTime::class, $orderRequest->getItems()[0]->getRequestedDeliveryDate());
+        $this->assertSame('2023-02-25 02:30:00', $orderRequest->getItems()[0]->getRequestedDeliveryDate()->format('Y-m-d H:i:s'));
+        $this->assertInstanceOf(DateTime::class, $orderRequest->getItems()[0]->getRequestedDeliveryDate());
 
-        self::assertSame('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
-        self::assertInstanceOf(Date::class, $orderRequest->getItems()[1]->getRequestedDeliveryDate());
+        $this->assertSame('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
+        $this->assertInstanceOf(Date::class, $orderRequest->getItems()[1]->getRequestedDeliveryDate());
 
-        self::assertNull($orderRequest->getItems()[2]->getRequestedDeliveryDate());
+        $this->assertNull($orderRequest->getItems()[2]->getRequestedDeliveryDate());
     }
 
     public function testDeserializeInvalidDate(): void
@@ -381,7 +381,7 @@ final class SerializerTest extends TestCase
 			</Request>
 			</cXML>';
 
-        self::assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testDeserializeOneRowXml(): void
@@ -393,6 +393,6 @@ final class SerializerTest extends TestCase
 
         $resultingXml = $serializer->serialize($cXml);
 
-        self::assertXmlStringEqualsXmlString($xml, $resultingXml);
+        $this->assertXmlStringEqualsXmlString($xml, $resultingXml);
     }
 }

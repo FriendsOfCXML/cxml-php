@@ -36,6 +36,7 @@ class Processor
         CXmlNotImplementedException::class => 450,
     ];
 
+    // TODO create enum for this?
     private static array $exceptionCodeMapping = [
         // cxml
         450 => 'Not Implemented',

@@ -24,7 +24,7 @@ class CXml implements \Stringable
         #[Serializer\XmlAttribute]
         private readonly \DateTimeInterface $timestamp,
         #[Serializer\SerializedName('Request')]
-        private readonly ?Request $request,
+        private readonly ?Request $request = null,
         #[Serializer\SerializedName('Response')]
         private readonly ?Response $response = null,
         #[Serializer\SerializedName('Message')]

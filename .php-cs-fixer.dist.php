@@ -22,11 +22,6 @@ return $config
         '@PhpCsFixer:risky' => true,
         '@Symfony' => true,
         '@Symfony:risky' => false,
-        'native_function_invocation' => [
-            'include' => ['@internal'],
-            'scope' => 'namespaced',
-            'strict' => false,
-        ],
         'nullable_type_declaration_for_default_null_value' => false,
         'void_return' => true,
         'random_api_migration' => true,

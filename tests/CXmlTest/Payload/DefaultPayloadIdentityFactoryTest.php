@@ -6,12 +6,13 @@ namespace CXmlTest\Payload;
 
 use CXml\Payload\DefaultPayloadIdentityFactory;
 use DateTime;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * @coversNothing
  */
+#[CoversNothing]
 final class DefaultPayloadIdentityFactoryTest extends TestCase
 {
     public function testGenerateNewPayloadId(): void

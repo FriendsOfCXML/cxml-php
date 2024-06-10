@@ -18,12 +18,13 @@ use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
 use DateTime;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * @coversNothing
  */
+#[CoversNothing]
 final class ProductActivityMessageTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private DtdValidator $dtdValidator;

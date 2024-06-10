@@ -28,13 +28,13 @@ use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
 use DateTime;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private DtdValidator $dtdValidator;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Symfony\Set\JMSSetList;
 
@@ -14,6 +15,9 @@ return RectorConfig::configure()
     ])
     ->withSets([
         JMSSetList::ANNOTATIONS_TO_ATTRIBUTES,
+        PHPUnitSetList::PHPUNIT_100,
+        PHPUnitSetList::PHPUNIT_CODE_QUALITY,
+        PHPUnitSetList::ANNOTATIONS_TO_ATTRIBUTES,
         SetList::TYPE_DECLARATION,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,

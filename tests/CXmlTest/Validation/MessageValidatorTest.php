@@ -6,14 +6,15 @@ namespace CXmlTest\Validation;
 
 use CXml\Validation\DtdValidator;
 use CXml\Validation\Exception\CXmlInvalidException;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 use function file_get_contents;
 
 /**
  * @internal
- * @coversNothing
  */
+#[CoversNothing]
 final class MessageValidatorTest extends TestCase
 {
     private DtdValidator $dtdValidator;

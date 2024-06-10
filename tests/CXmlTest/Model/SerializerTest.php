@@ -22,13 +22,14 @@ use CXml\Model\Response\Response;
 use CXml\Model\Status;
 use CXml\Serializer;
 use DateTime;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 /**
  * @internal
- * @coversNothing
  */
+#[CoversNothing]
 final class SerializerTest extends TestCase
 {
     public function testSerializeSimpleRequest(): void

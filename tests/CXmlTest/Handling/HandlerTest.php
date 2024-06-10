@@ -16,6 +16,7 @@ use CXml\Processor\HeaderProcessor;
 use CXml\Processor\Processor;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -23,8 +24,8 @@ use function file_get_contents;
 
 /**
  * @internal
- * @coversNothing
  */
+#[CoversNothing]
 final class HandlerTest extends TestCase
 {
     public static function getEndpointData(): iterable

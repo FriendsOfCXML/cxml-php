@@ -11,14 +11,15 @@ use CXml\Model\PayloadIdentity;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use DateTime;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 use function file_get_contents;
 
 /**
  * @internal
- * @coversNothing
  */
+#[CoversNothing]
 final class OrderRequestBuilderTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     public function testFromPunchOutOrderMessage(): void

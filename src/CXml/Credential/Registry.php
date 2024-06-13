@@ -12,8 +12,7 @@ use CXml\Model\Credential;
 use CXml\Model\Header;
 
 use function sprintf;
-
-class Registry implements CredentialRepositoryInterface, AuthenticatorInterface
+class Registry implements CredentialRepositoryInterface, AuthenticatorInterface, CredentialValidatorInterface
 {
     /**
      * @var Credential[]
@@ -61,5 +60,17 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface
         if ($baseCredential->getSharedSecret() !== $senderCredential->getSharedSecret()) {
             throw new CXmlAuthenticationInvalidException($senderCredential);
         }
+    }
+
+    /**
+     * @throws CXmlCredentialInvalidException
+     */
+    public function validate(Credential $credential): void
+    {
+        // provoke an exception if credential was not found
+        $this->getCredentialByDomainAndId(
+            $credential->getDomain(),
+            $credential->getIdentity()
+        );
     }
 }

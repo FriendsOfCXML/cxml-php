@@ -8,6 +8,7 @@ use CXml\Builder;
 use CXml\Context;
 use CXml\Exception\CXmlAuthenticationInvalidException;
 use CXml\Exception\CXmlConflictException;
+use CXml\Exception\CXmlCredentialInvalidException;
 use CXml\Exception\CXmlException;
 use CXml\Exception\CXmlExpectationFailedException;
 use CXml\Exception\CXmlNotAcceptableException;
@@ -36,6 +37,7 @@ class Processor
         CXmlConflictException::class => 409,
         CXmlPreconditionFailedException::class => 412,
         CXmlExpectationFailedException::class => 417,
+        CXmlCredentialInvalidException::class => 417,
         CXmlNotImplementedException::class => 450,
     ];
 

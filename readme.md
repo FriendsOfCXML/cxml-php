@@ -97,7 +97,7 @@ $documentRegistory->register($cXml);
 ### Process incoming cXML documents
 
 ```php
-$headerProcessor = new \CXml\Processor\HeaderProcessor($credentialRegistry);
+$headerProcessor = new \CXml\Processor\HeaderProcessor($credentialRegistry, $credentialRegistry, $credentialRegistry);
 
 $cXmlProcessor = new \CXml\Processor\Processor(
   $headerProcessor, 
@@ -119,7 +119,7 @@ $handlerRegistry = new \CXml\Handler\HandlerRegistry();
 
 $builder = \CXml\Builder::create();
 
-$headerProcessor = new \CXml\Processor\HeaderProcessor($credentialRegistry, $credentialRegistry);
+$headerProcessor = new \CXml\Processor\HeaderProcessor($credentialRegistry, $credentialRegistry, $credentialRegistry);
 $cXmlProcessor = new \CXml\Processor\Processor(
   $headerProcessor, 
   $handlerRegistry,

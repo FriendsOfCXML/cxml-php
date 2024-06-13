@@ -6,7 +6,6 @@ namespace CXml\Processor;
 
 use CXml\Authentication\AuthenticatorInterface;
 use CXml\Context;
-use CXml\Credential\CredentialRepositoryInterface;
 use CXml\Credential\CredentialValidatorInterface;
 use CXml\Exception\CXmlAuthenticationInvalidException;
 use CXml\Exception\CXmlCredentialInvalidException;
@@ -15,9 +14,8 @@ use CXml\Model\Header;
 readonly class HeaderProcessor
 {
     public function __construct(
-        private CredentialRepositoryInterface $credentialRepository,
         private CredentialValidatorInterface $credentialValidator,
-        private AuthenticatorInterface $authenticator
+        private AuthenticatorInterface $authenticator,
     ) {
     }
 

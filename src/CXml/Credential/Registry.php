@@ -12,6 +12,7 @@ use CXml\Model\Credential;
 use CXml\Model\Header;
 
 use function sprintf;
+
 class Registry implements CredentialRepositoryInterface, AuthenticatorInterface, CredentialValidatorInterface
 {
     /**
@@ -70,7 +71,7 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface,
         // provoke an exception if credential was not found
         $this->getCredentialByDomainAndId(
             $credential->getDomain(),
-            $credential->getIdentity()
+            $credential->getIdentity(),
         );
     }
 }

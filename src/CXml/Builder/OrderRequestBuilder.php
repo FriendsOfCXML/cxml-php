@@ -185,7 +185,7 @@ class OrderRequestBuilder
         \DateTimeInterface $requestDeliveryDate = null,
         ItemOut $parent = null,
         PriceBasisQuantity $priceBasisQuantity = null
-    ): self {
+    ): ItemOut {
         $lineNumber = \count($this->items) + 1;
 
         $item = ItemOut::create(
@@ -218,7 +218,7 @@ class OrderRequestBuilder
             $this->total += ($quantity * $unitPrice);
         }
 
-        return $this;
+        return $item;
     }
 
     public function addComment(string $value = null, string $type = null, string $lang = null, string $attachmentUrl = null): self

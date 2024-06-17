@@ -21,7 +21,9 @@ use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
 use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
+use CXml\Processor\Event\CXmlProcessEvent;
 use CXml\Processor\Exception\CXmlProcessException;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class Processor
 {
@@ -108,15 +110,18 @@ class Processor
     private HeaderProcessor $headerProcessor;
     private HandlerRegistryInterface $handlerRegistry;
     private Builder $builder;
+    private ?EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         HeaderProcessor $requestProcessor,
         HandlerRegistryInterface $handlerRepository,
-        Builder $builder
+        Builder $builder,
+        EventDispatcherInterface $eventDispatcher = null
     ) {
         $this->headerProcessor = $requestProcessor;
         $this->handlerRegistry = $handlerRepository;
         $this->builder = $builder;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -126,6 +131,10 @@ class Processor
     {
         $context ??= Context::create();
         $context->setCXml($cxml);
+
+        if ($this->eventDispatcher) {
+            $this->eventDispatcher->dispatch(new CXmlProcessEvent($cxml, $context));
+        }
 
         $request = $cxml->getRequest();
         if ($request) {

@@ -113,7 +113,7 @@ class Processor
         511 => 'Network Authentication Required',                             // RFC6585
     ];
 
-    public function __construct(private readonly HeaderProcessor $headerProcessor, private readonly HandlerRegistryInterface $handlerRegistry, private readonly Builder $builder)
+    public function __construct(private readonly HeaderProcessor $headerProcessor, private readonly HandlerRegistryInterface $handlerRegistry, private readonly Builder $builder, private readonly ?EventDispatcherInterface $eventDispatcher)
     {
     }
 
@@ -125,9 +125,7 @@ class Processor
         $context ??= Context::create();
         $context->setCXml($cxml);
 
-        if ($this->eventDispatcher) {
-            $this->eventDispatcher->dispatch(new CXmlProcessEvent($cxml, $context));
-        }
+        $this->eventDispatcher?->dispatch(new CXmlProcessEvent($cxml, $context));
 
         $request = $cxml->getRequest();
         if ($request instanceof Request) {

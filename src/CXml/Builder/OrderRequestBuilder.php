@@ -192,11 +192,11 @@ class OrderRequestBuilder
         string $unitOfMeasure,
         int $unitPrice,
         array $classifications,
-        DateTimeInterface $requestDeliveryDate = null,
-        ItemOut $parent = null,
-        PriceBasisQuantity $priceBasisQuantity = null
+        ?DateTimeInterface $requestDeliveryDate = null,
+        ?ItemOut $parent = null,
+        ?PriceBasisQuantity $priceBasisQuantity = null,
     ): ItemOut {
-        $lineNumber = \count($this->items) + 1;
+        $lineNumber = count($this->items) + 1;
 
         $item = ItemOut::create(
             $lineNumber,

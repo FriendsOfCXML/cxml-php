@@ -113,7 +113,7 @@ class Processor
         511 => 'Network Authentication Required',                             // RFC6585
     ];
 
-    public function __construct(private readonly HeaderProcessor $headerProcessor, private readonly HandlerRegistryInterface $handlerRegistry, private readonly Builder $builder, private readonly ?EventDispatcherInterface $eventDispatcher)
+    public function __construct(private readonly HeaderProcessor $headerProcessor, private readonly HandlerRegistryInterface $handlerRegistry, private readonly Builder $builder, private readonly ?EventDispatcherInterface $eventDispatcher = null)
     {
     }
 

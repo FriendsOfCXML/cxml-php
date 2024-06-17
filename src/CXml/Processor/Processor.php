@@ -24,7 +24,9 @@ use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
 use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
+use CXml\Processor\Event\CXmlProcessEvent;
 use CXml\Processor\Exception\CXmlProcessException;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use ReflectionClass;
 use Throwable;
 
@@ -122,6 +124,10 @@ class Processor
     {
         $context ??= Context::create();
         $context->setCXml($cxml);
+
+        if ($this->eventDispatcher) {
+            $this->eventDispatcher->dispatch(new CXmlProcessEvent($cxml, $context));
+        }
 
         $request = $cxml->getRequest();
         if ($request instanceof Request) {

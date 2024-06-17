@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-class PayloadIdentity
-{
-    private string $payloadId;
-    private \DateTimeInterface $timestamp;
+use DateTime;
+use DateTimeInterface;
 
-    public function __construct(string $payloadId, \DateTimeInterface $timestamp = null)
+readonly class PayloadIdentity
+{
+    private DateTimeInterface $timestamp;
+
+    public function __construct(private string $payloadId, DateTimeInterface $timestamp = null)
     {
-        $this->payloadId = $payloadId;
-        $this->timestamp = $timestamp ?? new \DateTime();
+        $this->timestamp = $timestamp ?? new DateTime();
     }
 
     public function getPayloadId(): string
@@ -18,7 +21,7 @@ class PayloadIdentity
         return $this->payloadId;
     }
 
-    public function getTimestamp(): \DateTimeInterface
+    public function getTimestamp(): DateTimeInterface
     {
         return $this->timestamp;
     }

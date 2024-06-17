@@ -1,22 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Validation;
 
 use Assert\Assertion;
 use CXml\Validation\Exception\CXmlInvalidException;
+use DOMDocument;
+use DOMException;
+use DOMImplementation;
 
-class DtdValidator
+use function libxml_get_last_error;
+use function libxml_use_internal_errors;
+
+readonly class DtdValidator
 {
-    private string $pathToCxmlDtds;
-
-    public function __construct(string $pathToCxmlDtds)
+    public function __construct(private string $pathToCxmlDtds)
     {
         Assertion::directory($pathToCxmlDtds);
-        Assertion::file($pathToCxmlDtds.'/cXML.dtd');
-        Assertion::file($pathToCxmlDtds.'/Fulfill.dtd');
-        Assertion::file($pathToCxmlDtds.'/Quote.dtd');
-
-        $this->pathToCxmlDtds = $pathToCxmlDtds;
+        Assertion::file($pathToCxmlDtds . '/cXML.dtd');
+        Assertion::file($pathToCxmlDtds . '/Fulfill.dtd');
+        Assertion::file($pathToCxmlDtds . '/Quote.dtd');
     }
 
     /**
@@ -24,14 +28,14 @@ class DtdValidator
      */
     public function validateAgainstDtd(string $xml): void
     {
-        if (empty($xml)) {
+        if ('' === $xml || '0' === $xml) {
             throw new CXmlInvalidException('XML was empty', $xml);
         }
 
         // disable throwing of php errors for libxml
-        $internalErrors = \libxml_use_internal_errors(true);
+        $internalErrors = libxml_use_internal_errors(true);
 
-        $old = new \DOMDocument();
+        $old = new DOMDocument();
         $old->loadXML($xml);
 
         $validateFiles = ['cXML.dtd', 'Fulfill.dtd', 'Quote.dtd'];
@@ -39,28 +43,28 @@ class DtdValidator
         $this->validateAgainstMultipleDtd($validateFiles, $old);
 
         // reset throwing of php errors for libxml
-        \libxml_use_internal_errors($internalErrors);
+        libxml_use_internal_errors($internalErrors);
     }
 
     /**
      * @throws CXmlInvalidException
      */
-    private function injectDtd(\DOMDocument $originalDomDocument, string $dtdFilename): \DOMDocument
+    private function injectDtd(DOMDocument $originalDomDocument, string $dtdFilename): DOMDocument
     {
-        $creator = new \DOMImplementation();
+        $creator = new DOMImplementation();
 
         try {
-            $doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds.'/'.$dtdFilename);
+            $doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds . '/' . $dtdFilename);
             $new = $creator->createDocument('', '', $doctype);
-        } catch (\DOMException $e) {
-            throw new CXmlInvalidException($e->getMessage(), (string) $originalDomDocument->saveXML(), $e);
+        } catch (DOMException $domException) {
+            throw new CXmlInvalidException($domException->getMessage(), (string)$originalDomDocument->saveXML(), $domException);
         }
 
         $new->encoding = 'utf-8';
 
         $oldNode = $originalDomDocument->getElementsByTagName('cXML')->item(0);
-        if (!$oldNode) {
-            throw new CXmlInvalidException('Missing cXML root node', (string) $originalDomDocument->saveXML());
+        if (null === $oldNode) {
+            throw new CXmlInvalidException('Missing cXML root node', (string)$originalDomDocument->saveXML());
         }
 
         $newNode = $new->importNode($oldNode, true);
@@ -72,7 +76,7 @@ class DtdValidator
     /**
      * @throws CXmlInvalidException
      */
-    private function validateAgainstMultipleDtd(array $validateFiles, \DOMDocument $old): void
+    private function validateAgainstMultipleDtd(array $validateFiles, DOMDocument $old): void
     {
         foreach ($validateFiles as $validateFile) {
             $dtdInjectedDomDocument = $this->injectDtd($old, $validateFile);
@@ -82,6 +86,6 @@ class DtdValidator
             }
         }
 
-        throw CXmlInvalidException::fromLibXmlError(\libxml_get_last_error(), (string) $old->saveXML());
+        throw CXmlInvalidException::fromLibXmlError(libxml_get_last_error(), (string)$old->saveXML());
     }
 }

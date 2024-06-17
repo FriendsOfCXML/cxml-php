@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml;
 
 use CXml\Model\CXml;
+use CXml\Model\Header;
 
 class Context
 {
     private ?CXml $cxml = null;
-    private array $options;
 
-    private function __construct(array $options = [])
+    private function __construct(private array $options = [])
     {
-        $this->options = $options;
     }
 
     public static function create(array $options = []): self
@@ -19,7 +20,7 @@ class Context
         return new self($options);
     }
 
-    public function getOption(string $key)/* : mixed */
+    public function getOption(string $key): mixed
     {
         return $this->options[$key] ?? null;
     }
@@ -55,13 +56,13 @@ class Context
 
     public function getSenderUserAgent(): ?string
     {
-        $cxml = $this->getCxml();
-        if (!$cxml) {
+        $cxml = $this->getCXml();
+        if (!$cxml instanceof CXml) {
             return null;
         }
 
         $header = $cxml->getHeader();
-        if (!$header) {
+        if (!$header instanceof Header) {
             return null;
         }
 
@@ -70,8 +71,8 @@ class Context
 
     public function getPayloadId(): ?string
     {
-        $cxml = $this->getCxml();
-        if (!$cxml) {
+        $cxml = $this->getCXml();
+        if (!$cxml instanceof CXml) {
             return null;
         }
 

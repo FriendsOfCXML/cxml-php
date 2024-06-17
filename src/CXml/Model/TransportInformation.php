@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class TransportInformation
+#[Serializer\AccessorOrder(order: 'custom', custom: ['shippingContractNumber'])]
+readonly class TransportInformation
 {
-    /**
-     * @Ser\SerializedName("ShippingContractNumber")
-     */
-    private ?ShippingContractNumber $shippingContractNumber = null;
-
-    public function __construct(?ShippingContractNumber $shippingContractNumber)
-    {
-        $this->shippingContractNumber = $shippingContractNumber;
+    public function __construct(
+        #[Serializer\SerializedName('ShippingContractNumber')]
+        private ?ShippingContractNumber $shippingContractNumber,
+    ) {
     }
 
     public static function fromContractAccountNumber(string $carrierAccountNo): self

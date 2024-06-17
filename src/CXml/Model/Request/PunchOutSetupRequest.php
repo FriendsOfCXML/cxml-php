@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use CXml\Model\Extrinsic;
@@ -8,66 +10,47 @@ use CXml\Model\ItemOut;
 use CXml\Model\SelectedItem;
 use CXml\Model\ShipTo;
 use CXml\Model\Url;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['buyerCookie', 'extrinsics', 'browserFormPost', 'supplierSetup', 'shipTo', 'selectedItem', 'itemOut'])]
 class PunchOutSetupRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
 
     /**
-     * @Ser\XmlAttribute
-     */
-    private ?string $operation = null;
-
-    /**
-     * @Ser\SerializedName("BuyerCookie")
-     */
-    private string $buyerCookie;
-
-    /**
-     * @Ser\XmlList(inline=true, entry="Extrinsic")
-     * @Ser\Type("array<CXml\Model\Extrinsic>")
-     *
      * @var Extrinsic[]
      */
+    #[Serializer\XmlList(entry: 'Extrinsic', inline: true)]
+    #[Serializer\Type('array<CXml\Model\Extrinsic>')]
     protected array $extrinsics = [];
 
-    /**
-     * @Ser\SerializedName("BrowserFormPost")
-     */
+    #[Serializer\SerializedName('BrowserFormPost')]
     private Url $browserFormPost;
 
-    /**
-     * @Ser\SerializedName("SupplierSetup")
-     */
+    #[Serializer\SerializedName('SupplierSetup')]
     private Url $supplierSetup;
 
     /**
-     * @Ser\SerializedName("ShipTo")
-     */
-    private ?ShipTo $shipTo = null;
-
-    /**
-     * @Ser\SerializedName("SelectedItem")
-     */
-    private ?SelectedItem $selectedItem = null;
-
-    /**
-     * @Ser\XmlList(inline=true, entry="ItemOut")
-     * @Ser\Type("array<CXml\Model\ItemOut>")
-     *
      * @var ItemOut[]
      */
+    #[Serializer\XmlList(entry: 'ItemOut', inline: true)]
+    #[Serializer\Type('array<CXml\Model\ItemOut>')]
     private array $itemOut = [];
 
-    public function __construct(string $buyerCookie, string $browserFormPost, string $supplierSetup, ShipTo $shipTo = null, SelectedItem $selectedItem = null, string $operation = 'create')
-    {
-        $this->operation = $operation;
-        $this->buyerCookie = $buyerCookie;
+    public function __construct(
+        #[Serializer\SerializedName('BuyerCookie')]
+        private readonly string $buyerCookie,
+        string $browserFormPost,
+        string $supplierSetup,
+        #[Serializer\SerializedName('ShipTo')]
+        private readonly ?ShipTo $shipTo = null,
+        #[Serializer\SerializedName('SelectedItem')]
+        private readonly ?SelectedItem $selectedItem = null,
+        #[Serializer\XmlAttribute]
+        private readonly ?string $operation = 'create',
+    ) {
         $this->browserFormPost = new Url($browserFormPost);
         $this->supplierSetup = new Url($supplierSetup);
-        $this->shipTo = $shipTo;
-        $this->selectedItem = $selectedItem;
     }
 
     public function getOperation(): ?string

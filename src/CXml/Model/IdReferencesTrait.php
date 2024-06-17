@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 trait IdReferencesTrait
 {
     /**
-     * @Ser\XmlList(inline=true, entry="IdReference")
-     * @Ser\Type("array<CXml\Model\IdReference>")
-     *
      * @var IdReference[]
      */
+    #[Serializer\XmlList(entry: 'IdReference', inline: true)]
+    #[Serializer\Type('array<CXml\Model\IdReference>')]
     protected array $idReferences = [];
 
     public function addIdReference(string $domain, string $identifier): self

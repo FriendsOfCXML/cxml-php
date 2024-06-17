@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Authentication;
 
 use CXml\Context;
 use CXml\Exception\CXmlAuthenticationInvalidException;
 use CXml\Model\Header;
 
-class SimpleSharedSecretAuthenticator implements AuthenticatorInterface
+readonly class SimpleSharedSecretAuthenticator implements AuthenticatorInterface
 {
-    private string $sharedSecret;
-
-    public function __construct(string $sharedSecret)
+    public function __construct(private string $sharedSecret)
     {
-        $this->sharedSecret = $sharedSecret;
     }
 
     public function authenticate(Header $header, Context $context): void

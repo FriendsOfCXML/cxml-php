@@ -1,37 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class Comment
+#[Serializer\AccessorOrder(order: 'custom', custom: ['value', 'attachment'])]
+readonly class Comment
 {
-    /**
-     * @Ser\SerializedName("Attachment")
-     */
-    private ?Url $attachment = null;
+    #[Serializer\SerializedName('Attachment')]
+    private ?Url $attachment;
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private ?string $value = null;
-
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
-    private ?string $lang = null;
-
-    /**
-     * @Ser\XmlAttribute()
-     */
-    private ?string $type = null;
-
-    public function __construct(string $value = null, string $type = null, string $lang = null, string $attachment = null)
-    {
-        $this->value = $value;
-        $this->type = $type;
-        $this->lang = $lang;
-        $this->attachment = $attachment ? new Url($attachment) : null;
+    public function __construct(
+        #[Serializer\XmlValue(cdata: false)]
+        private ?string $value = null,
+        #[Serializer\XmlAttribute]
+        private ?string $type = null,
+        #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+        private ?string $lang = null,
+        string $attachment = null,
+    ) {
+        $this->attachment = null !== $attachment && '' !== $attachment && '0' !== $attachment ? new Url($attachment) : null;
     }
 
     public function getAttachment(): ?Url

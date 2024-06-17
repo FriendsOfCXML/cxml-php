@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Exception;
 
 use CXml\Model\Credential;
+use Throwable;
 
 class CXmlCredentialInvalidException extends CXmlExpectationFailedException
 {
-    private ?Credential $credential;
-
-    public function __construct(string $message, Credential $credential = null, \Throwable $previous = null)
+    public function __construct(string $message, private readonly ?Credential $credential = null, Throwable $previous = null)
     {
-        parent::__construct($message.($credential ? "\nCredential was:".$credential : ''), $previous);
-
-        $this->credential = $credential;
+        parent::__construct($message . ($credential instanceof Credential ? "\nCredential was:" . $credential : ''), $previous);
     }
 
     public function getCredential(): ?Credential

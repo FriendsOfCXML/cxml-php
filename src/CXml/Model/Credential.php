@@ -1,39 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
+use Stringable;
 
-class Credential
+use function sprintf;
+
+#[Serializer\AccessorOrder(order: 'custom', custom: ['identity', 'sharedSecret'])]
+class Credential implements Stringable
 {
-    /**
-     * @Ser\XmlAttribute
-     */
-    private string $domain;
-
-    /**
-     * @Ser\SerializedName("Identity")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private string $identity;
-
-    /**
-     * @Ser\SerializedName("CredentialMac")
-     * @Ser\XmlElement (cdata=false)
-     */
-    // private CredentialMac $credentialMac; TODO
-
-    /**
-     * @Ser\SerializedName("SharedSecret")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private ?string $sharedSecret = null;
-
-    public function __construct(string $domain, string $identity, string $sharedSecret = null)
-    {
-        $this->domain = $domain;
-        $this->identity = $identity;
-        $this->sharedSecret = $sharedSecret;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private readonly string $domain,
+        #[Serializer\SerializedName('Identity')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $identity,
+        #[Serializer\SerializedName('SharedSecret')]
+        #[Serializer\XmlElement(cdata: false)]
+        private ?string $sharedSecret = null,
+    ) {
     }
 
     public function getDomain(): string
@@ -58,6 +46,6 @@ class Credential
 
     public function __toString(): string
     {
-        return \sprintf('%s@%s', $this->identity, $this->domain);
+        return sprintf('%s@%s', $this->identity, $this->domain);
     }
 }

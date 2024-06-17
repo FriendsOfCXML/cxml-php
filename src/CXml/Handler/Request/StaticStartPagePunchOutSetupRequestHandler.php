@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Handler\Request;
 
 use CXml\Context;
@@ -9,21 +11,18 @@ use CXml\Model\Response\PunchOutSetupResponse;
 use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Url;
 
-class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
+readonly class StaticStartPagePunchOutSetupRequestHandler implements HandlerInterface
 {
-    private string $startPageUrl;
-
-    public function __construct(string $startPageUrl)
+    public function __construct(private string $startPageUrl)
     {
-        $this->startPageUrl = $startPageUrl;
     }
 
     public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
     {
         return new PunchOutSetupResponse(
             new Url(
-                $this->startPageUrl
-            )
+                $this->startPageUrl,
+            ),
         );
     }
 

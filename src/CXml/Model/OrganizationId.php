@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class OrganizationId
+#[Serializer\AccessorOrder(order: 'custom', custom: ['credential'])]
+readonly class OrganizationId
 {
-    /**
-     * @Ser\SerializedName("Credential")
-     */
-    private Credential $credential;
-
-    public function __construct(Credential $credential)
-    {
-        $this->credential = $credential;
+    public function __construct(
+        #[Serializer\SerializedName('Credential')]
+        private Credential $credential,
+    ) {
     }
 
     public function getCredential(): Credential

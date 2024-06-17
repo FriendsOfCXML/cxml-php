@@ -1,37 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class ShipmentIdentifier
+#[Serializer\AccessorOrder(order: 'custom', custom: ['value'])]
+readonly class ShipmentIdentifier
 {
-    /**
-     * @Ser\XmlAttribute
-     */
-    private ?string $domain = null;
-
-    /**
-     * @Ser\XmlAttribute
-     */
-    private ?string $trackingNumberDate = null;
-
-    /**
-     * @Ser\XmlAttribute
-     */
-    private ?string $trackingURL = null;
-
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private string $value;
-
-    public function __construct(string $value, string $domain = null, string $trackingNumberDate = null, string $trackingURL = null)
-    {
-        $this->value = $value;
-        $this->domain = $domain;
-        $this->trackingNumberDate = $trackingNumberDate;
-        $this->trackingURL = $trackingURL;
+    public function __construct(
+        #[Serializer\XmlValue(cdata: false)]
+        private string $value,
+        #[Serializer\XmlAttribute]
+        private ?string $domain = null,
+        #[Serializer\XmlAttribute]
+        private ?string $trackingNumberDate = null,
+        #[Serializer\XmlAttribute]
+        private ?string $trackingURL = null,
+    ) {
     }
 
     public function getDomain(): ?string

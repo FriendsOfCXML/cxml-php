@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Response;
 
 use CXml\Model\Url;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class PunchOutSetupResponse implements ResponsePayloadInterface
+#[Serializer\AccessorOrder(order: 'custom', custom: ['startPage'])]
+readonly class PunchOutSetupResponse implements ResponsePayloadInterface
 {
-    /**
-     * @Ser\SerializedName("StartPage")
-     */
-    private Url $startPage;
-
-    public function __construct(Url $startPage)
-    {
-        $this->startPage = $startPage;
+    public function __construct(
+        #[Serializer\SerializedName('StartPage')]
+        private Url $startPage,
+    ) {
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Builder;
 
 use CXml\Model\Address;
@@ -22,34 +24,40 @@ use CXml\Model\Request\OrderRequest;
 use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
+use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
 use CXml\Model\TransportInformation;
+use DateTimeInterface;
+use LogicException;
+
+use function count;
+use function round;
 
 class OrderRequestBuilder
 {
     private array $items = [];
-    private string $orderId;
-    private \DateTimeInterface $orderDate;
+
     private int $total = 0;
-    private string $currency;
+
     private array $comments = [];
+
     private array $contacts = [];
+
     private ?ShipTo $shipTo = null;
+
     private BillTo $billTo;
-    private string $language;
+
     private ?Shipping $shipping = null;
+
     private ?Tax $tax = null;
+
     private array $extrinsics = [];
 
-    private function __construct(string $orderId, \DateTimeInterface $orderDate, string $currency, string $language = 'en')
+    private function __construct(private readonly string $orderId, private readonly DateTimeInterface $orderDate, private readonly string $currency, private readonly string $language = 'en')
     {
-        $this->orderId = $orderId;
-        $this->orderDate = $orderDate;
-        $this->currency = $currency;
-        $this->language = $language;
     }
 
-    public static function create(string $orderId, \DateTimeInterface $orderDate, string $currency, string $language = 'en'): self
+    public static function create(string $orderId, DateTimeInterface $orderDate, string $currency, string $language = 'en'): self
     {
         return new self($orderId, $orderDate, $currency, $language);
     }
@@ -58,27 +66,29 @@ class OrderRequestBuilder
         PunchOutOrderMessage $punchOutOrderMessage,
         string $currency = null,
         string $orderId = null,
-        \DateTimeInterface $orderDate = null,
-        string $language = 'en'
+        DateTimeInterface $orderDate = null,
+        string $language = 'en',
     ): self {
-        if ($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) {
+        if (($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) instanceof SupplierOrderInfo) {
             $orderId ??= $supplierOrderInfo->getOrderId();
             $orderDate ??= $supplierOrderInfo->getOrderDate();
         }
+
         $currency ??= $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getTotal()->getMoney()->getCurrency();
 
         if (null === $orderId) {
-            throw new \LogicException('orderId should either be given or present in the PunchOutOrderMessage');
+            throw new LogicException('orderId should either be given or present in the PunchOutOrderMessage');
         }
-        if (null === $orderDate) {
-            throw new \LogicException('orderDate should either be given or present in the PunchOutOrderMessage');
+
+        if (!$orderDate instanceof DateTimeInterface) {
+            throw new LogicException('orderDate should either be given or present in the PunchOutOrderMessage');
         }
 
         $orb = new self(
             $orderId,
             $orderDate,
             $currency,
-            $language
+            $language,
         );
 
         $orb->setShipTo($punchOutOrderMessage->getPunchOutOrderMessageHeader()->getShipTo());
@@ -92,7 +102,7 @@ class OrderRequestBuilder
                 $item->getItemDetail()->getUnitPrice()->getMoney()->getValueCent(),
                 [
                     new Classification('custom', '0'), // TODO make this configurable
-                ]
+                ],
             );
         }
 
@@ -107,7 +117,7 @@ class OrderRequestBuilder
         string $email = null,
         Phone $phone = null,
         string $fax = null,
-        string $url = null
+        string $url = null,
     ): self {
         $this->billTo = new BillTo(
             new Address(
@@ -118,8 +128,8 @@ class OrderRequestBuilder
                 $email,
                 $phone,
                 $fax,
-                $url
-            )
+                $url,
+            ),
         );
 
         return $this;
@@ -129,14 +139,14 @@ class OrderRequestBuilder
         string $name,
         PostalAddress $postalAddress,
         array $carrierIdentifiers = [],
-        string $carrierAccountNo = null
+        string $carrierAccountNo = null,
     ): self {
         $this->shipTo = new ShipTo(
             new Address(
                 new MultilanguageString($name, null, $this->language),
-                $postalAddress
+                $postalAddress,
             ),
-            $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null
+            null !== $carrierAccountNo && '' !== $carrierAccountNo && '0' !== $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null,
         );
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
@@ -182,11 +192,11 @@ class OrderRequestBuilder
         string $unitOfMeasure,
         int $unitPrice,
         array $classifications,
-        \DateTimeInterface $requestDeliveryDate = null,
-        ItemOut $parent = null,
-        PriceBasisQuantity $priceBasisQuantity = null
+        ?DateTimeInterface $requestDeliveryDate = null,
+        ?ItemOut $parent = null,
+        ?PriceBasisQuantity $priceBasisQuantity = null,
     ): ItemOut {
-        $lineNumber = \count($this->items) + 1;
+        $lineNumber = count($this->items) + 1;
 
         $item = ItemOut::create(
             $lineNumber,
@@ -196,24 +206,24 @@ class OrderRequestBuilder
                 new Description(
                     $description,
                     null,
-                    $this->language
+                    $this->language,
                 ),
                 $unitOfMeasure,
                 new MoneyWrapper(
                     $this->currency,
-                    $unitPrice
+                    $unitPrice,
                 ),
                 $classifications,
-                $priceBasisQuantity
+                $priceBasisQuantity,
             ),
             $requestDeliveryDate,
-            $parent ? $parent->getLineNumber() : null
+            $parent instanceof ItemOut ? $parent->getLineNumber() : null,
         );
 
         $this->items[] = $item;
 
         if ($priceBasisQuantity instanceof PriceBasisQuantity && $priceBasisQuantity->getQuantity() > 0) {
-            $this->total += (int) \round($quantity * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $unitPrice);
+            $this->total += (int)round($quantity * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $unitPrice);
         } else {
             $this->total += ($quantity * $unitPrice);
         }
@@ -227,7 +237,7 @@ class OrderRequestBuilder
             $value,
             $type,
             $lang,
-            $attachmentUrl
+            $attachmentUrl,
         );
 
         return $this;
@@ -237,7 +247,7 @@ class OrderRequestBuilder
     {
         $contact = new Contact(
             new MultilanguageString($name, null, $this->language),
-            $role
+            $role,
         );
         $contact->addEmail($email);
 
@@ -262,15 +272,15 @@ class OrderRequestBuilder
             $this->billTo,
             new MoneyWrapper($this->currency, $this->total),
             OrderRequestHeader::TYPE_NEW,
-            $this->contacts
+            $this->contacts,
         )
             ->setShipping($this->shipping)
-            ->setTax($this->tax)
-        ;
+            ->setTax($this->tax);
 
         foreach ($this->comments as $comment) {
             $orh->addComment($comment);
         }
+
         foreach ($this->extrinsics as $extrinsic) {
             $orh->addExtrinsic($extrinsic);
         }
@@ -281,11 +291,11 @@ class OrderRequestBuilder
     public function build(): OrderRequest
     {
         if (!isset($this->billTo)) {
-            throw new \LogicException('BillTo is required');
+            throw new LogicException('BillTo is required');
         }
 
         return OrderRequest::create(
-            $this->buildOrderRequestHeader()
+            $this->buildOrderRequestHeader(),
         )->addItems($this->items);
     }
 

@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['value', 'shortName'])]
 class Description extends MultilanguageString
 {
-    /**
-     * @Ser\SerializedName("ShortName")
-     * @Ser\XmlElement(cdata=false)
-     */
+    #[Serializer\SerializedName('ShortName')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $shortName = null;
 
     public function __construct(?string $value, string $type = null, string $lang = 'en')

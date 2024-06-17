@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Builder;
 
 use CXml\Model\Address;
@@ -17,31 +19,32 @@ use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\Tax;
 use CXml\Model\TransportInformation;
+use DateTimeInterface;
+use RuntimeException;
+
+use function round;
 
 class PunchOutOrderMessageBuilder
 {
-    private string $buyerCookie;
-    private string $currency;
-    private ?string $operationAllowed;
-    private string $language;
-
     /**
      * @var ItemIn[]
      */
     private array $punchoutOrderMessageItems = [];
+
     private int $total = 0;
+
     private ?Shipping $shipping = null;
+
     private ?Tax $tax = null;
+
     private string $orderId;
-    private ?\DateTimeInterface $orderDate;
+
+    private ?DateTimeInterface $orderDate = null;
+
     private ?ShipTo $shipTo = null;
 
-    private function __construct(string $language, string $buyerCookie, string $currency, string $operationAllowed = null)
+    private function __construct(private readonly string $language, private readonly string $buyerCookie, private readonly string $currency, private readonly ?string $operationAllowed = null)
     {
-        $this->buyerCookie = $buyerCookie;
-        $this->currency = $currency;
-        $this->operationAllowed = $operationAllowed;
-        $this->language = $language;
     }
 
     public static function create(string $language, string $buyerCookie, string $currency, string $operationAllowed = null): self
@@ -49,7 +52,7 @@ class PunchOutOrderMessageBuilder
         return new self($language, $buyerCookie, $currency, $operationAllowed);
     }
 
-    public function orderReference(string $orderId, \DateTimeInterface $orderDate = null): self
+    public function orderReference(string $orderId, DateTimeInterface $orderDate = null): self
     {
         $this->orderId = $orderId;
         $this->orderDate = $orderDate;
@@ -61,14 +64,14 @@ class PunchOutOrderMessageBuilder
         string $name,
         PostalAddress $postalAddress,
         array $carrierIdentifiers = [],
-        string $carrierAccountNo = null
+        string $carrierAccountNo = null,
     ): self {
         $this->shipTo = new ShipTo(
             new Address(
                 new MultilanguageString($name, null, $this->language),
-                $postalAddress
+                $postalAddress,
             ),
-            $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null
+            null !== $carrierAccountNo && '' !== $carrierAccountNo && '0' !== $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null,
         );
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
@@ -86,8 +89,8 @@ class PunchOutOrderMessageBuilder
             new Description(
                 $taxDescription,
                 null,
-                $this->language
-            )
+                $this->language,
+            ),
         );
 
         return $this;
@@ -101,8 +104,8 @@ class PunchOutOrderMessageBuilder
             new Description(
                 $taxDescription,
                 null,
-                $this->language
-            )
+                $this->language,
+            ),
         );
 
         return $this;
@@ -118,27 +121,26 @@ class PunchOutOrderMessageBuilder
         string $manufacturerPartId = null,
         string $manufacturerName = null,
         int $leadTime = null,
-        array $extrinsics = null
+        array $extrinsics = null,
     ): self {
         $itemDetail = ItemDetail::create(
             new Description(
                 $description,
                 null,
-                $this->language
+                $this->language,
             ),
             $unitOfMeasure,
             new MoneyWrapper(
                 $this->currency,
-                $unitPrice
+                $unitPrice,
             ),
-            $classifications
+            $classifications,
         )
             ->setManufacturerPartId($manufacturerPartId)
             ->setManufacturerName($manufacturerName)
-            ->setLeadtime($leadTime)
-        ;
+            ->setLeadtime($leadTime);
 
-        if ($extrinsics) {
+        if (null !== $extrinsics && [] !== $extrinsics) {
             foreach ($extrinsics as $k => $v) {
                 $itemDetail->addExtrinsicAsKeyValue($k, $v);
             }
@@ -147,7 +149,7 @@ class PunchOutOrderMessageBuilder
         $punchoutOrderMessageItem = ItemIn::create(
             $quantity,
             $itemId,
-            $itemDetail
+            $itemDetail,
         );
 
         return $this->addItem($punchoutOrderMessageItem);
@@ -165,7 +167,7 @@ class PunchOutOrderMessageBuilder
             && $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity() > 0
         ) {
             $priceBasisQuantity = $itemIn->getItemDetail()->getPriceBasisQuantity();
-            $this->total += (int) \round($itemQty * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $moneyValueCent);
+            $this->total += (int)round($itemQty * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $moneyValueCent);
         } else {
             $this->total += $moneyValueCent * $itemQty;
         }
@@ -175,18 +177,18 @@ class PunchOutOrderMessageBuilder
 
     public function build(): PunchOutOrderMessage
     {
-        if (empty($this->punchoutOrderMessageItems)) {
-            throw new \RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
+        if ([] === $this->punchoutOrderMessageItems) {
+            throw new RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
         }
 
         $punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(
             new MoneyWrapper($this->currency, $this->total),
             $this->shipping,
             $this->tax,
-            $this->operationAllowed
+            $this->operationAllowed,
         );
 
-        if (isset($this->shipTo)) {
+        if ($this->shipTo instanceof ShipTo) {
             $punchoutOrderMessageHeader->setShipTo($this->shipTo);
         }
 
@@ -196,7 +198,7 @@ class PunchOutOrderMessageBuilder
 
         $punchOutOrderMessage = PunchOutOrderMessage::create(
             $this->buyerCookie,
-            $punchoutOrderMessageHeader
+            $punchoutOrderMessageHeader,
         );
 
         foreach ($this->punchoutOrderMessageItems as $punchoutOrderMessageItem) {

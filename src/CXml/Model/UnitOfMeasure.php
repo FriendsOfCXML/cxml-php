@@ -1,19 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class UnitOfMeasure
+readonly class UnitOfMeasure
 {
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private string $value;
-
-    public function __construct(string $value)
-    {
-        $this->value = $value;
+    public function __construct(
+        #[Serializer\XmlValue(cdata: false)]
+        private string $value,
+    ) {
     }
 
     public function getValue(): string

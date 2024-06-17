@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml;
 
 use CXml\Exception\CXmlException;
@@ -17,24 +19,25 @@ use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Status;
 use CXml\Payload\DefaultPayloadIdentityFactory;
 use CXml\Payload\PayloadIdentityFactoryInterface;
+use LogicException;
 
 class Builder
 {
-    private PayloadIdentityFactoryInterface $payloadIdentityFactory;
+    private readonly PayloadIdentityFactoryInterface $payloadIdentityFactory;
 
     private ?PayloadInterface $payload = null;
-    private Credential $from;
-    private Credential $to;
-    private Credential $sender;
-    private ?string $senderUserAgent;
-    private ?Status $status = null;
-    private ?string $locale;
 
-    private function __construct(string $senderUserAgent, string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+    private Credential $from;
+
+    private Credential $to;
+
+    private Credential $sender;
+
+    private ?Status $status = null;
+
+    private function __construct(private ?string $senderUserAgent, private readonly ?string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
     {
-        $this->locale = $locale;
         $this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
-        $this->senderUserAgent = $senderUserAgent;
     }
 
     public static function create(string $senderUserAgent = 'cxml-php UserAgent', string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
@@ -87,19 +90,21 @@ class Builder
     private function buildHeader(): Header
     {
         if (!isset($this->from)) {
-            throw new \LogicException("No 'from' has been set. Necessary for building a header.");
+            throw new LogicException("No 'from' has been set. Necessary for building a header.");
         }
+
         if (!isset($this->to)) {
-            throw new \LogicException("No 'to' has been set. Necessary for building a header.");
+            throw new LogicException("No 'to' has been set. Necessary for building a header.");
         }
+
         if (!isset($this->sender)) {
-            throw new \LogicException("No 'sender' has been set. Necessary for building a header.");
+            throw new LogicException("No 'sender' has been set. Necessary for building a header.");
         }
 
         return new Header(
             new Party($this->from),
             new Party($this->to),
-            new Party($this->sender, $this->senderUserAgent)
+            new Party($this->sender, $this->senderUserAgent),
         );
     }
 
@@ -115,7 +120,7 @@ class Builder
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Request($this->payload, $this->status, null, $deploymentMode),
                     $this->buildHeader(),
-                    $this->locale
+                    $this->locale,
                 );
                 break;
 
@@ -125,7 +130,7 @@ class Builder
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Message($this->payload, $this->status),
                     $this->buildHeader(),
-                    $this->locale
+                    $this->locale,
                 );
                 break;
 
@@ -133,7 +138,7 @@ class Builder
                 $status = $this->status;
 
                 // response requires a status
-                if (null === $status) {
+                if (!$status instanceof Status) {
                     $status = new Status(); // 200 OK
                 }
 
@@ -141,17 +146,17 @@ class Builder
                 $cXml = CXml::forResponse(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Response($status, $this->payload),
-                    $this->locale
+                    $this->locale,
                 );
                 break;
 
             default:
                 // simple status ping-pong response
-                if ($this->status) {
+                if ($this->status instanceof Status) {
                     $cXml = CXml::forResponse(
                         $this->payloadIdentityFactory->newPayloadIdentity(),
                         new Response($this->status),
-                        $this->locale
+                        $this->locale,
                     );
 
                     break;

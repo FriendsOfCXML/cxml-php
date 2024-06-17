@@ -1,26 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class Tax
+#[Serializer\AccessorOrder(order: 'custom', custom: ['money', 'description'])]
+readonly class Tax
 {
-    /**
-     * @Ser\SerializedName("Money")
-     */
+    #[Serializer\SerializedName('Money')]
     private Money $money;
 
-    /**
-     * @Ser\SerializedName("Description")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private MultilanguageString $description;
-
-    public function __construct(string $currency, int $value, MultilanguageString $description)
-    {
+    public function __construct(
+        string $currency,
+        int $value,
+        #[Serializer\SerializedName('Description')]
+        #[Serializer\XmlElement(cdata: false)]
+        private MultilanguageString $description,
+    ) {
         $this->money = new Money($currency, $value);
-        $this->description = $description;
     }
 
     public function getMoney(): Money

@@ -1,7 +1,25 @@
 parameters:
+    type_coverage:
+        return_type: 100
+        param_type: 98
+        property_type: 100
+        constant_type: 0
+        print_suggestions: true
+        declare: 100
+
+    parallel:
+        # this should be LESS than you total number of cores to prevent clogging your system
+        maximumNumberOfProcesses: 2
+
+    tmpDir: .phpstan
+
     level: max
+
     paths:
        - src/
+       - tests/
+
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
 
     excludePaths:
         - %rootDir%/../../../vendor/*

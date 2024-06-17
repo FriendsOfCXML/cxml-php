@@ -1,41 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class ItemIn
+#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail'])]
+readonly class ItemIn
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("quantity")
-     */
-    private int $quantity;
-
-    /**
-     * @Ser\SerializedName("ItemID")
-     */
-    private ?ItemId $itemId = null; // might be used in a quote, therefore can be null
-
-    /**
-     * @Ser\SerializedName("ItemDetail")
-     */
-    private ItemDetail $itemDetail;
-
     protected function __construct(
-        int $quantity,
-        ItemId $itemId,
-        ItemDetail $itemDetail
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('quantity')]
+        private int $quantity,
+        #[Serializer\SerializedName('ItemID')]
+        private ?ItemId $itemId,
+        #[Serializer\SerializedName('ItemDetail')]
+        private ItemDetail $itemDetail,
     ) {
-        $this->quantity = $quantity;
-        $this->itemId = $itemId;
-        $this->itemDetail = $itemDetail;
     }
 
     public static function create(
         int $quantity,
         ItemId $itemId,
-        ItemDetail $itemDetail
+        ItemDetail $itemDetail,
     ): self {
         return new self(
             $quantity,

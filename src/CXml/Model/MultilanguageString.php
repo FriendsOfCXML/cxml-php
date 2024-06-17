@@ -1,31 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
 class MultilanguageString
 {
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private ?string $value = null;
-
-    /**
-     * @Ser\XmlAttribute
-     */
-    private ?string $type = null;
-
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
-    private ?string $lang = null;
-
-    public function __construct(?string $value, string $type = null, string $lang = 'en')
-    {
-        $this->value = $value;
-        $this->lang = $lang;
-        $this->type = $type;
+    public function __construct(
+        #[Serializer\XmlValue(cdata: false)]
+        private readonly ?string $value,
+        #[Serializer\XmlAttribute]
+        private readonly ?string $type = null,
+        #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+        private readonly ?string $lang = 'en',
+    ) {
     }
 
     public function getValue(): ?string

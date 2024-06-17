@@ -1,29 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXmlTest\Validation;
 
 use CXml\Validation\DtdValidator;
 use CXml\Validation\Exception\CXmlInvalidException;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
+
+use function file_get_contents;
 
 /**
  * @internal
- * @coversNothing
  */
-class MessageValidatorTest extends TestCase
+#[CoversNothing]
+final class MessageValidatorTest extends TestCase
 {
     private DtdValidator $dtdValidator;
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050');
+        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050');
     }
 
     public function testValidateSuccess(): void
     {
         $this->expectNotToPerformAssertions();
 
-        $xml = \file_get_contents('tests/metadata/cxml/samples/simple-profile-request.xml');
+        $xml = file_get_contents('tests/metadata/cxml/samples/simple-profile-request.xml');
         $this->dtdValidator->validateAgainstDtd($xml);
     }
 

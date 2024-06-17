@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Handler;
 
 use Assert\Assertion;
 use CXml\Handler\Exception\CXmlHandlerNotFoundException;
+
+use function sprintf;
 
 class HandlerRegistry implements HandlerRegistryInterface
 {
@@ -14,11 +18,11 @@ class HandlerRegistry implements HandlerRegistryInterface
 
     public function register(HandlerInterface $handler, string $handlerId = null): void
     {
-        if (!$handlerId) {
+        if (null === $handlerId || '' === $handlerId || '0' === $handlerId) {
             $handlerId = $handler::getRequestName();
         }
 
-        Assertion::keyNotExists($this->registry, $handlerId, "Handler for '{$handlerId}' already registered.");
+        Assertion::keyNotExists($this->registry, $handlerId, sprintf("Handler for '%s' already registered.", $handlerId));
 
         $this->registry[$handlerId] = $handler;
     }

@@ -1,19 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Processor\Event;
 
 use CXml\Context;
 use CXml\Model\CXml;
 
-class CXmlProcessEvent
+readonly class CXmlProcessEvent
 {
-    private CXml $cxml;
-    private Context $context;
-
-    public function __construct(CXml $cxml, Context $context)
+    public function __construct(private CXml $cxml, private Context $context)
     {
-        $this->cxml = $cxml;
-        $this->context = $context;
     }
 
     public function getCxml(): CXml

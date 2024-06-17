@@ -1,34 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['url', 'options'])]
 class Transaction
 {
     /**
-     * @Ser\XmlAttribute
-     */
-    private string $requestName;
-
-    /**
-     * @Ser\SerializedName("URL")
-     * @Ser\XmlElement(cdata=false)
-     */
-    private string $url;
-
-    /**
-     * @Ser\XmlList(inline=true, entry="Option")
-     * @Ser\Type("array<CXml\Model\Option>")
-     *
      * @var Option[]
      */
+    #[Serializer\XmlList(entry: 'Option', inline: true)]
+    #[Serializer\Type('array<CXml\Model\Option>')]
     private array $options = [];
 
-    public function __construct(string $requestName, string $url)
-    {
-        $this->requestName = $requestName;
-        $this->url = $url;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private readonly string $requestName,
+        #[Serializer\SerializedName('URL')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $url,
+    ) {
     }
 
     public function addOption(Option $option): void

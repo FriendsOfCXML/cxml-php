@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Jms;
 
 use CXml\Model\Exception\CXmlModelNotFoundException;
@@ -14,6 +16,11 @@ use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\XmlSerializationVisitor;
 use Metadata\ClassMetadata;
+use ReflectionClass;
+use ReflectionException;
+use SimpleXMLElement;
+
+use function class_exists;
 
 /**
  * Certain CXml-nodes have "wrappers"-nodes which this subscriber automatically handles.
@@ -63,7 +70,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-    private static function findPayloadNode(\SimpleXMLElement $cXmlNode): ?\SimpleXMLElement
+    private function findPayloadNode(SimpleXMLElement $cXmlNode): ?SimpleXMLElement
     {
         foreach ($cXmlNode->children() as $child) {
             if ('Status' === $child->getName()) {
@@ -78,7 +85,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function onPostSerializePayload(ObjectEvent $event): void
     {
@@ -86,41 +93,41 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         $visitor = $event->getVisitor();
 
         // this is the actual payload object of type MessagePayloadInterface
-        /* @phpstan-ignore-next-line */
+        /** @phpstan-ignore-next-line */
         $payload = $event->getObject()->getPayload();
 
         if ($payload) {
-            $cls = (new \ReflectionClass($payload))->getShortName();
+            $cls = (new ReflectionClass($payload))->getShortName();
 
             // tell jms to add the payload value in a wrapped node
             $visitor->visitProperty(
                 new StaticPropertyMetadata($event->getType()['name'], $cls, null),
-                $payload
+                $payload,
             );
         }
     }
 
     /**
      * @throws CXmlModelNotFoundException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function onPreDeserializePayload(PreDeserializeEvent $event): void
     {
         /** @var ClassMetadata $metadata */
         $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($event->getType()['name']);
 
-        /** @var \SimpleXMLElement $data */
+        /** @var SimpleXMLElement $data */
         $data = $event->getData();
-        $payloadNode = self::findPayloadNode($data);
-        if (null === $payloadNode) {
+        $payloadNode = $this->findPayloadNode($data);
+        if (!$payloadNode instanceof SimpleXMLElement) {
             return;
         }
 
         $serializedName = $payloadNode->getName();
-        $targetNamespace = (new \ReflectionClass($event->getType()['name']))->getNamespaceName();
+        $targetNamespace = (new ReflectionClass($event->getType()['name']))->getNamespaceName();
 
-        $cls = $targetNamespace.'\\'.$serializedName;
-        if (!\class_exists($cls)) {
+        $cls = $targetNamespace . '\\' . $serializedName;
+        if (!class_exists($cls)) {
             throw new CXmlModelNotFoundException($serializedName);
         }
 
@@ -128,7 +135,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
         $propertyMetadata = new PropertyMetadata(
             $event->getType()['name'],
-            'payload'
+            'payload',
         );
 
         $propertyMetadata->serializedName = $serializedName;

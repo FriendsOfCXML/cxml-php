@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Handler\Request;
 
 use CXml\Context;
@@ -11,24 +13,19 @@ use CXml\Model\Response\ResponsePayloadInterface;
 use CXml\Model\Transaction;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SelfAwareProfileRequestHandler implements HandlerInterface
-{
-    private HandlerRegistry $handlerRegistry;
-    private UrlGeneratorInterface $urlGenerator;
-    private string $defaultRoute;
+use function array_keys;
 
-    public function __construct(HandlerRegistry $handlerRegistry, UrlGeneratorInterface $urlGenerator, string $defaultRoute = 'post_cxml')
+readonly class SelfAwareProfileRequestHandler implements HandlerInterface
+{
+    public function __construct(private HandlerRegistry $handlerRegistry, private UrlGeneratorInterface $urlGenerator, private string $defaultRoute = 'post_cxml')
     {
-        $this->handlerRegistry = $handlerRegistry;
-        $this->urlGenerator = $urlGenerator;
-        $this->defaultRoute = $defaultRoute;
     }
 
     public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
     {
         $profileResponse = new ProfileResponse();
 
-        foreach ($this->handlerRegistry->all() as $requestName => $handler) {
+        foreach (array_keys($this->handlerRegistry->all()) as $requestName) {
             $transaction = new Transaction($requestName, $this->getEndpointUrl());
 
             $profileResponse->addTransaction($transaction);

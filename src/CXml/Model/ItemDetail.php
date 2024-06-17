@@ -1,76 +1,55 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
 use Assert\Assertion;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'description', 'unitOfMeasure', 'priceBasisQuantity', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime'])]
 class ItemDetail
 {
     use ExtrinsicsTrait;
-    public const UNIT_OF_MEASURE_EACH = 'EA';
+
+    final public const UNIT_OF_MEASURE_EACH = 'EA';
 
     /**
-     * @Ser\SerializedName("UnitPrice")
-     */
-    private MoneyWrapper $unitPrice;
-
-    /**
-     * @Ser\SerializedName("Description")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private Description $description;
-
-    /**
-     * @Ser\SerializedName("UnitOfMeasure")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private string $unitOfMeasure;
-
-    /**
-     * @Ser\SerializedName("PriceBasisQuantity")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private ?PriceBasisQuantity $priceBasisQuantity;
-
-    /**
-     * @Ser\XmlList(inline=true, entry="Classification")
-     * @Ser\Type("array<CXml\Model\Classification>")
-     *
      * @var Classification[]
      */
+    #[Serializer\XmlList(entry: 'Classification', inline: true)]
+    #[Serializer\Type('array<CXml\Model\Classification>')]
     private array $classifications = [];
 
-    /**
-     * @Ser\SerializedName("ManufacturerPartID")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Serializer\SerializedName('ManufacturerPartID')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $manufacturerPartId = null;
 
-    /**
-     * @Ser\SerializedName("ManufacturerName")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Serializer\SerializedName('ManufacturerName')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $manufacturerName = null;
 
-    /**
-     * @Ser\SerializedName("URL")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Serializer\SerializedName('URL')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $url = null;
 
-    /**
-     * @Ser\SerializedName("LeadTime")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Serializer\SerializedName('LeadTime')]
+    #[Serializer\XmlElement(cdata: false)]
     private ?int $leadtime = null;
 
-    protected function __construct(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, ?PriceBasisQuantity $priceBasisQuantity = null)
-    {
-        $this->description = $description;
-        $this->unitOfMeasure = $unitOfMeasure;
-        $this->unitPrice = $unitPrice;
-        $this->priceBasisQuantity = $priceBasisQuantity;
+    protected function __construct(
+        #[Serializer\SerializedName('Description')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly Description $description,
+        #[Serializer\SerializedName('UnitOfMeasure')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $unitOfMeasure,
+        #[Serializer\SerializedName('UnitPrice')]
+        private readonly MoneyWrapper $unitPrice,
+        #[Serializer\SerializedName('PriceBasisQuantity')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?PriceBasisQuantity $priceBasisQuantity,
+    ) {
     }
 
     public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications, ?PriceBasisQuantity $priceBasisQuantity = null): self

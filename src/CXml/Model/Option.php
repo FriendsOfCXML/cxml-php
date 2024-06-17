@@ -1,24 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class Option
+readonly class Option
 {
-    /**
-     * @Ser\XmlAttribute
-     */
-    private string $name;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private string $name,
+        #[Serializer\XmlValue(cdata: false)]
+        private string $value,
+    ) {
+    }
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private string $value;
-
-    public function __construct(string $name, string $value)
+    public function getName(): string
     {
-        $this->name = $name;
-        $this->value = $value;
+        return $this->name;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
     }
 }

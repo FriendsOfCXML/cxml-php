@@ -1,25 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['carrierIdentifiers', 'shipmentIdentifiers'])]
 class ShipControl
 {
     /**
-     * @Ser\XmlList(inline=true, entry="CarrierIdentifier")
-     * @Ser\Type("array<CXml\Model\CarrierIdentifier>")
-     *
      * @var CarrierIdentifier[]
      */
+    #[Serializer\XmlList(entry: 'CarrierIdentifier', inline: true)]
+    #[Serializer\Type('array<CXml\Model\CarrierIdentifier>')]
     private array $carrierIdentifiers = [];
 
     /**
-     * @Ser\XmlList(inline=true, entry="ShipmentIdentifier")
-     * @Ser\Type("array<CXml\Model\ShipmentIdentifier>")
-     *
      * @var ShipmentIdentifier[]
      */
+    #[Serializer\XmlList(entry: 'ShipmentIdentifier', inline: true)]
+    #[Serializer\Type('array<CXml\Model\ShipmentIdentifier>')]
     private array $shipmentIdentifiers = [];
 
     public function __construct(CarrierIdentifier $carrierIdentifier, ShipmentIdentifier $shipmentIdentifier)

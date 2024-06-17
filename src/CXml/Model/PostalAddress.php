@@ -1,73 +1,46 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+use function array_filter;
+
+#[Serializer\AccessorOrder(order: 'custom', custom: ['deliverTo', 'street', 'city', 'municipality', 'state', 'postalCode', 'country', 'extrinsics'])]
 class PostalAddress
 {
     use ExtrinsicsTrait;
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("name")
-     */
-    private ?string $name = null;
-
-    /**
-     * @Ser\XmlList(inline=true, entry="DeliverTo")
-     * @Ser\Type("array<string>")
-     * @Ser\XmlElement(cdata=false)
-     */
-    private array $deliverTo;
-
-    /**
-     * @Ser\XmlList(inline=true, entry="Street")
-     * @Ser\Type("array<string>")
-     * @Ser\XmlElement(cdata=false)
-     */
-    private array $street;
-
-    /**
-     * @Ser\SerializedName("City")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private string $city;
-
-    /**
-     * @Ser\SerializedName("Municipality")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private ?string $municipality = null;
-
-    /**
-     * @Ser\SerializedName("State")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private ?string $state = null;
-
-    /**
-     * @Ser\SerializedName("PostalCode")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private ?string $postalCode = null;
-
-    /**
-     * @Ser\SerializedName("Country")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private Country $country;
-
-    public function __construct(array $deliverTo, array $street, string $city, Country $country, string $municipality = null, string $state = null, string $postalCode = null, string $name = null)
-    {
-        $this->name = $name;
-        $this->deliverTo = $deliverTo;
-        $this->street = $street;
-        $this->city = $city;
-        $this->municipality = $municipality;
-        $this->state = $state;
-        $this->postalCode = $postalCode;
-        $this->country = $country;
+    public function __construct(
+        #[Serializer\XmlList(entry: 'DeliverTo', inline: true)]
+        #[Serializer\Type('array<string>')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly array $deliverTo,
+        #[Serializer\XmlList(entry: 'Street', inline: true)]
+        #[Serializer\Type('array<string>')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly array $street,
+        #[Serializer\SerializedName('City')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly string $city,
+        #[Serializer\SerializedName('Country')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly Country $country,
+        #[Serializer\SerializedName('Municipality')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?string $municipality = null,
+        #[Serializer\SerializedName('State')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?string $state = null,
+        #[Serializer\SerializedName('PostalCode')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?string $postalCode = null,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('name')]
+        private readonly ?string $name = null,
+    ) {
     }
 
     public function getName(): ?string
@@ -116,12 +89,12 @@ class PostalAddress
     public function isEmpty(): bool
     {
         return
-            empty($this->name)
-            && empty(\array_filter($this->deliverTo))
-            && empty(\array_filter($this->street))
-            && empty($this->city)
-            && empty($this->municipality)
-            && empty($this->state)
-            && empty($this->postalCode);
+            (null === $this->name || '' === $this->name || '0' === $this->name)
+            && [] === array_filter($this->deliverTo)
+            && [] === array_filter($this->street)
+            && ('' === $this->city || '0' === $this->city)
+            && (null === $this->municipality || '' === $this->municipality || '0' === $this->municipality)
+            && (null === $this->state || '' === $this->state || '0' === $this->state)
+            && (null === $this->postalCode || '' === $this->postalCode || '0' === $this->postalCode);
     }
 }

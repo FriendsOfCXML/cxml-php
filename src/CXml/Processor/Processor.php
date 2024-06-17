@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Processor;
 
 use CXml\Builder;
@@ -15,6 +17,7 @@ use CXml\Exception\CXmlPreconditionFailedException;
 use CXml\Handler\HandlerInterface;
 use CXml\Handler\HandlerRegistryInterface;
 use CXml\Model\CXml;
+use CXml\Model\Header;
 use CXml\Model\Message\Message;
 use CXml\Model\PayloadInterface;
 use CXml\Model\Request\Request;
@@ -24,6 +27,8 @@ use CXml\Model\Status;
 use CXml\Processor\Event\CXmlProcessEvent;
 use CXml\Processor\Exception\CXmlProcessException;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use ReflectionClass;
+use Throwable;
 
 class Processor
 {
@@ -38,6 +43,7 @@ class Processor
         CXmlNotImplementedException::class => 450,
     ];
 
+    // TODO create enum for this?
     private static array $exceptionCodeMapping = [
         // cxml
         450 => 'Not Implemented',
@@ -83,7 +89,7 @@ class Processor
         415 => 'Unsupported Media Type',
         416 => 'Range Not Satisfiable',
         417 => 'Expectation Failed',
-        418 => 'I\'m a teapot',                                               // RFC2324
+        418 => "I'm a teapot",                                               // RFC2324
         421 => 'Misdirected Request',                                         // RFC7540
         422 => 'Unprocessable Entity',                                        // RFC4918
         423 => 'Locked',                                                      // RFC4918
@@ -107,21 +113,8 @@ class Processor
         511 => 'Network Authentication Required',                             // RFC6585
     ];
 
-    private HeaderProcessor $headerProcessor;
-    private HandlerRegistryInterface $handlerRegistry;
-    private Builder $builder;
-    private ?EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(
-        HeaderProcessor $requestProcessor,
-        HandlerRegistryInterface $handlerRepository,
-        Builder $builder,
-        EventDispatcherInterface $eventDispatcher = null
-    ) {
-        $this->headerProcessor = $requestProcessor;
-        $this->handlerRegistry = $handlerRepository;
-        $this->builder = $builder;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(private readonly HeaderProcessor $headerProcessor, private readonly HandlerRegistryInterface $handlerRegistry, private readonly Builder $builder, private readonly ?EventDispatcherInterface $eventDispatcher = null)
+    {
     }
 
     /**
@@ -132,24 +125,22 @@ class Processor
         $context ??= Context::create();
         $context->setCXml($cxml);
 
-        if ($this->eventDispatcher) {
-            $this->eventDispatcher->dispatch(new CXmlProcessEvent($cxml, $context));
-        }
+        $this->eventDispatcher?->dispatch(new CXmlProcessEvent($cxml, $context));
 
         $request = $cxml->getRequest();
-        if ($request) {
+        if ($request instanceof Request) {
             return $this->processRequest($request, $context);
         }
 
         $response = $cxml->getResponse();
-        if ($response) {
+        if ($response instanceof Response) {
             $this->processResponse($response, $context);
 
             return null;
         }
 
         $message = $cxml->getMessage();
-        if ($message) {
+        if ($message instanceof Message) {
             $this->processMessage($message, $context);
 
             return null;
@@ -160,7 +151,7 @@ class Processor
 
     private function getHandlerForPayload(PayloadInterface $payload): HandlerInterface
     {
-        $handlerId = (new \ReflectionClass($payload))->getShortName();
+        $handlerId = (new ReflectionClass($payload))->getShortName();
 
         return $this->handlerRegistry->get($handlerId);
     }
@@ -171,8 +162,8 @@ class Processor
      */
     private function processMessage(Message $message, Context $context): void
     {
-        $header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
-        if (!$header) {
+        $header = $context->getCXml() instanceof CXml ? $context->getCXml()->getHeader() : null;
+        if (!$header instanceof Header) {
             throw new CXmlException('Invalid CXml. Header is mandatory for message.');
         }
 
@@ -180,7 +171,7 @@ class Processor
             $this->headerProcessor->process($header, $context);
         } catch (CXmlException $e) {
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CXmlProcessException($e);
         }
 
@@ -189,7 +180,7 @@ class Processor
             $this->getHandlerForPayload($payload)->handle($payload, $context);
         } catch (CXmlException $e) {
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CXmlProcessException($e);
         }
     }
@@ -210,7 +201,7 @@ class Processor
             $this->getHandlerForPayload($payload)->handle($payload, $context);
         } catch (CXmlException $e) {
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CXmlProcessException($e);
         }
     }
@@ -221,8 +212,8 @@ class Processor
      */
     private function processRequest(Request $request, Context $context): CXml
     {
-        $header = $context->getCXml() ? $context->getCXml()->getHeader() : null;
-        if (!$header) {
+        $header = $context->getCXml() instanceof CXml ? $context->getCXml()->getHeader() : null;
+        if (!$header instanceof Header) {
             throw new CXmlException('Invalid CXml. Header is mandatory for request.');
         }
 
@@ -230,7 +221,7 @@ class Processor
             $this->headerProcessor->process($header, $context);
         } catch (CXmlException $e) {
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CXmlProcessException($e);
         }
 
@@ -240,28 +231,26 @@ class Processor
         $response = $handler->handle($payload, $context);
 
         // if no response was returned, set an implicit 200/OK
-        if (!$response) {
+        if (!$response instanceof ResponsePayloadInterface) {
             $this->builder->status(new Status(
                 200,
-                'OK'
+                'OK',
             ));
         }
 
         return $this->builder
             ->payload($response)
-            ->build()
-        ;
+            ->build();
     }
 
     public function buildResponseForException(CXmlException $exception): CXml
     {
-        $statusCode = self::$exceptionMapping[\get_class($exception)] ?? 500;
+        $statusCode = self::$exceptionMapping[$exception::class] ?? 500;
         $statusText = self::$exceptionCodeMapping[$statusCode] ?? 'Unknown status';
         $status = new Status($statusCode, $statusText, $exception->getMessage());
 
         return $this->builder
             ->status($status)
-            ->build()
-        ;
+            ->build();
     }
 }

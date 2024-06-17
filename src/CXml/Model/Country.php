@@ -1,26 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class Country
+#[Serializer\AccessorOrder(order: 'custom', custom: ['name'])]
+readonly class Country
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("isoCountryCode")
-     */
-    private string $isoCountryCode;
-
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private ?string $name = null;
-
-    public function __construct(string $isoCountryCode, string $name = null)
-    {
-        $this->isoCountryCode = $isoCountryCode;
-        $this->name = $name;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('isoCountryCode')]
+        private string $isoCountryCode,
+        #[Serializer\XmlValue(cdata: false)]
+        private ?string $name = null,
+    ) {
     }
 
     public function getIsoCountryCode(): string

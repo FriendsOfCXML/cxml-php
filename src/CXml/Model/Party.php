@@ -1,26 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class Party
+#[Serializer\AccessorOrder(order: 'custom', custom: ['credential', 'userAgent'])]
+readonly class Party
 {
-    /**
-     * @Ser\SerializedName("Credential")
-     */
-    private Credential $credential;
-
-    /**
-     * @Ser\SerializedName("UserAgent")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private ?string $userAgent = null;
-
-    public function __construct(Credential $credential, string $userAgent = null)
-    {
-        $this->credential = $credential;
-        $this->userAgent = $userAgent;
+    public function __construct(
+        #[Serializer\SerializedName('Credential')]
+        private Credential $credential,
+        #[Serializer\SerializedName('UserAgent')]
+        #[Serializer\XmlElement(cdata: false)]
+        private ?string $userAgent = null,
+    ) {
     }
 
     public function getCredential(): Credential

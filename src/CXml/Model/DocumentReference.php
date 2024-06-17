@@ -1,20 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class DocumentReference
+readonly class DocumentReference
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("payloadID")
-     */
-    private string $payloadId;
-
-    public function __construct(string $payloadId)
-    {
-        $this->payloadId = $payloadId;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('payloadID')]
+        private string $payloadId,
+    ) {
     }
 
     public function getPayloadId(): string

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
 use Assert\Assertion;
@@ -9,74 +11,56 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\OrganizationId;
 use CXml\Model\ShipTo;
-use JMS\Serializer\Annotation as Ser;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['organizationId', 'total', 'shipTo', 'contacts', 'comments', 'extrinsics'])]
 class QuoteMessageHeader
 {
     use CommentsTrait;
     use ExtrinsicsTrait;
 
-    public const TYPE_ACCEPT = 'accept';
-    public const TYPE_REJECT = 'reject';
-    public const TYPE_UPDATE = 'update';
-    public const TYPE_FINAL = 'final';
-    public const TYPE_AWARD = 'award';
+    final public const TYPE_ACCEPT = 'accept';
 
-    /**
-     * @Ser\SerializedName("type")
-     * @Ser\XmlAttribute
-     */
-    private string $type;
+    final public const TYPE_REJECT = 'reject';
 
-    /**
-     * @Ser\SerializedName("quoteID")
-     * @Ser\XmlAttribute
-     */
-    private string $quoteId;
+    final public const TYPE_UPDATE = 'update';
 
-    /**
-     * @Ser\XmlAttribute
-     */
-    private \DateTimeInterface $quoteDate;
+    final public const TYPE_FINAL = 'final';
 
-    /**
-     * @Ser\XmlAttribute
-     */
-    private string $currency;
+    final public const TYPE_AWARD = 'award';
 
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
-    private string $lang;
-
-    /**
-     * @Ser\SerializedName("OrganizationID")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private OrganizationId $organizationId;
-
-    /**
-     * @Ser\SerializedName("Total")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private MoneyWrapper $total;
-
-    /**
-     * @Ser\SerializedName("ShipTo")
-     * @Ser\XmlElement (cdata=false)
-     */
+    #[Serializer\SerializedName('ShipTo')]
+    #[Serializer\XmlElement(cdata: false)]
     private ShipTo $shipTo;
 
     /**
-     * @Ser\XmlList(inline=true, entry="Contact")
-     * @Ser\Type("array<CXml\Model\Contact>")
-     *
      * @var Contact[]
      */
+    #[Serializer\XmlList(entry: 'Contact', inline: true)]
+    #[Serializer\Type('array<CXml\Model\Contact>')]
     private array $contacts = [];
 
-    public function __construct(OrganizationId $organizationId, MoneyWrapper $total, string $type, string $quoteId, \DateTime $quoteDate, string $currency, string $lang = 'en')
-    {
+    public function __construct(
+        #[Serializer\SerializedName('OrganizationID')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly OrganizationId $organizationId,
+        #[Serializer\SerializedName('Total')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly MoneyWrapper $total,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('type')]
+        private readonly string $type,
+        #[Serializer\SerializedName('quoteID')]
+        #[Serializer\XmlAttribute]
+        private readonly string $quoteId,
+        #[Serializer\XmlAttribute]
+        private readonly DateTimeInterface $quoteDate,
+        #[Serializer\XmlAttribute]
+        private readonly string $currency,
+        #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+        private readonly string $lang = 'en',
+    ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,
             self::TYPE_REJECT,
@@ -84,14 +68,6 @@ class QuoteMessageHeader
             self::TYPE_FINAL,
             self::TYPE_AWARD,
         ]);
-
-        $this->organizationId = $organizationId;
-        $this->total = $total;
-        $this->type = $type;
-        $this->quoteId = $quoteId;
-        $this->quoteDate = $quoteDate;
-        $this->currency = $currency;
-        $this->lang = $lang;
     }
 
     public function setShipTo(ShipTo $shipTo): self
@@ -131,7 +107,7 @@ class QuoteMessageHeader
         return $this->quoteId;
     }
 
-    public function getQuoteDate(): \DateTimeInterface
+    public function getQuoteDate(): DateTimeInterface
     {
         return $this->quoteDate;
     }

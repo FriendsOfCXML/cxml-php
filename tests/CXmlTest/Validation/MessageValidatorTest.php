@@ -21,14 +21,14 @@ final class MessageValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050');
+        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.063');
     }
 
-    public function testValidateSuccess(): void
+    public function testValidateProfileRequestSuccess(): void
     {
         $this->expectNotToPerformAssertions();
 
-        $xml = file_get_contents('tests/metadata/cxml/samples/simple-profile-request.xml');
+        $xml = file_get_contents(__DIR__ . '/../../metadata/cxml/samples/simple-profile-request.xml');
         $this->dtdValidator->validateAgainstDtd($xml);
     }
 

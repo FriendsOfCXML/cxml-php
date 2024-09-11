@@ -28,6 +28,8 @@ use function trim;
 
 readonly class Serializer
 {
+    public const DOC_TYPE_VERSION = '1.2.063';
+
     private function __construct(private SerializerInterface $jmsSerializer)
     {
     }
@@ -69,7 +71,7 @@ readonly class Serializer
         return $this->jmsSerializer->deserialize($xml, CXml::class, 'xml');
     }
 
-    public function serialize(CXml $cxml, string $docTypeVersion = '1.2.054'): string
+    public function serialize(CXml $cxml, string $docTypeVersion = self::DOC_TYPE_VERSION): string
     {
         $xml = $this->jmsSerializer->serialize($cxml, 'xml');
 

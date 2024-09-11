@@ -1,30 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['value'])]
 class CarrierIdentifier
 {
-    public const DOMAIN_SCAC = 'SCAC';
-    public const DOMAIN_COMPANYNAME = 'companyName';
-    public const DOMAIN_SKU = 'sku';
-    public const DOMAIN_CARRIER_METHOD = 'carrierMethod';
+    final public const DOMAIN_SCAC = 'SCAC';
 
-    /**
-     * @Ser\XmlAttribute
-     */
-    private string $domain;
+    final public const DOMAIN_COMPANYNAME = 'companyName';
 
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private string $value;
+    final public const DOMAIN_SKU = 'sku';
 
-    public function __construct(string $domain, string $value)
-    {
-        $this->domain = $domain;
-        $this->value = $value;
+    final public const DOMAIN_CARRIER_METHOD = 'carrierMethod';
+
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private readonly string $domain,
+        #[Serializer\XmlValue(cdata: false)]
+        private readonly string $value,
+    ) {
     }
 
     public static function fromScacCode(string $scacCarrierCode): self

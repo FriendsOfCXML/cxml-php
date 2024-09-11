@@ -1,26 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
-class SupplierOrderInfo
+readonly class SupplierOrderInfo
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("orderID")
-     */
-    private string $orderId;
-
-    /**
-     * @Ser\XmlAttribute
-     */
-    private ?\DateTimeInterface $orderDate;
-
-    public function __construct(string $orderId, \DateTimeInterface $orderDate = null)
-    {
-        $this->orderId = $orderId;
-        $this->orderDate = $orderDate;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('orderID')]
+        private string $orderId,
+        #[Serializer\XmlAttribute]
+        private ?DateTimeInterface $orderDate = null,
+    ) {
     }
 
     public function getOrderId(): string
@@ -28,7 +23,7 @@ class SupplierOrderInfo
         return $this->orderId;
     }
 
-    public function getOrderDate(): ?\DateTimeInterface
+    public function getOrderDate(): ?DateTimeInterface
     {
         return $this->orderDate;
     }

@@ -1,33 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
 use CXml\Model\ExtrinsicsTrait;
-use JMS\Serializer\Annotation as Ser;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['productActivityHeader', 'productActivityDetails', 'extrinsics'])]
 class ProductActivityMessage implements MessagePayloadInterface
 {
     use ExtrinsicsTrait;
 
-    /**
-     * @Ser\SerializedName("ProductActivityHeader")
-     */
+    #[Serializer\SerializedName('ProductActivityHeader')]
     private ProductActivityHeader $productActivityHeader;
 
     /**
-     * @Ser\XmlList(inline=true, entry="ProductActivityDetails")
-     * @Ser\Type("array<CXml\Model\Message\ProductActivityDetail>")
-     *
      * @var ProductActivityDetail[]
      */
+    #[Serializer\XmlList(entry: 'ProductActivityDetails', inline: true)]
+    #[Serializer\Type('array<CXml\Model\Message\ProductActivityDetail>')]
     private array $productActivityDetails = [];
 
-    private function __construct(string $messageId, string $processType = null, \DateTimeInterface $creationDate = null)
+    private function __construct(string $messageId, string $processType = null, DateTimeInterface $creationDate = null)
     {
         $this->productActivityHeader = new ProductActivityHeader($messageId, $processType, $creationDate);
     }
 
-    public static function create(string $messageId, string $processType = null, \DateTimeInterface $creationDate = null): self
+    public static function create(string $messageId, string $processType = null, DateTimeInterface $creationDate = null): self
     {
         return new self($messageId, $processType, $creationDate);
     }

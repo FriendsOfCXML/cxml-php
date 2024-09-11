@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['incrementQuantity', 'stockOnHandQuantity'])]
 class Inventory
 {
-    /**
-     * @Ser\SerializedName("StockOnHandQuantity")
-     */
+    #[Serializer\SerializedName('StockOnHandQuantity')]
     private ?InventoryQuantity $stockOnHandQuantity = null;
 
-    /**
-     * @Ser\SerializedName("IncrementQuantity")
-     */
+    #[Serializer\SerializedName('IncrementQuantity')]
     private ?InventoryQuantity $incrementQuantity = null;
 
     public static function create(): self

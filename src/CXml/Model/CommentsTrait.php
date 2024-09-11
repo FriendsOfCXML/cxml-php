@@ -1,17 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
+
+use function implode;
+use function is_array;
 
 trait CommentsTrait
 {
     /**
-     * @Ser\XmlList(inline=true, entry="Comments")
-     * @Ser\Type("array<CXml\Model\Comment>")
-     *
      * @var Comment[]
      */
+    #[Serializer\XmlList(entry: 'Comments', inline: true)]
+    #[Serializer\Type('array<CXml\Model\Comment>')]
     private ?array $comments = null;
 
     public function addCommentAsString(string $comment, string $type = null, string $lang = null): self
@@ -43,12 +47,13 @@ trait CommentsTrait
     {
         $commentStrings = [];
 
-        if ($comments = $this->getComments()) {
+        $comments = $this->getComments();
+        if (is_array($comments)) {
             foreach ($comments as $comment) {
                 $commentStrings[] = $comment->getValue();
             }
         }
 
-        return empty($commentStrings) ? null : \implode("\n", $commentStrings);
+        return [] === $commentStrings ? null : implode("\n", $commentStrings);
     }
 }

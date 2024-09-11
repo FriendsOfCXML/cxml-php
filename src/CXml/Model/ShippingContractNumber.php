@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class ShippingContractNumber
+readonly class ShippingContractNumber
 {
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private string $value;
+    public function __construct(
+        #[Serializer\XmlValue(cdata: false)]
+        private string $value,
+    ) {
+    }
 
-    public function __construct(string $value)
+    public function getValue(): string
     {
-        $this->value = $value;
+        return $this->value;
     }
 }

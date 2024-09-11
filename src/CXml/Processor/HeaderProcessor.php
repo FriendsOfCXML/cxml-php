@@ -1,29 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Processor;
 
 use CXml\Authentication\AuthenticatorInterface;
 use CXml\Context;
-use CXml\Credential\CredentialRepositoryInterface;
 use CXml\Credential\CredentialValidatorInterface;
 use CXml\Exception\CXmlAuthenticationInvalidException;
 use CXml\Exception\CXmlCredentialInvalidException;
 use CXml\Model\Header;
 
-class HeaderProcessor
+readonly class HeaderProcessor
 {
-    private CredentialRepositoryInterface $credentialRepository;
-    private CredentialValidatorInterface $credentialValidator;
-    private AuthenticatorInterface $authenticator;
-
     public function __construct(
-        CredentialRepositoryInterface $credentialRepository,
-        CredentialValidatorInterface $credentialValidator,
-        AuthenticatorInterface $authenticator
+        private CredentialValidatorInterface $credentialValidator,
+        private AuthenticatorInterface $authenticator,
     ) {
-        $this->credentialRepository = $credentialRepository;
-        $this->credentialValidator = $credentialValidator;
-        $this->authenticator = $authenticator;
     }
 
     /**

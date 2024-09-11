@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
-class ShipNoticePortion
+#[Serializer\AccessorOrder(order: 'custom', custom: ['orderReference'])]
+readonly class ShipNoticePortion
 {
-    /**
-     * @Ser\SerializedName("OrderReference")
-     */
+    #[Serializer\SerializedName('OrderReference')]
     private OrderReference $orderReference;
 
-    public function __construct(string $documentReference, string $orderId = null, \DateTimeInterface $orderDate = null)
+    public function __construct(string $documentReference, string $orderId = null, DateTimeInterface $orderDate = null)
     {
         $this->orderReference = new OrderReference(
             new DocumentReference(
-                $documentReference
+                $documentReference,
             ),
             $orderId,
-            $orderDate
+            $orderDate,
         );
     }
 

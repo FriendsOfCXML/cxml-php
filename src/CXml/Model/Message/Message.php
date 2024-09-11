@@ -1,59 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
 use Assert\Assertion;
 use CXml\Model\CXml;
 use CXml\Model\Status;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class Message
+readonly class Message
 {
-    /**
-     * @Ser\SerializedName("Status")
-     */
-    private ?Status $status = null;
-
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("deploymentMode")
-     */
-    private ?string $deploymentMode = null;
-
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("inReplyTo")
-     */
-    private ?string $inReplyTo = null;
-
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("Id")
-     */
-    private ?string $id = null;
-
-    /**
-     * @Ser\Exclude
-     * see CXmlWrappingNodeJmsEventSubscriber
-     */
-    private MessagePayloadInterface $payload;
-
     public function __construct(
-        MessagePayloadInterface $message,
-        Status $status = null,
-        string $id = null,
-        string $inReplyTo = null,
-        string $deploymentMode = null
+        #[Serializer\Exclude]
+        private MessagePayloadInterface $payload,
+        #[Serializer\SerializedName('Status')]
+        private ?Status $status = null,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('Id')]
+        private ?string $id = null,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('inReplyTo')]
+        private ?string $inReplyTo = null,
+        #[Serializer\SerializedName('deploymentMode')]
+        #[Serializer\XmlAttribute]
+        private ?string $deploymentMode = null,
     ) {
         if (null !== $deploymentMode) {
             Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);
         }
-
-        $this->status = $status;
-        $this->payload = $message;
-        $this->deploymentMode = $deploymentMode;
-        $this->inReplyTo = $inReplyTo;
-        $this->id = $id;
     }
 
     public function getStatus(): ?Status

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXmlTest\Model;
 
 use CXml\Builder;
@@ -25,36 +27,37 @@ use CXml\Model\TelephoneNumber;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
+use DateTime;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
-class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactoryInterface
+#[CoversNothing]
+final class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private DtdValidator $dtdValidator;
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__.'/../../metadata/cxml/dtd/1.2.050/');
+        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
     }
 
     public function testMinimumExample(): void
     {
         $from = new Credential(
             'NetworkId',
-            'inbound@prominate-platform.com'
+            'inbound@prominate-platform.com',
         );
         $to = new Credential(
             'NetworkId',
-            'supplier@supplier.com'
+            'supplier@supplier.com',
         );
         $sender = new Credential(
             'NetworkId',
             'inbound@prominate-platform.com',
-            's3cr3t'
+            's3cr3t',
         );
 
         $punchoutSetupRequest = (new PunchOutSetupRequest(
@@ -77,7 +80,7 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
                         null,
                         'CA',
                         '90489',
-                        'default'
+                        'default',
                     ),
                     null,
                     null,
@@ -86,14 +89,14 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
                         new TelephoneNumber(
                             new CountryCode('US', '1'),
                             '800',
-                            '5551212'
+                            '5551212',
                         ),
-                        'personal'
-                    )
-                )
+                        'personal',
+                    ),
+                ),
             ),
             new SelectedItem(
-                new ItemId('4545321', null, 'II99825')
+                new ItemId('4545321', null, 'II99825'),
             ),
         ))->addItem(
             ItemOut::create(
@@ -106,10 +109,10 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
                     new MoneyWrapper('EUR', 76320),
                     [
                         new Classification('UNSPSC', 'ean1234'),
-                    ]
+                    ],
                 ),
-                new \DateTime('2023-01-23T16:00:06-01:00'),
-            )
+                new DateTime('2023-01-23T16:00:06-01:00'),
+            ),
         )->addItem(
             ItemOut::create(
                 20,
@@ -121,14 +124,14 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
                     new MoneyWrapper('EUR', 76420),
                     [
                         new Classification('UNSPSC', 'ean1230'),
-                    ]
+                    ],
                 ),
-                new \DateTime('2023-01-23T16:00:06-01:00'),
-            )
+                new DateTime('2023-01-23T16:00:06-01:00'),
+            ),
         );
 
         $punchoutSetupRequest->addExtrinsic(
-            new Extrinsic('UserEmail', 'john-doe@domain.com')
+            new Extrinsic('UserEmail', 'john-doe@domain.com'),
         );
 
         $cxml = Builder::create('Workchairs cXML Application', 'en-US', $this)
@@ -136,23 +139,22 @@ class PunchOutSetupRequestTest extends TestCase implements PayloadIdentityFactor
             ->to($to)
             ->sender($sender)
             ->payload($punchoutSetupRequest)
-            ->build('test')
-        ;
+            ->build('test');
 
-        $this->assertEquals('PunchOutSetupRequest_933695160890', (string) $cxml);
+        $this->assertSame('PunchOutSetupRequest_933695160890', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
 
-        $this->assertXmlStringEqualsXmlFile(__DIR__.'/../../metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../metadata/cxml/samples/PunchOutSetupRequest.xml', $xml);
     }
 
     public function newPayloadIdentity(): PayloadIdentity
     {
         return new PayloadIdentity(
             '933695160890',
-            new \DateTime('2023-01-23T16:00:06-01:00')
+            new DateTime('2023-01-23T16:00:06-01:00'),
         );
     }
 }

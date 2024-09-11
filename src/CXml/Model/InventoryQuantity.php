@@ -1,24 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class InventoryQuantity
+readonly class InventoryQuantity
 {
-    /**
-     * @Ser\XmlAttribute
-     */
-    private int $quantity;
-
-    /**
-     * @Ser\SerializedName("UnitOfMeasure")
-     */
+    #[Serializer\SerializedName('UnitOfMeasure')]
     private UnitOfMeasure $unitOfMeasure;
 
-    public function __construct(int $quantity, string $unitOfMeasure)
-    {
-        $this->quantity = $quantity;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private int $quantity,
+        string $unitOfMeasure,
+    ) {
         $this->unitOfMeasure = new UnitOfMeasure($unitOfMeasure);
     }
 

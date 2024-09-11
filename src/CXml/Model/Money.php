@@ -1,31 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class Money
+use function number_format;
+
+readonly class Money
 {
-    /**
-     * @Ser\XmlAttribute
-     */
-    private string $currency;
-
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
+    #[Serializer\XmlValue(cdata: false)]
     private string $value;
 
-    /**
-     * @Ser\Exclude()
-     */
-    private int $valueCent;
-
-    public function __construct(string $currency, int $valueCent)
-    {
-        $this->currency = $currency;
-        $this->valueCent = $valueCent;
-        $this->value = \number_format($valueCent / 100, 2, '.', '');
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private string $currency,
+        #[Serializer\Exclude]
+        private int $valueCent,
+    ) {
+        $this->value = number_format($this->valueCent / 100, 2, '.', '');
     }
 
     public function getCurrency(): string
@@ -40,6 +34,6 @@ class Money
 
     public function getValueCent(): int
     {
-        return $this->valueCent ?? (int) (((float) $this->value) * 100);
+        return $this->valueCent ?? (int)(((float)$this->value) * 100);
     }
 }

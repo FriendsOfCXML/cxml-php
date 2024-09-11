@@ -1,37 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
-class Status
+readonly class Status
 {
-    /**
-     * @Ser\XmlAttribute(namespace="http://www.w3.org/XML/1998/namespace")
-     */
-    private ?string $lang = null;
-
-    /**
-     * @Ser\XmlAttribute
-     */
-    private int $code;
-
-    /**
-     * @Ser\XmlAttribute
-     */
-    private string $text;
-
-    /**
-     * @Ser\XmlValue(cdata=false)
-     */
-    private ?string $message = null;
-
-    public function __construct(int $code = 200, string $text = 'OK', string $message = null, string $lang = null)
-    {
-        $this->code = $code;
-        $this->text = $text;
-        $this->message = $message;
-        $this->lang = $lang;
+    public function __construct(
+        #[Serializer\XmlAttribute]
+        private int $code = 200,
+        #[Serializer\XmlAttribute]
+        private string $text = 'OK',
+        #[Serializer\XmlValue(cdata: false)]
+        private ?string $message = null,
+        #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
+        private ?string $lang = null,
+    ) {
     }
 
     public function getCode(): int
@@ -47,5 +33,10 @@ class Status
     public function getMessage(): ?string
     {
         return $this->message;
+    }
+
+    public function getLang(): ?string
+    {
+        return $this->lang;
     }
 }

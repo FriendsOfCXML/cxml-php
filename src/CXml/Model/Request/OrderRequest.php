@@ -1,34 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use CXml\Model\ItemOut;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['orderRequestHeader', 'itemOut'])]
 class OrderRequest implements RequestPayloadInterface
 {
     /**
-     * @Ser\SerializedName("OrderRequestHeader")
-     */
-    private OrderRequestHeader $orderRequestHeader;
-
-    /**
-     * @Ser\XmlList(inline=true, entry="ItemOut")
-     * @Ser\Type("array<CXml\Model\ItemOut>")
-     *
      * @var ItemOut[]
      */
+    #[Serializer\XmlList(entry: 'ItemOut', inline: true)]
+    #[Serializer\Type('array<CXml\Model\ItemOut>')]
     private array $itemOut = [];
 
-    protected function __construct(OrderRequestHeader $orderRequestHeader)
+    protected function __construct(#[Serializer\SerializedName('OrderRequestHeader')]
+        private readonly OrderRequestHeader $orderRequestHeader)
     {
-        $this->orderRequestHeader = $orderRequestHeader;
     }
 
     public static function create(OrderRequestHeader $orderRequestHeader): self
     {
         return new self(
-            $orderRequestHeader
+            $orderRequestHeader,
         );
     }
 

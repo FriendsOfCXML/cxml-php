@@ -1,38 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
-class OrderReference
+#[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference'])]
+readonly class OrderReference
 {
-    /**
-     * @Ser\SerializedName("DocumentReference")
-     */
-    private ?DocumentReference $documentReference = null;
-
-    /**
-     * @Ser\SerializedName("orderID")
-     * @Ser\XmlAttribute
-     */
-    private ?string $orderId = null;
-
-    /**
-     * @Ser\XmlAttribute
-     */
-    private ?\DateTimeInterface $orderDate = null;
-
-    public function __construct(DocumentReference $documentReference, string $orderId = null, \DateTimeInterface $orderDate = null)
-    {
-        $this->documentReference = $documentReference;
-        $this->orderId = $orderId;
-        $this->orderDate = $orderDate;
+    public function __construct(
+        #[Serializer\SerializedName('DocumentReference')]
+        private ?DocumentReference $documentReference,
+        #[Serializer\SerializedName('orderID')]
+        #[Serializer\XmlAttribute]
+        private ?string $orderId = null,
+        #[Serializer\XmlAttribute]
+        private ?DateTimeInterface $orderDate = null,
+    ) {
     }
 
     public static function create(string $documentReference): self
     {
         return new self(
-            new DocumentReference($documentReference)
+            new DocumentReference($documentReference),
         );
     }
 
@@ -46,7 +38,7 @@ class OrderReference
         return $this->orderId;
     }
 
-    public function getOrderDate(): ?\DateTimeInterface
+    public function getOrderDate(): ?DateTimeInterface
     {
         return $this->orderDate;
     }

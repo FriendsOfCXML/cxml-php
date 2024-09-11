@@ -1,35 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
-use JMS\Serializer\Annotation as Ser;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
-class ProductActivityHeader
+readonly class ProductActivityHeader
 {
-    public const PROCESSTYPE_SUPPLIER_MANAGED_INVENTORY = 'SMI';
-    public const PROCESSTYPE_THIRD_PARTY_LOGISTICS = '3PL';
+    final public const PROCESSTYPE_SUPPLIER_MANAGED_INVENTORY = 'SMI';
 
-    /**
-     * @Ser\SerializedName("messageID")
-     * @Ser\XmlAttribute
-     */
-    private string $messageId;
+    final public const PROCESSTYPE_THIRD_PARTY_LOGISTICS = '3PL';
 
-    /**
-     * @Ser\XmlAttribute
-     */
-    private ?string $processType = null;
-
-    /**
-     * @Ser\XmlAttribute
-     */
-    private ?\DateTimeInterface $creationDate = null;
-
-    public function __construct(string $messageId, string $processType = null, \DateTimeInterface $creationDate = null)
-    {
-        $this->messageId = $messageId;
-        $this->processType = $processType;
-        $this->creationDate = $creationDate;
+    public function __construct(
+        #[Serializer\SerializedName('messageID')]
+        #[Serializer\XmlAttribute]
+        private string $messageId,
+        #[Serializer\XmlAttribute]
+        private ?string $processType = null,
+        #[Serializer\XmlAttribute]
+        private ?DateTimeInterface $creationDate = null,
+    ) {
     }
 
     public function getMessageId(): string
@@ -42,7 +34,7 @@ class ProductActivityHeader
         return $this->processType;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?DateTimeInterface
     {
         return $this->creationDate;
     }

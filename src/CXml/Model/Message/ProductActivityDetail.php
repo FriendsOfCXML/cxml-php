@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Message;
 
 use CXml\Model\Contact;
@@ -7,40 +9,24 @@ use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\Inventory;
 use CXml\Model\ItemId;
 use CXml\Model\MultilanguageString;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'description', 'contact', 'inventory'])]
 class ProductActivityDetail
 {
     use ExtrinsicsTrait;
 
-    /**
-     * @Ser\SerializedName("ItemID")
-     */
-    private ItemId $itemId;
-
-    /**
-     * @Ser\SerializedName("Description")
-     * @Ser\XmlElement (cdata=false)
-     */
-    private ?MultilanguageString $description = null;
-
-    /**
-     * @Ser\SerializedName("Contact")
-     * todo: more contact should be allowed
-     */
-    private ?Contact $contact = null;
-
-    /**
-     * @Ser\SerializedName("Inventory")
-     */
-    private ?Inventory $inventory = null;
-
-    private function __construct(ItemId $itemId, Inventory $inventory = null, Contact $contact = null, MultilanguageString $description = null)
-    {
-        $this->contact = $contact;
-        $this->description = $description;
-        $this->itemId = $itemId;
-        $this->inventory = $inventory;
+    private function __construct(
+        #[Serializer\SerializedName('ItemID')]
+        private readonly ItemId $itemId,
+        #[Serializer\SerializedName('Inventory')]
+        private readonly ?Inventory $inventory = null,
+        #[Serializer\SerializedName('Contact')]
+        private readonly ?Contact $contact = null,
+        #[Serializer\SerializedName('Description')]
+        #[Serializer\XmlElement(cdata: false)]
+        private readonly ?MultilanguageString $description = null,
+    ) {
     }
 
     public static function create(ItemId $itemId, Inventory $inventory = null, Contact $contact = null, MultilanguageString $description = null): self

@@ -1,59 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
-class ItemOut
+#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail'])]
+readonly class ItemOut
 {
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("lineNumber")
-     */
-    private int $lineNumber;
-
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("quantity")
-     */
-    private int $quantity;
-
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("requestedDeliveryDate")
-     */
-    private ?\DateTimeInterface $requestedDeliveryDate = null;
-
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("parentLineNumber")
-     */
-    private ?int $parentLineNumber = null;
-
-    /**
-     * @Ser\SerializedName("ItemID")
-     */
-    private ItemId $itemId;
-
-    /**
-     * @Ser\SerializedName("ItemDetail")
-     */
-    private ItemDetail $itemDetail;
-
     private function __construct(
-        int $lineNumber,
-        int $quantity,
-        ItemId $itemId,
-        ItemDetail $itemDetail,
-        \DateTimeInterface $requestedDeliveryDate = null,
-        int $parentLineNumber = null
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('lineNumber')]
+        private int $lineNumber,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('quantity')]
+        private int $quantity,
+        #[Serializer\SerializedName('ItemID')]
+        private ItemId $itemId,
+        #[Serializer\SerializedName('ItemDetail')]
+        private ItemDetail $itemDetail,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('requestedDeliveryDate')]
+        private ?DateTimeInterface $requestedDeliveryDate = null,
+        #[Serializer\XmlAttribute]
+        #[Serializer\SerializedName('parentLineNumber')]
+        private ?int $parentLineNumber = null,
     ) {
-        $this->lineNumber = $lineNumber;
-        $this->quantity = $quantity;
-        $this->itemId = $itemId;
-        $this->itemDetail = $itemDetail;
-        $this->requestedDeliveryDate = $requestedDeliveryDate;
-        $this->parentLineNumber = $parentLineNumber;
     }
 
     public static function create(
@@ -61,8 +35,8 @@ class ItemOut
         int $quantity,
         ItemId $itemId,
         ItemDetail $itemDetail,
-        \DateTimeInterface $requestedDeliveryDate = null,
-        int $parentLineNumber = null
+        DateTimeInterface $requestedDeliveryDate = null,
+        int $parentLineNumber = null,
     ): self {
         return new self(
             $lineNumber,
@@ -70,7 +44,7 @@ class ItemOut
             $itemId,
             $itemDetail,
             $requestedDeliveryDate,
-            $parentLineNumber
+            $parentLineNumber,
         );
     }
 
@@ -92,7 +66,7 @@ class ItemOut
         return $this->quantity;
     }
 
-    public function getRequestedDeliveryDate(): ?\DateTimeInterface
+    public function getRequestedDeliveryDate(): ?DateTimeInterface
     {
         return $this->requestedDeliveryDate;
     }

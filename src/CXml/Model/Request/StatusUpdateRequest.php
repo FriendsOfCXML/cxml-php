@@ -1,37 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use CXml\Model\DocumentReference;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\Status;
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference', 'extrinsics'])]
 class StatusUpdateRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
 
-    /**
-     * @Ser\SerializedName("DocumentReference")
-     */
-    private ?DocumentReference $documentReference = null;
+    #[Serializer\SerializedName('DocumentReference')]
+    private ?DocumentReference $documentReference;
 
-    /**
-     * @Ser\SerializedName("Status")
-     */
-    private Status $status;
-
-    public function __construct(Status $status, string $documentReference = null)
-    {
-        $this->status = $status;
-        $this->documentReference = $documentReference ? new DocumentReference($documentReference) : null;
+    public function __construct(
+        #[Serializer\SerializedName('Status')]
+        private readonly Status $status,
+        string $documentReference = null,
+    ) {
+        $this->documentReference = null !== $documentReference && '' !== $documentReference && '0' !== $documentReference ? new DocumentReference($documentReference) : null;
     }
 
     public static function create(Status $status, string $documentReference = null): self
     {
         return new self(
             $status,
-            $documentReference
+            $documentReference,
         );
     }
 

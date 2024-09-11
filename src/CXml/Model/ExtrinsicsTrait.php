@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model;
 
-use JMS\Serializer\Annotation as Ser;
+use JMS\Serializer\Annotation as Serializer;
+
+use function trim;
 
 trait ExtrinsicsTrait
 {
     /**
-     * @Ser\XmlList(inline=true, entry="Extrinsic")
-     * @Ser\Type("array<CXml\Model\Extrinsic>")
-     *
      * @var Extrinsic[]
      */
+    #[Serializer\XmlList(entry: 'Extrinsic', inline: true)]
+    #[Serializer\Type('array<CXml\Model\Extrinsic>')]
     protected array $extrinsics = [];
 
     public function addExtrinsic(Extrinsic $extrinsic): self
@@ -56,7 +59,7 @@ trait ExtrinsicsTrait
         $extrinsics = [];
 
         foreach ($this->getExtrinsics() as $extrinsic) {
-            $extrinsics[\trim($extrinsic->getName())] = \trim($extrinsic->getValue());
+            $extrinsics[trim($extrinsic->getName())] = trim($extrinsic->getValue());
         }
 
         return $extrinsics;

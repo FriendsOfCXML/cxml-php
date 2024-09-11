@@ -1,38 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
-use JMS\Serializer\Annotation as Ser;
+use DateTime;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['idReferences', 'extrinsics'])]
 class ConfirmationHeader
 {
     use ExtrinsicsTrait;
     use IdReferencesTrait;
-    public const TYPE_ACCEPT = 'accept';
-    public const TYPE_ALLDETAIL = 'allDetail';
-    public const TYPE_DETAIL = 'detail';
-    public const TYPE_BACKORDERED = 'backordered';
-    public const TYPE_EXCEPT = 'except';
-    public const TYPE_REJECT = 'reject';
-    public const TYPE_REQUESTTOPAY = 'requestToPay';
-    public const TYPE_REPLACE = 'replace';
 
-    /**
-     * @Ser\XmlAttribute
-     * @Ser\SerializedName("type")
-     */
-    private string $type;
+    final public const TYPE_ACCEPT = 'accept';
 
-    /**
-     * @Ser\XmlAttribute
-     */
-    private \DateTimeInterface $noticeDate;
+    final public const TYPE_ALLDETAIL = 'allDetail';
 
-    public function __construct(string $type, \DateTimeInterface $noticeDate = null)
-    {
+    final public const TYPE_DETAIL = 'detail';
+
+    final public const TYPE_BACKORDERED = 'backordered';
+
+    final public const TYPE_EXCEPT = 'except';
+
+    final public const TYPE_REJECT = 'reject';
+
+    final public const TYPE_REQUESTTOPAY = 'requestToPay';
+
+    final public const TYPE_REPLACE = 'replace';
+
+    public function __construct(
+        #[Serializer\SerializedName('type')]
+        #[Serializer\XmlAttribute]
+        private readonly string $type,
+        #[Serializer\XmlAttribute]
+        private readonly DateTimeInterface $noticeDate = new DateTime(),
+    ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,
             self::TYPE_ALLDETAIL,
@@ -43,16 +50,13 @@ class ConfirmationHeader
             self::TYPE_REQUESTTOPAY,
             self::TYPE_REPLACE,
         ]);
-
-        $this->type = $type;
-        $this->noticeDate = $noticeDate ?? new \DateTime();
     }
 
-    public static function create(string $type, \DateTimeInterface $noticeDate = null): self
+    public static function create(string $type, DateTimeInterface $noticeDate = new DateTime()): self
     {
         return new self(
             $type,
-            $noticeDate
+            $noticeDate,
         );
     }
 
@@ -61,7 +65,7 @@ class ConfirmationHeader
         return $this->type;
     }
 
-    public function getNoticeDate(): \DateTimeInterface
+    public function getNoticeDate(): DateTimeInterface
     {
         return $this->noticeDate;
     }

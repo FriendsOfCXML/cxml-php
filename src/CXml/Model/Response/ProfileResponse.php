@@ -1,43 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Model\Response;
 
 use CXml\Model\Option;
 use CXml\Model\Transaction;
-use JMS\Serializer\Annotation as Ser;
+use DateTime;
+use DateTimeInterface;
+use JMS\Serializer\Annotation as Serializer;
 
+#[Serializer\AccessorOrder(order: 'custom', custom: ['options', 'transactions'])]
 class ProfileResponse implements ResponsePayloadInterface
 {
-    /**
-     * @Ser\XmlAttribute
-     */
-    private \DateTimeInterface $effectiveDate;
+    #[Serializer\XmlAttribute]
+    private readonly DateTimeInterface $effectiveDate;
 
     /**
-     * @Ser\XmlAttribute
-     */
-    private ?\DateTimeInterface $lastRefresh = null;
-
-    /**
-     * @Ser\XmlList(inline=true, entry="Option")
-     * @Ser\Type("array<CXml\Model\Option>")
-     *
      * @var Option[]
      */
+    #[Serializer\XmlList(entry: 'Option', inline: true)]
+    #[Serializer\Type('array<CXml\Model\Option>')]
     private array $options = [];
 
     /**
-     * @Ser\XmlList(inline=true, entry="Transaction")
-     * @Ser\Type("array<CXml\Model\Transaction>")
-     *
      * @var Transaction[]
      */
+    #[Serializer\XmlList(inline: true, entry: 'Transaction')]
+    #[Serializer\Type('array<CXml\Model\Transaction>')]
     private array $transactions = [];
 
-    public function __construct(\DateTimeInterface $effectiveDate = null, \DateTimeInterface $lastRefresh = null)
-    {
-        $this->effectiveDate = $effectiveDate ?? new \DateTime();
-        $this->lastRefresh = $lastRefresh;
+    public function __construct(
+        DateTimeInterface $effectiveDate = null,
+        #[Serializer\XmlAttribute]
+        private readonly ?DateTimeInterface $lastRefresh = null,
+    ) {
+        $this->effectiveDate = $effectiveDate ?? new DateTime();
     }
 
     public function addTransaction(Transaction $transaction): void

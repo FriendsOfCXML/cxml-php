@@ -26,6 +26,7 @@ use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
+use CXml\Model\TaxDetail;
 use CXml\Model\TransportInformation;
 use DateTimeInterface;
 use LogicException;
@@ -174,13 +175,24 @@ class OrderRequestBuilder
         return $this;
     }
 
-    public function tax(int $costs, string $description): self
+    public function tax(int $costs, string $description, array $taxDetails = []): self
     {
         $this->tax = new Tax(
             $this->currency,
             $costs,
             new MultilanguageString($description, null, $this->language),
         );
+
+        foreach ($taxDetails as $taxDetail) {
+            $this->tax->addTaxDetail(
+                new TaxDetail(
+                    $taxDetail['category'],
+                    new MoneyWrapper($this->currency, $taxDetail['amount']),
+                    $taxDetail['rate'],
+                    $taxDetail['type'],
+                ),
+            );
+        }
 
         return $this;
     }
@@ -256,9 +268,9 @@ class OrderRequestBuilder
         return $this;
     }
 
-    public function addExtrinsic(Extrinsic $extrinsic): self
+    public function addExtrinsic(string $key, string $value): self
     {
-        $this->extrinsics[] = $extrinsic;
+        $this->extrinsics[] = new Extrinsic($key, $value);
 
         return $this;
     }

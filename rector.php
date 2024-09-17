@@ -28,6 +28,12 @@ return RectorConfig::configure()
         SetList::INSTANCEOF,
         SetList::STRICT_BOOLEANS,
     ])
+    ->withSkip([
+        //allow to use promoted properties that only purpose is to get serialized
+        \Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector::class,
+        //allow to use promoted properties that only purpose is to get serialized
+        \Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector::class,
+    ])
     ->withFileExtensions(['php'])
     ->withCache(
         cacheDirectory: '/tmp/rector',

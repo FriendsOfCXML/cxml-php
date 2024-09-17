@@ -7,10 +7,17 @@ namespace CXml\Model;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['money', 'description'])]
-readonly class Tax
+class Tax
 {
     #[Serializer\SerializedName('Money')]
     private Money $money;
+
+    /**
+     * @var TaxDetail[]
+     */
+    #[Serializer\XmlList(entry: 'TaxDetail', inline: true)]
+    #[Serializer\Type('array<CXml\Model\TaxDetail>')]
+    private array $taxDetails = [];
 
     public function __construct(
         string $currency,
@@ -30,5 +37,10 @@ readonly class Tax
     public function getDescription(): MultilanguageString
     {
         return $this->description;
+    }
+
+    public function addTaxDetail(TaxDetail $taxDetail): void
+    {
+        $this->taxDetails[] = $taxDetail;
     }
 }

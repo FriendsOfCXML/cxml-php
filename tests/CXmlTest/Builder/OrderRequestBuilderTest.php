@@ -28,10 +28,10 @@ final class OrderRequestBuilderTest extends TestCase implements PayloadIdentityF
         $poomXml = file_get_contents(__DIR__ . '/fixtures/poom.xml');
         $poom = $serializer->deserialize($poomXml);
 
-        $orb = OrderRequestBuilder::fromPunchOutOrderMessage($poom->getMessage()->getPayload());
-        $actualOrderRequest = $orb
-            ->billTo('name')
-            ->build();
+        $actualOrderRequest =
+            OrderRequestBuilder::fromPunchOutOrderMessage($poom->getMessage()->getPayload())
+                ->billTo('name')
+                ->build();
 
         $actualOrderRequest = Builder::create('cxml-php UserAgent', null, $this)
             ->payload($actualOrderRequest)

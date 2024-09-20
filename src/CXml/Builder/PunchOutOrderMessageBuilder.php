@@ -65,13 +65,19 @@ class PunchOutOrderMessageBuilder
         PostalAddress $postalAddress,
         array $carrierIdentifiers = [],
         string $carrierAccountNo = null,
+        string $carrierShippingMethod = null,
     ): self {
+        $transportInformation = null;
+        if (null !== $carrierAccountNo || null != $carrierShippingMethod) {
+            $transportInformation = TransportInformation::create($carrierAccountNo, $carrierShippingMethod);
+        }
+
         $this->shipTo = new ShipTo(
             new Address(
                 new MultilanguageString($name, null, $this->language),
                 $postalAddress,
             ),
-            null !== $carrierAccountNo && '' !== $carrierAccountNo && '0' !== $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null,
+            $transportInformation,
         );
 
         foreach ($carrierIdentifiers as $domain => $identifier) {

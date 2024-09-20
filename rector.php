@@ -33,6 +33,9 @@ return RectorConfig::configure()
         \Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector::class,
         //allow to use promoted properties that only purpose is to get serialized
         \Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector::class,
+        //this is stupid and makes code unreadable
+        \Rector\Strict\Rector\Ternary\BooleanInTernaryOperatorRuleFixerRector::class,
+        \Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector::class
     ])
     ->withFileExtensions(['php'])
     ->withCache(

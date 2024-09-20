@@ -59,7 +59,7 @@ final class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFac
                 ->addCommentAsString('Got it all into one shipment.', null, 'en-CA'),
         )
             ->addShipControl(
-                ShipControl::create(CarrierIdentifier::fromScacCode('FDE'), new ShipmentIdentifier('8202 8261 1194'))
+                ShipControl::create(new CarrierIdentifier(CarrierIdentifier::DOMAIN_SCAC, 'FDE'), new ShipmentIdentifier('8202 8261 1194'))
                     ->addCarrierIdentifier('companyName', 'Federal Express'),
             )
             ->addShipNoticePortion(

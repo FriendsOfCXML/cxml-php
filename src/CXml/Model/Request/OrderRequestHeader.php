@@ -6,6 +6,7 @@ namespace CXml\Model\Request;
 
 use Assert\Assertion;
 use CXml\Model\BillTo;
+use CXml\Model\BusinessPartner;
 use CXml\Model\CommentsTrait;
 use CXml\Model\Contact;
 use CXml\Model\ExtrinsicsTrait;
@@ -18,7 +19,7 @@ use CXml\Model\Tax;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['total', 'shipTo', 'billTo', 'shipping', 'tax', 'contacts', 'comments', 'supplierOrderInfo', 'idReferences', 'extrinsics'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['total', 'shipTo', 'billTo', 'businessPartners', 'shipping', 'tax', 'contacts', 'comments', 'supplierOrderInfo', 'idReferences', 'extrinsics'])]
 class OrderRequestHeader
 {
     use CommentsTrait;
@@ -38,6 +39,10 @@ class OrderRequestHeader
     #[Serializer\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
 
+    #[Serializer\XmlList(entry: 'BusinessPartner', inline: true)]
+    #[Serializer\Type('array<CXml\Model\BusinessPartner>')]
+    private array $businessPartners;
+
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderID')]
@@ -56,6 +61,8 @@ class OrderRequestHeader
         private readonly MoneyWrapper $total,
         #[Serializer\XmlAttribute]
         private readonly string $type = self::TYPE_NEW,
+        #[Serializer\XmlAttribute]
+        private readonly ?DateTimeInterface $requestedDeliveryDate = null,
         #[Serializer\Type('array<CXml\Model\Contact>')]
         #[Serializer\XmlList(entry: 'Contact', inline: true)]
         private ?array $contacts = null,
@@ -78,9 +85,10 @@ class OrderRequestHeader
         BillTo $billTo,
         MoneyWrapper $total,
         string $type = self::TYPE_NEW,
+        ?DateTimeInterface $requestedDeliveryDate = null,
         array $contacts = null,
     ): self {
-        return new self($orderId, $orderDate, $shipTo, $billTo, $total, $type, $contacts);
+        return new self($orderId, $orderDate, $shipTo, $billTo, $total, $type, $requestedDeliveryDate, $contacts);
     }
 
     public function getShipping(): ?Shipping
@@ -156,5 +164,10 @@ class OrderRequestHeader
     public function getSupplierOrderInfo(): ?SupplierOrderInfo
     {
         return $this->supplierOrderInfo;
+    }
+
+    public function addBusinessPartner(BusinessPartner $businessPartner): void
+    {
+        $this->businessPartners[] = $businessPartner;
     }
 }

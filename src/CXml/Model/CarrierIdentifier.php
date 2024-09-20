@@ -9,13 +9,19 @@ use JMS\Serializer\Annotation as Serializer;
 #[Serializer\AccessorOrder(order: 'custom', custom: ['value'])]
 class CarrierIdentifier
 {
-    final public const DOMAIN_SCAC = 'SCAC';
-
     final public const DOMAIN_COMPANYNAME = 'companyName';
 
-    final public const DOMAIN_SKU = 'sku';
+    final public const DOMAIN_SCAC = 'SCAC';
 
-    final public const DOMAIN_CARRIER_METHOD = 'carrierMethod';
+    final public const DOMAIN_IATA = 'IATA';
+
+    final public const DOMAIN_AAR = 'AAR';
+
+    final public const DOMAIN_UIC = 'UIC';
+
+    final public const DOMAIN_EAN = 'EAN';
+
+    final public const DOMAIN_DUNS = 'DUNS';
 
     public function __construct(
         #[Serializer\XmlAttribute]
@@ -23,11 +29,6 @@ class CarrierIdentifier
         #[Serializer\XmlValue(cdata: false)]
         private readonly string $value,
     ) {
-    }
-
-    public static function fromScacCode(string $scacCarrierCode): self
-    {
-        return new self(self::DOMAIN_SCAC, $scacCarrierCode);
     }
 
     public function getDomain(): string

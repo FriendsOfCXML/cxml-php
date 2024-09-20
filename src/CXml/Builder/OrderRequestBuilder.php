@@ -6,6 +6,7 @@ namespace CXml\Builder;
 
 use CXml\Model\Address;
 use CXml\Model\BillTo;
+use CXml\Model\BusinessPartner;
 use CXml\Model\Classification;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
@@ -54,13 +55,25 @@ class OrderRequestBuilder
 
     private array $extrinsics = [];
 
-    private function __construct(private readonly string $orderId, private readonly DateTimeInterface $orderDate, private readonly string $currency, private readonly string $language = 'en')
-    {
+    private array $businessPartners = [];
+
+    private function __construct(
+        private readonly string $orderId,
+        private readonly DateTimeInterface $orderDate,
+        private readonly string $currency,
+        private readonly string $language = 'en',
+        private readonly ?DateTimeInterface $requestedDeliveryDate = null,
+    ) {
     }
 
-    public static function create(string $orderId, DateTimeInterface $orderDate, string $currency, string $language = 'en'): self
-    {
-        return new self($orderId, $orderDate, $currency, $language);
+    public static function create(
+        string $orderId,
+        DateTimeInterface $orderDate,
+        string $currency,
+        string $language = 'en',
+        ?DateTimeInterface $requestedDeliveryDate = null,
+    ): self {
+        return new self($orderId, $orderDate, $currency, $language, $requestedDeliveryDate);
     }
 
     public static function fromPunchOutOrderMessage(
@@ -90,6 +103,7 @@ class OrderRequestBuilder
             $orderDate,
             $currency,
             $language,
+            null,
         );
 
         $orb->setShipTo($punchOutOrderMessage->getPunchOutOrderMessageHeader()->getShipTo());
@@ -141,13 +155,19 @@ class OrderRequestBuilder
         PostalAddress $postalAddress,
         array $carrierIdentifiers = [],
         string $carrierAccountNo = null,
+        string $carrierShippingMethod = null,
     ): self {
+        $transportInformation = null;
+        if (null !== $carrierAccountNo || null != $carrierShippingMethod) {
+            $transportInformation = TransportInformation::create($carrierAccountNo, $carrierShippingMethod);
+        }
+
         $this->shipTo = new ShipTo(
             new Address(
                 new MultilanguageString($name, null, $this->language),
                 $postalAddress,
             ),
-            null !== $carrierAccountNo && '' !== $carrierAccountNo && '0' !== $carrierAccountNo ? TransportInformation::fromContractAccountNumber($carrierAccountNo) : null,
+            $transportInformation,
         );
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
@@ -284,6 +304,7 @@ class OrderRequestBuilder
             $this->billTo,
             new MoneyWrapper($this->currency, $this->total),
             OrderRequestHeader::TYPE_NEW,
+            $this->requestedDeliveryDate,
             $this->contacts,
         )
             ->setShipping($this->shipping)
@@ -295,6 +316,10 @@ class OrderRequestBuilder
 
         foreach ($this->extrinsics as $extrinsic) {
             $orh->addExtrinsic($extrinsic);
+        }
+
+        foreach ($this->businessPartners as $businessPartner) {
+            $orh->addBusinessPartner($businessPartner);
         }
 
         return $orh;
@@ -317,5 +342,21 @@ class OrderRequestBuilder
     public function getItems(): array
     {
         return $this->items;
+    }
+
+    public function addBusinessPartner(string $role, string $name, array $idReferences = []): void
+    {
+        $bp = new BusinessPartner(
+            $role,
+            new Address(
+                new MultilanguageString($name, null, $this->language),
+            ),
+        );
+
+        foreach ($idReferences as $domain => $identifier) {
+            $bp->addIdReference($domain, $identifier);
+        }
+
+        $this->businessPartners[] = $bp;
     }
 }

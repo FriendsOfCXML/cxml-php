@@ -128,7 +128,7 @@ class Builder
                 /** @noinspection PhpParamsInspection */
                 $cXml = CXml::forMessage(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
-                    new Message($this->payload, $this->status),
+                    new Message($this->payload, $this->status, null, $deploymentMode),
                     $this->buildHeader(),
                     $this->locale,
                 );

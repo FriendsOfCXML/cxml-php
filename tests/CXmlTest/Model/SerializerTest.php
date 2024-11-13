@@ -225,7 +225,7 @@ final class SerializerTest extends TestCase
      * even though the cXML definition defines the timestamp value to be in ISO-8601 format there are some providers that
      * also uses the milliseconds value (i.e. JAGGAER).
      */
-    public function testDeserializeWithMilliseconds(): void
+    public function testDeserializeWithMillisecondsAndTimezone(): void
     {
         $xmlIn =
             '<?xml version="1.0" encoding="UTF-8"?>
@@ -239,7 +239,6 @@ final class SerializerTest extends TestCase
         $cXml = $serializer->deserialize($xmlIn);
 
         $actual = $serializer->serialize($cXml);
-
         $xmlOut =
             '<?xml version="1.0" encoding="UTF-8"?>
 			<cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
@@ -248,6 +247,22 @@ final class SerializerTest extends TestCase
 			</Response>
 			</cXML>';
         $this->assertXmlStringEqualsXmlString($xmlOut, $actual);
+    }
+
+    public function testDeserializeWithMillisecondsNoTimezone(): void
+    {
+        $xmlIn =
+            '<?xml version="1.0" encoding="UTF-8"?>
+			<cXML timestamp="2022-06-07T10:09:56.728" payloadID="x.y.z">
+			<Response>
+			<Status code="200" text="OK">Ping Response CXml</Status>
+			</Response>
+			</cXML>';
+
+        $serializer = Serializer::create();
+        $cXml = $serializer->deserialize($xmlIn);
+
+        $this->assertSame('2022-06-07T10:09:56+00:00', $cXml->getTimestamp()->format('c'));
     }
 
     public function testDeserializeWithDateTimeForDate(): void

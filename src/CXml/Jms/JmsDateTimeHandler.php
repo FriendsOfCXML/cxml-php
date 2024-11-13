@@ -47,8 +47,14 @@ class JmsDateTimeHandler
             return $dateTime;
         }
 
-        // else try milliseconds-format
+        // else try milliseconds-format with Timezone
         $dateTime = DateTime::createFromFormat('Y-m-d\TH:i:s.vP', $dateAsString->__toString());
+        if ($dateTime instanceof DateTimeInterface) {
+            return $dateTime;
+        }
+
+        // else try milliseconds-format without Timezone
+        $dateTime = DateTime::createFromFormat('Y-m-d\TH:i:s.v', $dateAsString->__toString());
         if ($dateTime instanceof DateTimeInterface) {
             return $dateTime;
         }

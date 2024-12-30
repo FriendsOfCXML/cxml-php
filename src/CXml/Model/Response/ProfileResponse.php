@@ -31,7 +31,7 @@ class ProfileResponse implements ResponsePayloadInterface
     private array $transactions = [];
 
     public function __construct(
-        DateTimeInterface $effectiveDate = null,
+        ?DateTimeInterface $effectiveDate = null,
         #[Serializer\XmlAttribute]
         private readonly ?DateTimeInterface $lastRefresh = null,
     ) {

@@ -78,9 +78,9 @@ class OrderRequestBuilder
 
     public static function fromPunchOutOrderMessage(
         PunchOutOrderMessage $punchOutOrderMessage,
-        string $currency = null,
-        string $orderId = null,
-        DateTimeInterface $orderDate = null,
+        ?string $currency = null,
+        ?string $orderId = null,
+        ?DateTimeInterface $orderDate = null,
         string $language = 'en',
     ): self {
         if (($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) instanceof SupplierOrderInfo) {
@@ -126,13 +126,13 @@ class OrderRequestBuilder
 
     public function billTo(
         string $name,
-        PostalAddress $postalAddress = null,
-        string $addressId = null,
-        string $addressIdDomain = null,
-        string $email = null,
-        Phone $phone = null,
-        string $fax = null,
-        string $url = null,
+        ?PostalAddress $postalAddress = null,
+        ?string $addressId = null,
+        ?string $addressIdDomain = null,
+        ?string $email = null,
+        ?Phone $phone = null,
+        ?string $fax = null,
+        ?string $url = null,
     ): self {
         $this->billTo = new BillTo(
             new Address(
@@ -154,8 +154,8 @@ class OrderRequestBuilder
         string $name,
         PostalAddress $postalAddress,
         array $carrierIdentifiers = [],
-        string $carrierAccountNo = null,
-        string $carrierShippingMethod = null,
+        ?string $carrierAccountNo = null,
+        ?string $carrierShippingMethod = null,
     ): self {
         $transportInformation = null;
         if (null !== $carrierAccountNo || null != $carrierShippingMethod) {
@@ -263,7 +263,7 @@ class OrderRequestBuilder
         return $item;
     }
 
-    public function addComment(string $value = null, string $type = null, string $lang = null, string $attachmentUrl = null): self
+    public function addComment(?string $value = null, ?string $type = null, ?string $lang = null, ?string $attachmentUrl = null): self
     {
         $this->comments[] = new Comment(
             $value,

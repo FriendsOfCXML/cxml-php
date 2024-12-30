@@ -53,7 +53,7 @@ class Contact
     ) {
     }
 
-    public static function create(MultilanguageString $name, string $role = null): self
+    public static function create(MultilanguageString $name, ?string $role = null): self
     {
         return new self($name, $role);
     }

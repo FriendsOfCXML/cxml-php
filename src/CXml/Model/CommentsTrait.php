@@ -18,7 +18,7 @@ trait CommentsTrait
     #[Serializer\Type('array<CXml\Model\Comment>')]
     private ?array $comments = null;
 
-    public function addCommentAsString(string $comment, string $type = null, string $lang = null): self
+    public function addCommentAsString(string $comment, ?string $type = null, ?string $lang = null): self
     {
         if (null === $this->comments) {
             $this->comments = [];

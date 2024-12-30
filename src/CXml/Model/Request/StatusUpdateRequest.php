@@ -20,12 +20,12 @@ class StatusUpdateRequest implements RequestPayloadInterface
     public function __construct(
         #[Serializer\SerializedName('Status')]
         private readonly Status $status,
-        string $documentReference = null,
+        ?string $documentReference = null,
     ) {
         $this->documentReference = null !== $documentReference && '' !== $documentReference && '0' !== $documentReference ? new DocumentReference($documentReference) : null;
     }
 
-    public static function create(Status $status, string $documentReference = null): self
+    public static function create(Status $status, ?string $documentReference = null): self
     {
         return new self(
             $status,

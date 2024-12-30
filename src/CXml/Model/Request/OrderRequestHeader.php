@@ -86,7 +86,7 @@ class OrderRequestHeader
         MoneyWrapper $total,
         string $type = self::TYPE_NEW,
         ?DateTimeInterface $requestedDeliveryDate = null,
-        array $contacts = null,
+        ?array $contacts = null,
     ): self {
         return new self($orderId, $orderDate, $shipTo, $billTo, $total, $type, $requestedDeliveryDate, $contacts);
     }

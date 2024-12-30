@@ -13,7 +13,7 @@ readonly class ShipNoticePortion
     #[Serializer\SerializedName('OrderReference')]
     private OrderReference $orderReference;
 
-    public function __construct(string $documentReference, string $orderId = null, DateTimeInterface $orderDate = null)
+    public function __construct(string $documentReference, ?string $orderId = null, ?DateTimeInterface $orderDate = null)
     {
         $this->orderReference = new OrderReference(
             new DocumentReference(

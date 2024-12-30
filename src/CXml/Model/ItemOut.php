@@ -35,8 +35,8 @@ readonly class ItemOut
         int $quantity,
         ItemId $itemId,
         ItemDetail $itemDetail,
-        DateTimeInterface $requestedDeliveryDate = null,
-        int $parentLineNumber = null,
+        ?DateTimeInterface $requestedDeliveryDate = null,
+        ?int $parentLineNumber = null,
     ): self {
         return new self(
             $lineNumber,

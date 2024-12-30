@@ -16,7 +16,7 @@ class HandlerRegistry implements HandlerRegistryInterface
      */
     private array $registry = [];
 
-    public function register(HandlerInterface $handler, string $handlerId = null): void
+    public function register(HandlerInterface $handler, ?string $handlerId = null): void
     {
         if (null === $handlerId || '' === $handlerId || '0' === $handlerId) {
             $handlerId = $handler::getRequestName();

@@ -21,7 +21,7 @@ readonly class Endpoint
         private Serializer $serializer,
         private DtdValidator $dtdValidator,
         private Processor $processor,
-        LoggerInterface $logger = null,
+        ?LoggerInterface $logger = null,
     ) {
         $this->logger = $logger ?? new NullLogger();
     }
@@ -30,7 +30,7 @@ readonly class Endpoint
      * @throws CXmlException
      * @throws CXmlInvalidException
      */
-    public function parseAndProcessStringAsCXml(string $xml, Context $context = null): ?CXml
+    public function parseAndProcessStringAsCXml(string $xml, ?Context $context = null): ?CXml
     {
         $this->logger->info('Processing incoming CXml message', ['xml' => $xml]);
 

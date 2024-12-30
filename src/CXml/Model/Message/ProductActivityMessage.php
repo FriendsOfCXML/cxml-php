@@ -23,12 +23,12 @@ class ProductActivityMessage implements MessagePayloadInterface
     #[Serializer\Type('array<CXml\Model\Message\ProductActivityDetail>')]
     private array $productActivityDetails = [];
 
-    private function __construct(string $messageId, string $processType = null, DateTimeInterface $creationDate = null)
+    private function __construct(string $messageId, ?string $processType = null, ?DateTimeInterface $creationDate = null)
     {
         $this->productActivityHeader = new ProductActivityHeader($messageId, $processType, $creationDate);
     }
 
-    public static function create(string $messageId, string $processType = null, DateTimeInterface $creationDate = null): self
+    public static function create(string $messageId, ?string $processType = null, ?DateTimeInterface $creationDate = null): self
     {
         return new self($messageId, $processType, $creationDate);
     }

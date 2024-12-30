@@ -13,16 +13,19 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
+    ->withRules([
+        \Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector::class,
+    ])
     ->withSets([
         JMSSetList::ANNOTATIONS_TO_ATTRIBUTES,
-        PHPUnitSetList::PHPUNIT_100,
+        PHPUnitSetList::PHPUNIT_110,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         PHPUnitSetList::ANNOTATIONS_TO_ATTRIBUTES,
         SetList::TYPE_DECLARATION,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
-        SetList::PHP_82,
+        \Rector\Set\ValueObject\LevelSetList::UP_TO_PHP_84,
         SetList::PRIVATIZATION,
         SetList::EARLY_RETURN,
         SetList::INSTANCEOF,
@@ -33,9 +36,10 @@ return RectorConfig::configure()
         \Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector::class,
         //allow to use promoted properties that only purpose is to get serialized
         \Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector::class,
-        //this is stupid and makes code unreadable
+        //this makes code unreadable
         \Rector\Strict\Rector\Ternary\BooleanInTernaryOperatorRuleFixerRector::class,
-        \Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector::class
+        \Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector::class,
+        \Rector\Php81\Rector\Property\ReadOnlyPropertyRector::class,
     ])
     ->withFileExtensions(['php'])
     ->withCache(

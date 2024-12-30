@@ -52,7 +52,7 @@ class ShipControl
         return null;
     }
 
-    public function getShipmentIdentifier(string $domain = null): ?string
+    public function getShipmentIdentifier(?string $domain = null): ?string
     {
         foreach ($this->shipmentIdentifiers as $shipmentIdentifier) {
             if ($shipmentIdentifier->getDomain() === $domain) {

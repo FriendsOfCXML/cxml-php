@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
+use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Symfony\Set\JMSSetList;
@@ -13,8 +14,9 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
+    ->withPhpVersion(Rector\ValueObject\PhpVersion::PHP_84) //need this to enable PHP 8.4 features although lower requirement in composer
     ->withRules([
-        \Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector::class,
+        ExplicitNullableParamTypeRector::class, // php8.4 feature, compatible with php8.0
     ])
     ->withSets([
         JMSSetList::ANNOTATIONS_TO_ATTRIBUTES,
@@ -25,7 +27,7 @@ return RectorConfig::configure()
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
-        \Rector\Set\ValueObject\LevelSetList::UP_TO_PHP_84,
+        SetList::PHP_82,
         SetList::PRIVATIZATION,
         SetList::EARLY_RETURN,
         SetList::INSTANCEOF,

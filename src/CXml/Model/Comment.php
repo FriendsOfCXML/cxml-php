@@ -19,7 +19,7 @@ readonly class Comment
         private ?string $type = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
         private ?string $lang = null,
-        string $attachment = null,
+        ?string $attachment = null,
     ) {
         $this->attachment = null !== $attachment && '' !== $attachment && '0' !== $attachment ? new Url($attachment) : null;
     }

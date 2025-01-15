@@ -32,9 +32,9 @@ readonly class Phone
     public function getTelephoneNumberAsString(): ?string
     {
         $countryCode = $this->telephoneNumber->getCountryCode()->getDialCode() ?? '';
-        $areaOrCityCode = $this->telephoneNumber->getAreaOrCityCode() === null ? '' : ' (' . $this->telephoneNumber->getAreaOrCityCode() . ') ';
+        $areaOrCityCode = null === $this->telephoneNumber->getAreaOrCityCode() ? '' : ' (' . $this->telephoneNumber->getAreaOrCityCode() . ') ';
         $telephoneNumber = $this->telephoneNumber->getNumber();
-        $extension = $this->telephoneNumber->getExtension() === null ? '' : ' -' . $this->telephoneNumber->getExtension();
+        $extension = null === $this->telephoneNumber->getExtension() ? '' : ' -' . $this->telephoneNumber->getExtension();
 
         if (empty($telephoneNumber)) {
             return null;

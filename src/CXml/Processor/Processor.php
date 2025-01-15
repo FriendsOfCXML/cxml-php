@@ -32,7 +32,7 @@ class Processor
     /**
      * @throws CXmlException
      */
-    public function process(CXml $cxml, Context $context = null): ?CXml
+    public function process(CXml $cxml, ?Context $context = null): ?CXml
     {
         $context ??= Context::create();
         $context->setCXml($cxml);

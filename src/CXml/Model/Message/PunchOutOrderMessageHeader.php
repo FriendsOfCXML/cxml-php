@@ -38,7 +38,7 @@ class PunchOutOrderMessageHeader
         private readonly ?Shipping $shipping = null,
         #[Serializer\SerializedName('Tax')]
         private readonly ?Tax $tax = null,
-        string $operationAllowed = null,
+        ?string $operationAllowed = null,
     ) {
         Assertion::inArray($operationAllowed, [self::OPERATION_CREATE, self::OPERATION_EDIT, self::OPERATION_INSPECT, null]);
         $this->operationAllowed = $operationAllowed ?? self::OPERATION_CREATE;
@@ -56,7 +56,7 @@ class PunchOutOrderMessageHeader
         return $this->shipTo;
     }
 
-    public function setSupplierOrderInfo(string $orderId, DateTimeInterface $orderDate = null): self
+    public function setSupplierOrderInfo(string $orderId, ?DateTimeInterface $orderDate = null): self
     {
         $this->supplierOrderInfo = new SupplierOrderInfo($orderId, $orderDate);
 

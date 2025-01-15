@@ -47,12 +47,12 @@ class PunchOutOrderMessageBuilder
     {
     }
 
-    public static function create(string $language, string $buyerCookie, string $currency, string $operationAllowed = null): self
+    public static function create(string $language, string $buyerCookie, string $currency, ?string $operationAllowed = null): self
     {
         return new self($language, $buyerCookie, $currency, $operationAllowed);
     }
 
-    public function orderReference(string $orderId, DateTimeInterface $orderDate = null): self
+    public function orderReference(string $orderId, ?DateTimeInterface $orderDate = null): self
     {
         $this->orderId = $orderId;
         $this->orderDate = $orderDate;
@@ -64,8 +64,8 @@ class PunchOutOrderMessageBuilder
         string $name,
         PostalAddress $postalAddress,
         array $carrierIdentifiers = [],
-        string $carrierAccountNo = null,
-        string $carrierShippingMethod = null,
+        ?string $carrierAccountNo = null,
+        ?string $carrierShippingMethod = null,
     ): self {
         $transportInformation = null;
         if (null !== $carrierAccountNo || null != $carrierShippingMethod) {
@@ -124,10 +124,10 @@ class PunchOutOrderMessageBuilder
         string $unitOfMeasure,
         int $unitPrice,
         array $classifications,
-        string $manufacturerPartId = null,
-        string $manufacturerName = null,
-        int $leadTime = null,
-        array $extrinsics = null,
+        ?string $manufacturerPartId = null,
+        ?string $manufacturerName = null,
+        ?int $leadTime = null,
+        ?array $extrinsics = null,
     ): self {
         $itemDetail = ItemDetail::create(
             new Description(

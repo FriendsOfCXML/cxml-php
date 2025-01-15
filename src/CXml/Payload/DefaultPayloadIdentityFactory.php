@@ -22,7 +22,7 @@ class DefaultPayloadIdentityFactory implements PayloadIdentityFactoryInterface
      */
     private $timeCallable;
 
-    public function __construct(callable $timeCallable = null)
+    public function __construct(?callable $timeCallable = null)
     {
         $this->timeCallable = $timeCallable ?? static fn (): DateTime => new DateTime();
     }

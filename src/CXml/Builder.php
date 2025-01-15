@@ -123,17 +123,17 @@ class Builder
 
     private ?Status $status = null;
 
-    private function __construct(private ?string $senderUserAgent, private readonly ?string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
+    private function __construct(private ?string $senderUserAgent, private readonly ?string $locale = null, ?PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
     {
         $this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
     }
 
-    public static function create(string $senderUserAgent = 'cxml-php UserAgent', string $locale = null, PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
+    public static function create(string $senderUserAgent = 'cxml-php UserAgent', ?string $locale = null, ?PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
     {
         return new self($senderUserAgent, $locale, $payloadIdentityFactory);
     }
 
-    public function payload(PayloadInterface $payload = null): self
+    public function payload(?PayloadInterface $payload = null): self
     {
         $this->payload = $payload;
 
@@ -199,7 +199,7 @@ class Builder
     /**
      * @throws CXmlException
      */
-    public function build(string $deploymentMode = null): CXml
+    public function build(?string $deploymentMode = null): CXml
     {
         switch (true) {
             case $this->payload instanceof RequestPayloadInterface:

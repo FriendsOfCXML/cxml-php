@@ -13,7 +13,7 @@ use function trim;
 
 class CXmlInvalidException extends CXmlNotAcceptableException
 {
-    public function __construct(string $message, private readonly string $xml, Throwable $previous = null)
+    public function __construct(string $message, private readonly string $xml, ?Throwable $previous = null)
     {
         parent::__construct($message, $previous);
     }

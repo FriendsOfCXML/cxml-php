@@ -29,18 +29,18 @@ class ShipNoticeHeader
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('shipmentID')]
         private readonly string $shipmentId,
-        DateTimeInterface $noticeDate = null,
+        ?DateTimeInterface $noticeDate = null,
         #[Serializer\XmlAttribute]
         private readonly ?DateTimeInterface $shipmentDate = null,
         #[Serializer\XmlAttribute]
         private readonly ?DateTimeInterface $deliveryDate = null,
-        string $documentReference = null,
+        ?string $documentReference = null,
     ) {
         $this->noticeDate = $noticeDate ?? new DateTime();
         $this->documentReference = null !== $documentReference && '' !== $documentReference && '0' !== $documentReference ? new DocumentReference($documentReference) : null;
     }
 
-    public static function create(string $shipmentId, DateTimeInterface $noticeDate = null, DateTimeInterface $shipmentDate = null, DateTimeInterface $deliveryDate = null, string $documentReference = null): self
+    public static function create(string $shipmentId, ?DateTimeInterface $noticeDate = null, ?DateTimeInterface $shipmentDate = null, ?DateTimeInterface $deliveryDate = null, ?string $documentReference = null): self
     {
         return new self($shipmentId, $noticeDate, $shipmentDate, $deliveryDate, $documentReference);
     }

@@ -39,17 +39,17 @@ class CXml implements Stringable
     ) {
     }
 
-    public static function forMessage(PayloadIdentity $payloadIdentity, Message $message, Header $header, string $lang = null): self
+    public static function forMessage(PayloadIdentity $payloadIdentity, Message $message, Header $header, ?string $lang = null): self
     {
         return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), null, null, $message, $header, $lang);
     }
 
-    public static function forRequest(PayloadIdentity $payloadIdentity, Request $request, Header $header, string $lang = null): self
+    public static function forRequest(PayloadIdentity $payloadIdentity, Request $request, Header $header, ?string $lang = null): self
     {
         return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), $request, null, null, $header, $lang);
     }
 
-    public static function forResponse(PayloadIdentity $payloadIdentity, Response $response, string $lang = null): self
+    public static function forResponse(PayloadIdentity $payloadIdentity, Response $response, ?string $lang = null): self
     {
         return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), null, $response, null, null, $lang);
     }

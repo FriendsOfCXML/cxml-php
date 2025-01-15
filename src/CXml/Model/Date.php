@@ -12,7 +12,7 @@ use DateTimeZone;
  */
 class Date extends DateTime
 {
-    public static function createFromFormat($format, $datetime, DateTimeZone $timezone = null): DateTime|false|Date
+    public static function createFromFormat($format, $datetime, ?DateTimeZone $timezone = null): DateTime|false|Date
     {
         $dateTime = parent::createFromFormat($format, $datetime, $timezone);
         if (false === $dateTime) {

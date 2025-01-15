@@ -36,7 +36,7 @@ readonly class Phone
         $telephoneNumber = $this->telephoneNumber->getNumber();
         $extension = null === $this->telephoneNumber->getExtension() ? '' : ' -' . $this->telephoneNumber->getExtension();
 
-        if ($telephoneNumber === '') {
+        if ('' === $telephoneNumber) {
             return null;
         }
 

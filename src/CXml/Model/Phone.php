@@ -32,14 +32,14 @@ readonly class Phone
     public function getTelephoneNumberAsString(): ?string
     {
         $countryCode = $this->telephoneNumber->getCountryCode()->getDialCode() ?? '';
-        $areaOrCityCode = null === $this->telephoneNumber->getAreaOrCityCode() ? '' : ' (' . $this->telephoneNumber->getAreaOrCityCode() . ') ';
+        $areaOrCityCode = $this->telephoneNumber->getAreaOrCityCode();
         $telephoneNumber = $this->telephoneNumber->getNumber();
         $extension = null === $this->telephoneNumber->getExtension() ? '' : ' -' . $this->telephoneNumber->getExtension();
 
-        if (empty($telephoneNumber)) {
+        if ($telephoneNumber === '') {
             return null;
         }
 
-        return sprintf('+%s%s%s%s', $countryCode, $areaOrCityCode, $telephoneNumber, $extension);
+        return sprintf('+%s (%s) %s%s', $countryCode, $areaOrCityCode, $telephoneNumber, $extension);
     }
 }

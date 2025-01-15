@@ -14,7 +14,7 @@ readonly class CountryCode
         #[Serializer\SerializedName('isoCountryCode')]
         private string $isoCountryCode,
         #[Serializer\XmlValue(cdata: false)]
-        private ?string $name = null,
+        private ?string $dialCode = null,
     ) {
     }
 
@@ -23,8 +23,8 @@ readonly class CountryCode
         return $this->isoCountryCode;
     }
 
-    public function getName(): ?string
+    public function getDialCode(): ?string
     {
-        return $this->name;
+        return $this->dialCode;
     }
 }

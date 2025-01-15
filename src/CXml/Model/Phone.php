@@ -28,4 +28,18 @@ readonly class Phone
     {
         return $this->name;
     }
+
+    public function getTelephoneNumberAsString(): ?string
+    {
+        $countryCode = $this->telephoneNumber->getCountryCode()->getDialCode() ?? '';
+        $areaOrCityCode = $this->telephoneNumber->getAreaOrCityCode() === null ? '' : ' (' . $this->telephoneNumber->getAreaOrCityCode() . ') ';
+        $telephoneNumber = $this->telephoneNumber->getNumber();
+        $extension = $this->telephoneNumber->getExtension() === null ? '' : ' -' . $this->telephoneNumber->getExtension();
+
+        if (empty($telephoneNumber)) {
+            return null;
+        }
+
+        return sprintf('+%s%s%s%s', $countryCode, $areaOrCityCode, $telephoneNumber, $extension);
+    }
 }

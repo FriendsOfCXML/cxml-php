@@ -15,10 +15,13 @@ readonly class TelephoneNumber
         private CountryCode $countryCode,
         #[Serializer\SerializedName('AreaOrCityCode')]
         #[Serializer\XmlElement(cdata: false)]
-        private ?string $areaOrCityCode = null,
+        private string $areaOrCityCode,
         #[Serializer\SerializedName('Number')]
         #[Serializer\XmlElement(cdata: false)]
-        private ?string $number = null,
+        private string $number,
+        #[Serializer\SerializedName('Extension')]
+        #[Serializer\XmlElement(cdata: false)]
+        private ?string $extension = null,
     ) {
     }
 
@@ -27,13 +30,18 @@ readonly class TelephoneNumber
         return $this->countryCode;
     }
 
-    public function getAreaOrCityCode(): ?string
+    public function getAreaOrCityCode(): string
     {
         return $this->areaOrCityCode;
     }
 
-    public function getNumber(): ?string
+    public function getNumber(): string
     {
         return $this->number;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
     }
 }

@@ -48,7 +48,7 @@ class ItemDetail
         private readonly MoneyWrapper $unitPrice,
         #[Serializer\SerializedName('PriceBasisQuantity')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly ?PriceBasisQuantity $priceBasisQuantity,
+        private readonly ?PriceBasisQuantity $priceBasisQuantity = null,
     ) {
     }
 

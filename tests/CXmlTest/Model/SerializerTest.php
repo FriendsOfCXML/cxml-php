@@ -410,4 +410,54 @@ final class SerializerTest extends TestCase
 
         $this->assertXmlStringEqualsXmlString($xml, $resultingXml);
     }
+
+    public function testDeserializeNullProperty(): void
+    {
+        $xml =
+            '<?xml version="1.0" encoding="UTF-8"?>
+			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+			<Header>
+			<From>
+			<Credential domain="AribaNetworkUserId">
+			<Identity>admin@acme.com</Identity>
+			</Credential>
+			</From>
+			<To>
+			<Credential domain="DUNS">
+			<Identity>012345678</Identity>
+			</Credential>
+			</To>
+			<Sender>
+			<Credential domain="AribaNetworkUserId">
+			<Identity>sysadmin@buyer.com</Identity>
+			<SharedSecret>abracadabra</SharedSecret>
+			</Credential>
+			<UserAgent>Network Hub 1.1</UserAgent>
+			</Sender>
+			</Header>
+			<Request>
+				<OrderRequest>
+				  <OrderRequestHeader orderDate="2000-01-01" orderID="order-id" type="new">
+					<Total>
+					  <Money currency="EUR">0.00</Money>
+					</Total>
+					<BillTo>
+					  <Address>
+						<Name xml:lang="en">name</Name>
+					  </Address>
+					</BillTo>
+				  </OrderRequestHeader>
+				</OrderRequest>
+			</Request>
+			</cXML>';
+
+        $cxml = Serializer::create()->deserialize($xml);
+
+        /** @var OrderRequest $orderRequest */
+        $orderRequest = $cxml->getRequest()->getPayload();
+
+        // Error: Typed property CXml\Model\Request\OrderRequestHeader::$shipTo must not be accessed before initialization
+        $shipTo = $orderRequest->getOrderRequestHeader()->getShipTo();
+        $this->assertNull($shipTo);
+    }
 }

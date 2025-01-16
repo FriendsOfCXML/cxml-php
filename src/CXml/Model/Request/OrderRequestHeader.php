@@ -43,6 +43,10 @@ class OrderRequestHeader
     #[Serializer\Type('array<CXml\Model\BusinessPartner>')]
     private array $businessPartners;
 
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('ShipTo')]
+    private ?ShipTo $shipTo = null; /* cant be 'readonly' bc must be initialized with null -> jms deserialization */
+
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderID')]
@@ -50,9 +54,7 @@ class OrderRequestHeader
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderDate')]
         private readonly DateTimeInterface $orderDate,
-        #[Serializer\XmlElement]
-        #[Serializer\SerializedName('ShipTo')]
-        private readonly ?ShipTo $shipTo,
+        ?ShipTo $shipTo, /* cant be 'readonly' bc must be initialized with null -> jms deserialization */
         #[Serializer\XmlElement]
         #[Serializer\SerializedName('BillTo')]
         private readonly BillTo $billTo,
@@ -67,15 +69,11 @@ class OrderRequestHeader
         #[Serializer\XmlList(entry: 'Contact', inline: true)]
         private ?array $contacts = null,
     ) {
-        if (null === $contacts) {
-            return;
-        }
+        $this->shipTo = $shipTo;
 
-        if ([] === $contacts) {
-            return;
+        if (null !== $contacts) {
+            Assertion::allIsInstanceOf($contacts, Contact::class);
         }
-
-        Assertion::allIsInstanceOf($contacts, Contact::class);
     }
 
     public static function create(

@@ -10,7 +10,7 @@ class MultilanguageString
 {
     public function __construct(
         #[Serializer\XmlValue(cdata: false)]
-        private readonly ?string $value,
+        private readonly ?string $value = null,
         #[Serializer\XmlAttribute]
         private readonly ?string $type = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]

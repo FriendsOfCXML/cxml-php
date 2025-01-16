@@ -23,7 +23,7 @@ class PunchOutOrderMessageHeader
     final public const OPERATION_INSPECT = 'inspect';
 
     #[Serializer\XmlAttribute]
-    private readonly ?string $operationAllowed;
+    private ?string $operationAllowed = null; /* cant be 'readonly' bc must be initialized with null -> jms deserialization */
 
     #[Serializer\SerializedName('ShipTo')]
     private ?ShipTo $shipTo = null;

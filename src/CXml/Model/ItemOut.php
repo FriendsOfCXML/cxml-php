@@ -7,9 +7,11 @@ namespace CXml\Model;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail'])]
-readonly class ItemOut
+#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail', 'shipTo', 'distribution', 'controlKeys', 'scheduleLine'])]
+class ItemOut
 {
+    use CommentsTrait;
+
     private function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('lineNumber')]
@@ -22,11 +24,17 @@ readonly class ItemOut
         #[Serializer\SerializedName('ItemDetail')]
         private ItemDetail $itemDetail,
         #[Serializer\XmlAttribute]
-        #[Serializer\SerializedName('requestedDeliveryDate')]
         private ?DateTimeInterface $requestedDeliveryDate = null,
         #[Serializer\XmlAttribute]
-        #[Serializer\SerializedName('parentLineNumber')]
         private ?int $parentLineNumber = null,
+        #[Serializer\SerializedName('ShipTo')]
+        private ?ShipTo $shipTo = null,
+        #[Serializer\SerializedName('Distribution')]
+        private ?Distribution $distribution = null,
+        #[Serializer\SerializedName('ControlKeys')]
+        private ?ControlKeys $controlKeys = null,
+        #[Serializer\SerializedName('ScheduleLine')]
+        private ?ScheduleLine $scheduleLine = null,
     ) {
     }
 
@@ -84,5 +92,25 @@ readonly class ItemOut
     public function getParentLineNumber(): ?int
     {
         return $this->parentLineNumber;
+    }
+
+    public function getShipTo(): ?ShipTo
+    {
+        return $this->shipTo;
+    }
+
+    public function getDistribution(): ?Distribution
+    {
+        return $this->distribution;
+    }
+
+    public function getControlKeys(): ?ControlKeys
+    {
+        return $this->controlKeys;
+    }
+
+    public function getScheduleLine(): ?ScheduleLine
+    {
+        return $this->scheduleLine;
     }
 }

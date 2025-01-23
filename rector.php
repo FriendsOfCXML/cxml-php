@@ -41,7 +41,6 @@ return RectorConfig::configure()
         //this makes code unreadable
         \Rector\Strict\Rector\Ternary\BooleanInTernaryOperatorRuleFixerRector::class,
         \Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector::class,
-        \Rector\Php81\Rector\Property\ReadOnlyPropertyRector::class,
     ])
     ->withFileExtensions(['php'])
     ->withCache(

@@ -39,6 +39,9 @@ readonly class DtdValidator
         $old->loadXML($xml);
 
         $validateFiles = ['cXML.dtd', 'Fulfill.dtd', 'Quote.dtd'];
+        if (file_exists($this->pathToCxmlDtds . '/Custom.dtd')) {
+            $validateFiles[] = 'Custom.dtd';
+        }
 
         $this->validateAgainstMultipleDtd($validateFiles, $old);
 

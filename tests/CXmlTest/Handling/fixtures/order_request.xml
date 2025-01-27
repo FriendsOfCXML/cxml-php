@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.060/cXML.dtd">
+<cXML payloadID="1737963337.319.1846511.7249@eu-hub" timestamp="2025-01-27T07:35:37+00:00">
+    <Header>
+        <From>
+            <Credential domain="NetworkId">
+                <Identity>AN00000123</Identity>
+            </Credential>
+        </From>
+        <To>
+            <Credential domain="NetworkId">
+                <Identity>AN00000456</Identity>
+            </Credential>
+        </To>
+        <Sender>
+            <Credential domain="NetworkId">
+                <Identity>AN00000123</Identity>
+                <SharedSecret>Secret!123</SharedSecret>
+            </Credential>
+            <UserAgent>Suppliers Super Order Processor</UserAgent>
+        </Sender>
+    </Header>
+    <Request deploymentMode="test">
+        <OrderRequest>
+            <OrderRequestHeader orderID="acme-1-1" orderDate="2025-01-27T07:35:36+00:00" type="new" requestedDeliveryDate="2025-01-28T23:00:00+00:00">
+                <Total>
+                    <Money currency="USD">10.00</Money>
+                </Total>
+                <ShipTo>
+                    <Address>
+                        <Name xml:lang="en">TEST.USA ACME</Name>
+                        <PostalAddress>
+                            <DeliverTo>ACME</DeliverTo>
+                            <DeliverTo>TEST.USA</DeliverTo>
+                            <Street>22 E 4th Ave</Street>
+                            <City>Columbus</City>
+                            <State>OH</State>
+                            <PostalCode>43201-3551</PostalCode>
+                            <Country isoCountryCode="US">United States</Country>
+                            <Extrinsic name="phone">+49121255566</Extrinsic>
+                        </PostalAddress>
+                    </Address>
+                </ShipTo>
+                <BillTo>
+                    <Address>
+                        <Name xml:lang="en">TEST.USA ACME</Name>
+                        <PostalAddress>
+                            <DeliverTo>ACME</DeliverTo>
+                            <DeliverTo>TEST.USA</DeliverTo>
+                            <Street>22 E 4th Ave</Street>
+                            <City>Columbus</City>
+                            <State>OH</State>
+                            <PostalCode>43201-3551</PostalCode>
+                            <Country isoCountryCode="US">United States</Country>
+                        </PostalAddress>
+                    </Address>
+                </BillTo>
+                <Payment>
+                    <PaymentService method="cc" provider="stripe">
+                        <IdReference identifier="ch_..." domain="charge_id"/>
+                        <IdReference identifier="pi_..." domain="intent_id"/>
+                    </PaymentService>
+                </Payment>
+            </OrderRequestHeader>
+            <ItemOut lineNumber="1" quantity="1">
+                <ItemID>
+                    <SupplierPartID>QA-ACME-AUTOTEST</SupplierPartID>
+                    <BuyerPartID>QA-ACME-AUTOTEST</BuyerPartID>
+                </ItemID>
+                <ItemDetail>
+                    <UnitPrice>
+                        <Money currency="USD">10.00</Money>
+                    </UnitPrice>
+                    <Description xml:lang="en">Testing</Description>
+                    <UnitOfMeasure>EA</UnitOfMeasure>
+                    <Classification domain="supplier_part_id">QA-ACME-AUTOTEST</Classification>
+                </ItemDetail>
+            </ItemOut>
+        </OrderRequest>
+    </Request>
+</cXML>

@@ -12,6 +12,8 @@ use CXml\Model\Contact;
 use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\IdReferencesTrait;
 use CXml\Model\MoneyWrapper;
+use CXml\Model\Payment;
+use CXml\Model\PaymentTerm;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\SupplierOrderInfo;
@@ -19,7 +21,7 @@ use CXml\Model\Tax;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['total', 'shipTo', 'billTo', 'businessPartners', 'shipping', 'tax', 'contacts', 'comments', 'supplierOrderInfo', 'idReferences', 'extrinsics'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['total', 'shipTo', 'billTo', 'businessPartners', 'shipping', 'tax', 'payment', 'paymentTerm', 'contacts', 'comments', 'supplierOrderInfo', 'idReferences', 'extrinsics'])]
 class OrderRequestHeader
 {
     use CommentsTrait;
@@ -35,6 +37,14 @@ class OrderRequestHeader
     #[Serializer\XmlElement]
     #[Serializer\SerializedName('Tax')]
     private ?Tax $tax = null;
+
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('Payment')]
+    private ?Payment $payment = null;
+
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('PaymentTerm')]
+    private ?PaymentTerm $paymentTerm = null;
 
     #[Serializer\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
@@ -167,5 +177,25 @@ class OrderRequestHeader
     public function addBusinessPartner(BusinessPartner $businessPartner): void
     {
         $this->businessPartners[] = $businessPartner;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): void
+    {
+        $this->payment = $payment;
+    }
+
+    public function getPaymentTerm(): ?PaymentTerm
+    {
+        return $this->paymentTerm;
+    }
+
+    public function setPaymentTerm(?PaymentTerm $paymentTerm): void
+    {
+        $this->paymentTerm = $paymentTerm;
     }
 }

@@ -1,0 +1,10 @@
+<!ENTITY % cxml.payment  "( PCard | PaymentService )">
+
+<!ENTITY % elements SYSTEM "./cXML.dtd">
+%elements;
+
+<!ELEMENT PaymentService (IdReference*, Extrinsic*)>
+<!ATTLIST PaymentService
+        method CDATA #REQUIRED
+        provider CDATA #IMPLIED
+        >

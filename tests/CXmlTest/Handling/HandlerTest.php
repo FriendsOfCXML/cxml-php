@@ -35,6 +35,11 @@ final class HandlerTest extends TestCase
             'QuoteMessage',
         ];
 
+        yield [
+            self::loadFixture('order_request.xml'),
+            'OrderRequest',
+        ];
+
         // TODO add more cases
     }
 
@@ -47,7 +52,7 @@ final class HandlerTest extends TestCase
     public function testEndpoint(string $requestCxml, string $expectedHandlerCalled): void
     {
         $serializer = Serializer::create();
-        $messageValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
+        $messageValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050');
 
         $credentialRepository = new Registry();
         $credentialRepository->registerCredential(
@@ -90,8 +95,27 @@ final class HandlerTest extends TestCase
             }
         };
 
+        $orderRequestHandler = new class($actualHandlerCalled) implements HandlerInterface {
+            public function __construct(private string &$actualHandlerCalled)
+            {
+            }
+
+            public static function getRequestName(): string
+            {
+                return 'OrderRequest';
+            }
+
+            public function handle(PayloadInterface $payload, Context $context): ?ResponsePayloadInterface
+            {
+                $this->actualHandlerCalled = 'OrderRequest';
+
+                return null;
+            }
+        };
+
         $handlerRegistry = new HandlerRegistry();
         $handlerRegistry->register($quoteMessageHandler);
+        $handlerRegistry->register($orderRequestHandler);
 
         $builder = Builder::create();
 

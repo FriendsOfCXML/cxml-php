@@ -5,13 +5,6 @@
 >
 > cXML Reference Guide (PDF): http://xml.cxml.org/current/cXMLReferenceGuide.pdf
 
-# Status
-
-| CXML Version | Status Test |
-|--------------|-------------|
-| 1.2.050      | OK          |
-| 1.2.053      | OK          |
-
 # Getting Started
 
 ## Installation
@@ -127,9 +120,11 @@ $cXmlProcessor = new \CXml\Processor\Processor(
 );
 
 $pathToDtd = '.'; //point the directory with extracted contents of zip-file with the DTDs, downloaded from cxml.org
-$dtdValidator = new \CXml\Validation\DtdValidator($pathToDtd);
+$dtdValidator = \CXml\Validation\DtdValidator::fromDtdDirectory($pathToDtd);
+$serializer = \CXml\Serializer::create();
 
 $endpoint = new \CXml\Endpoint(
+    $serializer,
     $dtdValidator,
     $cXmlProcessor
 );

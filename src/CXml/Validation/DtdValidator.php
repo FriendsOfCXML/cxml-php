@@ -21,7 +21,7 @@ readonly class DtdValidator
         Assertion::notEmpty($pathToDtds);
     }
 
-    public static function forDtdDirectory(string $directory): self
+    public static function fromDtdDirectory(string $directory): self
     {
         Assertion::directory($directory);
 

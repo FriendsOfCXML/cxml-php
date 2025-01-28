@@ -32,7 +32,7 @@ final class PunchoutOrderMessageTest extends TestCase implements PayloadIdentity
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
+        $this->dtdValidator = DtdValidator::forDtdDirectory(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
     }
 
     public function testMinimumExample(): void

@@ -52,7 +52,7 @@ final class HandlerTest extends TestCase
     public function testEndpoint(string $requestCxml, string $expectedHandlerCalled): void
     {
         $serializer = Serializer::create();
-        $messageValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050');
+        $messageValidator = DtdValidator::forDtdDirectory(__DIR__ . '/../../metadata/cxml/dtd/1.2.050');
 
         $credentialRepository = new Registry();
         $credentialRepository->registerCredential(

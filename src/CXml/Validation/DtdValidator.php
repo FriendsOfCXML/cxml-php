@@ -15,12 +15,20 @@ use function libxml_use_internal_errors;
 
 readonly class DtdValidator
 {
-    public function __construct(private string $pathToCxmlDtds)
+    public function __construct(
+        private array $pathToDtds,
+    ) {
+        Assertion::notEmpty($pathToDtds);
+    }
+
+    public static function forDtdDirectory(string $directory): self
     {
-        Assertion::directory($pathToCxmlDtds);
-        Assertion::file($pathToCxmlDtds . '/cXML.dtd');
-        Assertion::file($pathToCxmlDtds . '/Fulfill.dtd');
-        Assertion::file($pathToCxmlDtds . '/Quote.dtd');
+        Assertion::directory($directory);
+
+        $pathToDtds = glob($directory . '/*.dtd');
+        Assertion::notEmpty($pathToDtds);
+
+        return new self($pathToDtds);
     }
 
     /**
@@ -38,12 +46,7 @@ readonly class DtdValidator
         $old = new DOMDocument();
         $old->loadXML($xml);
 
-        $validateFiles = ['cXML.dtd', 'Fulfill.dtd', 'Quote.dtd'];
-        if (file_exists($this->pathToCxmlDtds . '/Custom.dtd')) {
-            $validateFiles[] = 'Custom.dtd';
-        }
-
-        $this->validateAgainstMultipleDtd($validateFiles, $old);
+        $this->validateAgainstMultipleDtd($this->pathToDtds, $old);
 
         // reset throwing of php errors for libxml
         libxml_use_internal_errors($internalErrors);
@@ -57,7 +60,7 @@ readonly class DtdValidator
         $creator = new DOMImplementation();
 
         try {
-            $doctype = $creator->createDocumentType('cXML', '', $this->pathToCxmlDtds . '/' . $dtdFilename);
+            $doctype = $creator->createDocumentType('cXML', '', $dtdFilename);
             $new = $creator->createDocument('', '', $doctype);
         } catch (DOMException $domException) {
             throw new CXmlInvalidException($domException->getMessage(), (string)$originalDomDocument->saveXML(), $domException);

@@ -10,22 +10,34 @@ use Stringable;
 use function sprintf;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['identity', 'sharedSecret'])]
-readonly class Credential implements Stringable
+class Credential implements Stringable
 {
     public function __construct(
         #[Serializer\XmlAttribute]
-        public string $domain,
+        public readonly string $domain,
         #[Serializer\SerializedName('Identity')]
         #[Serializer\XmlElement(cdata: false)]
-        public string $identity,
+        public readonly string $identity,
         #[Serializer\SerializedName('SharedSecret')]
         #[Serializer\XmlElement(cdata: false)]
-        public ?string $sharedSecret = null,
+        private ?string $sharedSecret = null,
     ) {
     }
 
     public function __toString(): string
     {
         return sprintf('%s@%s', $this->identity, $this->domain);
+    }
+
+    public function setSharedSecret(string $sharedSecret): self
+    {
+        $this->sharedSecret = $sharedSecret;
+
+        return $this;
+    }
+
+    public function getSharedSecret(): ?string
+    {
+        return $this->sharedSecret;
     }
 }

@@ -19,6 +19,7 @@ use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\Payment;
+use CXml\Model\PaymentInterface;
 use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
 use CXml\Model\PriceBasisQuantity;

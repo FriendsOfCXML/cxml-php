@@ -36,7 +36,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
     public static function isEligible(string $incomingType): bool
     {
-        return in_array($incomingType, self::$mainPayloadClasses);
+        return in_array($incomingType, self::$mainPayloadClasses, true);
     }
 
     public static function getSubscribedEvents(): array
@@ -84,9 +84,13 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
     public function onPostSerializePayment(ObjectEvent $event): void
     {
+        /** @var XmlSerializationVisitor $visitor */
         $visitor = $event->getVisitor();
 
-        $paymentImpl = $event->getObject()->paymentImpl;
+        /** @var Payment $payment */
+        $payment = $event->getObject();
+
+        $paymentImpl = $payment->paymentImpl;
 
         $cls = (new ReflectionClass($paymentImpl))->getShortName();
 

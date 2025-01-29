@@ -8,7 +8,7 @@ use CXml\Model\Trait\IdReferencesTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['type', 'role', 'address', 'idReferences'])]
-readonly class BusinessPartner
+class BusinessPartner
 {
     use IdReferencesTrait;
     final public const ROLE_SOLD_TO = 'soldTo';
@@ -19,11 +19,11 @@ readonly class BusinessPartner
 
     public function __construct(
         #[Serializer\XmlAttribute]
-        public string $role,
+        public readonly string $role,
         #[Serializer\SerializedName('Address')]
-        public Address $address,
+        public readonly Address $address,
         #[Serializer\XmlAttribute]
-        public string $type = 'organization',
+        public readonly string $type = 'organization',
     ) {
     }
 }

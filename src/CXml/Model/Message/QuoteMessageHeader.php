@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace CXml\Model\Message;
 
 use Assert\Assertion;
-use CXml\Model\CommentsTrait;
 use CXml\Model\Contact;
-use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\OrganizationId;
 use CXml\Model\ShipTo;
+use CXml\Model\Trait\CommentsTrait;
+use CXml\Model\Trait\ExtrinsicsTrait;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -44,22 +44,22 @@ class QuoteMessageHeader
     public function __construct(
         #[Serializer\SerializedName('OrganizationID')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly OrganizationId $organizationId,
+        public readonly OrganizationId $organizationId,
         #[Serializer\SerializedName('Total')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly MoneyWrapper $total,
+        public readonly MoneyWrapper $total,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('type')]
-        private readonly string $type,
+        public readonly string $type,
         #[Serializer\SerializedName('quoteID')]
         #[Serializer\XmlAttribute]
-        private readonly string $quoteId,
+        public readonly string $quoteId,
         #[Serializer\XmlAttribute]
-        private readonly DateTimeInterface $quoteDate,
+        public readonly DateTimeInterface $quoteDate,
         #[Serializer\XmlAttribute]
-        private readonly string $currency,
+        public readonly string $currency,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private readonly string $lang = 'en',
+        public readonly string $lang = 'en',
     ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,
@@ -84,47 +84,12 @@ class QuoteMessageHeader
         return $this;
     }
 
-    public function getOrganizationId(): OrganizationId
-    {
-        return $this->organizationId;
-    }
-
     /**
      * @return Contact[]
      */
     public function getContacts(): array
     {
         return $this->contacts;
-    }
-
-    public function getCurrency(): string
-    {
-        return $this->currency;
-    }
-
-    public function getQuoteId(): string
-    {
-        return $this->quoteId;
-    }
-
-    public function getQuoteDate(): DateTimeInterface
-    {
-        return $this->quoteDate;
-    }
-
-    public function getLang(): string
-    {
-        return $this->lang;
-    }
-
-    public function getTotal(): MoneyWrapper
-    {
-        return $this->total;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
     }
 
     public function getShipTo(): ShipTo

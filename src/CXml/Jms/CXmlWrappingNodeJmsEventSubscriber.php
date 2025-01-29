@@ -86,7 +86,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
     {
         $visitor = $event->getVisitor();
 
-        $paymentImpl = $event->getObject()->getPaymentImpl();
+        $paymentImpl = $event->getObject()->paymentImpl;
 
         $cls = (new ReflectionClass($paymentImpl))->getShortName();
 
@@ -147,7 +147,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
         // this is the actual payload object of type MessagePayloadInterface
         /** @phpstan-ignore-next-line */
-        $payload = $event->getObject()->getPayload();
+        $payload = $event->getObject()->payload ?? null;
 
         if ($payload) {
             $cls = (new ReflectionClass($payload))->getShortName();

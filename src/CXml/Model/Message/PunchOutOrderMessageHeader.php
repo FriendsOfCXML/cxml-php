@@ -33,11 +33,11 @@ class PunchOutOrderMessageHeader
 
     public function __construct(
         #[Serializer\SerializedName('Total')]
-        private readonly MoneyWrapper $total,
+        public readonly MoneyWrapper $total,
         #[Serializer\SerializedName('Shipping')]
-        private readonly ?Shipping $shipping = null,
+        public readonly ?Shipping $shipping = null,
         #[Serializer\SerializedName('Tax')]
-        private readonly ?Tax $tax = null,
+        public readonly ?Tax $tax = null,
         ?string $operationAllowed = null,
     ) {
         Assertion::inArray($operationAllowed, [self::OPERATION_CREATE, self::OPERATION_EDIT, self::OPERATION_INSPECT, null]);
@@ -66,21 +66,6 @@ class PunchOutOrderMessageHeader
     public function getOperationAllowed(): ?string
     {
         return $this->operationAllowed;
-    }
-
-    public function getTotal(): MoneyWrapper
-    {
-        return $this->total;
-    }
-
-    public function getShipping(): ?Shipping
-    {
-        return $this->shipping;
-    }
-
-    public function getTax(): ?Tax
-    {
-        return $this->tax;
     }
 
     public function getSupplierOrderInfo(): ?SupplierOrderInfo

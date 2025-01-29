@@ -10,7 +10,7 @@ readonly class Distribution
 {
     private function __construct(
         #[Serializer\SerializedName('Accounting')]
-        private Accounting $accounting,
+        public Accounting $accounting,
     ) {
     }
 }

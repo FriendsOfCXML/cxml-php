@@ -11,19 +11,9 @@ readonly class Classification
 {
     public function __construct(
         #[Serializer\XmlAttribute]
-        private string $domain,
+        public string $domain,
         #[Serializer\XmlValue(cdata: false)]
-        private string $value,
+        public string $value,
     ) {
-    }
-
-    public function getDomain(): string
-    {
-        return $this->domain;
-    }
-
-    public function getValue(): string
-    {
-        return $this->value;
     }
 }

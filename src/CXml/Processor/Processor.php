@@ -39,19 +39,19 @@ class Processor
 
         $this->eventDispatcher?->dispatch(new CXmlProcessEvent($cxml, $context));
 
-        $request = $cxml->getRequest();
+        $request = $cxml->request;
         if ($request instanceof Request) {
             return $this->processRequest($request, $context);
         }
 
-        $response = $cxml->getResponse();
+        $response = $cxml->response;
         if ($response instanceof Response) {
             $this->processResponse($response, $context);
 
             return null;
         }
 
-        $message = $cxml->getMessage();
+        $message = $cxml->message;
         if ($message instanceof Message) {
             $this->processMessage($message, $context);
 
@@ -74,7 +74,7 @@ class Processor
      */
     private function processMessage(Message $message, Context $context): void
     {
-        $header = $context->getCXml() instanceof CXml ? $context->getCXml()->getHeader() : null;
+        $header = $context->getCXml() instanceof CXml ? $context->getCXml()->header : null;
         if (!$header instanceof Header) {
             throw new CXmlException('Invalid CXml. Header is mandatory for message.');
         }
@@ -87,7 +87,7 @@ class Processor
             throw new CXmlProcessException($e);
         }
 
-        $payload = $message->getPayload();
+        $payload = $message->payload;
         try {
             $this->getHandlerForPayload($payload)->handle($payload, $context);
         } catch (CXmlException $e) {
@@ -103,7 +103,7 @@ class Processor
      */
     private function processResponse(Response $response, Context $context): void
     {
-        $payload = $response->getPayload();
+        $payload = $response->payload;
 
         if (!$payload instanceof ResponsePayloadInterface) {
             return;
@@ -124,7 +124,7 @@ class Processor
      */
     private function processRequest(Request $request, Context $context): CXml
     {
-        $header = $context->getCXml() instanceof CXml ? $context->getCXml()->getHeader() : null;
+        $header = $context->getCXml() instanceof CXml ? $context->getCXml()->header : null;
         if (!$header instanceof Header) {
             throw new CXmlException('Invalid CXml. Header is mandatory for request.');
         }
@@ -137,7 +137,7 @@ class Processor
             throw new CXmlProcessException($e);
         }
 
-        $payload = $request->getPayload();
+        $payload = $request->payload;
         $handler = $this->getHandlerForPayload($payload);
 
         $response = $handler->handle($payload, $context);

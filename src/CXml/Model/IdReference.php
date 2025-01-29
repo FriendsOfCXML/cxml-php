@@ -10,19 +10,9 @@ readonly class IdReference
 {
     public function __construct(
         #[Serializer\XmlAttribute]
-        private string $domain,
+        public string $domain,
         #[Serializer\XmlAttribute]
-        private string $identifier,
+        public string $identifier,
     ) {
-    }
-
-    public function getDomain(): string
-    {
-        return $this->domain;
-    }
-
-    public function getIdentifier(): string
-    {
-        return $this->identifier;
     }
 }

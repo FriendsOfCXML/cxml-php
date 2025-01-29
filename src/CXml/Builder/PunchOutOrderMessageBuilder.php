@@ -165,15 +165,15 @@ class PunchOutOrderMessageBuilder
     {
         $this->punchoutOrderMessageItems[] = $itemIn;
 
-        $moneyValueCent = $itemIn->getItemDetail()->getUnitPrice()->getMoney()->getValueCent();
-        $itemQty = $itemIn->getQuantity();
+        $moneyValueCent = $itemIn->itemDetail->unitPrice->money->getValueCent();
+        $itemQty = $itemIn->quantity;
 
         if (
-            $itemIn->getItemDetail()->getPriceBasisQuantity() instanceof PriceBasisQuantity
-            && $itemIn->getItemDetail()->getPriceBasisQuantity()->getQuantity() > 0
+            $itemIn->itemDetail->priceBasisQuantity instanceof PriceBasisQuantity
+            && $itemIn->itemDetail->priceBasisQuantity->quantity > 0
         ) {
-            $priceBasisQuantity = $itemIn->getItemDetail()->getPriceBasisQuantity();
-            $this->total += (int)round($itemQty * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $moneyValueCent);
+            $priceBasisQuantity = $itemIn->itemDetail->priceBasisQuantity;
+            $this->total += (int)round($itemQty * ($priceBasisQuantity->conversionFactor / $priceBasisQuantity->quantity) * $moneyValueCent);
         } else {
             $this->total += $moneyValueCent * $itemQty;
         }

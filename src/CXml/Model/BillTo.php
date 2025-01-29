@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use CXml\Model\Trait\IdReferencesTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['address', 'idReferences'])]
@@ -13,12 +14,7 @@ class BillTo
 
     public function __construct(
         #[Serializer\SerializedName('Address')]
-        private readonly Address $address,
+        public readonly Address $address,
     ) {
-    }
-
-    public function getAddress(): Address
-    {
-        return $this->address;
     }
 }

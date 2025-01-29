@@ -18,7 +18,7 @@ class OrderRequest implements RequestPayloadInterface
     private array $itemOut = [];
 
     protected function __construct(#[Serializer\SerializedName('OrderRequestHeader')]
-        private readonly OrderRequestHeader $orderRequestHeader)
+        public readonly OrderRequestHeader $orderRequestHeader)
     {
     }
 
@@ -43,11 +43,6 @@ class OrderRequest implements RequestPayloadInterface
         $this->itemOut[] = $item;
 
         return $this;
-    }
-
-    public function getOrderRequestHeader(): OrderRequestHeader
-    {
-        return $this->orderRequestHeader;
     }
 
     public function getItems(): array

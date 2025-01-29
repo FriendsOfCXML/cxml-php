@@ -10,13 +10,13 @@ readonly class AccountingSegment
 {
     private function __construct(
         #[Serializer\XmlAttribute]
-        private int $id,
+        public int $id,
         #[Serializer\SerializedName('Name')]
         #[Serializer\XmlElement(cdata: false)]
-        private MultilanguageString $name,
+        public MultilanguageString $name,
         #[Serializer\SerializedName('Description')]
         #[Serializer\XmlElement(cdata: false)]
-        private MultilanguageString $description,
+        public MultilanguageString $description,
     ) {
     }
 }

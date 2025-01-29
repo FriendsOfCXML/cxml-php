@@ -18,10 +18,10 @@ class Transaction
 
     public function __construct(
         #[Serializer\XmlAttribute]
-        private readonly string $requestName,
+        public readonly string $requestName,
         #[Serializer\SerializedName('URL')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly string $url,
+        public readonly string $url,
     ) {
     }
 

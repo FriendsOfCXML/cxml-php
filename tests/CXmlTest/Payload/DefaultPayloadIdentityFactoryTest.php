@@ -22,6 +22,6 @@ final class DefaultPayloadIdentityFactoryTest extends TestCase
             DateTime::createFromFormat('U.v', '1650614400.400'));
         $actualIdentity = $pif->newPayloadIdentity();
 
-        $this->assertStringStartsWith('1650614400.400', $actualIdentity->getPayloadId());
+        $this->assertStringStartsWith('1650614400.400', $actualIdentity->payloadId);
     }
 }

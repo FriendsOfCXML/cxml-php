@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use CXml\Model\Trait\IdReferencesTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['address', 'carrierIdentifiers', 'transportInformation', 'idReferences'])]
@@ -19,8 +20,8 @@ class ShipTo
     private array $carrierIdentifiers = [];
 
     public function __construct(#[Serializer\SerializedName('Address')]
-        private readonly Address $address, #[Serializer\SerializedName('TransportInformation')]
-        private readonly ?TransportInformation $transportInformation = null)
+        public readonly Address $address, #[Serializer\SerializedName('TransportInformation')]
+        public readonly ?TransportInformation $transportInformation = null)
     {
     }
 
@@ -29,10 +30,5 @@ class ShipTo
         $this->carrierIdentifiers[] = new CarrierIdentifier($domain, $identifier);
 
         return $this;
-    }
-
-    public function getAddress(): Address
-    {
-        return $this->address;
     }
 }

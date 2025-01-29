@@ -31,11 +31,11 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface,
     public function getCredentialByDomainAndId(string $domain, string $identity): Credential
     {
         foreach ($this->registeredCredentials as $registeredCredential) {
-            if ($registeredCredential->getDomain() !== $domain) {
+            if ($registeredCredential->domain !== $domain) {
                 continue;
             }
 
-            if ($registeredCredential->getIdentity() !== $identity) {
+            if ($registeredCredential->identity !== $identity) {
                 continue;
             }
 
@@ -51,14 +51,14 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface,
      */
     public function authenticate(Header $header, Context $context): void
     {
-        $senderCredential = $header->getSender()->getCredential();
+        $senderCredential = $header->sender->credential;
 
         $baseCredential = $this->getCredentialByDomainAndId(
-            $senderCredential->getDomain(),
-            $senderCredential->getIdentity(),
+            $senderCredential->domain,
+            $senderCredential->identity,
         );
 
-        if ($baseCredential->getSharedSecret() !== $senderCredential->getSharedSecret()) {
+        if ($baseCredential->sharedSecret !== $senderCredential->sharedSecret) {
             throw new CXmlAuthenticationInvalidException($senderCredential);
         }
     }
@@ -70,8 +70,8 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface,
     {
         // provoke an exception if credential was not found
         $this->getCredentialByDomainAndId(
-            $credential->getDomain(),
-            $credential->getIdentity(),
+            $credential->domain,
+            $credential->identity,
         );
     }
 }

@@ -6,17 +6,12 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class Payment
+readonly class Payment
 {
     public function __construct(
         /* this is being dynamically serialized with CXmlWrappingNodeJmsEventSubscriber */
         #[Serializer\Exclude]
-        private PaymentInterface $paymentImpl,
+        public PaymentInterface $paymentImpl,
     ) {
-    }
-
-    public function getPaymentImpl(): PaymentInterface
-    {
-        return $this->paymentImpl;
     }
 }

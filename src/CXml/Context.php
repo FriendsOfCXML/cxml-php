@@ -61,12 +61,12 @@ class Context
             return null;
         }
 
-        $header = $cxml->getHeader();
+        $header = $cxml->header;
         if (!$header instanceof Header) {
             return null;
         }
 
-        return $header->getSender()->getUserAgent();
+        return $header->sender->userAgent;
     }
 
     public function getPayloadId(): ?string
@@ -76,6 +76,6 @@ class Context
             return null;
         }
 
-        return $cxml->getPayloadId();
+        return $cxml->payloadId;
     }
 }

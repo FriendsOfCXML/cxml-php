@@ -11,20 +11,10 @@ readonly class Party
 {
     public function __construct(
         #[Serializer\SerializedName('Credential')]
-        private Credential $credential,
+        public Credential $credential,
         #[Serializer\SerializedName('UserAgent')]
         #[Serializer\XmlElement(cdata: false)]
-        private ?string $userAgent = null,
+        public ?string $userAgent = null,
     ) {
-    }
-
-    public function getCredential(): Credential
-    {
-        return $this->credential;
-    }
-
-    public function getUserAgent(): ?string
-    {
-        return $this->userAgent;
     }
 }

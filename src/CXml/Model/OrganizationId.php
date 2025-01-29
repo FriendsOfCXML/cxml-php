@@ -11,12 +11,7 @@ readonly class OrganizationId
 {
     public function __construct(
         #[Serializer\SerializedName('Credential')]
-        private Credential $credential,
+        public Credential $credential,
     ) {
-    }
-
-    public function getCredential(): Credential
-    {
-        return $this->credential;
     }
 }

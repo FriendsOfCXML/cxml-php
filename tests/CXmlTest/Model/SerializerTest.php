@@ -273,7 +273,7 @@ final class SerializerTest extends TestCase
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xmlIn);
 
-        $this->assertSame('2022-06-07T10:09:56+00:00', $cXml->getTimestamp()->format('c'));
+        $this->assertSame('2022-06-07T10:09:56+00:00', $cXml->timestamp->format('c'));
     }
 
     public function testDeserializeWithDateTimeForDate(): void
@@ -300,15 +300,15 @@ final class SerializerTest extends TestCase
         $cXml = $serializer->deserialize($xmlIn);
 
         /** @var OrderRequest $orderRequest */
-        $orderRequest = $cXml->getRequest()->getPayload();
+        $orderRequest = $cXml->request->payload;
 
-        $this->assertSame('2023-02-25 02:30:00', $orderRequest->getItems()[0]->getRequestedDeliveryDate()->format('Y-m-d H:i:s'));
-        $this->assertInstanceOf(DateTime::class, $orderRequest->getItems()[0]->getRequestedDeliveryDate());
+        $this->assertSame('2023-02-25 02:30:00', $orderRequest->getItems()[0]->requestedDeliveryDate->format('Y-m-d H:i:s'));
+        $this->assertInstanceOf(DateTime::class, $orderRequest->getItems()[0]->requestedDeliveryDate);
 
-        $this->assertSame('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
-        $this->assertInstanceOf(Date::class, $orderRequest->getItems()[1]->getRequestedDeliveryDate());
+        $this->assertSame('2023-02-26', $orderRequest->getItems()[1]->requestedDeliveryDate->format('Y-m-d'));
+        $this->assertInstanceOf(Date::class, $orderRequest->getItems()[1]->requestedDeliveryDate);
 
-        $this->assertNull($orderRequest->getItems()[2]->getRequestedDeliveryDate());
+        $this->assertNull($orderRequest->getItems()[2]->requestedDeliveryDate);
     }
 
     public function testDeserializeInvalidDate(): void
@@ -465,10 +465,10 @@ final class SerializerTest extends TestCase
         $cxml = Serializer::create()->deserialize($xml);
 
         /** @var OrderRequest $orderRequest */
-        $orderRequest = $cxml->getRequest()->getPayload();
+        $orderRequest = $cxml->request->payload;
 
         // Error: Typed property CXml\Model\Request\OrderRequestHeader::$shipTo must not be accessed before initialization
-        $shipTo = $orderRequest->getOrderRequestHeader()->getShipTo();
+        $shipTo = $orderRequest->orderRequestHeader->getShipTo();
         $this->assertNull($shipTo);
     }
 
@@ -525,8 +525,8 @@ final class SerializerTest extends TestCase
 
         $payment = new Payment(
             new PaymentService(
-            'creditcard',
-            )
+                'creditcard',
+            ),
         );
         $orderRequestHeader->setPayment($payment);
 

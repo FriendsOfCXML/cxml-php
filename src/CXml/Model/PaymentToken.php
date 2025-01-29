@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
-use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\IdReferencesTrait;
-use CXml\Model\PaymentInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 readonly class PaymentToken implements PaymentInterface
 {
-
     public function __construct(
         #[Serializer\XmlAttribute]
         public string $number,
@@ -21,6 +17,6 @@ readonly class PaymentToken implements PaymentInterface
         public ?string $name,
         #[Serializer\XmlAttribute]
         public string $token,
-    ) {}
-
+    ) {
+    }
 }

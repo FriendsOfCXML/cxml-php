@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model\Message;
 
-use CXml\Model\ExtrinsicsTrait;
+use CXml\Model\Trait\ExtrinsicsTrait;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 

@@ -23,8 +23,10 @@ class ShipControl
     #[Serializer\Type('array<CXml\Model\ShipmentIdentifier>')]
     private array $shipmentIdentifiers = [];
 
-    public function __construct(CarrierIdentifier $carrierIdentifier, ShipmentIdentifier $shipmentIdentifier)
-    {
+    public function __construct(
+        CarrierIdentifier $carrierIdentifier,
+        ShipmentIdentifier $shipmentIdentifier,
+    ) {
         $this->carrierIdentifiers[] = $carrierIdentifier;
         $this->shipmentIdentifiers[] = $shipmentIdentifier;
     }
@@ -44,8 +46,8 @@ class ShipControl
     public function getCarrierIdentifier(string $domain): ?string
     {
         foreach ($this->carrierIdentifiers as $carrierIdentifier) {
-            if ($carrierIdentifier->getDomain() === $domain) {
-                return $carrierIdentifier->getValue();
+            if ($carrierIdentifier->domain === $domain) {
+                return $carrierIdentifier->value;
             }
         }
 
@@ -55,8 +57,8 @@ class ShipControl
     public function getShipmentIdentifier(?string $domain = null): ?string
     {
         foreach ($this->shipmentIdentifiers as $shipmentIdentifier) {
-            if ($shipmentIdentifier->getDomain() === $domain) {
-                return $shipmentIdentifier->getValue();
+            if ($shipmentIdentifier->domain === $domain) {
+                return $shipmentIdentifier->value;
             }
         }
 

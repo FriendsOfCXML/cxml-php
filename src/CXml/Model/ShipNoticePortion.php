@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
 readonly class ShipNoticePortion
 {
     #[Serializer\SerializedName('OrderReference')]
-    private OrderReference $orderReference;
+    public OrderReference $orderReference;
 
     public function __construct(string $documentReference, ?string $orderId = null, ?DateTimeInterface $orderDate = null)
     {
@@ -22,10 +22,5 @@ readonly class ShipNoticePortion
             $orderId,
             $orderDate,
         );
-    }
-
-    public function getOrderReference(): OrderReference
-    {
-        return $this->orderReference;
     }
 }

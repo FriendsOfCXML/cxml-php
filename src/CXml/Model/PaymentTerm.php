@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use CXml\Model\Trait\ExtrinsicsTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 class PaymentTerm
@@ -12,7 +13,7 @@ class PaymentTerm
 
     public function __construct(
         #[Serializer\XmlAttribute]
-        private int $payInNumberOfDays,
+        public readonly int $payInNumberOfDays,
     ) {
     }
 }

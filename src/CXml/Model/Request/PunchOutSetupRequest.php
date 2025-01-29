@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace CXml\Model\Request;
 
-use CXml\Model\Extrinsic;
-use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\ItemOut;
 use CXml\Model\SelectedItem;
 use CXml\Model\ShipTo;
+use CXml\Model\Trait\ExtrinsicsTrait;
 use CXml\Model\Url;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -17,18 +16,11 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
 
-    /**
-     * @var Extrinsic[]
-     */
-    #[Serializer\XmlList(entry: 'Extrinsic', inline: true)]
-    #[Serializer\Type('array<CXml\Model\Extrinsic>')]
-    protected array $extrinsics = [];
-
     #[Serializer\SerializedName('BrowserFormPost')]
-    private Url $browserFormPost;
+    public readonly Url $browserFormPost;
 
     #[Serializer\SerializedName('SupplierSetup')]
-    private Url $supplierSetup;
+    public readonly Url $supplierSetup;
 
     /**
      * @var ItemOut[]
@@ -39,48 +31,18 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 
     public function __construct(
         #[Serializer\SerializedName('BuyerCookie')]
-        private readonly string $buyerCookie,
+        public readonly string $buyerCookie,
         string $browserFormPost,
         string $supplierSetup,
         #[Serializer\SerializedName('ShipTo')]
-        private readonly ?ShipTo $shipTo = null,
+        public readonly ?ShipTo $shipTo = null,
         #[Serializer\SerializedName('SelectedItem')]
-        private readonly ?SelectedItem $selectedItem = null,
+        public readonly ?SelectedItem $selectedItem = null,
         #[Serializer\XmlAttribute]
-        private readonly ?string $operation = 'create',
+        public readonly ?string $operation = 'create',
     ) {
         $this->browserFormPost = new Url($browserFormPost);
         $this->supplierSetup = new Url($supplierSetup);
-    }
-
-    public function getOperation(): ?string
-    {
-        return $this->operation;
-    }
-
-    public function getBuyerCookie(): string
-    {
-        return $this->buyerCookie;
-    }
-
-    public function getBrowserFormPost(): Url
-    {
-        return $this->browserFormPost;
-    }
-
-    public function getSupplierSetup(): Url
-    {
-        return $this->supplierSetup;
-    }
-
-    public function getShipTo(): ?ShipTo
-    {
-        return $this->shipTo;
-    }
-
-    public function getSelectedItem(): ?SelectedItem
-    {
-        return $this->selectedItem;
     }
 
     public function getItems(): array

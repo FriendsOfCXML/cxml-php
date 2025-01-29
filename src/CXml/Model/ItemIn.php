@@ -12,11 +12,11 @@ readonly class ItemIn
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('quantity')]
-        private int $quantity,
+        public int $quantity,
         #[Serializer\SerializedName('ItemID')]
-        private ?ItemId $itemId,
+        public ?ItemId $itemId,
         #[Serializer\SerializedName('ItemDetail')]
-        private ItemDetail $itemDetail,
+        public ItemDetail $itemDetail,
     ) {
     }
 
@@ -38,20 +38,5 @@ readonly class ItemIn
         $this->itemDetail->addClassification($classification);
 
         return $this;
-    }
-
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
-    public function getItemId(): ?ItemId
-    {
-        return $this->itemId;
-    }
-
-    public function getItemDetail(): ItemDetail
-    {
-        return $this->itemDetail;
     }
 }

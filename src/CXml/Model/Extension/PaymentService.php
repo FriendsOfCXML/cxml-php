@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CXml\Model\Extension;
 
-use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\IdReferencesTrait;
 use CXml\Model\PaymentInterface;
+use CXml\Model\Trait\ExtrinsicsTrait;
+use CXml\Model\Trait\IdReferencesTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 class PaymentService implements PaymentInterface
@@ -16,19 +16,9 @@ class PaymentService implements PaymentInterface
 
     public function __construct(
         #[Serializer\XmlAttribute]
-        readonly private string $method,
+        public readonly string $method,
         #[Serializer\XmlAttribute]
-        readonly private ?string $provider = null,
+        public readonly ?string $provider = null,
     ) {
-    }
-
-    public function getMethod(): string
-    {
-        return $this->method;
-    }
-
-    public function getProvider(): ?string
-    {
-        return $this->provider;
     }
 }

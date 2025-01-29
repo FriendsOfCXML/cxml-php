@@ -16,26 +16,11 @@ readonly class ProductActivityHeader
     public function __construct(
         #[Serializer\SerializedName('messageID')]
         #[Serializer\XmlAttribute]
-        private string $messageId,
+        public string $messageId,
         #[Serializer\XmlAttribute]
-        private ?string $processType = null,
+        public ?string $processType = null,
         #[Serializer\XmlAttribute]
-        private ?DateTimeInterface $creationDate = null,
+        public ?DateTimeInterface $creationDate = null,
     ) {
-    }
-
-    public function getMessageId(): string
-    {
-        return $this->messageId;
-    }
-
-    public function getProcessType(): ?string
-    {
-        return $this->processType;
-    }
-
-    public function getCreationDate(): ?DateTimeInterface
-    {
-        return $this->creationDate;
     }
 }

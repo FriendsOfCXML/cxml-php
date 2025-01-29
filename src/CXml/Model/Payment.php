@@ -9,14 +9,14 @@ use JMS\Serializer\Annotation as Serializer;
 class Payment
 {
     public function __construct(
-        #[Serializer\XmlElement]
-        #[Serializer\SerializedName('PaymentService')]
-        private PaymentService $paymentService,
+        /* this is being dynamically serialized with CXmlWrappingNodeJmsEventSubscriber */
+        #[Serializer\Exclude]
+        private PaymentInterface $paymentImpl,
     ) {
     }
 
-    public function getPaymentService(): PaymentService
+    public function getPaymentImpl(): PaymentInterface
     {
-        return $this->paymentService;
+        return $this->paymentImpl;
     }
 }

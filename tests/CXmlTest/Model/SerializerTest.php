@@ -5,21 +5,32 @@ declare(strict_types=1);
 namespace CXmlTest\Model;
 
 use CXml\Builder\OrderRequestBuilder;
+use CXml\Model\Address;
+use CXml\Model\BillTo;
+use CXml\Model\Country;
+use CXml\Model\CountryCode;
 use CXml\Model\Credential;
 use CXml\Model\CXml;
 use CXml\Model\Date;
+use CXml\Model\Extension\PaymentService;
 use CXml\Model\Header;
 use CXml\Model\Message\Message;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
 use CXml\Model\MoneyWrapper;
+use CXml\Model\MultilanguageString;
 use CXml\Model\Party;
 use CXml\Model\PayloadIdentity;
+use CXml\Model\Payment;
+use CXml\Model\Phone;
+use CXml\Model\PostalAddress;
 use CXml\Model\Request\OrderRequest;
+use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Request\PunchOutSetupRequest;
 use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
 use CXml\Model\Status;
+use CXml\Model\TelephoneNumber;
 use CXml\Serializer;
 use DateTime;
 use PHPUnit\Framework\Attributes\CoversNothing;
@@ -459,5 +470,143 @@ final class SerializerTest extends TestCase
         // Error: Typed property CXml\Model\Request\OrderRequestHeader::$shipTo must not be accessed before initialization
         $shipTo = $orderRequest->getOrderRequestHeader()->getShipTo();
         $this->assertNull($shipTo);
+    }
+
+    public function testSerializePayment(): void
+    {
+        $from = new Party(
+            new Credential('AribaNetworkUserId', 'admin@acme.com'),
+        );
+        $to = new Party(
+            new Credential('DUNS', '012345678'),
+        );
+        $sender = new Party(
+            new Credential('AribaNetworkUserId', 'sysadmin@buyer.com', 'abracadabra'),
+            'Network Hub 1.1',
+        );
+
+        $orderRequestHeader = OrderRequestHeader::create(
+            'DO1234',
+            new DateTime('2000-10-12T18:41:29-08:00'),
+            null,
+            new BillTo(
+                new Address(
+                    new MultilanguageString('Acme GmbH'),
+                    new PostalAddress(
+                        [],
+                        [
+                            'Acme Street 18',
+                        ],
+                        'Solingen',
+                        new Country('DE', 'Deutschland'),
+                        null,
+                        null,
+                        '42699',
+                        'default',
+                    ),
+                    null,
+                    null,
+                    null,
+                    new Phone(
+                        new TelephoneNumber(
+                            new CountryCode('DE', '49'),
+                            '761',
+                            '1234567',
+                        ),
+                        'company',
+                    ),
+                ),
+            ),
+            new MoneyWrapper(
+                'EUR',
+                8500,
+            ),
+        );
+
+        $payment = new Payment(
+            new PaymentService(
+            'creditcard',
+            )
+        );
+        $orderRequestHeader->setPayment($payment);
+
+        $orderRequest = OrderRequest::create(
+            $orderRequestHeader,
+        );
+
+        $request = new Request(
+            $orderRequest,
+        );
+
+        $header = new Header(
+            $from,
+            $to,
+            $sender,
+        );
+
+        $msg = CXml::forRequest(
+            new PayloadIdentity('payload-id', new DateTime('2000-01-01')),
+            $request,
+            $header,
+        );
+
+        $actualXml = Serializer::create()->serialize($msg);
+
+        // XML copied from cXML Reference Guide
+        $expectedXml =
+            '<?xml version="1.0" encoding="UTF-8"?>
+			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+			<Header>
+			<From>
+			<Credential domain="AribaNetworkUserId">
+			<Identity>admin@acme.com</Identity>
+			</Credential>
+			</From>
+			<To>
+			<Credential domain="DUNS">
+			<Identity>012345678</Identity>
+			</Credential>
+			</To>
+			<Sender>
+			<Credential domain="AribaNetworkUserId">
+			<Identity>sysadmin@buyer.com</Identity>
+			<SharedSecret>abracadabra</SharedSecret>
+			</Credential>
+			<UserAgent>Network Hub 1.1</UserAgent>
+			</Sender>
+			</Header>
+			<Request>
+        <OrderRequest>
+     <OrderRequestHeader orderDate="2000-10-12T18:41:29-08:00" orderID="DO1234" type="new">
+       <Total>
+         <Money currency="EUR">85.00</Money>
+       </Total>
+       <BillTo>
+         <Address>
+           <Name xml:lang="en">Acme GmbH</Name>
+           <PostalAddress name="default">
+             <Street>Acme Street 18</Street>
+             <City>Solingen</City>
+             <PostalCode>42699</PostalCode>
+             <Country isoCountryCode="DE">Deutschland</Country>
+           </PostalAddress>
+           <Phone name="company">
+             <TelephoneNumber>
+               <CountryCode isoCountryCode="DE">49</CountryCode>
+               <AreaOrCityCode>761</AreaOrCityCode>
+               <Number>1234567</Number>
+             </TelephoneNumber>
+           </Phone>
+         </Address>
+       </BillTo>
+        <Payment>
+          <PaymentService method="creditcard"/>
+        </Payment>
+     </OrderRequestHeader>
+   </OrderRequest>
+			</Request>
+			</cXML>';
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

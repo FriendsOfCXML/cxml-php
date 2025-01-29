@@ -105,10 +105,10 @@ $cXmlProcessor->process($cXml);
 
 ```php
 $credentialRegistry = new \CXml\Credential\Registry();
-//TODO register...
+//TODO register credentials...
 
 $handlerRegistry = new \CXml\Handler\HandlerRegistry();
-//TODO register...
+//TODO register handler...
 
 $builder = \CXml\Builder::create();
 
@@ -162,5 +162,35 @@ value.
 When parsing a date-property from a cXML document, the `CXml\Model\Date` will be instantiated **if** a date-only
 value was discovered (Y-m-d).
 
-# Credits
-- Markus Thielen (https://github.com/mathielen)
+## Extending cXML
+
+### Add custom elements
+
+The definition of cXML is open for extension. There are ways to extend the DTD with overriding existing variables and
+therefore adding custom elements. With version 2.1.0 we introduced a way to add custom elements to the cXML model.
+
+To make this happen, we have to build our own DTD file and import the original DTD file in it. We can then add our own
+elements and attributes in the variables that are defined in the original DTD file.
+
+#### Example
+An example of a custom DTD file that adds a custom element to the `PaymentService` element:
+
+```dtd
+<!ENTITY % cxml.payment  "( PCard | PaymentService )">
+
+<!ENTITY % elements SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd">
+        %elements;
+
+<!ELEMENT PaymentService (IdReference*, Extrinsic*)>
+<!ATTLIST PaymentService
+        method CDATA #REQUIRED
+        provider CDATA #IMPLIED
+        >
+```
+
+To use this DTD file for validation as well as for serialization and deserialization, you could save the file next to the
+other DTD files from cXML and use `DtdValidator::fromDtdDirectory` just as you would with the original DTD files. Or you
+could explicitly load only the new DTD file with `new DtdValidator($arrayOfDtdFilepaths)`.
+
+Also you would probably want generated xml files to point to your DTD file. You can do this by telling the serializer to
+use your DTD file: `Serializer::create($publicUrlToYourDtd)`.

@@ -174,9 +174,11 @@ class OrderRequestHeader
         return $this->supplierOrderInfo;
     }
 
-    public function addBusinessPartner(BusinessPartner $businessPartner): void
+    public function addBusinessPartner(BusinessPartner $businessPartner): self
     {
         $this->businessPartners[] = $businessPartner;
+
+        return $this;
     }
 
     public function getPayment(): ?Payment
@@ -184,9 +186,11 @@ class OrderRequestHeader
         return $this->payment;
     }
 
-    public function setPayment(?Payment $payment): void
+    public function setPayment(?Payment $payment): self
     {
         $this->payment = $payment;
+
+        return $this;
     }
 
     public function getPaymentTerm(): ?PaymentTerm
@@ -194,8 +198,10 @@ class OrderRequestHeader
         return $this->paymentTerm;
     }
 
-    public function setPaymentTerm(?PaymentTerm $paymentTerm): void
+    public function setPaymentTerm(?PaymentTerm $paymentTerm): self
     {
         $this->paymentTerm = $paymentTerm;
+
+        return $this;
     }
 }

@@ -60,6 +60,7 @@ class OrderRequestBuilder
     private array $businessPartners = [];
 
     private ?Payment $payment = null;
+
     private ?PaymentTerm $paymentTerm = null;
 
     private function __construct(

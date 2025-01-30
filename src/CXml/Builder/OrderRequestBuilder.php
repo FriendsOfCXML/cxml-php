@@ -365,9 +365,9 @@ class OrderRequestBuilder
         $this->businessPartners[] = $bp;
     }
 
-    public function setPayment(ExtensionInterface $payment): self
+    public function setPayment(?Payment $payment): self
     {
-        $this->payment = new Payment($payment);
+        $this->payment = $payment;
 
         return $this;
     }

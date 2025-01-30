@@ -34,7 +34,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
     private ModelClassMapping $modelClassMapping;
 
-    public function __construct(ModelClassMapping $modelClassMapping = null)
+    public function __construct(?ModelClassMapping $modelClassMapping = null)
     {
         $this->modelClassMapping = $modelClassMapping ?? ModelClassMapping::fromDefaultModelPath();
     }

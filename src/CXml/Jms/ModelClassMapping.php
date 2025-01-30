@@ -16,6 +16,7 @@ use Throwable;
 class ModelClassMapping
 {
     private static array $modelRegistry = [];
+
     public static bool $initialized = false;
 
     public static function fromDefaultModelPath(): self
@@ -55,7 +56,16 @@ class ModelClassMapping
             $className = 'CXml\Model' . $subNamespace . '\\' . $file->getBasename('.php');
 
             $class = new ReflectionClass($className);
-            if ($class->isAbstract() || $class->isInterface() || $class->isTrait() || $class->isAnonymous()) {
+            if ($class->isAbstract()) {
+                continue;
+            }
+            if ($class->isInterface()) {
+                continue;
+            }
+            if ($class->isTrait()) {
+                continue;
+            }
+            if ($class->isAnonymous()) {
                 continue;
             }
 

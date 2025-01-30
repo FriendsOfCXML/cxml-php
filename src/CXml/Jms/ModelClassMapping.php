@@ -54,7 +54,7 @@ class ModelClassMapping
             /** @var class-string $className */
             $className = 'CXml\Model' . $subNamespace . '\\' . $file->getBasename('.php');
 
-            $class = new \ReflectionClass($className);
+            $class = new ReflectionClass($className);
             if ($class->isAbstract() || $class->isInterface() || $class->isTrait() || $class->isAnonymous()) {
                 continue;
             }

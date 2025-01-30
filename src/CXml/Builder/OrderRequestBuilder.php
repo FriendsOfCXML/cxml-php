@@ -11,6 +11,7 @@ use CXml\Model\Classification;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
 use CXml\Model\Description;
+use CXml\Model\ExtensionInterface;
 use CXml\Model\Extrinsic;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;
@@ -19,7 +20,6 @@ use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\Payment;
-use CXml\Model\PaymentInterface;
 use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
 use CXml\Model\PriceBasisQuantity;
@@ -365,7 +365,7 @@ class OrderRequestBuilder
         $this->businessPartners[] = $bp;
     }
 
-    public function setPayment(PaymentInterface $payment): self
+    public function setPayment(ExtensionInterface $payment): self
     {
         $this->payment = new Payment($payment);
 

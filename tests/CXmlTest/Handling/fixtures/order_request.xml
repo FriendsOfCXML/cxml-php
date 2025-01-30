@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.060/cXML.dtd">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.060/Custom.dtd">
 <cXML payloadID="1737963337.319.1846511.7249@eu-hub" timestamp="2025-01-27T07:35:37+00:00">
     <Header>
         <From>
@@ -55,10 +55,11 @@
                     </Address>
                 </BillTo>
                 <Payment>
-                    <PaymentService method="cc" provider="stripe">
+                    <PaymentReference method="cc" provider="stripe">
+                        <Money currency="USD">10.00</Money>
                         <IdReference identifier="ch_..." domain="charge_id"/>
                         <IdReference identifier="pi_..." domain="intent_id"/>
-                    </PaymentService>
+                    </PaymentReference>
                 </Payment>
             </OrderRequestHeader>
             <ItemOut lineNumber="1" quantity="1">

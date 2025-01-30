@@ -6,7 +6,7 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-readonly class PCard implements PaymentInterface
+readonly class PCard
 {
     public function __construct(
         #[Serializer\XmlAttribute]

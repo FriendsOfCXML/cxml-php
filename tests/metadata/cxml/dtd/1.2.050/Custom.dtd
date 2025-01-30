@@ -1,10 +1,10 @@
-<!ENTITY % cxml.payment  "( PCard | PaymentService )">
+<!ENTITY % cxml.payment  "( PCard | PaymentToken | PaymentReference* )">
 
-<!ENTITY % elements SYSTEM "./cXML.dtd">
+<!ENTITY % elements SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd">
 %elements;
 
-<!ELEMENT PaymentService (IdReference*, Extrinsic*)>
-<!ATTLIST PaymentService
+<!ELEMENT PaymentReference (Money, IdReference*, Extrinsic*)>
+<!ATTLIST PaymentReference
         method CDATA #REQUIRED
         provider CDATA #IMPLIED
         >

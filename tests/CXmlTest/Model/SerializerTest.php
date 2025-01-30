@@ -12,11 +12,12 @@ use CXml\Model\CountryCode;
 use CXml\Model\Credential;
 use CXml\Model\CXml;
 use CXml\Model\Date;
-use CXml\Model\Extension\PaymentService;
+use CXml\Model\Extension\PaymentReference;
 use CXml\Model\Header;
 use CXml\Model\Message\Message;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
+use CXml\Model\Money;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\Party;
@@ -523,10 +524,25 @@ final class SerializerTest extends TestCase
             ),
         );
 
+        $payment1 = PaymentReference::create(
+            new Money('EUR', 1000),
+            'voucher',
+        )
+            ->addIdReference('code', 'ABC123');
+
+        $payment2 = PaymentReference::create(
+            new Money('EUR', 1000),
+            'creditcard',
+            'stripe',
+        )
+            ->addIdReference('charge-id', 'ch...')
+            ->addExtrinsicAsKeyValue('some', 'value');
+
         $payment = new Payment(
-            new PaymentService(
-                'creditcard',
-            ),
+            [
+                $payment1,
+                $payment2,
+            ],
         );
         $orderRequestHeader->setPayment($payment);
 
@@ -600,7 +616,15 @@ final class SerializerTest extends TestCase
          </Address>
        </BillTo>
         <Payment>
-          <PaymentService method="creditcard"/>
+          <PaymentReference method="voucher">
+            <Money currency="EUR">10.00</Money>          
+            <IdReference domain="code" identifier="ABC123"/>
+          </PaymentReference>
+          <PaymentReference method="creditcard" provider="stripe">
+            <Money currency="EUR">10.00</Money>          
+            <IdReference domain="charge-id" identifier="ch..."/>
+            <Extrinsic name="some">value</Extrinsic>
+          </PaymentReference>
         </Payment>
      </OrderRequestHeader>
    </OrderRequest>
@@ -608,5 +632,13 @@ final class SerializerTest extends TestCase
 			</cXML>';
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+
+        $cxml = Serializer::create()->deserialize($actualXml);
+        $deserializedPayment = $cxml->request->payload->orderRequestHeader->getPayment();
+
+        $this->assertNotNull($deserializedPayment);
+        $this->assertIsArray($deserializedPayment->paymentImpl);
+        $this->assertSame('voucher', $deserializedPayment->paymentImpl[0]->method);
+        $this->assertSame('creditcard', $deserializedPayment->paymentImpl[1]->method);
     }
 }

@@ -5,23 +5,27 @@ declare(strict_types=1);
 namespace CXml\Jms;
 
 use CXml\Model\Exception\CXmlModelNotFoundException;
+use CXml\Model\Extension\PaymentReference;
+use CXml\Model\ExtensionInterface;
 use CXml\Model\Message\Message;
 use CXml\Model\Payment;
 use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
+use FilesystemIterator;
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
+use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\XmlSerializationVisitor;
-use Metadata\ClassMetadata;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use ReflectionClass;
-use ReflectionException;
+use RuntimeException;
 use SimpleXMLElement;
-
-use function class_exists;
+use SplFileInfo;
 
 /**
  * Certain CXml-nodes have "wrappers"-nodes which this subscriber automatically handles.
@@ -33,6 +37,52 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         Request::class,
         Response::class,
     ];
+
+    private static array $allModelClasses;
+
+    private static function isModelClass(string $className): bool
+    {
+        return
+            str_starts_with($className, 'CXml\Model\\')
+            || in_array(ExtensionInterface::class, class_implements($className));
+    }
+
+    private static function getOrFindAllModelClasses(): array
+    {
+        if (isset(self::$allModelClasses)) {
+            return self::$allModelClasses;
+        }
+
+        self::$allModelClasses = [];
+
+        $pathToModelFiles = realpath(__DIR__ . '/../Model');
+        $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pathToModelFiles, FilesystemIterator::SKIP_DOTS));
+
+        /** @var SplFileInfo $file */
+        foreach ($rii as $file) {
+            if ('php' !== $file->getExtension()) {
+                continue;
+            }
+
+            $subNamespace = substr($file->getPath(), strlen($pathToModelFiles));
+            $subNamespace = str_replace('/', '\\', $subNamespace);
+
+            $className = 'CXml\Model' . $subNamespace . '\\' . $file->getBasename('.php');
+            if (!self::isModelClass($className)) {
+                continue;
+            }
+
+            $shortName = (new ReflectionClass($className))->getShortName();
+
+            if (isset(self::$allModelClasses[$shortName])) {
+                throw new RuntimeException('Duplicate short class name: ' . $shortName);
+            }
+
+            self::$allModelClasses[$shortName] = $className;
+        }
+
+        return self::$allModelClasses;
+    }
 
     public static function isEligible(string $incomingType): bool
     {
@@ -90,16 +140,25 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         /** @var Payment $payment */
         $payment = $event->getObject();
 
-        $paymentImpl = $payment->paymentImpl;
+        $paymentImplList = $payment->paymentImpl;
 
-        $cls = (new ReflectionClass($paymentImpl))->getShortName();
+        if (!is_array($paymentImplList)) {
+            $paymentImplList = [$paymentImplList];
+        }
 
-        $visitor->visitProperty(
-            new StaticPropertyMetadata(Payment::class, $cls, null),
-            $paymentImpl,
-        );
+        foreach ($paymentImplList as $impl) {
+            $cls = (new ReflectionClass($impl))->getShortName();
+
+            $visitor->visitProperty(
+                new StaticPropertyMetadata(Payment::class, $cls, null),
+                $impl,
+            );
+        }
     }
 
+    /**
+     * @throws CXmlModelNotFoundException
+     */
     public function onPreDeserializePayment(PreDeserializeEvent $event): void
     {
         /** @var ClassMetadata $metadata */
@@ -114,31 +173,30 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
         /** @var SimpleXMLElement $data */
         $data = $event->getData();
-        $payloadNode = $this->findPayloadNode($data);
-        if (!$payloadNode instanceof SimpleXMLElement) {
-            return;
+
+        $isArray = count($data->children()) > 1;
+        if ($isArray) {
+            $propertyMetadata->setType([
+                'name' => 'array',
+                'params' => [
+                    PaymentReference::class,
+                ],
+            ]);
+        } else {
+            $payloadNode = $data->children()[0];
+            $serializedName = $payloadNode->getName();
+            $cls = $this->findClassForSerializedName($serializedName);
+
+            $propertyMetadata->serializedName = $serializedName;
+            $propertyMetadata->setType([
+                'name' => $cls,
+                'params' => [],
+            ]);
         }
-
-        $serializedName = $payloadNode->getName();
-        $targetNamespace = (new ReflectionClass(Payment::class))->getNamespaceName();
-
-        $cls = $targetNamespace . '\Extension\\' . $serializedName;
-        if (!class_exists($cls)) {
-            throw new CXmlModelNotFoundException($serializedName);
-        }
-
-        $propertyMetadata->serializedName = $serializedName;
-        $propertyMetadata->setType([
-            'name' => $cls,
-            'params' => [],
-        ]);
 
         $metadata->addPropertyMetadata($propertyMetadata);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function onPostSerializeCXmlMainPayload(ObjectEvent $event): void
     {
         $incomingType = $event->getType()['name'];
@@ -166,7 +224,6 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
     /**
      * @throws CXmlModelNotFoundException
-     * @throws ReflectionException
      */
     public function onPreDeserializeCXmlMainPayload(PreDeserializeEvent $event): void
     {
@@ -186,12 +243,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         }
 
         $serializedName = $payloadNode->getName();
-        $targetNamespace = (new ReflectionClass($incomingType))->getNamespaceName();
-
-        $cls = $targetNamespace . '\\' . $serializedName;
-        if (!class_exists($cls)) {
-            throw new CXmlModelNotFoundException($serializedName);
-        }
+        $cls = $this->findClassForSerializedName($serializedName);
 
         // manipulate metadata of payload on-the-fly to match xml
 
@@ -207,5 +259,15 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         ]);
 
         $metadata->addPropertyMetadata($propertyMetadata);
+    }
+
+    /**
+     * @throws CXmlModelNotFoundException
+     */
+    private function findClassForSerializedName(string $serializedName): string
+    {
+        $modelClasses = self::getOrFindAllModelClasses();
+
+        return $modelClasses[$serializedName] ?? throw new CXmlModelNotFoundException($serializedName);
     }
 }

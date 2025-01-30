@@ -9,9 +9,9 @@ use JMS\Serializer\Annotation as Serializer;
 readonly class Payment
 {
     public function __construct(
-        /* this is being dynamically serialized with CXmlWrappingNodeJmsEventSubscriber */
+        /* this is being dynamically handled with CXmlWrappingNodeJmsEventSubscriber */
         #[Serializer\Exclude]
-        public PaymentInterface $paymentImpl,
+        public PCard|PaymentToken|ExtensionInterface|array $paymentImpl,
     ) {
     }
 }

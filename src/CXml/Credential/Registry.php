@@ -58,7 +58,7 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface,
             $senderCredential->identity,
         );
 
-        if ($baseCredential->sharedSecret !== $senderCredential->sharedSecret) {
+        if ($baseCredential->getSharedSecret() !== $senderCredential->getSharedSecret()) {
             throw new CXmlAuthenticationInvalidException($senderCredential);
         }
     }

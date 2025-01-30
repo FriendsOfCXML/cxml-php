@@ -6,7 +6,7 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-readonly class PaymentToken implements PaymentInterface
+readonly class PaymentToken
 {
     public function __construct(
         #[Serializer\XmlAttribute]

@@ -172,17 +172,19 @@ therefore adding custom elements. With version 2.1.0 we introduced a way to add 
 To make this happen, we have to build our own DTD file and import the original DTD file in it. We can then add our own
 elements and attributes in the variables that are defined in the original DTD file.
 
+TODO this is only really implemented for the Payment node at the moment.
+
 #### Example
-An example of a custom DTD file that adds a custom element to the `PaymentService` element:
+An example of a custom DTD file that adds a custom element to the `PaymentReference` element:
 
 ```dtd
-<!ENTITY % cxml.payment  "( PCard | PaymentService )">
+<!ENTITY % cxml.payment  "( PCard | PaymentToken | PaymentReference* )">
 
 <!ENTITY % elements SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd">
-        %elements;
+%elements;
 
-<!ELEMENT PaymentService (IdReference*, Extrinsic*)>
-<!ATTLIST PaymentService
+<!ELEMENT PaymentReference (Money, IdReference*, Extrinsic*)>
+<!ATTLIST PaymentReference
         method CDATA #REQUIRED
         provider CDATA #IMPLIED
         >
@@ -192,5 +194,7 @@ To use this DTD file for validation as well as for serialization and deserializa
 other DTD files from cXML and use `DtdValidator::fromDtdDirectory` just as you would with the original DTD files. Or you
 could explicitly load only the new DTD file with `new DtdValidator($arrayOfDtdFilepaths)`.
 
-Also you would probably want generated xml files to point to your DTD file. You can do this by telling the serializer to
-use your DTD file: `Serializer::create($publicUrlToYourDtd)`.
+Also you would probably want newly generated cXML files to point to your DTD file. You can do this by telling the
+serializer to use your DTD file: `Serializer::create('http://...publicUrlToYourDtd')`.
+
+Now the new element also has to be known by the serializer. Usually the model classes can be found in `CXml\Model`.

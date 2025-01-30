@@ -59,12 +59,15 @@ class ModelClassMapping
             if ($class->isAbstract()) {
                 continue;
             }
+
             if ($class->isInterface()) {
                 continue;
             }
+
             if ($class->isTrait()) {
                 continue;
             }
+
             if ($class->isAnonymous()) {
                 continue;
             }

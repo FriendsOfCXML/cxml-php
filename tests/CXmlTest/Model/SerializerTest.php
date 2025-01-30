@@ -638,6 +638,7 @@ final class SerializerTest extends TestCase
 
         $this->assertNotNull($deserializedPayment);
         $this->assertIsArray($deserializedPayment->paymentImpl);
+
         $this->assertSame('voucher', $deserializedPayment->paymentImpl[0]->method);
         $this->assertSame('creditcard', $deserializedPayment->paymentImpl[1]->method);
     }

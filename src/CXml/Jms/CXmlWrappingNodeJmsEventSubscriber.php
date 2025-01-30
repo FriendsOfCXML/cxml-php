@@ -131,10 +131,17 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
         $isArray = count($data->children()) > 1;
         if ($isArray) {
+            $propertyMetadata->xmlEntryName = 'PaymentReference';
+            $propertyMetadata->xmlCollection = true;
+            $propertyMetadata->xmlCollectionInline = true;
+            $propertyMetadata->xmlElementCData = true;
             $propertyMetadata->setType([
                 'name' => 'array',
                 'params' => [
-                    PaymentReference::class,
+                    [
+                        'name' => PaymentReference::class,
+                        'params' => [],
+                    ],
                 ],
             ]);
         } else {

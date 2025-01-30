@@ -77,7 +77,7 @@ readonly class Serializer
     {
         $xml = $this->jmsSerializer->serialize($cxml, 'xml');
 
-        $docType = '<!DOCTYPE cXML SYSTEM "' . $this->dtdUri . '">' . "\n";
+        $docType = '<!DOCTYPE cXML SYSTEM "' . $this->dtdUri . '">';
         $xmlPrefix = '<?xml version="1.0" encoding="UTF-8"?>';
 
         // add doctype, as it is mandatory in cXML

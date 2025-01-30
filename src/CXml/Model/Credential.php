@@ -29,7 +29,7 @@ class Credential implements Stringable
         return sprintf('%s@%s', $this->identity, $this->domain);
     }
 
-    public function setSharedSecret(string $sharedSecret): self
+    public function setSharedSecret(?string $sharedSecret): self
     {
         $this->sharedSecret = $sharedSecret;
 

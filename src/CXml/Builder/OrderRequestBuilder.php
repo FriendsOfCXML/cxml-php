@@ -19,6 +19,7 @@ use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
 use CXml\Model\Payment;
+use CXml\Model\PaymentTerm;
 use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
 use CXml\Model\PriceBasisQuantity;
@@ -59,6 +60,7 @@ class OrderRequestBuilder
     private array $businessPartners = [];
 
     private ?Payment $payment = null;
+    private ?PaymentTerm $paymentTerm = null;
 
     private function __construct(
         private readonly string $orderId,
@@ -312,6 +314,7 @@ class OrderRequestBuilder
         )
             ->setShipping($this->shipping)
             ->setPayment($this->payment)
+            ->setPaymentTerm($this->paymentTerm)
             ->setTax($this->tax);
 
         foreach ($this->comments as $comment) {
@@ -364,9 +367,10 @@ class OrderRequestBuilder
         $this->businessPartners[] = $bp;
     }
 
-    public function setPayment(?Payment $payment): self
+    public function setPayment(?Payment $payment, ?PaymentTerm $paymentTerm): self
     {
         $this->payment = $payment;
+        $this->paymentTerm = $paymentTerm;
 
         return $this;
     }

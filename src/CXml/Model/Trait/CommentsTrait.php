@@ -51,7 +51,7 @@ trait CommentsTrait
         $comments = $this->getComments();
         if (is_array($comments)) {
             foreach ($comments as $comment) {
-                $commentStrings[] = $comment->getValue();
+                $commentStrings[] = $comment->value;
             }
         }
 

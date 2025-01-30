@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CXml\Jms;
 
 use CXml\Model\Exception\CXmlModelNotFoundException;
@@ -19,7 +21,7 @@ class ModelClassMapping
     public static function fromDefaultModelPath(): self
     {
         return new self(
-            realpath(__DIR__ . '/../Model'),
+            __DIR__ . '/../Model',
         );
     }
 
@@ -49,8 +51,10 @@ class ModelClassMapping
             $subNamespace = substr($file->getPath(), strlen($this->pathToModelFiles));
             $subNamespace = str_replace('/', '\\', $subNamespace);
 
+            /** @var class-string $className */
             $className = 'CXml\Model' . $subNamespace . '\\' . $file->getBasename('.php');
-            $class = new ReflectionClass($className);
+
+            $class = new \ReflectionClass($className);
             if ($class->isAbstract() || $class->isInterface() || $class->isTrait() || $class->isAnonymous()) {
                 continue;
             }

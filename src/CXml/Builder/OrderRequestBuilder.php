@@ -11,7 +11,6 @@ use CXml\Model\Classification;
 use CXml\Model\Comment;
 use CXml\Model\Contact;
 use CXml\Model\Description;
-use CXml\Model\ExtensionInterface;
 use CXml\Model\Extrinsic;
 use CXml\Model\ItemDetail;
 use CXml\Model\ItemId;

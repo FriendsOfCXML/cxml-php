@@ -162,6 +162,7 @@ class OrderRequestBuilder
         array $carrierIdentifiers = [],
         ?string $carrierAccountNo = null,
         ?string $carrierShippingMethod = null,
+        array $idReferences = []
     ): self {
         $transportInformation = null;
         if (null !== $carrierAccountNo || null != $carrierShippingMethod) {
@@ -178,6 +179,10 @@ class OrderRequestBuilder
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
             $this->shipTo->addCarrierIdentifier($domain, $identifier);
+        }
+
+        foreach ($idReferences as $domain => $identifier) {
+            $this->shipTo->addIdReference($domain, $identifier);
         }
 
         return $this;

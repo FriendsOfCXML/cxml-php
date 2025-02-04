@@ -162,7 +162,7 @@ class OrderRequestBuilder
         array $carrierIdentifiers = [],
         ?string $carrierAccountNo = null,
         ?string $carrierShippingMethod = null,
-        array $idReferences = []
+        array $idReferences = [],
     ): self {
         $transportInformation = null;
         if (null !== $carrierAccountNo || null != $carrierShippingMethod) {

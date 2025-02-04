@@ -29,7 +29,9 @@ class OrderRequestHeader
     use ExtrinsicsTrait;
 
     final public const TYPE_NEW = 'new';
+
     final public const TYPE_UPDATE = 'update';
+
     final public const TYPE_DELETE = 'delete';
 
     #[Serializer\XmlElement]

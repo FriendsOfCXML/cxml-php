@@ -12,12 +12,12 @@ readonly class OrderReference
 {
     public function __construct(
         #[Serializer\SerializedName('DocumentReference')]
-        private ?DocumentReference $documentReference,
+        public ?DocumentReference $documentReference,
         #[Serializer\SerializedName('orderID')]
         #[Serializer\XmlAttribute]
-        private ?string $orderId = null,
+        public ?string $orderId = null,
         #[Serializer\XmlAttribute]
-        private ?DateTimeInterface $orderDate = null,
+        public ?DateTimeInterface $orderDate = null,
     ) {
     }
 
@@ -26,20 +26,5 @@ readonly class OrderReference
         return new self(
             new DocumentReference($documentReference),
         );
-    }
-
-    public function getDocumentReference(): ?DocumentReference
-    {
-        return $this->documentReference;
-    }
-
-    public function getOrderId(): ?string
-    {
-        return $this->orderId;
-    }
-
-    public function getOrderDate(): ?DateTimeInterface
-    {
-        return $this->orderDate;
     }
 }

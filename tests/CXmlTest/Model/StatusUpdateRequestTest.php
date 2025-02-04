@@ -26,7 +26,7 @@ final class StatusUpdateRequestTest extends TestCase implements PayloadIdentityF
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
+        $this->dtdValidator = DtdValidator::fromDtdDirectory(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
     }
 
     public function testMinimumExample(): void

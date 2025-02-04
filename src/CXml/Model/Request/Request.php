@@ -14,38 +14,18 @@ readonly class Request
 {
     public function __construct(
         #[Serializer\Exclude]
-        private RequestPayloadInterface $payload,
+        public RequestPayloadInterface $payload,
         #[Serializer\SerializedName('Status')]
-        private ?Status $status = null,
+        public ?Status $status = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('Id')]
-        private ?string $id = null,
+        public ?string $id = null,
         #[Serializer\SerializedName('deploymentMode')]
         #[Serializer\XmlAttribute]
-        private ?string $deploymentMode = null,
+        public ?string $deploymentMode = null,
     ) {
         if (null !== $deploymentMode) {
             Assertion::inArray($deploymentMode, [CXml::DEPLOYMENT_PROD, CXml::DEPLOYMENT_TEST]);
         }
-    }
-
-    public function getStatus(): ?Status
-    {
-        return $this->status;
-    }
-
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
-
-    public function getDeploymentMode(): ?string
-    {
-        return $this->deploymentMode;
-    }
-
-    public function getPayload(): RequestPayloadInterface
-    {
-        return $this->payload;
     }
 }

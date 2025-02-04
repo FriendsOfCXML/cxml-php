@@ -12,7 +12,7 @@ readonly class PunchOutSetupResponse implements ResponsePayloadInterface
 {
     public function __construct(
         #[Serializer\SerializedName('StartPage')]
-        private Url $startPage,
+        public Url $startPage,
     ) {
     }
 }

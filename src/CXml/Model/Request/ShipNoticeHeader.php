@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace CXml\Model\Request;
 
-use CXml\Model\CommentsTrait;
 use CXml\Model\DocumentReference;
-use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\IdReferencesTrait;
+use CXml\Model\Trait\CommentsTrait;
+use CXml\Model\Trait\ExtrinsicsTrait;
+use CXml\Model\Trait\IdReferencesTrait;
 use DateTime;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
@@ -20,20 +20,20 @@ class ShipNoticeHeader
     use CommentsTrait;
 
     #[Serializer\XmlAttribute]
-    private DateTimeInterface $noticeDate;
+    public readonly DateTimeInterface $noticeDate;
 
     #[Serializer\SerializedName('DocumentReference')]
-    private ?DocumentReference $documentReference;
+    public readonly ?DocumentReference $documentReference;
 
     public function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('shipmentID')]
-        private readonly string $shipmentId,
+        public readonly string $shipmentId,
         ?DateTimeInterface $noticeDate = null,
         #[Serializer\XmlAttribute]
-        private readonly ?DateTimeInterface $shipmentDate = null,
+        public readonly ?DateTimeInterface $shipmentDate = null,
         #[Serializer\XmlAttribute]
-        private readonly ?DateTimeInterface $deliveryDate = null,
+        public readonly ?DateTimeInterface $deliveryDate = null,
         ?string $documentReference = null,
     ) {
         $this->noticeDate = $noticeDate ?? new DateTime();
@@ -43,30 +43,5 @@ class ShipNoticeHeader
     public static function create(string $shipmentId, ?DateTimeInterface $noticeDate = null, ?DateTimeInterface $shipmentDate = null, ?DateTimeInterface $deliveryDate = null, ?string $documentReference = null): self
     {
         return new self($shipmentId, $noticeDate, $shipmentDate, $deliveryDate, $documentReference);
-    }
-
-    public function getDocumentReference(): ?DocumentReference
-    {
-        return $this->documentReference;
-    }
-
-    public function getShipmentId(): string
-    {
-        return $this->shipmentId;
-    }
-
-    public function getNoticeDate(): DateTimeInterface
-    {
-        return $this->noticeDate;
-    }
-
-    public function getShipmentDate(): ?DateTimeInterface
-    {
-        return $this->shipmentDate;
-    }
-
-    public function getDeliveryDate(): ?DateTimeInterface
-    {
-        return $this->deliveryDate;
     }
 }

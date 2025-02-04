@@ -5,21 +5,33 @@ declare(strict_types=1);
 namespace CXmlTest\Model;
 
 use CXml\Builder\OrderRequestBuilder;
+use CXml\Model\Address;
+use CXml\Model\BillTo;
+use CXml\Model\Country;
+use CXml\Model\CountryCode;
 use CXml\Model\Credential;
 use CXml\Model\CXml;
 use CXml\Model\Date;
+use CXml\Model\Extension\PaymentReference;
 use CXml\Model\Header;
 use CXml\Model\Message\Message;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\Message\PunchOutOrderMessageHeader;
+use CXml\Model\Money;
 use CXml\Model\MoneyWrapper;
+use CXml\Model\MultilanguageString;
 use CXml\Model\Party;
 use CXml\Model\PayloadIdentity;
+use CXml\Model\Payment;
+use CXml\Model\Phone;
+use CXml\Model\PostalAddress;
 use CXml\Model\Request\OrderRequest;
+use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Request\PunchOutSetupRequest;
 use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
 use CXml\Model\Status;
+use CXml\Model\TelephoneNumber;
 use CXml\Serializer;
 use DateTime;
 use PHPUnit\Framework\Attributes\CoversNothing;
@@ -262,7 +274,7 @@ final class SerializerTest extends TestCase
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xmlIn);
 
-        $this->assertSame('2022-06-07T10:09:56+00:00', $cXml->getTimestamp()->format('c'));
+        $this->assertSame('2022-06-07T10:09:56+00:00', $cXml->timestamp->format('c'));
     }
 
     public function testDeserializeWithDateTimeForDate(): void
@@ -289,15 +301,15 @@ final class SerializerTest extends TestCase
         $cXml = $serializer->deserialize($xmlIn);
 
         /** @var OrderRequest $orderRequest */
-        $orderRequest = $cXml->getRequest()->getPayload();
+        $orderRequest = $cXml->request->payload;
 
-        $this->assertSame('2023-02-25 02:30:00', $orderRequest->getItems()[0]->getRequestedDeliveryDate()->format('Y-m-d H:i:s'));
-        $this->assertInstanceOf(DateTime::class, $orderRequest->getItems()[0]->getRequestedDeliveryDate());
+        $this->assertSame('2023-02-25 02:30:00', $orderRequest->getItems()[0]->requestedDeliveryDate->format('Y-m-d H:i:s'));
+        $this->assertInstanceOf(DateTime::class, $orderRequest->getItems()[0]->requestedDeliveryDate);
 
-        $this->assertSame('2023-02-26', $orderRequest->getItems()[1]->getRequestedDeliveryDate()->format('Y-m-d'));
-        $this->assertInstanceOf(Date::class, $orderRequest->getItems()[1]->getRequestedDeliveryDate());
+        $this->assertSame('2023-02-26', $orderRequest->getItems()[1]->requestedDeliveryDate->format('Y-m-d'));
+        $this->assertInstanceOf(Date::class, $orderRequest->getItems()[1]->requestedDeliveryDate);
 
-        $this->assertNull($orderRequest->getItems()[2]->getRequestedDeliveryDate());
+        $this->assertNull($orderRequest->getItems()[2]->requestedDeliveryDate);
     }
 
     public function testDeserializeInvalidDate(): void
@@ -454,10 +466,180 @@ final class SerializerTest extends TestCase
         $cxml = Serializer::create()->deserialize($xml);
 
         /** @var OrderRequest $orderRequest */
-        $orderRequest = $cxml->getRequest()->getPayload();
+        $orderRequest = $cxml->request->payload;
 
         // Error: Typed property CXml\Model\Request\OrderRequestHeader::$shipTo must not be accessed before initialization
-        $shipTo = $orderRequest->getOrderRequestHeader()->getShipTo();
+        $shipTo = $orderRequest->orderRequestHeader->getShipTo();
         $this->assertNull($shipTo);
+    }
+
+    public function testSerializePayment(): void
+    {
+        $from = new Party(
+            new Credential('AribaNetworkUserId', 'admin@acme.com'),
+        );
+        $to = new Party(
+            new Credential('DUNS', '012345678'),
+        );
+        $sender = new Party(
+            new Credential('AribaNetworkUserId', 'sysadmin@buyer.com', 'abracadabra'),
+            'Network Hub 1.1',
+        );
+
+        $orderRequestHeader = OrderRequestHeader::create(
+            'DO1234',
+            new DateTime('2000-10-12T18:41:29-08:00'),
+            null,
+            new BillTo(
+                new Address(
+                    new MultilanguageString('Acme GmbH'),
+                    new PostalAddress(
+                        [],
+                        [
+                            'Acme Street 18',
+                        ],
+                        'Solingen',
+                        new Country('DE', 'Deutschland'),
+                        null,
+                        null,
+                        '42699',
+                        'default',
+                    ),
+                    null,
+                    null,
+                    null,
+                    new Phone(
+                        new TelephoneNumber(
+                            new CountryCode('DE', '49'),
+                            '761',
+                            '1234567',
+                        ),
+                        'company',
+                    ),
+                ),
+            ),
+            new MoneyWrapper(
+                'EUR',
+                8500,
+            ),
+        );
+
+        $payment1 = PaymentReference::create(
+            new Money('EUR', 1000),
+            'voucher',
+        )
+            ->addIdReference('code', 'ABC123');
+
+        $payment2 = PaymentReference::create(
+            new Money('EUR', 1000),
+            'creditcard',
+            'stripe',
+        )
+            ->addIdReference('charge-id', 'ch...')
+            ->addExtrinsicAsKeyValue('some', 'value');
+
+        $payment = new Payment(
+            [
+                $payment1,
+                $payment2,
+            ],
+        );
+        $orderRequestHeader->setPayment($payment);
+
+        $orderRequest = OrderRequest::create(
+            $orderRequestHeader,
+        );
+
+        $request = new Request(
+            $orderRequest,
+        );
+
+        $header = new Header(
+            $from,
+            $to,
+            $sender,
+        );
+
+        $msg = CXml::forRequest(
+            new PayloadIdentity('payload-id', new DateTime('2000-01-01')),
+            $request,
+            $header,
+        );
+
+        $actualXml = Serializer::create()->serialize($msg);
+
+        // XML copied from cXML Reference Guide
+        $expectedXml =
+            '<?xml version="1.0" encoding="UTF-8"?>
+			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+			<Header>
+			<From>
+			<Credential domain="AribaNetworkUserId">
+			<Identity>admin@acme.com</Identity>
+			</Credential>
+			</From>
+			<To>
+			<Credential domain="DUNS">
+			<Identity>012345678</Identity>
+			</Credential>
+			</To>
+			<Sender>
+			<Credential domain="AribaNetworkUserId">
+			<Identity>sysadmin@buyer.com</Identity>
+			<SharedSecret>abracadabra</SharedSecret>
+			</Credential>
+			<UserAgent>Network Hub 1.1</UserAgent>
+			</Sender>
+			</Header>
+			<Request>
+        <OrderRequest>
+     <OrderRequestHeader orderDate="2000-10-12T18:41:29-08:00" orderID="DO1234" type="new">
+       <Total>
+         <Money currency="EUR">85.00</Money>
+       </Total>
+       <BillTo>
+         <Address>
+           <Name xml:lang="en">Acme GmbH</Name>
+           <PostalAddress name="default">
+             <Street>Acme Street 18</Street>
+             <City>Solingen</City>
+             <PostalCode>42699</PostalCode>
+             <Country isoCountryCode="DE">Deutschland</Country>
+           </PostalAddress>
+           <Phone name="company">
+             <TelephoneNumber>
+               <CountryCode isoCountryCode="DE">49</CountryCode>
+               <AreaOrCityCode>761</AreaOrCityCode>
+               <Number>1234567</Number>
+             </TelephoneNumber>
+           </Phone>
+         </Address>
+       </BillTo>
+        <Payment>
+          <PaymentReference method="voucher">
+            <Money currency="EUR">10.00</Money>          
+            <IdReference domain="code" identifier="ABC123"/>
+          </PaymentReference>
+          <PaymentReference method="creditcard" provider="stripe">
+            <Money currency="EUR">10.00</Money>          
+            <IdReference domain="charge-id" identifier="ch..."/>
+            <Extrinsic name="some">value</Extrinsic>
+          </PaymentReference>
+        </Payment>
+     </OrderRequestHeader>
+   </OrderRequest>
+			</Request>
+			</cXML>';
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+
+        $cxml = Serializer::create()->deserialize($actualXml);
+        $deserializedPayment = $cxml->request->payload->orderRequestHeader->getPayment();
+
+        $this->assertNotNull($deserializedPayment);
+        $this->assertIsArray($deserializedPayment->paymentImpl);
+
+        $this->assertSame('voucher', $deserializedPayment->paymentImpl[0]->method);
+        $this->assertSame('creditcard', $deserializedPayment->paymentImpl[1]->method);
     }
 }

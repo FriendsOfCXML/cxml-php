@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CXml\Model;
+namespace CXml\Model\Trait;
 
+use CXml\Model\IdReference;
 use JMS\Serializer\Annotation as Serializer;
 
 trait IdReferencesTrait
@@ -30,8 +31,8 @@ trait IdReferencesTrait
     public function getIdReference(string $domain): ?string
     {
         foreach ($this->idReferences as $idReference) {
-            if ($idReference->getDomain() === $domain) {
-                return $idReference->getIdentifier();
+            if ($idReference->domain === $domain) {
+                return $idReference->identifier;
             }
         }
 

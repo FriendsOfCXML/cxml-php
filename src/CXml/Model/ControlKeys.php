@@ -10,7 +10,7 @@ readonly class ControlKeys
 {
     private function __construct(
         #[Serializer\SerializedName('InvoiceInstruction')]
-        private InvoiceInstruction $invoiceInstruction,
+        public InvoiceInstruction $invoiceInstruction,
     ) {
     }
 }

@@ -26,7 +26,7 @@ class ShipNoticeRequest implements RequestPayloadInterface
     private array $shipNoticePortions = [];
 
     public function __construct(#[Serializer\SerializedName('ShipNoticeHeader')]
-        private readonly ShipNoticeHeader $shipNoticeHeader)
+        public readonly ShipNoticeHeader $shipNoticeHeader)
     {
     }
 
@@ -47,11 +47,6 @@ class ShipNoticeRequest implements RequestPayloadInterface
         $this->shipNoticePortions[] = $shipNoticePortion;
 
         return $this;
-    }
-
-    public function getShipNoticeHeader(): ShipNoticeHeader
-    {
-        return $this->shipNoticeHeader;
     }
 
     public function getShipControls(): array

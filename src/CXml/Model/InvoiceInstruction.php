@@ -10,9 +10,9 @@ readonly class InvoiceInstruction
 {
     private function __construct(
         #[Serializer\XmlAttribute]
-        private string $verificationType,
+        public string $verificationType,
         #[Serializer\XmlAttribute]
-        private string $value,
+        public string $value,
     ) {
     }
 }

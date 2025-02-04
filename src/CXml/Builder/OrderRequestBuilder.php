@@ -18,6 +18,8 @@ use CXml\Model\ItemOut;
 use CXml\Model\Message\PunchOutOrderMessage;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\MultilanguageString;
+use CXml\Model\Payment;
+use CXml\Model\PaymentTerm;
 use CXml\Model\Phone;
 use CXml\Model\PostalAddress;
 use CXml\Model\PriceBasisQuantity;
@@ -57,6 +59,10 @@ class OrderRequestBuilder
 
     private array $businessPartners = [];
 
+    private ?Payment $payment = null;
+
+    private ?PaymentTerm $paymentTerm = null;
+
     private function __construct(
         private readonly string $orderId,
         private readonly DateTimeInterface $orderDate,
@@ -83,12 +89,12 @@ class OrderRequestBuilder
         ?DateTimeInterface $orderDate = null,
         string $language = 'en',
     ): self {
-        if (($supplierOrderInfo = $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getSupplierOrderInfo()) instanceof SupplierOrderInfo) {
-            $orderId ??= $supplierOrderInfo->getOrderId();
-            $orderDate ??= $supplierOrderInfo->getOrderDate();
+        if (($supplierOrderInfo = $punchOutOrderMessage->punchOutOrderMessageHeader->getSupplierOrderInfo()) instanceof SupplierOrderInfo) {
+            $orderId ??= $supplierOrderInfo->orderId;
+            $orderDate ??= $supplierOrderInfo->orderDate;
         }
 
-        $currency ??= $punchOutOrderMessage->getPunchOutOrderMessageHeader()->getTotal()->getMoney()->getCurrency();
+        $currency ??= $punchOutOrderMessage->punchOutOrderMessageHeader->total->money->currency;
 
         if (null === $orderId) {
             throw new LogicException('orderId should either be given or present in the PunchOutOrderMessage');
@@ -106,15 +112,15 @@ class OrderRequestBuilder
             null,
         );
 
-        $orb->setShipTo($punchOutOrderMessage->getPunchOutOrderMessageHeader()->getShipTo());
+        $orb->setShipTo($punchOutOrderMessage->punchOutOrderMessageHeader->getShipTo());
 
         foreach ($punchOutOrderMessage->getPunchoutOrderMessageItems() as $item) {
             $orb->addItem(
-                $item->getQuantity(),
-                $item->getItemId(),
-                $item->getItemDetail()->getDescription()->getValue(),
-                $item->getItemDetail()->getUnitOfMeasure(),
-                $item->getItemDetail()->getUnitPrice()->getMoney()->getValueCent(),
+                $item->quantity,
+                $item->itemId,
+                $item->itemDetail->description->value,
+                $item->itemDetail->unitOfMeasure,
+                $item->itemDetail->unitPrice->money->getValueCent(),
                 [
                     new Classification('custom', '0'), // TODO make this configurable
                 ],
@@ -156,6 +162,7 @@ class OrderRequestBuilder
         array $carrierIdentifiers = [],
         ?string $carrierAccountNo = null,
         ?string $carrierShippingMethod = null,
+        array $idReferences = [],
     ): self {
         $transportInformation = null;
         if (null !== $carrierAccountNo || null != $carrierShippingMethod) {
@@ -172,6 +179,10 @@ class OrderRequestBuilder
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
             $this->shipTo->addCarrierIdentifier($domain, $identifier);
+        }
+
+        foreach ($idReferences as $domain => $identifier) {
+            $this->shipTo->addIdReference($domain, $identifier);
         }
 
         return $this;
@@ -249,13 +260,13 @@ class OrderRequestBuilder
                 $priceBasisQuantity,
             ),
             $requestDeliveryDate,
-            $parent instanceof ItemOut ? $parent->getLineNumber() : null,
+            $parent instanceof ItemOut ? $parent->lineNumber : null,
         );
 
         $this->items[] = $item;
 
-        if ($priceBasisQuantity instanceof PriceBasisQuantity && $priceBasisQuantity->getQuantity() > 0) {
-            $this->total += (int)round($quantity * ($priceBasisQuantity->getConversionFactor() / $priceBasisQuantity->getQuantity()) * $unitPrice);
+        if ($priceBasisQuantity instanceof PriceBasisQuantity && $priceBasisQuantity->quantity > 0) {
+            $this->total += (int)round($quantity * ($priceBasisQuantity->conversionFactor / $priceBasisQuantity->quantity) * $unitPrice);
         } else {
             $this->total += ($quantity * $unitPrice);
         }
@@ -308,6 +319,8 @@ class OrderRequestBuilder
             $this->contacts,
         )
             ->setShipping($this->shipping)
+            ->setPayment($this->payment)
+            ->setPaymentTerm($this->paymentTerm)
             ->setTax($this->tax);
 
         foreach ($this->comments as $comment) {
@@ -358,5 +371,13 @@ class OrderRequestBuilder
         }
 
         $this->businessPartners[] = $bp;
+    }
+
+    public function setPayment(?Payment $payment, ?PaymentTerm $paymentTerm): self
+    {
+        $this->payment = $payment;
+        $this->paymentTerm = $paymentTerm;
+
+        return $this;
     }
 }

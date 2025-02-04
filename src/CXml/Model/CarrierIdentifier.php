@@ -7,7 +7,7 @@ namespace CXml\Model;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['value'])]
-class CarrierIdentifier
+readonly class CarrierIdentifier
 {
     final public const DOMAIN_COMPANYNAME = 'companyName';
 
@@ -25,19 +25,9 @@ class CarrierIdentifier
 
     public function __construct(
         #[Serializer\XmlAttribute]
-        private readonly string $domain,
+        public string $domain,
         #[Serializer\XmlValue(cdata: false)]
-        private readonly string $value,
+        public string $value,
     ) {
-    }
-
-    public function getDomain(): string
-    {
-        return $this->domain;
-    }
-
-    public function getValue(): string
-    {
-        return $this->value;
     }
 }

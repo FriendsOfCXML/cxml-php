@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
 class Tax
 {
     #[Serializer\SerializedName('Money')]
-    private readonly Money $money;
+    public readonly Money $money;
 
     /**
      * @var TaxDetail[]
@@ -24,19 +24,9 @@ class Tax
         int $value,
         #[Serializer\SerializedName('Description')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly MultilanguageString $description,
+        public readonly MultilanguageString $description,
     ) {
         $this->money = new Money($currency, $value);
-    }
-
-    public function getMoney(): Money
-    {
-        return $this->money;
-    }
-
-    public function getDescription(): MultilanguageString
-    {
-        return $this->description;
     }
 
     public function addTaxDetail(TaxDetail $taxDetail): void

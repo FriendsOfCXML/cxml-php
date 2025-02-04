@@ -19,24 +19,14 @@ class PunchOutOrderMessage implements MessagePayloadInterface
 
     private function __construct(#[Serializer\SerializedName('BuyerCookie')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly string $buyerCookie, #[Serializer\SerializedName('PunchOutOrderMessageHeader')]
-        private readonly PunchOutOrderMessageHeader $punchOutOrderMessageHeader)
+        public readonly string $buyerCookie, #[Serializer\SerializedName('PunchOutOrderMessageHeader')]
+        public readonly PunchOutOrderMessageHeader $punchOutOrderMessageHeader)
     {
     }
 
     public static function create(string $buyerCookie, PunchOutOrderMessageHeader $punchOutOrderMessageHeader): self
     {
         return new self($buyerCookie, $punchOutOrderMessageHeader);
-    }
-
-    public function getBuyerCookie(): string
-    {
-        return $this->buyerCookie;
-    }
-
-    public function getPunchOutOrderMessageHeader(): PunchOutOrderMessageHeader
-    {
-        return $this->punchOutOrderMessageHeader;
     }
 
     public function getPunchoutOrderMessageItems(): array

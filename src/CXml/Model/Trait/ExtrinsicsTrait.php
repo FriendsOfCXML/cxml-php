@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CXml\Model;
+namespace CXml\Model\Trait;
 
+use CXml\Model\Extrinsic;
 use JMS\Serializer\Annotation as Serializer;
 
 use function trim;
@@ -35,7 +36,7 @@ trait ExtrinsicsTrait
     public function getExtrinsicByName(string $name): ?Extrinsic
     {
         foreach ($this->extrinsics as $extrinsic) {
-            if ($extrinsic->getName() === $name) {
+            if ($extrinsic->name === $name) {
                 return $extrinsic;
             }
         }
@@ -59,7 +60,7 @@ trait ExtrinsicsTrait
         $extrinsics = [];
 
         foreach ($this->getExtrinsics() as $extrinsic) {
-            $extrinsics[trim($extrinsic->getName())] = trim($extrinsic->getValue());
+            $extrinsics[trim($extrinsic->name)] = trim($extrinsic->value);
         }
 
         return $extrinsics;

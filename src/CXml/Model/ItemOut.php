@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use CXml\Model\Trait\CommentsTrait;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -15,26 +16,26 @@ class ItemOut
     private function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('lineNumber')]
-        private int $lineNumber,
+        public readonly int $lineNumber,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('quantity')]
-        private int $quantity,
+        public readonly int $quantity,
         #[Serializer\SerializedName('ItemID')]
-        private ItemId $itemId,
+        public readonly ItemId $itemId,
         #[Serializer\SerializedName('ItemDetail')]
-        private ItemDetail $itemDetail,
+        public readonly ItemDetail $itemDetail,
         #[Serializer\XmlAttribute]
-        private ?DateTimeInterface $requestedDeliveryDate = null,
+        public readonly ?DateTimeInterface $requestedDeliveryDate = null,
         #[Serializer\XmlAttribute]
-        private ?int $parentLineNumber = null,
+        public readonly ?int $parentLineNumber = null,
         #[Serializer\SerializedName('ShipTo')]
-        private ?ShipTo $shipTo = null,
+        public readonly ?ShipTo $shipTo = null,
         #[Serializer\SerializedName('Distribution')]
-        private ?Distribution $distribution = null,
+        public readonly ?Distribution $distribution = null,
         #[Serializer\SerializedName('ControlKeys')]
-        private ?ControlKeys $controlKeys = null,
+        public readonly ?ControlKeys $controlKeys = null,
         #[Serializer\SerializedName('ScheduleLine')]
-        private ?ScheduleLine $scheduleLine = null,
+        public readonly ?ScheduleLine $scheduleLine = null,
     ) {
     }
 
@@ -62,55 +63,5 @@ class ItemOut
         $this->itemDetail->addClassification($classification);
 
         return $this;
-    }
-
-    public function getLineNumber(): int
-    {
-        return $this->lineNumber;
-    }
-
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
-    public function getRequestedDeliveryDate(): ?DateTimeInterface
-    {
-        return $this->requestedDeliveryDate;
-    }
-
-    public function getItemId(): ItemId
-    {
-        return $this->itemId;
-    }
-
-    public function getItemDetail(): ItemDetail
-    {
-        return $this->itemDetail;
-    }
-
-    public function getParentLineNumber(): ?int
-    {
-        return $this->parentLineNumber;
-    }
-
-    public function getShipTo(): ?ShipTo
-    {
-        return $this->shipTo;
-    }
-
-    public function getDistribution(): ?Distribution
-    {
-        return $this->distribution;
-    }
-
-    public function getControlKeys(): ?ControlKeys
-    {
-        return $this->controlKeys;
-    }
-
-    public function getScheduleLine(): ?ScheduleLine
-    {
-        return $this->scheduleLine;
     }
 }

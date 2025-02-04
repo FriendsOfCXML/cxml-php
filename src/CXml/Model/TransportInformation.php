@@ -11,9 +11,9 @@ readonly class TransportInformation
 {
     public function __construct(
         #[Serializer\SerializedName('Route')]
-        private ?Route $route,
+        public ?Route $route,
         #[Serializer\SerializedName('ShippingContractNumber')]
-        private ?ShippingContractNumber $shippingContractNumber,
+        public ?ShippingContractNumber $shippingContractNumber,
     ) {
     }
 

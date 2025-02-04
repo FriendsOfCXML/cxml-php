@@ -11,12 +11,7 @@ readonly class SelectedItem
 {
     public function __construct(
         #[Serializer\SerializedName('ItemID')]
-        private ItemId $itemId,
+        public ItemId $itemId,
     ) {
-    }
-
-    public function getItemId(): ItemId
-    {
-        return $this->itemId;
     }
 }

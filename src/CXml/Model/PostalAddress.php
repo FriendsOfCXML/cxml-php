@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use CXml\Model\Trait\ExtrinsicsTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 use function array_filter;
@@ -17,70 +18,30 @@ class PostalAddress
         #[Serializer\XmlList(entry: 'DeliverTo', inline: true)]
         #[Serializer\Type('array<string>')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly array $deliverTo,
+        public readonly array $deliverTo,
         #[Serializer\XmlList(entry: 'Street', inline: true)]
         #[Serializer\Type('array<string>')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly array $street,
+        public readonly array $street,
         #[Serializer\SerializedName('City')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly string $city,
+        public readonly string $city,
         #[Serializer\SerializedName('Country')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly Country $country,
+        public readonly Country $country,
         #[Serializer\SerializedName('Municipality')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly ?string $municipality = null,
+        public readonly ?string $municipality = null,
         #[Serializer\SerializedName('State')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly ?string $state = null,
+        public readonly ?string $state = null,
         #[Serializer\SerializedName('PostalCode')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly ?string $postalCode = null,
+        public readonly ?string $postalCode = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('name')]
-        private readonly ?string $name = null,
+        public readonly ?string $name = null,
     ) {
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function getDeliverTo(): array
-    {
-        return $this->deliverTo;
-    }
-
-    public function getStreet(): array
-    {
-        return $this->street;
-    }
-
-    public function getCity(): string
-    {
-        return $this->city;
-    }
-
-    public function getMunicipality(): ?string
-    {
-        return $this->municipality;
-    }
-
-    public function getState(): ?string
-    {
-        return $this->state;
-    }
-
-    public function getPostalCode(): ?string
-    {
-        return $this->postalCode;
-    }
-
-    public function getCountry(): Country
-    {
-        return $this->country;
     }
 
     /**

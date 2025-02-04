@@ -11,26 +11,11 @@ readonly class Header
 {
     public function __construct(
         #[Serializer\SerializedName('From')]
-        private Party $from,
+        public Party $from,
         #[Serializer\SerializedName('To')]
-        private Party $to,
+        public Party $to,
         #[Serializer\SerializedName('Sender')]
-        private Party $sender,
+        public Party $sender,
     ) {
-    }
-
-    public function getFrom(): Party
-    {
-        return $this->from;
-    }
-
-    public function getTo(): Party
-    {
-        return $this->to;
-    }
-
-    public function getSender(): Party
-    {
-        return $this->sender;
     }
 }

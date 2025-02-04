@@ -11,13 +11,13 @@ readonly class ScheduleLine
 {
     private function __construct(
         #[Serializer\SerializedName('UnitOfMeasure')]
-        private UnitOfMeasure $unitOfMeasure,
+        public UnitOfMeasure $unitOfMeasure,
         #[Serializer\XmlAttribute]
-        private int $quantity,
+        public int $quantity,
         #[Serializer\XmlAttribute]
-        private DateTimeInterface $requestedDeliveryDate,
+        public DateTimeInterface $requestedDeliveryDate,
         #[Serializer\XmlAttribute]
-        private ?int $lineNumber = null,
+        public ?int $lineNumber = null,
     ) {
     }
 }

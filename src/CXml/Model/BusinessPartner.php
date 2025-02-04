@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use CXml\Model\Trait\IdReferencesTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['type', 'role', 'address', 'idReferences'])]
@@ -18,11 +19,11 @@ class BusinessPartner
 
     public function __construct(
         #[Serializer\XmlAttribute]
-        private string $role,
+        public readonly string $role,
         #[Serializer\SerializedName('Address')]
-        private Address $address,
+        public readonly Address $address,
         #[Serializer\XmlAttribute]
-        private string $type = 'organization',
+        public readonly string $type = 'organization',
     ) {
     }
 }

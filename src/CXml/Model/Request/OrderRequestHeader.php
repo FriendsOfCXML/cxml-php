@@ -7,19 +7,21 @@ namespace CXml\Model\Request;
 use Assert\Assertion;
 use CXml\Model\BillTo;
 use CXml\Model\BusinessPartner;
-use CXml\Model\CommentsTrait;
 use CXml\Model\Contact;
-use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\IdReferencesTrait;
 use CXml\Model\MoneyWrapper;
+use CXml\Model\Payment;
+use CXml\Model\PaymentTerm;
 use CXml\Model\Shipping;
 use CXml\Model\ShipTo;
 use CXml\Model\SupplierOrderInfo;
 use CXml\Model\Tax;
+use CXml\Model\Trait\CommentsTrait;
+use CXml\Model\Trait\ExtrinsicsTrait;
+use CXml\Model\Trait\IdReferencesTrait;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['total', 'shipTo', 'billTo', 'businessPartners', 'shipping', 'tax', 'contacts', 'comments', 'supplierOrderInfo', 'idReferences', 'extrinsics'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['total', 'shipTo', 'billTo', 'businessPartners', 'shipping', 'tax', 'payment', 'paymentTerm', 'contacts', 'comments', 'supplierOrderInfo', 'idReferences', 'extrinsics'])]
 class OrderRequestHeader
 {
     use CommentsTrait;
@@ -28,6 +30,10 @@ class OrderRequestHeader
 
     final public const TYPE_NEW = 'new';
 
+    final public const TYPE_UPDATE = 'update';
+
+    final public const TYPE_DELETE = 'delete';
+
     #[Serializer\XmlElement]
     #[Serializer\SerializedName('Shipping')]
     private ?Shipping $shipping = null;
@@ -35,6 +41,14 @@ class OrderRequestHeader
     #[Serializer\XmlElement]
     #[Serializer\SerializedName('Tax')]
     private ?Tax $tax = null;
+
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('Payment')]
+    private ?Payment $payment = null;
+
+    #[Serializer\XmlElement]
+    #[Serializer\SerializedName('PaymentTerm')]
+    private ?PaymentTerm $paymentTerm = null;
 
     #[Serializer\SerializedName('SupplierOrderInfo')]
     private ?SupplierOrderInfo $supplierOrderInfo = null;
@@ -50,21 +64,21 @@ class OrderRequestHeader
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderID')]
-        private readonly string $orderId,
+        public readonly string $orderId,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderDate')]
-        private readonly DateTimeInterface $orderDate,
+        public readonly DateTimeInterface $orderDate,
         ?ShipTo $shipTo, /* cant be 'readonly' bc must be initialized with null -> jms deserialization */
         #[Serializer\XmlElement]
         #[Serializer\SerializedName('BillTo')]
-        private readonly BillTo $billTo,
+        public readonly BillTo $billTo,
         #[Serializer\XmlElement]
         #[Serializer\SerializedName('Total')]
-        private readonly MoneyWrapper $total,
+        public readonly MoneyWrapper $total,
         #[Serializer\XmlAttribute]
-        private readonly string $type = self::TYPE_NEW,
+        public readonly string $type = self::TYPE_NEW,
         #[Serializer\XmlAttribute]
-        private readonly ?DateTimeInterface $requestedDeliveryDate = null,
+        public readonly ?DateTimeInterface $requestedDeliveryDate = null,
         #[Serializer\Type('array<CXml\Model\Contact>')]
         #[Serializer\XmlList(entry: 'Contact', inline: true)]
         private ?array $contacts = null,
@@ -74,6 +88,8 @@ class OrderRequestHeader
         if (null !== $contacts) {
             Assertion::allIsInstanceOf($contacts, Contact::class);
         }
+
+        Assertion::inArray($type, [self::TYPE_NEW, self::TYPE_UPDATE, self::TYPE_DELETE]);
     }
 
     public static function create(
@@ -113,34 +129,9 @@ class OrderRequestHeader
         return $this;
     }
 
-    public function getOrderId(): string
-    {
-        return $this->orderId;
-    }
-
-    public function getOrderDate(): DateTimeInterface
-    {
-        return $this->orderDate;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function getTotal(): MoneyWrapper
-    {
-        return $this->total;
-    }
-
     public function getShipTo(): ?ShipTo
     {
         return $this->shipTo;
-    }
-
-    public function getBillTo(): BillTo
-    {
-        return $this->billTo;
     }
 
     public function addContact(Contact $contact): self
@@ -164,8 +155,34 @@ class OrderRequestHeader
         return $this->supplierOrderInfo;
     }
 
-    public function addBusinessPartner(BusinessPartner $businessPartner): void
+    public function addBusinessPartner(BusinessPartner $businessPartner): self
     {
         $this->businessPartners[] = $businessPartner;
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): self
+    {
+        $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getPaymentTerm(): ?PaymentTerm
+    {
+        return $this->paymentTerm;
+    }
+
+    public function setPaymentTerm(?PaymentTerm $paymentTerm): self
+    {
+        $this->paymentTerm = $paymentTerm;
+
+        return $this;
     }
 }

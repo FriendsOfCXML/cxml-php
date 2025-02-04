@@ -29,7 +29,7 @@ final class OrderRequestBuilderTest extends TestCase implements PayloadIdentityF
         $poom = $serializer->deserialize($poomXml);
 
         $actualOrderRequest =
-            OrderRequestBuilder::fromPunchOutOrderMessage($poom->getMessage()->getPayload())
+            OrderRequestBuilder::fromPunchOutOrderMessage($poom->message->payload)
                 ->billTo('name')
                 ->build();
 

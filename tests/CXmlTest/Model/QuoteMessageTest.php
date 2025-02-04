@@ -37,7 +37,7 @@ final class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryI
 
     protected function setUp(): void
     {
-        $this->dtdValidator = new DtdValidator(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
+        $this->dtdValidator = DtdValidator::fromDtdDirectory(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
     }
 
     public function testMinimumExample(): void
@@ -104,7 +104,7 @@ final class QuoteMessageTest extends TestCase implements PayloadIdentityFactoryI
             ),
         );
 
-        $quoteMessage->getQuoteMessageHeader()
+        $quoteMessage->quoteMessageHeader
             ->addContact($contact)
             ->setShipTo($shipTo)
             ->addExtrinsicAsKeyValue('expiry_date', '2023-01-08T23:00:06-08:00')

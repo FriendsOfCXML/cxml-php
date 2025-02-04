@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace CXml\Model\Request;
 
 use CXml\Model\DocumentReference;
-use CXml\Model\ExtrinsicsTrait;
 use CXml\Model\Status;
+use CXml\Model\Trait\ExtrinsicsTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference', 'extrinsics'])]
@@ -15,11 +15,11 @@ class StatusUpdateRequest implements RequestPayloadInterface
     use ExtrinsicsTrait;
 
     #[Serializer\SerializedName('DocumentReference')]
-    private ?DocumentReference $documentReference;
+    public readonly ?DocumentReference $documentReference;
 
     public function __construct(
         #[Serializer\SerializedName('Status')]
-        private readonly Status $status,
+        public readonly Status $status,
         ?string $documentReference = null,
     ) {
         $this->documentReference = null !== $documentReference && '' !== $documentReference && '0' !== $documentReference ? new DocumentReference($documentReference) : null;
@@ -31,15 +31,5 @@ class StatusUpdateRequest implements RequestPayloadInterface
             $status,
             $documentReference,
         );
-    }
-
-    public function getDocumentReference(): ?DocumentReference
-    {
-        return $this->documentReference;
-    }
-
-    public function getStatus(): Status
-    {
-        return $this->status;
     }
 }

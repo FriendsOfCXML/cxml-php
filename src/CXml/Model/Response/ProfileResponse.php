@@ -14,7 +14,7 @@ use JMS\Serializer\Annotation as Serializer;
 class ProfileResponse implements ResponsePayloadInterface
 {
     #[Serializer\XmlAttribute]
-    private readonly DateTimeInterface $effectiveDate;
+    public readonly DateTimeInterface $effectiveDate;
 
     /**
      * @var Option[]
@@ -33,7 +33,7 @@ class ProfileResponse implements ResponsePayloadInterface
     public function __construct(
         ?DateTimeInterface $effectiveDate = null,
         #[Serializer\XmlAttribute]
-        private readonly ?DateTimeInterface $lastRefresh = null,
+        public readonly ?DateTimeInterface $lastRefresh = null,
     ) {
         $this->effectiveDate = $effectiveDate ?? new DateTime();
     }

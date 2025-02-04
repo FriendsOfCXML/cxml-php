@@ -10,37 +10,17 @@ use JMS\Serializer\Annotation as Serializer;
 readonly class Comment
 {
     #[Serializer\SerializedName('Attachment')]
-    private ?Url $attachment;
+    public ?Url $attachment;
 
     public function __construct(
         #[Serializer\XmlValue(cdata: false)]
-        private ?string $value = null,
+        public ?string $value = null,
         #[Serializer\XmlAttribute]
-        private ?string $type = null,
+        public ?string $type = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private ?string $lang = null,
+        public ?string $lang = null,
         ?string $attachment = null,
     ) {
         $this->attachment = null !== $attachment && '' !== $attachment && '0' !== $attachment ? new Url($attachment) : null;
-    }
-
-    public function getAttachment(): ?Url
-    {
-        return $this->attachment;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    public function getLang(): ?string
-    {
-        return $this->lang;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
     }
 }

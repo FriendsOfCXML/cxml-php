@@ -14,7 +14,7 @@ use Stringable;
 
 #[Serializer\XmlRoot('cXML')]
 #[Serializer\AccessorOrder(order: 'custom', custom: ['header', 'message', 'request', 'response'])]
-class CXml implements Stringable
+readonly class CXml implements Stringable
 {
     final public const DEPLOYMENT_TEST = 'test';
 
@@ -23,65 +23,35 @@ class CXml implements Stringable
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('payloadID')]
-        private readonly string $payloadId,
+        public string $payloadId,
         #[Serializer\XmlAttribute]
-        private readonly DateTimeInterface $timestamp,
+        public DateTimeInterface $timestamp,
         #[Serializer\SerializedName('Request')]
-        private readonly ?Request $request = null,
+        public ?Request $request = null,
         #[Serializer\SerializedName('Response')]
-        private readonly ?Response $response = null,
+        public ?Response $response = null,
         #[Serializer\SerializedName('Message')]
-        private readonly ?Message $message = null,
+        public ?Message $message = null,
         #[Serializer\SerializedName('Header')]
-        private readonly ?Header $header = null,
+        public ?Header $header = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        private readonly ?string $lang = null,
+        public ?string $lang = null,
     ) {
     }
 
     public static function forMessage(PayloadIdentity $payloadIdentity, Message $message, Header $header, ?string $lang = null): self
     {
-        return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), null, null, $message, $header, $lang);
+        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, null, null, $message, $header, $lang);
     }
 
     public static function forRequest(PayloadIdentity $payloadIdentity, Request $request, Header $header, ?string $lang = null): self
     {
-        return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), $request, null, null, $header, $lang);
+        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, $request, null, null, $header, $lang);
     }
 
     public static function forResponse(PayloadIdentity $payloadIdentity, Response $response, ?string $lang = null): self
     {
-        return new self($payloadIdentity->getPayloadId(), $payloadIdentity->getTimestamp(), null, $response, null, null, $lang);
-    }
-
-    public function getPayloadId(): string
-    {
-        return $this->payloadId;
-    }
-
-    public function getTimestamp(): DateTimeInterface
-    {
-        return $this->timestamp;
-    }
-
-    public function getHeader(): ?Header
-    {
-        return $this->header;
-    }
-
-    public function getRequest(): ?Request
-    {
-        return $this->request;
-    }
-
-    public function getResponse(): ?Response
-    {
-        return $this->response;
-    }
-
-    public function getMessage(): ?Message
-    {
-        return $this->message;
+        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, null, $response, null, null, $lang);
     }
 
     public function __toString(): string
@@ -90,7 +60,7 @@ class CXml implements Stringable
 
         $shortName = 'undefined';
         if (null !== $wrapper) {
-            $payload = $wrapper->getPayload();
+            $payload = $wrapper->payload;
 
             if (null !== $payload) {
                 $shortName = (new ReflectionClass($payload))->getShortName();
@@ -105,15 +75,15 @@ class CXml implements Stringable
     public function getStatus(): ?Status
     {
         if ($this->request instanceof Request) {
-            return $this->request->getStatus();
+            return $this->request->status;
         }
 
         if ($this->message instanceof Message) {
-            return $this->message->getStatus();
+            return $this->message->status;
         }
 
         if ($this->response instanceof Response) {
-            return $this->response->getStatus();
+            return $this->response->status;
         }
 
         return null;

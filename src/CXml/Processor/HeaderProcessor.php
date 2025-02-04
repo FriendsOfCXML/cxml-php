@@ -35,10 +35,10 @@ readonly class HeaderProcessor
      */
     private function validatePartys(Header $header): void
     {
-        $this->credentialValidator->validate($header->getFrom()->getCredential());
+        $this->credentialValidator->validate($header->from->credential);
 
-        $this->credentialValidator->validate($header->getTo()->getCredential());
+        $this->credentialValidator->validate($header->to->credential);
 
-        $this->credentialValidator->validate($header->getSender()->getCredential());
+        $this->credentialValidator->validate($header->sender->credential);
     }
 }

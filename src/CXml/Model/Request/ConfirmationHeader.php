@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
-use CXml\Model\ExtrinsicsTrait;
-use CXml\Model\IdReferencesTrait;
+use CXml\Model\Trait\ExtrinsicsTrait;
+use CXml\Model\Trait\IdReferencesTrait;
 use DateTime;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
@@ -36,9 +36,9 @@ class ConfirmationHeader
     public function __construct(
         #[Serializer\SerializedName('type')]
         #[Serializer\XmlAttribute]
-        private readonly string $type,
+        public readonly string $type,
         #[Serializer\XmlAttribute]
-        private readonly DateTimeInterface $noticeDate = new DateTime(),
+        public readonly DateTimeInterface $noticeDate = new DateTime(),
     ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,
@@ -58,15 +58,5 @@ class ConfirmationHeader
             $type,
             $noticeDate,
         );
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function getNoticeDate(): DateTimeInterface
-    {
-        return $this->noticeDate;
     }
 }

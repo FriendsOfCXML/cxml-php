@@ -12,9 +12,9 @@ readonly class Route
 
     public function __construct(
         #[Serializer\XmlValue(cdata: false)]
-        private string $value,
+        public string $value,
         #[Serializer\XmlAttribute]
-        private string $method = self::METHOD_UNKNOWN,
+        public string $method = self::METHOD_UNKNOWN,
     ) {
     }
 }

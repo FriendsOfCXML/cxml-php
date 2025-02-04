@@ -10,13 +10,13 @@ readonly class TaxDetail
 {
     public function __construct(
         #[Serializer\XmlAttribute]
-        private string $category,
+        public string $category,
         #[Serializer\SerializedName('TaxAmount')]
-        private MoneyWrapper $taxAmount,
+        public MoneyWrapper $taxAmount,
         #[Serializer\XmlAttribute]
-        private ?int $percentageRate = null,
+        public ?int $percentageRate = null,
         #[Serializer\XmlAttribute]
-        private ?string $taxRateType = null,
+        public ?string $taxRateType = null,
     ) {
     }
 }

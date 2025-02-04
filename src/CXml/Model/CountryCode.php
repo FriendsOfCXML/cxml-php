@@ -12,19 +12,9 @@ readonly class CountryCode
     public function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('isoCountryCode')]
-        private string $isoCountryCode,
+        public string $isoCountryCode,
         #[Serializer\XmlValue(cdata: false)]
-        private ?string $dialCode = null,
+        public ?string $dialCode = null,
     ) {
-    }
-
-    public function getIsoCountryCode(): string
-    {
-        return $this->isoCountryCode;
-    }
-
-    public function getDialCode(): ?string
-    {
-        return $this->dialCode;
     }
 }

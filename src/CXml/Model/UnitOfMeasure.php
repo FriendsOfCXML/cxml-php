@@ -10,12 +10,7 @@ readonly class UnitOfMeasure
 {
     public function __construct(
         #[Serializer\XmlValue(cdata: false)]
-        private string $value,
+        public string $value,
     ) {
-    }
-
-    public function getValue(): string
-    {
-        return $this->value;
     }
 }

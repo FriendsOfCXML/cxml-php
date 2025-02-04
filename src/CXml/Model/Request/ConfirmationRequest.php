@@ -12,24 +12,14 @@ readonly class ConfirmationRequest implements RequestPayloadInterface
 {
     public function __construct(
         #[Serializer\SerializedName('ConfirmationHeader')]
-        private ConfirmationHeader $confirmationHeader,
+        public ConfirmationHeader $confirmationHeader,
         #[Serializer\SerializedName('OrderReference')]
-        private OrderReference $orderReference,
+        public OrderReference $orderReference,
     ) {
     }
 
     public static function create(ConfirmationHeader $confirmationHeader, OrderReference $orderReference): self
     {
         return new self($confirmationHeader, $orderReference);
-    }
-
-    public function getConfirmationHeader(): ConfirmationHeader
-    {
-        return $this->confirmationHeader;
-    }
-
-    public function getOrderReference(): OrderReference
-    {
-        return $this->orderReference;
     }
 }

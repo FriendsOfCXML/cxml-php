@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CXml\Model;
 
 use Assert\Assertion;
+use CXml\Model\Trait\ExtrinsicsTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'description', 'unitOfMeasure', 'priceBasisQuantity', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime'])]
@@ -40,15 +41,15 @@ class ItemDetail
     protected function __construct(
         #[Serializer\SerializedName('Description')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly Description $description,
+        public readonly Description $description,
         #[Serializer\SerializedName('UnitOfMeasure')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly string $unitOfMeasure,
+        public readonly string $unitOfMeasure,
         #[Serializer\SerializedName('UnitPrice')]
-        private readonly MoneyWrapper $unitPrice,
+        public readonly MoneyWrapper $unitPrice,
         #[Serializer\SerializedName('PriceBasisQuantity')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly ?PriceBasisQuantity $priceBasisQuantity = null,
+        public readonly ?PriceBasisQuantity $priceBasisQuantity = null,
     ) {
     }
 
@@ -99,26 +100,6 @@ class ItemDetail
         $this->classifications[] = $classification;
 
         return $this;
-    }
-
-    public function getUnitPrice(): MoneyWrapper
-    {
-        return $this->unitPrice;
-    }
-
-    public function getDescription(): Description
-    {
-        return $this->description;
-    }
-
-    public function getUnitOfMeasure(): string
-    {
-        return $this->unitOfMeasure;
-    }
-
-    public function getPriceBasisQuantity(): ?PriceBasisQuantity
-    {
-        return $this->priceBasisQuantity;
     }
 
     public function getClassifications(): array

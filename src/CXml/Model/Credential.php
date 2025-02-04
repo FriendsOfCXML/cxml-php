@@ -14,38 +14,30 @@ class Credential implements Stringable
 {
     public function __construct(
         #[Serializer\XmlAttribute]
-        private readonly string $domain,
+        public readonly string $domain,
         #[Serializer\SerializedName('Identity')]
         #[Serializer\XmlElement(cdata: false)]
-        private readonly string $identity,
+        public readonly string $identity,
         #[Serializer\SerializedName('SharedSecret')]
         #[Serializer\XmlElement(cdata: false)]
         private ?string $sharedSecret = null,
     ) {
     }
 
-    public function getDomain(): string
+    public function __toString(): string
     {
-        return $this->domain;
+        return sprintf('%s@%s', $this->identity, $this->domain);
     }
 
-    public function getIdentity(): string
+    public function setSharedSecret(?string $sharedSecret): self
     {
-        return $this->identity;
+        $this->sharedSecret = $sharedSecret;
+
+        return $this;
     }
 
     public function getSharedSecret(): ?string
     {
         return $this->sharedSecret;
-    }
-
-    public function setSharedSecret(?string $sharedSecret): void
-    {
-        $this->sharedSecret = $sharedSecret;
-    }
-
-    public function __toString(): string
-    {
-        return sprintf('%s@%s', $this->identity, $this->domain);
     }
 }

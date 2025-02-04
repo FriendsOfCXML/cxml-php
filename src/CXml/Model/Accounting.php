@@ -10,15 +10,15 @@ readonly class Accounting
 {
     private function __construct(
         #[Serializer\XmlAttribute]
-        private string $name,
+        public string $name,
         /**
          * @var AccountingSegment[]
          */
         #[Serializer\XmlList(entry: 'AccountingSegment', inline: true)]
         #[Serializer\Type('array<CXml\Model\AccountingSegment>')]
-        private array $accountingSegments,
+        public array $accountingSegments,
         #[Serializer\SerializedName('Charge')]
-        private MoneyWrapper $charge,
+        public MoneyWrapper $charge,
     ) {
     }
 }

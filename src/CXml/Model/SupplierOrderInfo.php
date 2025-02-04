@@ -12,19 +12,9 @@ readonly class SupplierOrderInfo
     public function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('orderID')]
-        private string $orderId,
+        public string $orderId,
         #[Serializer\XmlAttribute]
-        private ?DateTimeInterface $orderDate = null,
+        public ?DateTimeInterface $orderDate = null,
     ) {
-    }
-
-    public function getOrderId(): string
-    {
-        return $this->orderId;
-    }
-
-    public function getOrderDate(): ?DateTimeInterface
-    {
-        return $this->orderDate;
     }
 }

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CXml\Model;
+namespace CXml\Model\Trait;
 
+use CXml\Model\Comment;
 use JMS\Serializer\Annotation as Serializer;
 
 use function implode;
@@ -50,7 +51,7 @@ trait CommentsTrait
         $comments = $this->getComments();
         if (is_array($comments)) {
             foreach ($comments as $comment) {
-                $commentStrings[] = $comment->getValue();
+                $commentStrings[] = $comment->value;
             }
         }
 

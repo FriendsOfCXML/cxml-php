@@ -30,11 +30,13 @@ readonly class Serializer
 {
     public const DOC_TYPE_VERSION = '1.2.063';
 
-    private function __construct(private SerializerInterface $jmsSerializer)
-    {
+    private function __construct(
+        private SerializerInterface $jmsSerializer,
+        private string $dtdUri,
+    ) {
     }
 
-    public static function create(): self
+    public static function create(string $dtdUri = 'http://xml.cxml.org/schemas/cXML/' . self::DOC_TYPE_VERSION . '/cXML.dtd'): self
     {
         $jmsSerializer = SerializerBuilder::create()
             ->configureListeners(static function (EventDispatcherInterface $dispatcher): void {
@@ -55,7 +57,7 @@ readonly class Serializer
             )
             ->build();
 
-        return new self($jmsSerializer);
+        return new self($jmsSerializer, $dtdUri);
     }
 
     public function deserialize(string $xml): CXml
@@ -71,11 +73,11 @@ readonly class Serializer
         return $this->jmsSerializer->deserialize($xml, CXml::class, 'xml');
     }
 
-    public function serialize(CXml $cxml, string $docTypeVersion = self::DOC_TYPE_VERSION): string
+    public function serialize(CXml $cxml): string
     {
         $xml = $this->jmsSerializer->serialize($cxml, 'xml');
 
-        $docType = '<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/' . $docTypeVersion . '/cXML.dtd">';
+        $docType = '<!DOCTYPE cXML SYSTEM "' . $this->dtdUri . '">';
         $xmlPrefix = '<?xml version="1.0" encoding="UTF-8"?>';
 
         // add doctype, as it is mandatory in cXML

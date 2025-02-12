@@ -35,11 +35,13 @@ class ConfirmationHeader
     final public const TYPE_UNKNOWN = 'unknown';
 
     public function __construct(
-        #[Serializer\SerializedName('type')]
         #[Serializer\XmlAttribute]
         public readonly string $type,
         #[Serializer\XmlAttribute]
         public readonly DateTimeInterface $noticeDate = new DateTime(),
+        #[Serializer\SerializedName('confirmID')]
+        #[Serializer\XmlAttribute]
+        public readonly ?string $confirmId = null,
     ) {
         Assertion::inArray($type, [
             self::TYPE_ACCEPT,
@@ -53,11 +55,12 @@ class ConfirmationHeader
         ]);
     }
 
-    public static function create(string $type, DateTimeInterface $noticeDate = new DateTime()): self
+    public static function create(string $type, DateTimeInterface $noticeDate = new DateTime(), ?string $confirmId = null): self
     {
         return new self(
             $type,
             $noticeDate,
+            $confirmId,
         );
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
+use CXml\Model\Request\ConfirmationHeader;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['quantity', 'lineNumber', 'unitOfMeasure', 'confirmationStatus'])]
@@ -25,6 +26,11 @@ class ConfirmationItem
         #[Serializer\Type('array<CXml\Model\ConfirmationStatus>')]
         public array $confirmationStatus = [],
     ) {
+    }
+
+    public static function create(int $quantity, int $lineNumber, string $unitOfMeasure): self
+    {
+        return new self($quantity, $lineNumber, $unitOfMeasure);
     }
 
     public function addConfirmationStatus(ConfirmationStatus $confirmationStatus): self

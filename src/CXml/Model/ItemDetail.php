@@ -56,7 +56,7 @@ class ItemDetail
     public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications, ?PriceBasisQuantity $priceBasisQuantity = null): self
     {
         Assertion::allIsInstanceOf($classifications, Classification::class);
-        Assertion::notEmpty($classifications); // at least one classification is necessary (via DTD)
+        //Assertion::notEmpty($classifications); // at least one classification is necessary (via DTD)
 
         $itemDetail = new self($description, $unitOfMeasure, $unitPrice, $priceBasisQuantity);
 

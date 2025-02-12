@@ -12,7 +12,7 @@ readonly class OrderReference
 {
     public function __construct(
         #[Serializer\SerializedName('DocumentReference')]
-        public ?DocumentReference $documentReference,
+        public DocumentReference $documentReference,
         #[Serializer\SerializedName('orderID')]
         #[Serializer\XmlAttribute]
         public ?string $orderId = null,

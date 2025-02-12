@@ -10,25 +10,25 @@ use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['quantity', 'type', 'shipmentDate', 'deliveryDate', 'unitOfMeasure', 'itemIn'])]
-class ConfirmationStatus
+readonly class ConfirmationStatus
 {
     public function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('quantity')]
-        public readonly int $quantity,
-        #[Serializer\SerializedName('type')]
-        #[Serializer\XmlAttribute]
-        public readonly string $type,
+        public int $quantity,
         #[Serializer\SerializedName('UnitOfMeasure')]
         #[Serializer\XmlElement(cdata: false)]
-        public readonly string $unitOfMeasure,
+        public string $unitOfMeasure,
         #[Serializer\SerializedName('ItemIn')]
         #[Serializer\XmlElement(cdata: false)]
         private ItemIn $itemIn,
         #[Serializer\XmlAttribute]
-        public readonly ?DateTimeInterface $shipmentDate = null,
+        public ?DateTimeInterface $shipmentDate = null,
         #[Serializer\XmlAttribute]
-        public readonly ?DateTimeInterface $deliveryDate = null,
+        public ?DateTimeInterface $deliveryDate = null,
+        #[Serializer\SerializedName('type')]
+        #[Serializer\XmlAttribute]
+        public string $type = ConfirmationHeader::TYPE_ACCEPT,
     ) {
         Assertion::inArray($type, [
             ConfirmationHeader::TYPE_ACCEPT,

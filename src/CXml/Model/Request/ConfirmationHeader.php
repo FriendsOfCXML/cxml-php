@@ -32,6 +32,7 @@ class ConfirmationHeader
     final public const TYPE_REQUESTTOPAY = 'requestToPay';
 
     final public const TYPE_REPLACE = 'replace';
+    final public const TYPE_UNKNOWN = 'unknown';
 
     public function __construct(
         #[Serializer\SerializedName('type')]

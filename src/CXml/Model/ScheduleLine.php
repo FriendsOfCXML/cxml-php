@@ -11,7 +11,8 @@ readonly class ScheduleLine
 {
     private function __construct(
         #[Serializer\SerializedName('UnitOfMeasure')]
-        public UnitOfMeasure $unitOfMeasure,
+        #[Serializer\XmlElement(cdata: false)]
+        public string $unitOfMeasure,
         #[Serializer\XmlAttribute]
         public int $quantity,
         #[Serializer\XmlAttribute]

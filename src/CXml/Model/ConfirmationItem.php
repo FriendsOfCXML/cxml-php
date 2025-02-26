@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CXml\Model;
 
-use CXml\Model\Request\ConfirmationHeader;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['quantity', 'lineNumber', 'unitOfMeasure', 'confirmationStatus'])]

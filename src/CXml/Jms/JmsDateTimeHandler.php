@@ -59,6 +59,12 @@ class JmsDateTimeHandler
             return $dateTime;
         }
 
+        // else try simple datetime-format
+        $dateTime = Date::createFromFormat('Y-m-d H:i:s', $dateAsString->__toString());
+        if ($dateTime instanceof DateTimeInterface) {
+            return $dateTime;
+        }
+
         // else try simple date-format
         $dateTime = Date::createFromFormat('Y-m-d', $dateAsString->__toString());
         if ($dateTime instanceof DateTimeInterface) {

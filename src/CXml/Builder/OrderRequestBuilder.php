@@ -219,8 +219,8 @@ class OrderRequestBuilder
                 new TaxDetail(
                     $taxDetail['category'],
                     new MoneyWrapper($this->currency, $taxDetail['amount']),
-                    $taxDetail['rate'],
-                    $taxDetail['type'],
+                    $taxDetail['rate'] ?? null,
+                    $taxDetail['type'] ?? null,
                 ),
             );
         }

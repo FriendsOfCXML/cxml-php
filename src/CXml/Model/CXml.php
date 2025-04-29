@@ -14,7 +14,7 @@ use Stringable;
 
 #[Serializer\XmlRoot('cXML')]
 #[Serializer\AccessorOrder(order: 'custom', custom: ['header', 'message', 'request', 'response'])]
-readonly class CXml implements Stringable
+class CXml implements Stringable
 {
     final public const DEPLOYMENT_TEST = 'test';
 
@@ -23,35 +23,42 @@ readonly class CXml implements Stringable
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('payloadID')]
-        public string $payloadId,
+        readonly public string $payloadId,
         #[Serializer\XmlAttribute]
-        public DateTimeInterface $timestamp,
+        readonly public DateTimeInterface $timestamp,
         #[Serializer\SerializedName('Request')]
-        public ?Request $request = null,
+        readonly public ?Request $request = null,
         #[Serializer\SerializedName('Response')]
-        public ?Response $response = null,
+        readonly public ?Response $response = null,
         #[Serializer\SerializedName('Message')]
-        public ?Message $message = null,
+        readonly public ?Message $message = null,
         #[Serializer\SerializedName('Header')]
-        public ?Header $header = null,
+        readonly public ?Header $header = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        public ?string $lang = null,
+        readonly public ?string $lang = null,
+        #[Serializer\Exclude]
+        public string $dtdUri = 'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd',
     ) {
     }
 
-    public static function forMessage(PayloadIdentity $payloadIdentity, Message $message, Header $header, ?string $lang = null): self
+    public function setDtdUri(string $dtdUri): void
     {
-        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, null, null, $message, $header, $lang);
+        $this->dtdUri = $dtdUri;
     }
 
-    public static function forRequest(PayloadIdentity $payloadIdentity, Request $request, Header $header, ?string $lang = null): self
+    public static function forMessage(PayloadIdentity $payloadIdentity, Message $message, Header $header, ?string $lang = null, string $dtdUri = 'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd'): self
     {
-        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, $request, null, null, $header, $lang);
+        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, null, null, $message, $header, $lang, $dtdUri);
     }
 
-    public static function forResponse(PayloadIdentity $payloadIdentity, Response $response, ?string $lang = null): self
+    public static function forRequest(PayloadIdentity $payloadIdentity, Request $request, Header $header, ?string $lang = null, string $dtdUri = 'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd'): self
     {
-        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, null, $response, null, null, $lang);
+        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, $request, null, null, $header, $lang, $dtdUri);
+    }
+
+    public static function forResponse(PayloadIdentity $payloadIdentity, Response $response, ?string $lang = null, string $dtdUri = 'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd'): self
+    {
+        return new self($payloadIdentity->payloadId, $payloadIdentity->timestamp, null, $response, null, null, $lang, $dtdUri);
     }
 
     public function __toString(): string

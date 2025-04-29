@@ -123,6 +123,8 @@ class Builder
 
     private ?Status $status = null;
 
+    private string $dtdUri = 'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd';
+
     private function __construct(private ?string $senderUserAgent, private readonly ?string $locale = null, ?PayloadIdentityFactoryInterface $payloadIdentityFactory = null)
     {
         $this->payloadIdentityFactory = $payloadIdentityFactory ?? new DefaultPayloadIdentityFactory();
@@ -131,6 +133,13 @@ class Builder
     public static function create(string $senderUserAgent = 'cxml-php UserAgent', ?string $locale = null, ?PayloadIdentityFactoryInterface $payloadIdentityFactory = null): self
     {
         return new self($senderUserAgent, $locale, $payloadIdentityFactory);
+    }
+
+    public function dtdUri(string $dtdUri): self
+    {
+        $this->dtdUri = $dtdUri;
+
+        return $this;
     }
 
     public function payload(?PayloadInterface $payload = null): self
@@ -209,6 +218,7 @@ class Builder
                     new Request($this->payload, null, $deploymentMode),
                     $this->buildHeader(),
                     $this->locale,
+                    $this->dtdUri,
                 );
                 break;
 
@@ -219,6 +229,7 @@ class Builder
                     new Message($this->payload, $this->status, null, $deploymentMode),
                     $this->buildHeader(),
                     $this->locale,
+                    $this->dtdUri,
                 );
                 break;
 
@@ -235,6 +246,7 @@ class Builder
                     $this->payloadIdentityFactory->newPayloadIdentity(),
                     new Response($status, $this->payload),
                     $this->locale,
+                    $this->dtdUri,
                 );
                 break;
 
@@ -245,6 +257,7 @@ class Builder
                         $this->payloadIdentityFactory->newPayloadIdentity(),
                         new Response($this->status),
                         $this->locale,
+                        $this->dtdUri,
                     );
 
                     break;

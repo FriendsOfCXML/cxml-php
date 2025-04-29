@@ -28,15 +28,12 @@ use function trim;
 
 readonly class Serializer
 {
-    public const DOC_TYPE_VERSION = '1.2.063';
-
     private function __construct(
         private SerializerInterface $jmsSerializer,
-        private string $dtdUri,
     ) {
     }
 
-    public static function create(string $dtdUri = 'http://xml.cxml.org/schemas/cXML/' . self::DOC_TYPE_VERSION . '/cXML.dtd'): self
+    public static function create(): self
     {
         $jmsSerializer = SerializerBuilder::create()
             ->configureListeners(static function (EventDispatcherInterface $dispatcher): void {
@@ -57,27 +54,35 @@ readonly class Serializer
             )
             ->build();
 
-        return new self($jmsSerializer, $dtdUri);
+        return new self($jmsSerializer);
     }
 
     public function deserialize(string $xml): CXml
     {
-        // remove doctype (if exists), as it would throw a JMS\Serializer\Exception\InvalidArgumentException
-        $xml = preg_replace('/<!doctype[^>]+?>/i', '', $xml);
+        $dtdUri = 'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd';
+        if (1 === preg_match('/<!doctype.+"(.+)"[^>]*>/i', $xml, $matches)) {
+            $dtdUri = $matches[1];
 
-        if (null === $xml || '' === trim($xml)) {
+            // remove doctype from xml (if exists), as it would throw a JMS\Serializer\Exception\InvalidArgumentException
+            $xml = preg_replace('/<!doctype[^>]+?>/i', '', $xml);
+        }
+
+        if ('' === trim($xml ?? '')) {
             throw new RuntimeException('Cannot deserialize empty string');
         }
 
-        /* @phpstan-ignore-next-line */
-        return $this->jmsSerializer->deserialize($xml, CXml::class, 'xml');
+        /** @var CXml $cXml */
+        $cXml = $this->jmsSerializer->deserialize((string)$xml, CXml::class, 'xml');
+        $cXml->setDtdUri($dtdUri);
+
+        return $cXml;
     }
 
     public function serialize(CXml $cxml): string
     {
         $xml = $this->jmsSerializer->serialize($cxml, 'xml');
 
-        $docType = '<!DOCTYPE cXML SYSTEM "' . $this->dtdUri . '">';
+        $docType = '<!DOCTYPE cXML SYSTEM "' . $cxml->dtdUri . '">';
         $xmlPrefix = '<?xml version="1.0" encoding="UTF-8"?>';
 
         // add doctype, as it is mandatory in cXML

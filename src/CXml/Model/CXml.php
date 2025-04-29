@@ -74,10 +74,6 @@ readonly class CXml implements Stringable
 
     public function getStatus(): ?Status
     {
-        if ($this->request instanceof Request) {
-            return $this->request->status;
-        }
-
         if ($this->message instanceof Message) {
             return $this->message->status;
         }

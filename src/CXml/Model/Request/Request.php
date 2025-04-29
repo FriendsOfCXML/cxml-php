@@ -6,7 +6,6 @@ namespace CXml\Model\Request;
 
 use Assert\Assertion;
 use CXml\Model\CXml;
-use CXml\Model\Status;
 use JMS\Serializer\Annotation as Serializer;
 
 #[Serializer\AccessorOrder(order: 'custom', custom: ['buyerCookie', 'extrinsics', 'browserFormPost', 'supplierSetup', 'shipTo', 'selectedItem', 'itemOut'])]
@@ -15,8 +14,6 @@ readonly class Request
     public function __construct(
         #[Serializer\Exclude]
         public RequestPayloadInterface $payload,
-        #[Serializer\SerializedName('Status')]
-        public ?Status $status = null,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('Id')]
         public ?string $id = null,

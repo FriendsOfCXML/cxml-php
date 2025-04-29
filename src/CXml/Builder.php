@@ -206,7 +206,7 @@ class Builder
                 /** @noinspection PhpParamsInspection */
                 $cXml = CXml::forRequest(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
-                    new Request($this->payload, $this->status, null, $deploymentMode),
+                    new Request($this->payload, null, $deploymentMode),
                     $this->buildHeader(),
                     $this->locale,
                 );

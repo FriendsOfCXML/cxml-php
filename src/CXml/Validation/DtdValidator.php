@@ -27,6 +27,7 @@ readonly class DtdValidator
 
         $pathToDtds = glob($directory . '/*.dtd');
         Assertion::notEmpty($pathToDtds);
+        Assertion::isArray($pathToDtds);
 
         return new self($pathToDtds);
     }
@@ -84,6 +85,8 @@ readonly class DtdValidator
      */
     private function validateAgainstMultipleDtd(array $validateFiles, DOMDocument $old): void
     {
+        Assertion::allString($validateFiles);
+
         foreach ($validateFiles as $validateFile) {
             $dtdInjectedDomDocument = $this->injectDtd($old, $validateFile);
 

@@ -31,6 +31,9 @@ use LogicException;
 class Builder
 {
     // according to cXML reference document
+    /**
+     * @var array<class-string<CXmlException>, int>
+     */
     private static array $exceptionMapping = [
         CXmlAuthenticationInvalidException::class => 401,
         CXmlNotAcceptableException::class => 406,
@@ -42,6 +45,9 @@ class Builder
     ];
 
     // TODO create enum for this?
+    /**
+     * @var array<int, string>
+     */
     private static array $exceptionCodeMapping = [
         // cxml
         450 => 'Not Implemented',

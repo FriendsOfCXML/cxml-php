@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Builder;
 
+use Assert\Assertion;
 use CXml\Model\Address;
 use CXml\Model\Description;
 use CXml\Model\ItemDetail;
@@ -68,7 +69,7 @@ class PunchOutOrderMessageBuilder
         ?string $carrierShippingMethod = null,
     ): self {
         $transportInformation = null;
-        if (null !== $carrierAccountNo || null != $carrierShippingMethod) {
+        if (null !== $carrierAccountNo || null !== $carrierShippingMethod) {
             $transportInformation = TransportInformation::create($carrierAccountNo, $carrierShippingMethod);
         }
 
@@ -81,6 +82,8 @@ class PunchOutOrderMessageBuilder
         );
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
+            Assertion::string($domain, 'Carrier identifier domain must be a string');
+            Assertion::string($identifier, 'Carrier identifier must be a string');
             $this->shipTo->addCarrierIdentifier($domain, $identifier);
         }
 
@@ -148,6 +151,8 @@ class PunchOutOrderMessageBuilder
 
         if (null !== $extrinsics && [] !== $extrinsics) {
             foreach ($extrinsics as $k => $v) {
+                Assertion::string($k, 'Extrinsics key must be a string');
+                Assertion::string($v, 'Extrinsics value must be a string');
                 $itemDetail->addExtrinsicAsKeyValue($k, $v);
             }
         }

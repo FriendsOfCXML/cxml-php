@@ -57,7 +57,6 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
                 'method' => 'onPreDeserializeCXmlMainPayload',
                 'format' => 'xml',
             ],
-
             [
                 'event' => Events::POST_SERIALIZE,
                 'method' => 'onPostSerializePayment',
@@ -102,6 +101,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         }
 
         foreach ($paymentImplList as $impl) {
+            /** @phpstan-ignore-next-line */
             $cls = (new ReflectionClass($impl))->getShortName();
 
             $visitor->visitProperty(
@@ -131,6 +131,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
 
         $isArray = count($data->children()) > 1;
         if ($isArray) {
+            $propertyMetadata->serializedName = 'PaymentReference';
             $propertyMetadata->xmlEntryName = 'PaymentReference';
             $propertyMetadata->xmlCollection = true;
             $propertyMetadata->xmlCollectionInline = true;
@@ -146,6 +147,9 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
             ]);
         } else {
             $payloadNode = $data->children()[0];
+            if (!$payloadNode instanceof SimpleXMLElement) {
+                return;
+            }
             $serializedName = $payloadNode->getName();
             $cls = $this->modelClassMapping->findClassForSerializedName($serializedName);
 
@@ -162,6 +166,11 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
     public function onPostSerializeCXmlMainPayload(ObjectEvent $event): void
     {
         $incomingType = $event->getType()['name'];
+
+        if (!is_string($incomingType)) {
+            return;
+        }
+
         if (!self::isEligible($incomingType)) {
             return;
         }
@@ -174,6 +183,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         $payload = $event->getObject()->payload ?? null;
 
         if ($payload) {
+            /** @phpstan-ignore-next-line */
             $cls = (new ReflectionClass($payload))->getShortName();
 
             // tell jms to add the payload value in a wrapped node
@@ -190,6 +200,11 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
     public function onPreDeserializeCXmlMainPayload(PreDeserializeEvent $event): void
     {
         $incomingType = $event->getType()['name'];
+
+        if (!is_string($incomingType)) {
+            return;
+        }
+
         if (!self::isEligible($incomingType)) {
             return;
         }

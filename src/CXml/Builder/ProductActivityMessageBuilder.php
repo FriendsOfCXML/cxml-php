@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Builder;
 
+use Assert\Assertion;
 use CXml\Model\Contact;
 use CXml\Model\Inventory;
 use CXml\Model\InventoryQuantity;
@@ -43,6 +44,8 @@ readonly class ProductActivityMessageBuilder
 
         if (null !== $extrinsics && [] !== $extrinsics) {
             foreach ($extrinsics as $k => $v) {
+                Assertion::string($k, 'Extrinsics key must be a string');
+                Assertion::string($v, 'Extrinsics value must be a string');
                 $activityDetail->addExtrinsicAsKeyValue($k, $v);
             }
         }

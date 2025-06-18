@@ -56,6 +56,7 @@ trait CommentsTrait
                 if (null === $comment->value) {
                     continue;
                 }
+
                 if ('' === $comment->value) {
                     continue;
                 }

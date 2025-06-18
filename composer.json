@@ -62,13 +62,29 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit --testdox tests",
-    "cs-check": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --diff",
-    "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --diff",
-    "phpstan": "vendor/bin/phpstan analyze",
-    "rector-check": "vendor/bin/rector process --dry-run",
-    "rector": "vendor/bin/rector process",
-    "security-check": "vendor/bin/security-checker security:check composer.lock"
+    "phpunit:test": "vendor/bin/phpunit --testdox tests",
+    "cs:check": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --diff",
+    "cs:fix": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --diff",
+    "phpstan:check": "vendor/bin/phpstan analyze",
+    "rector:check": "vendor/bin/rector process --dry-run",
+    "rector:fix": "vendor/bin/rector process",
+    "security:check": "vendor/bin/security-checker security:check composer.lock",
+    "run:all": [
+      "@phpunit:test",
+      "@cs:check",
+      "@cs:fix",
+      "@phpstan:check",
+      "@rector:check",
+      "@rector:fix",
+      "@security:check"
+    ],
+    "test:all": [
+      "@phpunit:test",
+      "@cs:check",
+      "@phpstan:check",
+      "@rector:check",
+      "@security:check"
+    ]
   },
   "config": {
     "allow-plugins": {

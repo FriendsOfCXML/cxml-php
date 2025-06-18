@@ -44,7 +44,7 @@ return RectorConfig::configure()
     ])
     ->withFileExtensions(['php'])
     ->withCache(
-        cacheDirectory: '/tmp/rector',
+        cacheDirectory: '/tmp/rector-cxml-php',
         cacheClass: FileCacheStorage::class,
     )
     ->withParallel(

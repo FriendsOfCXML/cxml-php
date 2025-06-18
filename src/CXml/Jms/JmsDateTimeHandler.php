@@ -26,16 +26,16 @@ class JmsDateTimeHandler
     {
         $format = $date instanceof Date ? 'Y-m-d' : $this->getFormat($type);
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         return $visitor->visitSimpleString($date->format($format), $type);
     }
 
     private function getFormat(array $type): string
     {
-        if (isset($type['params']) && is_array($type['params']) && count($type['params']) > 0) {
+        if (isset($type['params']) && is_array($type['params']) && [] !== $type['params']) {
             $format = $type['params'][0] ?? null;
 
-            if (is_string($format) && $format !== '') {
+            if (is_string($format) && '' !== $format) {
                 return $format;
             }
         }
@@ -47,10 +47,8 @@ class JmsDateTimeHandler
     public function deserialize(XmlDeserializationVisitor $visitor, SimpleXMLElement $dateAsString, array $type, Context $context): DateTime|false
     {
         // explicit date-format was defined in property annotation
-        if (isset($type['params']) && is_array($type['params']) && count($type['params']) > 0) {
-            if (isset($type['params'][0]) && is_string($type['params'][0]) && $type['params'][0] !== '') {
-                return DateTime::createFromFormat($type['params'][0], $dateAsString->__toString());
-            }
+        if (isset($type['params']) && is_array($type['params']) && [] !== $type['params'] && (isset($type['params'][0]) && is_string($type['params'][0]) && '' !== $type['params'][0])) {
+            return DateTime::createFromFormat($type['params'][0], $dateAsString->__toString());
         }
 
         // else try ISO-8601

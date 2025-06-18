@@ -53,9 +53,13 @@ trait CommentsTrait
         if (is_array($comments)) {
             Assertion::allIsInstanceOf($comments, Comment::class);
             foreach ($comments as $comment) {
-                if (null === $comment->value || '' === $comment->value) {
+                if (null === $comment->value) {
                     continue;
                 }
+                if ('' === $comment->value) {
+                    continue;
+                }
+
                 $commentStrings[] = $comment->value;
             }
         }

@@ -27,7 +27,6 @@ readonly class DtdValidator
 
         $pathToDtds = glob($directory . '/*.dtd');
         Assertion::notEmpty($pathToDtds);
-        Assertion::isArray($pathToDtds);
 
         return new self($pathToDtds);
     }

@@ -150,6 +150,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
             if (!$payloadNode instanceof SimpleXMLElement) {
                 return;
             }
+
             $serializedName = $payloadNode->getName();
             $cls = $this->modelClassMapping->findClassForSerializedName($serializedName);
 

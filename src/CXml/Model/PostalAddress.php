@@ -51,8 +51,8 @@ class PostalAddress
     {
         return
             (null === $this->name || '' === $this->name || '0' === $this->name)
-            && [] === array_filter($this->deliverTo, function ($value) {return '' !== $value && '0' !== $value;})
-            && [] === array_filter($this->street, function ($value) {return '' !== $value && '0' !== $value;})
+            && [] === array_filter($this->deliverTo, function ($value): bool {return '' !== $value && '0' !== $value; })
+            && [] === array_filter($this->street, function ($value): bool {return '' !== $value && '0' !== $value; })
             && ('' === $this->city || '0' === $this->city)
             && (null === $this->municipality || '' === $this->municipality || '0' === $this->municipality)
             && (null === $this->state || '' === $this->state || '0' === $this->state)

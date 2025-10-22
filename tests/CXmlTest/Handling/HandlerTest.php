@@ -28,22 +28,7 @@ use function file_get_contents;
 #[CoversNothing]
 final class HandlerTest extends TestCase
 {
-    public static function getEndpointData(): iterable
-    {
-        yield [
-            self::loadFixture('quote_request.xml'),
-            'QuoteMessage',
-        ];
-
-        yield [
-            self::loadFixture('order_request.xml'),
-            'OrderRequest',
-        ];
-
-        // TODO add more cases
-    }
-
-    private static function loadFixture(string $filename): ?string
+    private static function loadFixture(string $filename): string
     {
         return file_get_contents(__DIR__ . '/fixtures/' . $filename);
     }
@@ -134,5 +119,20 @@ final class HandlerTest extends TestCase
         $endpoint->parseAndProcessStringAsCXml($requestCxml);
 
         $this->assertSame($expectedHandlerCalled, $actualHandlerCalled);
+    }
+
+    public static function getEndpointData(): iterable
+    {
+        yield [
+            self::loadFixture('quote_request.xml'),
+            'QuoteMessage',
+        ];
+
+        yield [
+            self::loadFixture('order_request.xml'),
+            'OrderRequest',
+        ];
+
+        // TODO add more cases
     }
 }

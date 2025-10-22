@@ -17,9 +17,9 @@ readonly class Money
         #[Serializer\XmlAttribute]
         public string $currency,
         #[Serializer\Exclude]
-        public int $valueCent,
+        public ?int $valueCent = null,
     ) {
-        $this->value = number_format($this->valueCent / 100, 2, '.', '');
+        $this->value = number_format((int)$this->valueCent / 100, 2, '.', '');
     }
 
     public function getValueCent(): int

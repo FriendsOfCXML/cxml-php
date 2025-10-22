@@ -30,6 +30,7 @@ use CXml\Model\Request\OrderRequestHeader;
 use CXml\Model\Request\PunchOutSetupRequest;
 use CXml\Model\Request\Request;
 use CXml\Model\Response\Response;
+use CXml\Model\ShipTo;
 use CXml\Model\Status;
 use CXml\Model\TelephoneNumber;
 use CXml\Serializer;
@@ -79,40 +80,41 @@ final class SerializerTest extends TestCase
         $actualXml = Serializer::create()->serialize($msg);
 
         // XML copied from cXML Reference Guide
-        $expectedXml =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
-			<Header>
-			<From>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>admin@acme.com</Identity>
-			</Credential>
-			</From>
-			<To>
-			<Credential domain="DUNS">
-			<Identity>012345678</Identity>
-			</Credential>
-			</To>
-			<Sender>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>sysadmin@buyer.com</Identity>
-			<SharedSecret>abracadabra</SharedSecret>
-			</Credential>
-			<UserAgent>Network Hub 1.1</UserAgent>
-			</Sender>
-			</Header>
-			<Request>
-			<PunchOutSetupRequest operation="create">
-			<BuyerCookie>nomnom</BuyerCookie>
-			<BrowserFormPost>
-			<URL>https://browserFormPost</URL>
-			</BrowserFormPost>
-			<SupplierSetup>
-			<URL>https://supplierSetup</URL>
-			</SupplierSetup>
-			</PunchOutSetupRequest>
-			</Request>
-			</cXML>';
+        $expectedXml = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            	<Header>
+            		<From>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>admin@acme.com</Identity>
+            			</Credential>
+            		</From>
+            		<To>
+            			<Credential domain="DUNS">
+            				<Identity>012345678</Identity>
+            			</Credential>
+            		</To>
+            		<Sender>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>sysadmin@buyer.com</Identity>
+            				<SharedSecret>abracadabra</SharedSecret>
+            			</Credential>
+            			<UserAgent>Network Hub 1.1</UserAgent>
+            		</Sender>
+            	</Header>
+            	<Request>
+            		<PunchOutSetupRequest operation="create">
+            			<BuyerCookie>nomnom</BuyerCookie>
+            			<BrowserFormPost>
+            				<URL>https://browserFormPost</URL>
+            			</BrowserFormPost>
+            			<SupplierSetup>
+            				<URL>https://supplierSetup</URL>
+            			</SupplierSetup>
+            		</PunchOutSetupRequest>
+            	</Request>
+            </cXML>
+            XML;
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
@@ -151,39 +153,40 @@ final class SerializerTest extends TestCase
         $actualXml = Serializer::create()->serialize($msg);
 
         // XML *NOT* copied from cXML Reference Guide
-        $expectedXml =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
-			<Header>
-			<From>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>admin@acme.com</Identity>
-			</Credential>
-			</From>
-			<To>
-			<Credential domain="DUNS">
-			<Identity>012345678</Identity>
-			</Credential>
-			</To>
-			<Sender>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>sysadmin@buyer.com</Identity>
-			<SharedSecret>abracadabra</SharedSecret>
-			</Credential>
-			<UserAgent>Network Hub 1.1</UserAgent>
-			</Sender>
-			</Header>
-			<Message>
-			<PunchOutOrderMessage>
-			<BuyerCookie>34234234ADFSDF234234</BuyerCookie>
-			<PunchOutOrderMessageHeader operationAllowed="create">
-			<Total>
-			<Money currency="USD">763.20</Money>
-			</Total>
-			</PunchOutOrderMessageHeader>
-			</PunchOutOrderMessage>
-			</Message>
-			</cXML>';
+        $expectedXml = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            	<Header>
+            		<From>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>admin@acme.com</Identity>
+            			</Credential>
+            		</From>
+            		<To>
+            			<Credential domain="DUNS">
+            				<Identity>012345678</Identity>
+            			</Credential>
+            		</To>
+            		<Sender>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>sysadmin@buyer.com</Identity>
+            				<SharedSecret>abracadabra</SharedSecret>
+            			</Credential>
+            			<UserAgent>Network Hub 1.1</UserAgent>
+            		</Sender>
+            	</Header>
+            	<Message>
+            		<PunchOutOrderMessage>
+            			<BuyerCookie>34234234ADFSDF234234</BuyerCookie>
+            			<PunchOutOrderMessageHeader operationAllowed="create">
+            				<Total>
+            					<Money currency="USD">763.20</Money>
+            				</Total>
+            			</PunchOutOrderMessageHeader>
+            		</PunchOutOrderMessage>
+            	</Message>
+            </cXML>
+            XML;
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
@@ -204,26 +207,28 @@ final class SerializerTest extends TestCase
         $actualXml = Serializer::create()->serialize($msg);
 
         // XML copied from cXML Reference Guide
-        $expectedXml =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2001-01-08T10:47:01-08:00" payloadID="978979621537--4882920031100014936@206.251.25.169">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+        $expectedXml = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML timestamp="2001-01-08T10:47:01-08:00" payloadID="978979621537--4882920031100014936@206.251.25.169">
+            	<Response>
+            		<Status code="200" text="OK">Ping Response CXml</Status>
+            	</Response>
+            </cXML>
+            XML;
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     public function testDeserialize(): void
     {
-        $xml =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+        $xml = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
+            	<Response>
+            		<Status code="200" text="OK">Ping Response CXml</Status>
+            	</Response>
+            </cXML>
+            XML;
 
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xml);
@@ -239,37 +244,40 @@ final class SerializerTest extends TestCase
      */
     public function testDeserializeWithMillisecondsAndTimezone(): void
     {
-        $xmlIn =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2022-06-07T10:09:56.728+00:00" payloadID="x.y.z">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+        $xmlIn = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML timestamp="2022-06-07T10:09:56.728+00:00" payloadID="x.y.z">
+            	<Response>
+            		<Status code="200" text="OK">Ping Response CXml</Status>
+            	</Response>
+            </cXML>
+            XML;
 
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xmlIn);
 
         $actual = $serializer->serialize($cXml);
-        $xmlOut =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+        $xmlOut = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML timestamp="2022-06-07T10:09:56+00:00" payloadID="x.y.z">
+            	<Response>
+            		<Status code="200" text="OK">Ping Response CXml</Status>
+            	</Response>
+            </cXML>
+            XML;
         $this->assertXmlStringEqualsXmlString($xmlOut, $actual);
     }
 
     public function testDeserializeWithMillisecondsNoTimezone(): void
     {
-        $xmlIn =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML timestamp="2022-06-07T10:09:56.728" payloadID="x.y.z">
-			<Response>
-			<Status code="200" text="OK">Ping Response CXml</Status>
-			</Response>
-			</cXML>';
+        $xmlIn = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML timestamp="2022-06-07T10:09:56.728" payloadID="x.y.z">
+            	<Response>
+            		<Status code="200" text="OK">Ping Response CXml</Status>
+            	</Response>
+            </cXML>
+            XML;
 
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xmlIn);
@@ -279,23 +287,20 @@ final class SerializerTest extends TestCase
 
     public function testDeserializeWithDateTimeForDate(): void
     {
-        $xmlIn =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
-			<cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
-			<Header>
-			</Header>
-			<Request deploymentMode="test">
-			  <OrderRequest>
-			    <ItemOut quantity="1" requestedDeliveryDate="2023-02-25T02:30:00-08:00" lineNumber="1">
-			    </ItemOut>
-			    <ItemOut quantity="2" requestedDeliveryDate="2023-02-26" lineNumber="2">
-			    </ItemOut>
-			    <ItemOut quantity="3" lineNumber="3">
-			    </ItemOut>
-   			  </OrderRequest>
-			</Request>
-			</cXML>';
+        $xmlIn = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
+            <cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
+            	<Header></Header>
+            	<Request deploymentMode="test">
+            		<OrderRequest>
+            			<ItemOut quantity="1" requestedDeliveryDate="2023-02-25T02:30:00-08:00" lineNumber="1"></ItemOut>
+            			<ItemOut quantity="2" requestedDeliveryDate="2023-02-26" lineNumber="2"></ItemOut>
+            			<ItemOut quantity="3" lineNumber="3"></ItemOut>
+            		</OrderRequest>
+            	</Request>
+            </cXML>
+            XML;
 
         $serializer = Serializer::create();
         $cXml = $serializer->deserialize($xmlIn);
@@ -316,19 +321,18 @@ final class SerializerTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $xmlIn =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
-			<cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
-			<Header>
-			</Header>
-			<Request deploymentMode="test">
-			  <OrderRequest>
-			    <ItemOut quantity="1" requestedDeliveryDate="invalid" lineNumber="1">
-			    </ItemOut>
-   			  </OrderRequest>
-			</Request>
-			</cXML>';
+        $xmlIn = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.044/cXML.dtd">
+            <cXML payloadID="1676913078755.23986034.000017504@6/lkmlPq0GFws44XIhyDt9yjJb8=" timestamp="2023-02-20T09:11:18-08:00" version="1.2.044" xml:lang="en-US">
+            	<Header></Header>
+            	<Request deploymentMode="test">
+            		<OrderRequest>
+            			<ItemOut quantity="1" requestedDeliveryDate="invalid" lineNumber="1"></ItemOut>
+            		</OrderRequest>
+            	</Request>
+            </cXML>
+            XML;
 
         $serializer = Serializer::create();
         $serializer->deserialize($xmlIn);
@@ -370,43 +374,44 @@ final class SerializerTest extends TestCase
 
         $actualXml = Serializer::create()->serialize($msg);
 
-        $expectedXml =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
-			<Header>
-			<From>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>admin@acme.com</Identity>
-			</Credential>
-			</From>
-			<To>
-			<Credential domain="DUNS">
-			<Identity>012345678</Identity>
-			</Credential>
-			</To>
-			<Sender>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>sysadmin@buyer.com</Identity>
-			<SharedSecret>abracadabra</SharedSecret>
-			</Credential>
-			<UserAgent>Network Hub 1.1</UserAgent>
-			</Sender>
-			</Header>
-			<Request>
-				<OrderRequest>
-				  <OrderRequestHeader orderDate="2000-01-01" orderID="order-id" type="new">
-					<Total>
-					  <Money currency="EUR">0.00</Money>
-					</Total>
-					<BillTo>
-					  <Address>
-						<Name xml:lang="en">name</Name>
-					  </Address>
-					</BillTo>
-				  </OrderRequestHeader>
-				</OrderRequest>
-			</Request>
-			</cXML>';
+        $expectedXml = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            	<Header>
+            		<From>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>admin@acme.com</Identity>
+            			</Credential>
+            		</From>
+            		<To>
+            			<Credential domain="DUNS">
+            				<Identity>012345678</Identity>
+            			</Credential>
+            		</To>
+            		<Sender>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>sysadmin@buyer.com</Identity>
+            				<SharedSecret>abracadabra</SharedSecret>
+            			</Credential>
+            			<UserAgent>Network Hub 1.1</UserAgent>
+            		</Sender>
+            	</Header>
+            	<Request>
+            		<OrderRequest>
+            			<OrderRequestHeader orderDate="2000-01-01" orderID="order-id" type="new">
+            				<Total>
+            					<Money currency="EUR">0.00</Money>
+            				</Total>
+            				<BillTo>
+            					<Address>
+            						<Name xml:lang="en">name</Name>
+            					</Address>
+            				</BillTo>
+            			</OrderRequestHeader>
+            		</OrderRequest>
+            	</Request>
+            </cXML>
+            XML;
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
@@ -425,43 +430,44 @@ final class SerializerTest extends TestCase
 
     public function testDeserializeNullProperty(): void
     {
-        $xml =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
-			<Header>
-			<From>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>admin@acme.com</Identity>
-			</Credential>
-			</From>
-			<To>
-			<Credential domain="DUNS">
-			<Identity>012345678</Identity>
-			</Credential>
-			</To>
-			<Sender>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>sysadmin@buyer.com</Identity>
-			<SharedSecret>abracadabra</SharedSecret>
-			</Credential>
-			<UserAgent>Network Hub 1.1</UserAgent>
-			</Sender>
-			</Header>
-			<Request>
-				<OrderRequest>
-				  <OrderRequestHeader orderDate="2000-01-01" orderID="order-id" type="new">
-					<Total>
-					  <Money currency="EUR">0.00</Money>
-					</Total>
-					<BillTo>
-					  <Address>
-						<Name xml:lang="en">name</Name>
-					  </Address>
-					</BillTo>
-				  </OrderRequestHeader>
-				</OrderRequest>
-			</Request>
-			</cXML>';
+        $xml = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            	<Header>
+            		<From>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>admin@acme.com</Identity>
+            			</Credential>
+            		</From>
+            		<To>
+            			<Credential domain="DUNS">
+            				<Identity>012345678</Identity>
+            			</Credential>
+            		</To>
+            		<Sender>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>sysadmin@buyer.com</Identity>
+            				<SharedSecret>abracadabra</SharedSecret>
+            			</Credential>
+            			<UserAgent>Network Hub 1.1</UserAgent>
+            		</Sender>
+            	</Header>
+            	<Request>
+            		<OrderRequest>
+            			<OrderRequestHeader orderDate="2000-01-01" orderID="order-id" type="new">
+            				<Total>
+            					<Money currency="EUR">0.00</Money>
+            				</Total>
+            				<BillTo>
+            					<Address>
+            						<Name xml:lang="en">name</Name>
+            					</Address>
+            				</BillTo>
+            			</OrderRequestHeader>
+            		</OrderRequest>
+            	</Request>
+            </cXML>
+            XML;
 
         $cxml = Serializer::create()->deserialize($xml);
 
@@ -470,7 +476,7 @@ final class SerializerTest extends TestCase
 
         // Error: Typed property CXml\Model\Request\OrderRequestHeader::$shipTo must not be accessed before initialization
         $shipTo = $orderRequest->orderRequestHeader->getShipTo();
-        $this->assertNull($shipTo);
+        $this->assertNotInstanceOf(ShipTo::class, $shipTo);
     }
 
     public function testSerializePayment(): void
@@ -569,71 +575,137 @@ final class SerializerTest extends TestCase
         $actualXml = Serializer::create()->serialize($msg);
 
         // XML copied from cXML Reference Guide
-        $expectedXml =
-            '<?xml version="1.0" encoding="UTF-8"?>
-			<cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
-			<Header>
-			<From>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>admin@acme.com</Identity>
-			</Credential>
-			</From>
-			<To>
-			<Credential domain="DUNS">
-			<Identity>012345678</Identity>
-			</Credential>
-			</To>
-			<Sender>
-			<Credential domain="AribaNetworkUserId">
-			<Identity>sysadmin@buyer.com</Identity>
-			<SharedSecret>abracadabra</SharedSecret>
-			</Credential>
-			<UserAgent>Network Hub 1.1</UserAgent>
-			</Sender>
-			</Header>
-			<Request>
-        <OrderRequest>
-     <OrderRequestHeader orderDate="2000-10-12T18:41:29-08:00" orderID="DO1234" type="new">
-       <Total>
-         <Money currency="EUR">85.00</Money>
-       </Total>
-       <BillTo>
-         <Address>
-           <Name xml:lang="en">Acme GmbH</Name>
-           <PostalAddress name="default">
-             <Street>Acme Street 18</Street>
-             <City>Solingen</City>
-             <PostalCode>42699</PostalCode>
-             <Country isoCountryCode="DE">Deutschland</Country>
-           </PostalAddress>
-           <Phone name="company">
-             <TelephoneNumber>
-               <CountryCode isoCountryCode="DE">49</CountryCode>
-               <AreaOrCityCode>761</AreaOrCityCode>
-               <Number>1234567</Number>
-             </TelephoneNumber>
-           </Phone>
-         </Address>
-       </BillTo>
-        <Payment>
-          <PaymentReference method="voucher">
-            <Money currency="EUR">10.00</Money>          
-            <IdReference domain="code" identifier="ABC123"/>
-          </PaymentReference>
-          <PaymentReference method="creditcard" provider="stripe">
-            <Money currency="EUR">10.00</Money>          
-            <IdReference domain="charge-id" identifier="ch..."/>
-            <Extrinsic name="some">value</Extrinsic>
-          </PaymentReference>
-        </Payment>
-     </OrderRequestHeader>
-   </OrderRequest>
-			</Request>
-			</cXML>';
+        $expectedXml = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            	<Header>
+            		<From>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>admin@acme.com</Identity>
+            			</Credential>
+            		</From>
+            		<To>
+            			<Credential domain="DUNS">
+            				<Identity>012345678</Identity>
+            			</Credential>
+            		</To>
+            		<Sender>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>sysadmin@buyer.com</Identity>
+            				<SharedSecret>abracadabra</SharedSecret>
+            			</Credential>
+            			<UserAgent>Network Hub 1.1</UserAgent>
+            		</Sender>
+            	</Header>
+            	<Request>
+            		<OrderRequest>
+            			<OrderRequestHeader orderDate="2000-10-12T18:41:29-08:00" orderID="DO1234" type="new">
+            				<Total>
+            					<Money currency="EUR">85.00</Money>
+            				</Total>
+            				<BillTo>
+            					<Address>
+            						<Name xml:lang="en">Acme GmbH</Name>
+            						<PostalAddress name="default">
+            							<Street>Acme Street 18</Street>
+            							<City>Solingen</City>
+            							<PostalCode>42699</PostalCode>
+            							<Country isoCountryCode="DE">Deutschland</Country>
+            						</PostalAddress>
+            						<Phone name="company">
+            							<TelephoneNumber>
+            								<CountryCode isoCountryCode="DE">49</CountryCode>
+            								<AreaOrCityCode>761</AreaOrCityCode>
+            								<Number>1234567</Number>
+            							</TelephoneNumber>
+            						</Phone>
+            					</Address>
+            				</BillTo>
+            				<Payment>
+            					<PaymentReference method="voucher">
+            						<Money currency="EUR">10.00</Money>
+            						<IdReference domain="code" identifier="ABC123"/>
+            					</PaymentReference>
+            					<PaymentReference method="creditcard" provider="stripe">
+            						<Money currency="EUR">10.00</Money>
+            						<IdReference domain="charge-id" identifier="ch..."/>
+            						<Extrinsic name="some">value</Extrinsic>
+            					</PaymentReference>
+            				</Payment>
+            			</OrderRequestHeader>
+            		</OrderRequest>
+            	</Request>
+            </cXML>
+            XML;
 
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+    }
 
-        $cxml = Serializer::create()->deserialize($actualXml);
+    public function testDeserializePayment(): void
+    {
+        $xml = <<<'XML'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <cXML payloadID="payload-id" timestamp="2000-01-01T00:00:00+00:00">
+            	<Header>
+            		<From>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>admin@acme.com</Identity>
+            			</Credential>
+            		</From>
+            		<To>
+            			<Credential domain="DUNS">
+            				<Identity>012345678</Identity>
+            			</Credential>
+            		</To>
+            		<Sender>
+            			<Credential domain="AribaNetworkUserId">
+            				<Identity>sysadmin@buyer.com</Identity>
+            				<SharedSecret>abracadabra</SharedSecret>
+            			</Credential>
+            			<UserAgent>Network Hub 1.1</UserAgent>
+            		</Sender>
+            	</Header>
+            	<Request>
+            		<OrderRequest>
+            			<OrderRequestHeader orderDate="2000-10-12T18:41:29-08:00" orderID="DO1234" type="new">
+            				<Total>
+            					<Money currency="EUR">85.00</Money>
+            				</Total>
+            				<BillTo>
+            					<Address>
+            						<Name xml:lang="en">Acme GmbH</Name>
+            						<PostalAddress name="default">
+            							<Street>Acme Street 18</Street>
+            							<City>Solingen</City>
+            							<PostalCode>42699</PostalCode>
+            							<Country isoCountryCode="DE">Deutschland</Country>
+            						</PostalAddress>
+            						<Phone name="company">
+            							<TelephoneNumber>
+            								<CountryCode isoCountryCode="DE">49</CountryCode>
+            								<AreaOrCityCode>761</AreaOrCityCode>
+            								<Number>1234567</Number>
+            							</TelephoneNumber>
+            						</Phone>
+            					</Address>
+            				</BillTo>
+            				<Payment>
+            					<PaymentReference method="voucher">
+            						<Money currency="EUR">10.00</Money>
+            						<IdReference domain="code" identifier="ABC123"/>
+            					</PaymentReference>
+            					<PaymentReference method="creditcard" provider="stripe">
+            						<Money currency="EUR">10.00</Money>
+            						<IdReference domain="charge-id" identifier="ch..."/>
+            						<Extrinsic name="some">value</Extrinsic>
+            					</PaymentReference>
+            				</Payment>
+            			</OrderRequestHeader>
+            		</OrderRequest>
+            	</Request>
+            </cXML>
+            XML;
+        $cxml = Serializer::create()->deserialize($xml);
         $deserializedPayment = $cxml->request->payload->orderRequestHeader->getPayment();
 
         $this->assertNotNull($deserializedPayment);

@@ -24,11 +24,11 @@
     }
   ],
   "require": {
-    "php": "^8.2",
+    "php": ">= 8.2 < 8.5",
     "ext-simplexml": "*",
     "ext-dom": "*",
     "ext-libxml": "*",
-    "beberlei/assert": "@stable",
+    "beberlei/assert": "^2.0 || ^3.0",
     "jms/serializer": "^3.30.0",
     "psr/log": "^1.0 || ^2.0 || ^3.0",
     "psr/event-dispatcher": "^1.0.0"
@@ -37,18 +37,19 @@
     "symfony/routing": "If you want to use SelfAwareProfileRequestHandler"
   },
   "require-dev": {
-    "phpunit/phpunit": "^11",
-    "phpstan/phpstan": "^1.11.0",
+    "phpunit/phpunit": "^11.0 || ^12.0",
+    "phpstan/phpstan": "^2.0",
     "friendsofphp/php-cs-fixer": "*",
     "php-parallel-lint/php-parallel-lint": "*",
     "enlightn/security-checker": "*",
     "symfony/routing": "^4.4.44 || ^5.0.0 || ^6.0.0 || ^7.0.0",
-    "rector/rector": "^1.1",
-    "phpstan/extension-installer": "^1.3",
-    "phpstan/phpstan-strict-rules": "^1.6",
-    "phpstan/phpstan-deprecation-rules": "^1.2",
-    "goetas/jms-serializer-phpstan-extension": "^1.0",
-    "tomasvotruba/type-coverage": "^0.3.0 || ^1.0.0"
+    "rector/rector": "^2.0",
+    "phpstan/extension-installer": "^1.4.0",
+    "phpstan/phpstan-strict-rules": "^2.0",
+    "phpstan/phpstan-deprecation-rules": "^2.0",
+    "goetas/jms-serializer-phpstan-extension": "^1.3.0",
+    "tomasvotruba/type-coverage": "^2.0",
+    "phpstan/phpstan-beberlei-assert": "^2.0"
   },
   "autoload": {
     "psr-4": {
@@ -61,13 +62,29 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit --testdox tests",
-    "cs-check": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --diff",
-    "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --diff",
-    "phpstan": "vendor/bin/phpstan analyze",
-    "rector-check": "vendor/bin/rector process --dry-run",
-    "rector": "vendor/bin/rector process",
-    "security-check": "vendor/bin/security-checker security:check composer.lock"
+    "phpunit:test": "vendor/bin/phpunit --testdox tests",
+    "cs:check": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --diff",
+    "cs:fix": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --diff",
+    "phpstan:check": "vendor/bin/phpstan analyze",
+    "rector:check": "vendor/bin/rector process --dry-run",
+    "rector:fix": "vendor/bin/rector process",
+    "security:check": "vendor/bin/security-checker security:check composer.lock",
+    "run:all": [
+      "@phpunit:test",
+      "@cs:check",
+      "@cs:fix",
+      "@phpstan:check",
+      "@rector:check",
+      "@rector:fix",
+      "@security:check"
+    ],
+    "test:all": [
+      "@phpunit:test",
+      "@cs:check",
+      "@phpstan:check",
+      "@rector:check",
+      "@security:check"
+    ]
   },
   "config": {
     "allow-plugins": {

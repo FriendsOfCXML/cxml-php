@@ -14,7 +14,7 @@ readonly class ItemIn
         #[Serializer\SerializedName('quantity')]
         public int $quantity,
         #[Serializer\SerializedName('ItemID')]
-        public ?ItemId $itemId,
+        public ItemId $itemId,
         #[Serializer\SerializedName('ItemDetail')]
         public ItemDetail $itemDetail,
     ) {

@@ -150,6 +150,11 @@ class OrderRequestHeader
         return $this->contacts;
     }
 
+    public function setSupplierOrderInfo(SupplierOrderInfo $supplierOrderInfo): void
+    {
+        $this->supplierOrderInfo = $supplierOrderInfo;
+    }
+
     public function getSupplierOrderInfo(): ?SupplierOrderInfo
     {
         return $this->supplierOrderInfo;

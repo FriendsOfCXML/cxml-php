@@ -23,19 +23,19 @@ class CXml implements Stringable
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('payloadID')]
-        readonly public string $payloadId,
+        public readonly string $payloadId,
         #[Serializer\XmlAttribute]
-        readonly public DateTimeInterface $timestamp,
+        public readonly DateTimeInterface $timestamp,
         #[Serializer\SerializedName('Request')]
-        readonly public ?Request $request = null,
+        public readonly ?Request $request = null,
         #[Serializer\SerializedName('Response')]
-        readonly public ?Response $response = null,
+        public readonly ?Response $response = null,
         #[Serializer\SerializedName('Message')]
-        readonly public ?Message $message = null,
+        public readonly ?Message $message = null,
         #[Serializer\SerializedName('Header')]
-        readonly public ?Header $header = null,
+        public readonly ?Header $header = null,
         #[Serializer\XmlAttribute(namespace: 'http://www.w3.org/XML/1998/namespace')]
-        readonly public ?string $lang = null,
+        public readonly ?string $lang = null,
         #[Serializer\Exclude]
         public string $dtdUri = 'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd',
     ) {

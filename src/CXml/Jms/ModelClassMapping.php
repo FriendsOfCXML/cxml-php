@@ -15,6 +15,9 @@ use Throwable;
 
 class ModelClassMapping
 {
+    /**
+     * @var array<string, class-string|string>
+     */
     private static array $modelRegistry = [];
 
     public static bool $initialized = false;
@@ -26,7 +29,7 @@ class ModelClassMapping
         );
     }
 
-    public function __construct(private string $pathToModelFiles)
+    public function __construct(private readonly string $pathToModelFiles)
     {
     }
 

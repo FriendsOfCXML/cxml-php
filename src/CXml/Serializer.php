@@ -72,7 +72,7 @@ readonly class Serializer
         }
 
         /** @var CXml $cXml */
-        $cXml = $this->jmsSerializer->deserialize((string)$xml, CXml::class, 'xml');
+        $cXml = $this->jmsSerializer->deserialize($xml, CXml::class, 'xml');
         $cXml->setDtdUri($dtdUri);
 
         return $cXml;

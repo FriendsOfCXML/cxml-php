@@ -24,7 +24,7 @@
     }
   ],
   "require": {
-    "php": "^8.2",
+    "php": ">= 8.2 < 8.5",
     "ext-simplexml": "*",
     "ext-dom": "*",
     "ext-libxml": "*",
@@ -89,9 +89,6 @@
   "config": {
     "allow-plugins": {
       "phpstan/extension-installer": true
-    },
-    "platform": {
-      "php": "8.2.28"
     }
   }
 }

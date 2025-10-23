@@ -18,7 +18,7 @@ use SimpleXMLElement;
  * We need a custom DateTime Handler to allow multiple different DateTime versions.
  *
  * Although the cXML documentation defines ISO-8601 as the primary date format, there are cXML implementations
- * which uses milliseconds or a simple date-only format. (i.e. https://www.jaggaer.com/)
+ * that use milliseconds or a simple date-only format. (i.e., https://www.jaggaer.com/)
  */
 class JmsDateTimeHandler
 {
@@ -26,18 +26,28 @@ class JmsDateTimeHandler
     {
         $format = $date instanceof Date ? 'Y-m-d' : $this->getFormat($type);
 
+        /* @phpstan-ignore-next-line */
         return $visitor->visitSimpleString($date->format($format), $type);
     }
 
     private function getFormat(array $type): string
     {
-        return $type['params'][0] ?? DateTimeInterface::ATOM;
+        if (isset($type['params']) && is_array($type['params']) && [] !== $type['params']) {
+            $format = $type['params'][0] ?? null;
+
+            if (is_string($format) && '' !== $format) {
+                return $format;
+            }
+        }
+
+        // if no format was defined, use ISO-8601 as default
+        return DateTimeInterface::ATOM;
     }
 
     public function deserialize(XmlDeserializationVisitor $visitor, SimpleXMLElement $dateAsString, array $type, Context $context): DateTime|false
     {
         // explicit date-format was defined in property annotation
-        if (isset($type['params'][0])) {
+        if (isset($type['params']) && is_array($type['params']) && [] !== $type['params'] && (isset($type['params'][0]) && is_string($type['params'][0]) && '' !== $type['params'][0])) {
             return DateTime::createFromFormat($type['params'][0], $dateAsString->__toString());
         }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model\Request;
 
+use Assert\Assertion;
 use CXml\Model\ItemOut;
 use CXml\Model\SelectedItem;
 use CXml\Model\ShipTo;
@@ -52,6 +53,8 @@ class PunchOutSetupRequest implements RequestPayloadInterface
 
     public function addItems(array $items): self
     {
+        Assertion::allIsInstanceOf($items, ItemOut::class);
+
         foreach ($items as $item) {
             $this->addItem($item);
         }

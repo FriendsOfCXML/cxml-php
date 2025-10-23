@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Model\Request;
 
+use Assert\Assertion;
 use CXml\Model\ItemOut;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -31,6 +32,8 @@ class OrderRequest implements RequestPayloadInterface
 
     public function addItems(array $items): self
     {
+        Assertion::allIsInstanceOf($items, ItemOut::class);
+
         foreach ($items as $item) {
             $this->addItem($item);
         }

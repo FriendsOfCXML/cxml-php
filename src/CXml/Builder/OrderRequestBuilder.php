@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml\Builder;
 
+use Assert\Assertion;
 use CXml\Model\Address;
 use CXml\Model\BillTo;
 use CXml\Model\BusinessPartner;
@@ -39,12 +40,21 @@ use function round;
 
 class OrderRequestBuilder
 {
+    /**
+     * @var ItemOut[]
+     */
     private array $items = [];
 
     private int $total = 0;
 
+    /**
+     * @var Comment[]
+     */
     private array $comments = [];
 
+    /**
+     * @var Contact[]
+     */
     private array $contacts = [];
 
     private ?ShipTo $shipTo = null;
@@ -55,8 +65,14 @@ class OrderRequestBuilder
 
     private ?Tax $tax = null;
 
+    /**
+     * @var Extrinsic[]
+     */
     private array $extrinsics = [];
 
+    /**
+     * @var BusinessPartner[]
+     */
     private array $businessPartners = [];
 
     private ?Payment $payment = null;
@@ -114,11 +130,12 @@ class OrderRequestBuilder
 
         $orb->setShipTo($punchOutOrderMessage->punchOutOrderMessageHeader->getShipTo());
 
+        /** @var \CXml\Model\ItemIn $item */
         foreach ($punchOutOrderMessage->getPunchoutOrderMessageItems() as $item) {
             $orb->addItem(
                 $item->quantity,
                 $item->itemId,
-                $item->itemDetail->description->value,
+                $item->itemDetail->description->value ?? '',
                 $item->itemDetail->unitOfMeasure,
                 $item->itemDetail->unitPrice->money->getValueCent(),
                 [
@@ -165,7 +182,7 @@ class OrderRequestBuilder
         array $idReferences = [],
     ): self {
         $transportInformation = null;
-        if (null !== $carrierAccountNo || null != $carrierShippingMethod) {
+        if (null !== $carrierAccountNo || null !== $carrierShippingMethod) {
             $transportInformation = TransportInformation::create($carrierAccountNo, $carrierShippingMethod);
         }
 
@@ -178,10 +195,14 @@ class OrderRequestBuilder
         );
 
         foreach ($carrierIdentifiers as $domain => $identifier) {
+            Assertion::string($domain, 'Carrier identifier domain must be a string');
+            Assertion::string($identifier, 'Carrier identifier must be a string');
             $this->shipTo->addCarrierIdentifier($domain, $identifier);
         }
 
         foreach ($idReferences as $domain => $identifier) {
+            Assertion::string($domain, 'ID reference domain must be a string');
+            Assertion::string($identifier, 'ID reference identifier must be a string');
             $this->shipTo->addIdReference($domain, $identifier);
         }
 
@@ -215,12 +236,32 @@ class OrderRequestBuilder
         );
 
         foreach ($taxDetails as $taxDetail) {
+            Assertion::isArray($taxDetail, 'Tax detail must be an array');
+
+            Assertion::keyExists($taxDetail, 'category', 'Tax detail must contain "category"');
+            Assertion::string($taxDetail['category'], 'Tax detail "category" must be a string');
+
+            Assertion::keyExists($taxDetail, 'amount', 'Tax detail must contain "amount"');
+            Assertion::integer($taxDetail['amount'], 'Tax detail "amount" must be an integer');
+
+            $rate = null;
+            if (isset($taxDetail['rate'])) {
+                Assertion::integer($taxDetail['rate'], 'Tax detail "rate" must be an integer');
+                $rate = $taxDetail['rate'];
+            }
+
+            $type = null;
+            if (isset($taxDetail['type'])) {
+                Assertion::string($taxDetail['type'], 'Tax detail "type" must be a string');
+                $type = $taxDetail['type'];
+            }
+
             $this->tax->addTaxDetail(
                 new TaxDetail(
                     $taxDetail['category'],
                     new MoneyWrapper($this->currency, $taxDetail['amount']),
-                    $taxDetail['rate'] ?? null,
-                    $taxDetail['type'] ?? null,
+                    $rate,
+                    $type,
                 ),
             );
         }
@@ -367,6 +408,8 @@ class OrderRequestBuilder
         );
 
         foreach ($idReferences as $domain => $identifier) {
+            Assertion::string($domain, 'ID reference domain must be a string');
+            Assertion::string($identifier, 'ID reference identifier must be a string');
             $bp->addIdReference($domain, $identifier);
         }
 

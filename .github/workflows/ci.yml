@@ -56,16 +56,16 @@ jobs:
         run: vendor/bin/parallel-lint src/
 
       - name: Run CodeStyle checks
-        run: composer run cs-check
+        run: composer run cs:check
 
-      - name: Run PHPStan
-        run: composer run phpstan
+      - name: Run PHPStan check
+        run: composer run phpstan:check
 
-      - name: Run Rector
-        run: composer run rector-check
+      - name: Run Rector check
+        run: composer run rector:check
 
-      - name: Run Tests
-        run: composer run test
+      - name: Run PhpUnit tests
+        run: composer run phpunit:test
 
       - name: Run Security check
-        run: composer run security-check
+        run: composer run security:check

@@ -84,6 +84,8 @@ readonly class DtdValidator
      */
     private function validateAgainstMultipleDtd(array $validateFiles, DOMDocument $old): void
     {
+        Assertion::allString($validateFiles);
+
         foreach ($validateFiles as $validateFile) {
             $dtdInjectedDomDocument = $this->injectDtd($old, $validateFile);
 

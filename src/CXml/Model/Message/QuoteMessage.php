@@ -20,7 +20,7 @@ class QuoteMessage implements MessagePayloadInterface
     #[Serializer\Type('array<CXml\Model\ItemIn>')]
     private array $quoteMessageItems = [];
 
-    private function __construct(#[Serializer\SerializedName('QuoteMessageHeader')]
+    public function __construct(#[Serializer\SerializedName('QuoteMessageHeader')]
         public readonly QuoteMessageHeader $quoteMessageHeader)
     {
     }

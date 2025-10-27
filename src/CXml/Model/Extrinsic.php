@@ -11,7 +11,7 @@ readonly class Extrinsic
     public function __construct(
         #[Serializer\XmlAttribute]
         public string $name,
-        #[Serializer\XmlValue]
+        #[Serializer\XmlValue(cdata: false)]
         public string $value,
     ) {
     }

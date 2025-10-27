@@ -16,14 +16,14 @@ class QuoteItemIn
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('type')]
-        readonly public string $type,
+        public readonly string $type,
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('quantity')]
-        readonly public int $quantity,
+        public readonly int $quantity,
         #[Serializer\SerializedName('ItemID')]
-        readonly public ItemId $itemId,
+        public readonly ItemId $itemId,
         #[Serializer\SerializedName('ItemDetail')]
-        readonly public ItemDetail $itemDetail,
+        public readonly ItemDetail $itemDetail,
     ) {
         Assertion::inArray($type, [
             QuoteMessageHeader::TYPE_ACCEPT,

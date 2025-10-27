@@ -21,6 +21,6 @@ readonly class Comment
         public ?string $lang = null,
         ?string $attachment = null,
     ) {
-        $this->attachment = ($attachment === null ? null : new Url($attachment));
+        $this->attachment = (null === $attachment ? null : new Url($attachment));
     }
 }

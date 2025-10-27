@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CXml\Model\Message;
 
-use CXml\Model\ItemIn;
 use CXml\Model\MoneyWrapper;
 use CXml\Model\OrganizationId;
+use CXml\Model\QuoteItemIn;
 use DateTime;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -14,10 +14,10 @@ use JMS\Serializer\Annotation as Serializer;
 class QuoteMessage implements MessagePayloadInterface
 {
     /**
-     * @var ItemIn[]
+     * @var QuoteItemIn[]
      */
     #[Serializer\XmlList(entry: 'QuoteItemIn', inline: true)]
-    #[Serializer\Type('array<CXml\Model\ItemIn>')]
+    #[Serializer\Type('array<CXml\Model\QuoteItemIn>')]
     private array $quoteMessageItems = [];
 
     public function __construct(#[Serializer\SerializedName('QuoteMessageHeader')]
@@ -37,7 +37,7 @@ class QuoteMessage implements MessagePayloadInterface
         return $this->quoteMessageItems;
     }
 
-    public function addItem(ItemIn $quoteMessageItem): self
+    public function addItem(QuoteItemIn $quoteMessageItem): self
     {
         $this->quoteMessageItems[] = $quoteMessageItem;
 

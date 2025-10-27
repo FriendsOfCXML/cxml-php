@@ -13,6 +13,7 @@ use JMS\Serializer\Annotation as Serializer;
 class QuoteItemIn
 {
     use ExtrinsicsTrait;
+
     protected function __construct(
         #[Serializer\XmlAttribute]
         #[Serializer\SerializedName('type')]

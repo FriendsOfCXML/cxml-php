@@ -32,13 +32,13 @@ readonly class Endpoint
      */
     public function parseAndProcessStringAsCXml(string $xml, ?Context $context = null): ?CXml
     {
-        $this->logger->info('Processing incoming CXml message', ['xml' => $xml]);
+        $this->logger->info('Processing incoming CXml message', ['xml' => $this->removeSharedSecret($xml)]);
 
         // validate
         try {
             $this->dtdValidator->validateAgainstDtd($xml);
         } catch (CXmlInvalidException $cXmlInvalidException) {
-            $this->logger->error('Incoming CXml was invalid (via DTD)', ['xml' => $xml]);
+            $this->logger->error('Incoming CXml was invalid (via DTD)', ['xml' => $this->removeSharedSecret($xml)]);
 
             throw $cXmlInvalidException;
         }
@@ -47,7 +47,7 @@ readonly class Endpoint
         try {
             $cxml = $this->serializer->deserialize($xml);
         } catch (RuntimeException $runtimeException) {
-            $this->logger->error('Error while deserializing xml to CXml: ' . $runtimeException->getMessage(), ['xml' => $xml]);
+            $this->logger->error('Error while deserializing xml to CXml: ' . $runtimeException->getMessage(), ['xml' => $this->removeSharedSecret($xml)]);
 
             throw new CXmlInvalidException('Error while deserializing xml: ' . $runtimeException->getMessage(), $xml, $runtimeException);
         }
@@ -56,13 +56,18 @@ readonly class Endpoint
         try {
             $result = $this->processor->process($cxml, $context);
         } catch (CXmlException $cXmlException) {
-            $this->logger->error('Error while processing valid CXml: ' . $cXmlException->getMessage(), ['xml' => $xml]);
+            $this->logger->error('Error while processing valid CXml: ' . $cXmlException->getMessage(), ['xml' => $this->removeSharedSecret($xml)]);
 
             throw $cXmlException;
         }
 
-        $this->logger->info('Success after processing incoming CXml message', ['xml' => $xml]);
+        $this->logger->info('Success after processing incoming CXml message', ['xml' => $this->removeSharedSecret($xml)]);
 
         return $result;
+    }
+
+    private function removeSharedSecret(string $xml): string
+    {
+        return (string)preg_replace('/<SharedSecret>.*?<\/SharedSecret>/s', '<SharedSecret>***REDACTED***</SharedSecret>', $xml);
     }
 }

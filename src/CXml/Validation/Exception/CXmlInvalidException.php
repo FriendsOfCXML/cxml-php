@@ -34,7 +34,7 @@ class CXmlInvalidException extends CXmlNotAcceptableException
 
         return new self(
             $message,
-            $xml,
+            (string)preg_replace('/<SharedSecret>.*?<\/SharedSecret>/s', '<SharedSecret>***REDACTED***</SharedSecret>', $xml),
         );
     }
 }

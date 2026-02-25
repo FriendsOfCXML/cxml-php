@@ -26,7 +26,7 @@ class ProfileResponse implements ResponsePayloadInterface
     /**
      * @var Transaction[]
      */
-    #[Serializer\XmlList(inline: true, entry: 'Transaction')]
+    #[Serializer\XmlList(entry: 'Transaction', inline: true)]
     #[Serializer\Type('array<CXml\Model\Transaction>')]
     private array $transactions = [];
 

@@ -125,7 +125,6 @@ class OrderRequestBuilder
             $orderDate,
             $currency,
             $language,
-            null,
         );
 
         $orb->setShipTo($punchOutOrderMessage->punchOutOrderMessageHeader->getShipTo());

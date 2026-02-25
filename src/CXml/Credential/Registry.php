@@ -58,7 +58,8 @@ class Registry implements CredentialRepositoryInterface, AuthenticatorInterface,
             $senderCredential->identity,
         );
 
-        if ($baseCredential->getSharedSecret() !== $senderCredential->getSharedSecret()) {
+        // use hash_equals() for constant-time comparison to prevent timing attacks
+        if (!hash_equals((string)$baseCredential->getSharedSecret(), (string)$senderCredential->getSharedSecret())) {
             throw new CXmlAuthenticationInvalidException($senderCredential);
         }
     }

@@ -200,7 +200,6 @@ final class SerializerTest extends TestCase
             ),
             new Response(
                 new Status(200, 'OK', 'Ping Response CXml'),
-                null,
             ),
         );
 

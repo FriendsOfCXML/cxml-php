@@ -44,7 +44,8 @@ readonly class DtdValidator
         $internalErrors = libxml_use_internal_errors(true);
 
         $old = new DOMDocument();
-        $old->loadXML($xml);
+        // disable network access for security reasons
+        $old->loadXML($xml, LIBXML_NONET);
 
         $this->validateAgainstMultipleDtd($this->pathToDtds, $old);
 

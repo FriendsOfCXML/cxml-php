@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CXml;
 
+use CXml\Jms\CXmlExclusionStrategy;
 use CXml\Jms\CXmlWrappingNodeJmsEventSubscriber;
 use CXml\Jms\JmsDateTimeHandler;
 use CXml\Model\CXml;
@@ -15,6 +16,7 @@ use JMS\Serializer\EventDispatcher\EventDispatcherInterface;
 use JMS\Serializer\GraphNavigatorInterface;
 use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\XmlDeserializationVisitor;
@@ -52,6 +54,10 @@ readonly class Serializer
             ->setPropertyNamingStrategy(
                 new IdenticalPropertyNamingStrategy(),
             )
+            ->setSerializationContextFactory(function () {
+                return SerializationContext::create()
+                    ->addExclusionStrategy(new CXmlExclusionStrategy());
+            })
             ->build();
 
         return new self($jmsSerializer);

@@ -41,9 +41,20 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
 {
     private DtdValidator $dtdValidator;
 
+    private Serializer $serializer;
+
     protected function setUp(): void
     {
         $this->dtdValidator = DtdValidator::fromDtdDirectory(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
+        $this->serializer = Serializer::create();
+    }
+
+    public function testReference(): void
+    {
+        // test whether deserialize/serialize of the reference file works
+        $xml = file_get_contents(__DIR__ . '/../../metadata/cxml/samples/OrderRequest.xml');
+        $cxml = Serializer::create()->deserialize($xml);
+        Serializer::create()->serialize($cxml);
     }
 
     public function testMinimumExample(): void
@@ -171,6 +182,8 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
             ),
             new DateTime('2020-02-28'),
         );
+        $item->addComment(new Comment('Test comment', 'test', ''));
+
         $orderRequest->addItem($item);
 
         $cxml = Builder::create('Platform Order Fulfillment Hub', null, $this)
@@ -183,7 +196,7 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
         $this->assertSame('OrderRequest_1625586002.193314.7293@dev', (string)$cxml);
 
         $xml = Serializer::create()->serialize($cxml);
-        $this->assertXmlStringEqualsXmlFile('tests/metadata/cxml/samples/OrderRequest.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../metadata/cxml/samples/OrderRequest.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }

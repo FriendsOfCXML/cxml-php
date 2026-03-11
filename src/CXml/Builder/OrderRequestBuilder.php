@@ -134,7 +134,7 @@ class OrderRequestBuilder
             $orb->addItem(
                 $item->quantity,
                 $item->itemId,
-                $item->itemDetail->description->value ?? '',
+                $item->itemDetail->descriptions[0]->value ?? '',
                 $item->itemDetail->unitOfMeasure,
                 $item->itemDetail->unitPrice->money->getValueCent(),
                 [

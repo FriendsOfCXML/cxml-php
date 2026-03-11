@@ -31,6 +31,7 @@ use CXml\Serializer;
 use CXml\Validation\DtdValidator;
 use DateTime;
 use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,14 +42,13 @@ final class OrderRequestTest extends TestCase implements PayloadIdentityFactoryI
 {
     private DtdValidator $dtdValidator;
 
-    private Serializer $serializer;
-
     protected function setUp(): void
     {
         $this->dtdValidator = DtdValidator::fromDtdDirectory(__DIR__ . '/../../metadata/cxml/dtd/1.2.050/');
-        $this->serializer = Serializer::create();
+        Serializer::create();
     }
 
+    #[DoesNotPerformAssertions]
     public function testReference(): void
     {
         // test whether deserialize/serialize of the reference file works

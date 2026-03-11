@@ -20,7 +20,7 @@ readonly class PriceBasisQuantity
         public string $unitOfMeasure,
         #[Serializer\SerializedName('Description')]
         #[Serializer\XmlElement(cdata: false)]
-        public MultilanguageString $description,
+        public ?MultilanguageString $description = null,
     ) {
     }
 }

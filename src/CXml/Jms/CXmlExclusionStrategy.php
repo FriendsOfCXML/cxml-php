@@ -24,17 +24,14 @@ class CXmlExclusionStrategy implements ExclusionStrategyInterface
             return false;
         }
 
-        if (Comment::class === $property->class) {
-            if ('attachment' === $property->name) {
-                /** @var Comment $object */
-                /** @phpstan-ignore-next-line */
-                $object = $context->getObject();
-
-                // if comment has a textual value, we dont serialize the <Attachment> element anymore. See DTD:
-                // <!ELEMENT Comments ( #PCDATA | Attachment )* >
-                if (isset($object->value)) {
-                    return true;
-                }
+        if (Comment::class === $property->class && 'attachment' === $property->name) {
+            /** @var Comment $object */
+            /** @phpstan-ignore-next-line */
+            $object = $context->getObject();
+            // if comment has a textual value, we dont serialize the <Attachment> element anymore. See DTD:
+            // <!ELEMENT Comments ( #PCDATA | Attachment )* >
+            if (isset($object->value)) {
+                return true;
             }
         }
 

@@ -8,7 +8,7 @@ use Assert\Assertion;
 use CXml\Model\Trait\ExtrinsicsTrait;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'description', 'unitOfMeasure', 'priceBasisQuantity', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['unitPrice', 'descriptions', 'unitOfMeasure', 'priceBasisQuantity', 'classifications', 'manufacturerPartId', 'manufacturerName', 'url', 'leadtime', 'itemDetailIndustry', 'attachmentReferences', 'extrinsics'])]
 class ItemDetail
 {
     use ExtrinsicsTrait;
@@ -38,10 +38,21 @@ class ItemDetail
     #[Serializer\XmlElement(cdata: false)]
     private ?int $leadtime = null;
 
+    #[Serializer\SerializedName('ItemDetailIndustry')]
+    #[Serializer\XmlElement(cdata: false)]
+    private ItemDetailIndustry $itemDetailIndustry;
+
+    #[Serializer\XmlList(entry: 'AttachmentReference', inline: true)]
+    #[Serializer\Type('array<CXml\Model\AttachmentReference>')]
+    private array $attachmentReferences = [];
+
+    /**
+     * @param Description[] $descriptions
+     */
     protected function __construct(
-        #[Serializer\SerializedName('Description')]
-        #[Serializer\XmlElement(cdata: false)]
-        public readonly Description $description,
+        #[Serializer\XmlList(entry: 'Description', inline: true)]
+        #[Serializer\Type('array<CXml\Model\Description>')]
+        public array $descriptions,
         #[Serializer\SerializedName('UnitOfMeasure')]
         #[Serializer\XmlElement(cdata: false)]
         public readonly string $unitOfMeasure,
@@ -51,6 +62,7 @@ class ItemDetail
         #[Serializer\XmlElement(cdata: false)]
         public readonly ?PriceBasisQuantity $priceBasisQuantity = null,
     ) {
+        Assertion::notEmpty($descriptions);
     }
 
     public static function create(Description $description, string $unitOfMeasure, MoneyWrapper $unitPrice, array $classifications, ?PriceBasisQuantity $priceBasisQuantity = null): self
@@ -58,7 +70,7 @@ class ItemDetail
         Assertion::allIsInstanceOf($classifications, Classification::class);
         Assertion::notEmpty($classifications); // at least one classification is necessary (via DTD)
 
-        $itemDetail = new self($description, $unitOfMeasure, $unitPrice, $priceBasisQuantity);
+        $itemDetail = new self([$description], $unitOfMeasure, $unitPrice, $priceBasisQuantity);
 
         foreach ($classifications as $classification) {
             $itemDetail->addClassification($classification);
@@ -95,6 +107,13 @@ class ItemDetail
         return $this;
     }
 
+    public function addDescription(Description $description): self
+    {
+        $this->descriptions[] = $description;
+
+        return $this;
+    }
+
     public function addClassification(Classification $classification): self
     {
         $this->classifications[] = $classification;
@@ -125,5 +144,19 @@ class ItemDetail
     public function getLeadtime(): ?int
     {
         return $this->leadtime;
+    }
+
+    public function setItemDetailIndustry(ItemDetailIndustry $itemDetailIndustry): self
+    {
+        $this->itemDetailIndustry = $itemDetailIndustry;
+
+        return $this;
+    }
+
+    public function addAttachmentReference(AttachmentReference $attachmentReference): self
+    {
+        $this->attachmentReferences[] = $attachmentReference;
+
+        return $this;
     }
 }

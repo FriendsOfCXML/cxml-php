@@ -6,16 +6,13 @@ namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['value'])]
-readonly class Classification
+class SupplierId
 {
     public function __construct(
         #[Serializer\XmlAttribute]
         public string $domain,
         #[Serializer\XmlValue(cdata: false)]
         public string $value,
-        #[Serializer\XmlAttribute]
-        public ?string $code = null,
     ) {
     }
 }

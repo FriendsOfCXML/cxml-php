@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace CXmlTest\Model;
 
 use CXml\Builder;
-use CXml\Model\CarrierIdentifier;
 use CXml\Model\Credential;
+use CXml\Model\Description;
+use CXml\Model\MultilanguageString;
 use CXml\Model\PayloadIdentity;
-use CXml\Model\Request\ShipNoticeHeader;
-use CXml\Model\Request\ShipNoticeRequest;
-use CXml\Model\ShipControl;
-use CXml\Model\ShipmentIdentifier;
-use CXml\Model\ShipNoticePortion;
+use CXml\Model\Request\CatalogUploadRequest;
 use CXml\Payload\PayloadIdentityFactoryInterface;
 use CXml\Serializer;
 use CXml\Validation\DtdValidator;
@@ -24,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  */
 #[CoversNothing]
-final class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFactoryInterface
+final class CatalogUploadRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private DtdValidator $dtdValidator;
 
@@ -49,22 +46,12 @@ final class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFac
             'abracadabra',
         );
 
-        $statusUpdateRequest = ShipNoticeRequest::create(
-            ShipNoticeHeader::create(
-                'S2-123',
-                new DateTime('2000-10-14T18:39:09-08:00'),
-                new DateTime('2000-10-14T08:30:19-08:00'),
-                new DateTime('2000-10-18T09:00:00-08:00'),
-            )
-                ->addCommentAsString('Got it all into one shipment.', null, 'en-CA'),
-        )
-            ->addShipControl(
-                ShipControl::create(new CarrierIdentifier(CarrierIdentifier::DOMAIN_SCAC, 'FDE'), new ShipmentIdentifier('8202 8261 1194'))
-                    ->addCarrierIdentifier('companyName', 'Federal Express'),
-            )
-            ->addShipNoticePortion(
-                new ShipNoticePortion('32232995@hub.acme.com', 'DO1234'),
-            );
+        $statusUpdateRequest = new CatalogUploadRequest(
+            'new',
+            new MultilanguageString('Winter Prices', null, 'en'),
+            new Description('premiere-level prices', null, 'en'),
+            'https://www.attachment.com',
+        );
 
         $cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
             ->from($from)
@@ -73,10 +60,8 @@ final class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFac
             ->payload($statusUpdateRequest)
             ->build();
 
-        $this->assertSame('ShipNoticeRequest_0c30050@supplierorg.com', (string)$cxml);
-
         $xml = Serializer::create()->serialize($cxml);
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../metadata/cxml/samples/ShipNoticeRequest.xml', $xml);
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../metadata/cxml/samples/CatalogUploadRequest.xml', $xml);
 
         $this->dtdValidator->validateAgainstDtd($xml);
     }
@@ -84,7 +69,7 @@ final class ShipNoticeRequestTest extends TestCase implements PayloadIdentityFac
     public function newPayloadIdentity(): PayloadIdentity
     {
         return new PayloadIdentity(
-            '0c30050@supplierorg.com',
+            '0c30050@someone.com',
             new DateTime('2021-01-08T23:00:06-08:00'),
         );
     }

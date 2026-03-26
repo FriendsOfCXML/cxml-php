@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace CXml;
 
+use CXml\Jms\CXmlExclusionStrategy;
 use CXml\Jms\CXmlWrappingNodeJmsEventSubscriber;
 use CXml\Jms\JmsDateTimeHandler;
 use CXml\Model\CXml;
+use CXml\Model\Index;
 use DateTime;
 use DateTimeInterface;
 use DOMText;
@@ -15,6 +17,7 @@ use JMS\Serializer\EventDispatcher\EventDispatcherInterface;
 use JMS\Serializer\GraphNavigatorInterface;
 use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\XmlDeserializationVisitor;
@@ -52,6 +55,10 @@ readonly class Serializer
             ->setPropertyNamingStrategy(
                 new IdenticalPropertyNamingStrategy(),
             )
+            ->setSerializationContextFactory(function (): Context {
+                return SerializationContext::create()
+                    ->addExclusionStrategy(new CXmlExclusionStrategy());
+            })
             ->build();
 
         return new self($jmsSerializer);
@@ -78,11 +85,14 @@ readonly class Serializer
         return $cXml;
     }
 
-    public function serialize(CXml $cxml): string
+    public function serialize(CXml|Index $cxml): string
     {
         $xml = $this->jmsSerializer->serialize($cxml, 'xml');
 
-        $docType = '<!DOCTYPE cXML SYSTEM "' . $cxml->dtdUri . '">';
+        $nodeName = $cxml instanceof Index ? 'Index' : 'cXML';
+
+        $docType = sprintf('<!DOCTYPE %s SYSTEM "%s">', $nodeName, $cxml->dtdUri);
+
         $xmlPrefix = '<?xml version="1.0" encoding="UTF-8"?>';
 
         // add doctype, as it is mandatory in cXML

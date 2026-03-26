@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
 class BusinessPartner
 {
     use IdReferencesTrait;
+
     final public const ROLE_SOLD_TO = 'soldTo';
 
     final public const ROLE_SHIP_FROM = 'shipFrom';

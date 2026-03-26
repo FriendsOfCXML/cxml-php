@@ -101,6 +101,7 @@
                     <UnitOfMeasure>EA</UnitOfMeasure>
                     <Classification domain="custom">0</Classification>
                  </ItemDetail>
+                 <Comments type="test" xml:lang="">Test comment</Comments>
              </ItemOut>
          </OrderRequest>
     </Request>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Index SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd">
+<Index loadmode="Full">
+    <SupplierID domain="supplier">id</SupplierID>
+    <Comments>comment</Comments>
+    <IndexItem>
+        <IndexItemAdd>
+            <ItemID>
+                <SupplierPartID>PROMINATE-SKU</SupplierPartID>
+            </ItemID>
+            <ItemDetail>
+                <UnitPrice>
+                    <Money currency="EUR">1.23</Money>
+                </UnitPrice>
+                <Description xml:lang="en">English description</Description>
+                <Description xml:lang="de">German description</Description>
+                <UnitOfMeasure>EA</UnitOfMeasure>
+                <!-- Optional, given if item is a box of x units -->
+                <PriceBasisQuantity quantity="10" conversionFactor="0.1">
+                    <UnitOfMeasure>BX</UnitOfMeasure>
+                </PriceBasisQuantity>
+                <!-- Multiple classifications defining categories, etc -->
+                <Classification domain="ProminateCategoryCode" code="partner_merchandise">Merchandise</Classification>
+                <URL>https://example.com/product</URL>
+                <LeadTime>2</LeadTime>
+                <!-- optional, can be used to identify variant groups -->
+                <ItemDetailIndustry>
+                    <ItemDetailRetail>
+                        <Characteristic domain="size" value="L" />
+                        <Characteristic domain="color" value="red" />
+                    </ItemDetailRetail>
+                </ItemDetailIndustry>
+                <!-- optional, one or more references to images or documents related to the product -->
+                <AttachmentReference>
+                    <Name xml:lang="en">Main Image</Name>
+                    <Description xml:lang="en">Main Image of product</Description>
+                    <InternalID>main_image</InternalID>
+                    <URL>https://example.com/product/image.jpg</URL>
+                </AttachmentReference>
+                <!-- in case of a product that has no inventory and is therefore always orderable -->
+                <Extrinsic name="on_demand">true</Extrinsic>
+
+                <!-- optional, tbd -->
+                <Extrinsic name="custom">custom_note</Extrinsic>
+            </ItemDetail>
+            <IndexItemDetail>
+                <LeadTime>2</LeadTime> <!-- redundant -->
+                <!-- Optional -->
+                <ExpirationDate>2026-02-05T09:46:33+00:00</ExpirationDate>
+                <!-- Optional. If not given - no territoral restriction -->
+                <TerritoryAvailable>DE</TerritoryAvailable>
+                <TerritoryAvailable>CH</TerritoryAvailable>
+                <TerritoryAvailable>AT</TerritoryAvailable>
+            </IndexItemDetail>
+        </IndexItemAdd>
+    </IndexItem>
+</Index>

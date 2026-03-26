@@ -16,7 +16,8 @@ readonly class SimpleSharedSecretAuthenticator implements AuthenticatorInterface
 
     public function authenticate(Header $header, Context $context): void
     {
-        if ($this->sharedSecret !== $header->sender->credential->getSharedSecret()) {
+        // use hash_equals() for constant-time comparison to prevent timing attacks
+        if (!hash_equals($this->sharedSecret, (string)$header->sender->credential->getSharedSecret())) {
             throw new CXmlAuthenticationInvalidException($header->sender->credential);
         }
     }

@@ -103,7 +103,7 @@ class Processor
      */
     private function processResponse(Response $response, Context $context): void
     {
-        $payload = $response->payload;
+        $payload = $response->payload ?? null;
 
         if (!$payload instanceof ResponsePayloadInterface) {
             return;

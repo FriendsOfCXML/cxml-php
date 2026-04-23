@@ -188,10 +188,6 @@ class PunchOutOrderMessageBuilder
 
     public function build(): PunchOutOrderMessage
     {
-        if ([] === $this->punchoutOrderMessageItems) {
-            throw new RuntimeException('Cannot build PunchOutOrderMessage without any PunchoutOrderMessageItem');
-        }
-
         $punchoutOrderMessageHeader = new PunchOutOrderMessageHeader(
             new MoneyWrapper($this->currency, $this->total),
             $this->shipping,

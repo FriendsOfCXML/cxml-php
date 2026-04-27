@@ -30,7 +30,7 @@ class CXmlExclusionStrategy implements ExclusionStrategyInterface
             $object = $context->getObject();
             // if comment has a textual value, we dont serialize the <Attachment> element anymore. See DTD:
             // <!ELEMENT Comments ( #PCDATA | Attachment )* >
-            if (isset($object->value)) {
+            if ($object->value !== null) {
                 return true;
             }
         }

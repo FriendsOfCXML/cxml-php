@@ -24,7 +24,7 @@
     }
   ],
   "require": {
-    "php": ">= 8.2 < 8.5",
+    "php": ">= 8.2",
     "ext-simplexml": "*",
     "ext-dom": "*",
     "ext-libxml": "*",

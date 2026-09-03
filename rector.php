@@ -22,7 +22,6 @@ return RectorConfig::configure()
     ])
     ->withSets([
         SymfonyInternalSetList::JMS_ANNOTATIONS_TO_ATTRIBUTES,
-        PHPUnitSetList::PHPUNIT_110,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         PHPUnitSetList::ANNOTATIONS_TO_ATTRIBUTES,
         SetList::TYPE_DECLARATION,

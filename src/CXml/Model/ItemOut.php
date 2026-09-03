@@ -8,7 +8,7 @@ use CXml\Model\Trait\CommentsTrait;
 use DateTimeInterface;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail', 'shipTo', 'distribution', 'controlKeys', 'scheduleLine'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['itemId', 'itemDetail', 'shipTo', 'distribution', 'comments', 'controlKeys', 'scheduleLine'])]
 class ItemOut
 {
     use CommentsTrait;

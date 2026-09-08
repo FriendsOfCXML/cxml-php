@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CXml\Model\Request;
 
 use Assert\Assertion;
+use CXml\Model\Contact;
 use CXml\Model\ItemOut;
 use CXml\Model\SelectedItem;
 use CXml\Model\ShipTo;
@@ -12,7 +13,7 @@ use CXml\Model\Trait\ExtrinsicsTrait;
 use CXml\Model\Url;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['buyerCookie', 'extrinsics', 'browserFormPost', 'supplierSetup', 'shipTo', 'selectedItem', 'itemOut'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['buyerCookie', 'extrinsics', 'browserFormPost', 'contact', 'supplierSetup', 'shipTo', 'selectedItem', 'itemOut'])]
 class PunchOutSetupRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;
@@ -39,6 +40,8 @@ class PunchOutSetupRequest implements RequestPayloadInterface
         public readonly ?ShipTo $shipTo = null,
         #[Serializer\SerializedName('SelectedItem')]
         public readonly ?SelectedItem $selectedItem = null,
+        #[Serializer\SerializedName('Contact')]
+        public readonly ?Contact $contact = null,
         #[Serializer\XmlAttribute]
         public readonly ?string $operation = 'create',
     ) {

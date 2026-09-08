@@ -6,6 +6,7 @@ use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector;
+use Rector\DeadCode\Rector\Property\RemoveDefaultValueFromAssignedPropertyRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
@@ -36,6 +37,7 @@ return RectorConfig::configure()
     ->withSkip([
         RemoveUnusedPromotedPropertyRector::class,
         RemoveEmptyClassMethodRector::class,
+        RemoveDefaultValueFromAssignedPropertyRector::class,
     ])
     ->withFileExtensions(['php'])
     ->withCache(

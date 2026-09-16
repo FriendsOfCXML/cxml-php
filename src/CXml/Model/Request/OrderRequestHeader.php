@@ -150,6 +150,17 @@ class OrderRequestHeader
         return $this->contacts;
     }
 
+    public function getContactByRole(string $role): ?Contact
+    {
+        foreach ($this->contacts as $contact) {
+            if ($contact->getRole() === $role) {
+                return $contact;
+            }
+        }
+
+        return null;
+    }
+
     public function setSupplierOrderInfo(SupplierOrderInfo $supplierOrderInfo): void
     {
         $this->supplierOrderInfo = $supplierOrderInfo;

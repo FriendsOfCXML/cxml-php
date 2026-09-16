@@ -46,6 +46,10 @@ class Contact
     #[Serializer\XmlElement(cdata: false)]
     private ?string $email = null;
 
+    #[Serializer\SerializedName('URL')]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $url = null;
+
     public function __construct(
         #[Serializer\SerializedName('Name')]
         #[Serializer\XmlElement(cdata: false)]
@@ -80,5 +84,17 @@ class Contact
     public function getEmail(): ?string
     {
         return $this->email;
+    }
+
+    public function addURL(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getURL(): ?string
+    {
+        return $this->url;
     }
 }

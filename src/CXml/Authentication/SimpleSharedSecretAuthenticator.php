@@ -7,10 +7,11 @@ namespace CXml\Authentication;
 use CXml\Context;
 use CXml\Exception\CXmlAuthenticationInvalidException;
 use CXml\Model\Header;
+use SensitiveParameter;
 
 readonly class SimpleSharedSecretAuthenticator implements AuthenticatorInterface
 {
-    public function __construct(#[\SensitiveParameter] private string $sharedSecret)
+    public function __construct(#[SensitiveParameter] private string $sharedSecret)
     {
     }
 

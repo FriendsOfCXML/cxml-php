@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CXml\Model;
 
 use JMS\Serializer\Annotation as Serializer;
+use SensitiveParameter;
 use Stringable;
 
 use function sprintf;
@@ -20,7 +21,7 @@ class Credential implements Stringable
         public readonly string $identity,
         #[Serializer\SerializedName('SharedSecret')]
         #[Serializer\XmlElement(cdata: false)]
-        #[\SensitiveParameter]
+        #[SensitiveParameter]
         private ?string $sharedSecret = null,
     ) {
     }
@@ -30,7 +31,7 @@ class Credential implements Stringable
         return sprintf('%s@%s', $this->identity, $this->domain);
     }
 
-    public function setSharedSecret(#[\SensitiveParameter] ?string $sharedSecret): self
+    public function setSharedSecret(#[SensitiveParameter] ?string $sharedSecret): self
     {
         $this->sharedSecret = $sharedSecret;
 

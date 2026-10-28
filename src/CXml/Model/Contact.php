@@ -8,7 +8,7 @@ use CXml\Model\Trait\ExtrinsicsTrait;
 use CXml\Model\Trait\IdReferencesTrait;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['name', 'postalAddress', 'email', 'phone', 'fax', 'url', 'extrinsics', 'idReferences'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['name', 'postalAddress', 'email', 'phone', 'fax', 'url', 'idReferences', 'extrinsics'])]
 class Contact
 {
     use ExtrinsicsTrait;

@@ -44,42 +44,36 @@ readonly class DtdValidator
         // disable throwing of php errors for libxml
         $internalErrors = libxml_use_internal_errors(true);
 
+        try {
+            $this->validate($xml);
+        } finally {
+            // reset throwing of php errors for libxml, regardless of the outcome
+            libxml_use_internal_errors($internalErrors);
+        }
+    }
+
+    /**
+     * @throws CXmlInvalidException
+     */
+    private function validate(string $xml): void
+    {
         $originalDomDocument = new DOMDocument();
         // disable network access for security reasons
         $originalDomDocument->loadXML($xml, LIBXML_NONET);
 
-        $cxmlNode = $originalDomDocument->getElementsByTagName('cXML')->item(0);
-        if (null !== $cxmlNode) {
-            try {
-                $this->validateAgainstMultipleDtd($this->pathToDtds, $cxmlNode, $xml);
+        $rootNode = $originalDomDocument->getElementsByTagName('cXML')->item(0)
+            ?? $originalDomDocument->getElementsByTagName('Index')->item(0);
 
-                // reset throwing of php errors for libxml
-                libxml_use_internal_errors($internalErrors);
-
-                return;
-            } catch (DOMException $domException) {
-                // reset throwing of php errors for libxml
-                libxml_use_internal_errors($internalErrors);
-
-                throw new CXmlInvalidException($domException->getMessage(), (string)$originalDomDocument->saveXML(), $domException);
-            }
+        if (null === $rootNode) {
+            throw new CXmlInvalidException('Found neither "cXML" nor "Index" root node', (string)$originalDomDocument->saveXML());
         }
 
-        $indexNode = $originalDomDocument->getElementsByTagName('Index')->item(0);
-        if (null !== $indexNode) {
-            if ($originalDomDocument->validate()) {
-                return;
-            }
-
-            $e = CXmlInvalidException::fromLibXmlError(libxml_get_last_error(), $xml);
-
-            // reset throwing of php errors for libxml
-            libxml_use_internal_errors($internalErrors);
-
-            throw $e;
+        // always validate against the local dtds and never against the (untrusted) doctype given in the document
+        try {
+            $this->validateAgainstMultipleDtd($this->pathToDtds, $rootNode, $xml);
+        } catch (DOMException $domException) {
+            throw new CXmlInvalidException($domException->getMessage(), (string)$originalDomDocument->saveXML(), $domException);
         }
-
-        throw new CXmlInvalidException('Found neither "cXML" nor "Index" root node', (string)$originalDomDocument->saveXML());
     }
 
     /**
@@ -89,7 +83,7 @@ readonly class DtdValidator
     {
         $creator = new DOMImplementation();
 
-        $doctype = $creator->createDocumentType('cXML', '', $dtdFilename);
+        $doctype = $creator->createDocumentType($oldNode->nodeName, '', $dtdFilename);
         $new = $creator->createDocument('', '', $doctype);
         $new->encoding = 'utf-8';
 
@@ -103,12 +97,12 @@ readonly class DtdValidator
      * @throws CXmlInvalidException
      * @throws DOMException
      */
-    private function validateAgainstMultipleDtd(array $validateFiles, DOMNode $indexNode, string $xml): void
+    private function validateAgainstMultipleDtd(array $validateFiles, DOMNode $rootNode, string $xml): void
     {
         Assertion::allString($validateFiles);
 
         foreach ($validateFiles as $validateFile) {
-            $dtdInjectedDomDocument = $this->injectDtd($indexNode, $validateFile);
+            $dtdInjectedDomDocument = $this->injectDtd($rootNode, $validateFile);
 
             if ($dtdInjectedDomDocument->validate()) {
                 return;

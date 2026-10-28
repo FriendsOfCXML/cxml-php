@@ -9,7 +9,7 @@ use CXml\Model\Status;
 use CXml\Model\Trait\ExtrinsicsTrait;
 use JMS\Serializer\Annotation as Serializer;
 
-#[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference', 'extrinsics'])]
+#[Serializer\AccessorOrder(order: 'custom', custom: ['documentReference', 'status', 'extrinsics'])]
 class StatusUpdateRequest implements RequestPayloadInterface
 {
     use ExtrinsicsTrait;

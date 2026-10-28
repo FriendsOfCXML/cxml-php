@@ -65,6 +65,35 @@ final class StatusUpdateRequestTest extends TestCase implements PayloadIdentityF
         $this->dtdValidator->validateAgainstDtd($xml);
     }
 
+    public function testWithExtrinsicsKeepsDtdOrder(): void
+    {
+        $statusUpdateRequest = StatusUpdateRequest::create(
+            new Status(200, 'OK', 'Forwarded to supplier', 'en-US'),
+            '0c300508b7863dcclb_14999',
+        );
+        $statusUpdateRequest->addExtrinsicAsKeyValue('trackingId', '4711');
+
+        $cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
+            ->from(new Credential('NetworkId', 'AN00000123'))
+            ->to(new Credential('NetworkId', 'AN00000456'))
+            ->sender(new Credential('NetworkId', 'AN00000123', 'abracadabra'))
+            ->payload($statusUpdateRequest)
+            ->build();
+
+        $xml = Serializer::create()->serialize($cxml);
+
+        // DTD: (DocumentReference?, Status, (PaymentStatus | ...)?, Extrinsic*)
+        $this->dtdValidator->validateAgainstDtd($xml);
+        $this->assertMatchesRegularExpression('#<DocumentReference [^>]+/>\s*<Status [^>]+>[^<]*</Status>\s*<Extrinsic name="trackingId">4711</Extrinsic>#', $xml);
+    }
+
+    public function testEmptyDocumentReferenceIsOmitted(): void
+    {
+        $this->assertNull(StatusUpdateRequest::create(new Status())->documentReference);
+        $this->assertNull(StatusUpdateRequest::create(new Status(), '')->documentReference);
+        $this->assertSame('ref', StatusUpdateRequest::create(new Status(), 'ref')->documentReference?->payloadId);
+    }
+
     public function newPayloadIdentity(): PayloadIdentity
     {
         return new PayloadIdentity(

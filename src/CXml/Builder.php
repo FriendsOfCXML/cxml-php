@@ -31,6 +31,7 @@ use LogicException;
 class Builder
 {
     // according to cXML reference document
+    // exceptions are matched by instanceof in this order, so more specific exceptions must come first
     /**
      * @var array<class-string<CXmlException>, int>
      */
@@ -232,7 +233,7 @@ class Builder
                 /** @noinspection PhpParamsInspection */
                 $cXml = CXml::forMessage(
                     $this->payloadIdentityFactory->newPayloadIdentity(),
-                    new Message($this->payload, $this->status, null, $deploymentMode),
+                    new Message($this->payload, $this->status, deploymentMode: $deploymentMode),
                     $this->buildHeader(),
                     $this->locale,
                     $this->dtdUri,
@@ -282,12 +283,23 @@ class Builder
      */
     public function buildResponseForException(CXmlException $exception): CXml
     {
-        $statusCode = self::$exceptionMapping[$exception::class] ?? 500;
+        $statusCode = $this->getStatusCodeForException($exception);
         $statusText = self::$exceptionCodeMapping[$statusCode] ?? 'Unknown status';
         $status = new Status($statusCode, $statusText, $exception->getMessage());
 
         return $this
             ->status($status)
             ->build();
+    }
+
+    private function getStatusCodeForException(CXmlException $exception): int
+    {
+        foreach (self::$exceptionMapping as $exceptionClass => $statusCode) {
+            if ($exception instanceof $exceptionClass) {
+                return $statusCode;
+            }
+        }
+
+        return 500;
     }
 }

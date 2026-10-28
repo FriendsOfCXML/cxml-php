@@ -17,8 +17,6 @@ readonly class Accounting
         #[Serializer\XmlList(entry: 'AccountingSegment', inline: true)]
         #[Serializer\Type('array<CXml\Model\AccountingSegment>')]
         public array $accountingSegments,
-        #[Serializer\SerializedName('Charge')]
-        public MoneyWrapper $charge,
     ) {
     }
 }

@@ -7,6 +7,7 @@ namespace CXml\Model;
 use JMS\Serializer\Annotation as Serializer;
 
 use function number_format;
+use function round;
 
 readonly class Money
 {
@@ -24,6 +25,7 @@ readonly class Money
 
     public function getValueCent(): int
     {
-        return $this->valueCent ?? (int)(((float)$this->value) * 100);
+        // round instead of truncating, as i.e. 19.99 * 100 results in 1998.9999999999998
+        return $this->valueCent ?? (int)round(((float)$this->value) * 100);
     }
 }

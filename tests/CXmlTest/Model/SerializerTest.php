@@ -36,6 +36,7 @@ use CXml\Model\TelephoneNumber;
 use CXml\Serializer;
 use DateTime;
 use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -712,5 +713,81 @@ final class SerializerTest extends TestCase
 
         $this->assertSame('voucher', $deserializedPayment->paymentImpl[0]->method);
         $this->assertSame('creditcard', $deserializedPayment->paymentImpl[1]->method);
+    }
+
+    #[DataProvider('provideDoctypes')]
+    public function testDeserializeDetectsDtdUri(string $xml, string $expectedDtdUri): void
+    {
+        $cXml = Serializer::create()->deserialize($xml);
+
+        $this->assertSame($expectedDtdUri, $cXml->dtdUri);
+        $this->assertSame('x', $cXml->payloadId);
+        $this->assertSame(200, $cXml->getStatus()?->code);
+    }
+
+    public static function provideDoctypes(): iterable
+    {
+        $body = '<cXML payloadID="x" timestamp="2022-06-07T10:09:56+00:00"><Response><Status code="200" text="OK"/></Response></cXML>';
+
+        yield 'formatted' => [
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE cXML SYSTEM \"http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd\">\n" . $body,
+            'http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd',
+        ];
+        yield 'single line' => [
+            '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd">' . $body,
+            'http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd',
+        ];
+        yield 'doctype spanning multiple lines' => [
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE cXML\n    SYSTEM \"http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd\">\n" . $body,
+            'http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd',
+        ];
+        yield 'single quotes' => [
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE cXML SYSTEM 'http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd'>" . $body,
+            'http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd',
+        ];
+        yield 'public identifier' => [
+            '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE cXML PUBLIC "-//cXML//DTD cXML 1.2.050//EN" "http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd">' . $body,
+            'http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd',
+        ];
+        yield 'lowercase doctype' => [
+            '<?xml version="1.0" encoding="UTF-8"?><!doctype cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd">' . $body,
+            'http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd',
+        ];
+        yield 'doctype without identifier' => [
+            '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE cXML>' . $body,
+            'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd',
+        ];
+        yield 'no doctype' => [
+            '<?xml version="1.0" encoding="UTF-8"?>' . $body,
+            'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd',
+        ];
+    }
+
+    public function testSerializeUsesDtdUri(): void
+    {
+        $cXml = CXml::forResponse(
+            new PayloadIdentity('x', new DateTime('2022-06-07T10:09:56+00:00')),
+            new Response(new Status()),
+            null,
+            'http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd',
+        );
+
+        $xml = Serializer::create()->serialize($cXml);
+
+        $this->assertStringStartsWith('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd">', $xml);
+    }
+
+    public function testDeserializeEmptyString(): void
+    {
+        $this->expectException(RuntimeException::class);
+
+        Serializer::create()->deserialize('');
+    }
+
+    public function testDeserializeDoctypeOnly(): void
+    {
+        $this->expectException(RuntimeException::class);
+
+        Serializer::create()->deserialize('<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.050/cXML.dtd">');
     }
 }

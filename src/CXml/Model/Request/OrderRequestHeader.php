@@ -152,7 +152,10 @@ class OrderRequestHeader
 
     public function getContactByRole(string $role): ?Contact
     {
-        foreach ($this->contacts as $contact) {
+        /** @var Contact[] $contacts */
+        $contacts = $this->contacts ?? [];
+
+        foreach ($contacts as $contact) {
             if ($contact->getRole() === $role) {
                 return $contact;
             }

@@ -25,7 +25,6 @@ use JMS\Serializer\XmlSerializationVisitor;
 use RuntimeException;
 use SimpleXMLElement;
 
-use function preg_replace;
 use function str_replace;
 use function trim;
 
@@ -67,14 +66,17 @@ readonly class Serializer
     public function deserialize(string $xml): CXml
     {
         $dtdUri = 'http://xml.cxml.org/schemas/cXML/1.2.063/cXML.dtd';
-        if (1 === preg_match('/<!doctype.+"(.+)"[^>]*>/i', $xml, $matches)) {
-            $dtdUri = $matches[1];
+        if (1 === preg_match('/<!doctype[^>]*>/i', $xml, $doctype)) {
+            // the system identifier (dtd uri) is always the last quoted literal of the doctype
+            if (1 === preg_match('/(["\'])([^"\']*)\1\s*>$/', $doctype[0], $matches)) {
+                $dtdUri = $matches[2];
+            }
 
             // remove doctype from xml (if exists), as it would throw a JMS\Serializer\Exception\InvalidArgumentException
-            $xml = preg_replace('/<!doctype[^>]+?>/i', '', $xml);
+            $xml = str_replace($doctype[0], '', $xml);
         }
 
-        if ('' === trim($xml ?? '')) {
+        if ('' === trim($xml)) {
             throw new RuntimeException('Cannot deserialize empty string');
         }
 

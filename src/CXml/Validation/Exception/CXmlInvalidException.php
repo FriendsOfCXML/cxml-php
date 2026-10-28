@@ -13,9 +13,14 @@ use function trim;
 
 class CXmlInvalidException extends CXmlNotAcceptableException
 {
-    public function __construct(string $message, private readonly string $xml, ?Throwable $previous = null)
+    private readonly string $xml;
+
+    public function __construct(string $message, string $xml, ?Throwable $previous = null)
     {
         parent::__construct($message, $previous);
+
+        // never keep the shared secret around, as the xml is usually being logged
+        $this->xml = (string)preg_replace('/<SharedSecret>.*?<\/SharedSecret>/s', '<SharedSecret>***REDACTED***</SharedSecret>', $xml);
     }
 
     public function getXml(): string
@@ -32,9 +37,6 @@ class CXmlInvalidException extends CXmlNotAcceptableException
             $message = 'No LibXMLError was given.';
         }
 
-        return new self(
-            $message,
-            (string)preg_replace('/<SharedSecret>.*?<\/SharedSecret>/s', '<SharedSecret>***REDACTED***</SharedSecret>', $xml),
-        );
+        return new self($message, $xml);
     }
 }

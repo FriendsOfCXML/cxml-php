@@ -11,6 +11,8 @@ readonly class Distribution
     private function __construct(
         #[Serializer\SerializedName('Accounting')]
         public Accounting $accounting,
+        #[Serializer\SerializedName('Charge')]
+        public MoneyWrapper $charge,
     ) {
     }
 }

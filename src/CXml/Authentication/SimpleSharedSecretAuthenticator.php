@@ -10,7 +10,7 @@ use CXml\Model\Header;
 
 readonly class SimpleSharedSecretAuthenticator implements AuthenticatorInterface
 {
-    public function __construct(private string $sharedSecret)
+    public function __construct(#[\SensitiveParameter] private string $sharedSecret)
     {
     }
 

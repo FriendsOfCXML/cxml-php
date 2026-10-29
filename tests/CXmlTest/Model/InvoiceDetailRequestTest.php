@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CXmlTest\Model;
 
 use CXml\Builder;
+use CXml\Model\Comment;
 use CXml\Model\Credential;
 use CXml\Model\DocumentReference;
 use CXml\Model\InvoiceDetailHeaderIndicator;
@@ -33,6 +34,8 @@ use PHPUnit\Framework\TestCase;
 final class InvoiceDetailRequestTest extends TestCase implements PayloadIdentityFactoryInterface
 {
     private const SAMPLE = __DIR__ . '/../../metadata/cxml/samples/InvoiceDetailRequest.xml';
+
+    private const SAMPLE_WITH_COMMENTS = __DIR__ . '/../../metadata/cxml/samples/InvoiceDetailRequestWithComments.xml';
 
     private DtdValidator $dtdValidator;
 
@@ -124,6 +127,66 @@ final class InvoiceDetailRequestTest extends TestCase implements PayloadIdentity
         // serializing it again must result in the same (valid) document
         $reserialized = Serializer::create()->serialize($cxml);
         $this->assertXmlStringEqualsXmlFile(self::SAMPLE, $reserialized);
+        $this->dtdValidator->validateAgainstDtd($reserialized);
+    }
+
+    public function testWithComments(): void
+    {
+        $invoiceDetailRequest = InvoiceDetailRequest::create(
+            InvoiceDetailRequestHeader::create(
+                'INV-123',
+                new DateTime('2021-01-08T10:00:00-08:00'),
+                new InvoiceDetailHeaderIndicator(true),
+                new Comment('Please pay within 30 days.', 'note', 'en'),
+            ),
+            new InvoiceDetailSummary(
+                new MoneyWrapper('EUR', 10000),
+                new Tax('EUR', 1900, new MultilanguageString('19% VAT')),
+                new MoneyWrapper('EUR', 11900),
+            ),
+        )
+            ->addInvoiceDetailHeaderOrder(
+                new InvoiceDetailHeaderOrder(
+                    new InvoiceDetailOrderInfo(
+                        new OrderReference(new DocumentReference('order-payload@buyerorg.com'), 'PO-456'),
+                    ),
+                    new InvoiceDetailOrderSummary(1, new MoneyWrapper('EUR', 10000), new Comment('Delivered in two shipments.', lang: 'en')),
+                ),
+            );
+
+        $cxml = Builder::create('Supplier’s Super Order Processor', 'en-US', $this)
+            ->from(new Credential('NetworkId', 'AN00000123'))
+            ->to(new Credential('NetworkId', 'AN00000456'))
+            ->sender(new Credential('NetworkId', 'AN00000123', 'abracadabra'))
+            ->payload($invoiceDetailRequest)
+            ->build();
+
+        $xml = Serializer::create()->serialize($cxml);
+        $this->assertXmlStringEqualsXmlFile(self::SAMPLE_WITH_COMMENTS, $xml);
+
+        $this->dtdValidator->validateAgainstDtd($xml);
+    }
+
+    public function testDeserializeWithComments(): void
+    {
+        $xml = (string)file_get_contents(self::SAMPLE_WITH_COMMENTS);
+
+        $cxml = Serializer::create()->deserialize($xml);
+
+        $invoiceDetailRequest = $cxml->request?->payload;
+        $this->assertInstanceOf(InvoiceDetailRequest::class, $invoiceDetailRequest);
+
+        $headerComments = $invoiceDetailRequest->invoiceDetailRequestHeader->comments;
+        $this->assertSame('Please pay within 30 days.', $headerComments?->value);
+        $this->assertSame('note', $headerComments->type);
+        $this->assertSame('en', $headerComments->lang);
+
+        $orderComments = $invoiceDetailRequest->getInvoiceDetailHeaderOrders()[0]->invoiceDetailOrderSummary->comments;
+        $this->assertSame('Delivered in two shipments.', $orderComments?->value);
+        $this->assertNull($orderComments->type);
+
+        $reserialized = Serializer::create()->serialize($cxml);
+        $this->assertXmlStringEqualsXmlFile(self::SAMPLE_WITH_COMMENTS, $reserialized);
         $this->dtdValidator->validateAgainstDtd($reserialized);
     }
 

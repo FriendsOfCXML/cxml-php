@@ -81,6 +81,8 @@ final class DtdValidatorTest extends TestCase
         yield ['Index.xml'];
         yield ['InvoiceDetailRequest.xml'];
         yield ['InvoiceDetailRequestWithComments.xml'];
+        yield ['StatusUpdateRequestWithDocumentStatus.xml'];
+        yield ['StatusUpdateRequestWithInvoiceStatus.xml'];
     }
 
     public function testInvalidIndex(): void

@@ -183,8 +183,7 @@ class CXmlWrappingNodeJmsEventSubscriber implements EventSubscriberInterface
         /** @phpstan-ignore-next-line */
         $payload = $event->getObject()->payload ?? null;
 
-        if ($payload) {
-            /** @phpstan-ignore-next-line */
+        if (is_object($payload)) {
             $cls = (new ReflectionClass($payload))->getShortName();
 
             // tell jms to add the payload value in a wrapped node

@@ -33,7 +33,7 @@ class StatusUpdateRequest implements RequestPayloadInterface
         public readonly ?InvoiceStatus $invoiceStatus = null,
     ) {
         Assertion::false(
-            null !== $documentStatus && null !== $invoiceStatus,
+            $documentStatus instanceof DocumentStatus && $invoiceStatus instanceof InvoiceStatus,
             'StatusUpdateRequest may contain at most one of DocumentStatus or InvoiceStatus.',
         );
 
